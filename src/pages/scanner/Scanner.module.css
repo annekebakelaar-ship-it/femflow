@@ -1,0 +1,345 @@
+/* Scanner.module.css — Glassmorphism scanner UI */
+
+.page {
+  position: relative;
+  min-height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* Subtle ambient gradient achter de glas-kaarten */
+.page::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 50% at 20% 10%, rgba(120, 160, 255, 0.18), transparent 60%),
+    radial-gradient(50% 40% at 80% 90%, rgba(255, 200, 140, 0.15), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
+  pointer-events: none;
+}
+
+.heading {
+  font-size: var(--font-size-display);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -1px;
+  margin-bottom: var(--space-xs);
+}
+
+.subtitle {
+  color: var(--color-secondary);
+  font-size: var(--font-size-body);
+  margin-bottom: var(--space-md);
+}
+
+/* ---------- Glass card ---------- */
+.glass {
+  position: relative;
+  border-radius: var(--radius-lg);
+  padding: var(--space-lg);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 10px 30px rgba(20, 20, 40, 0.08),
+    0 2px 6px rgba(20, 20, 40, 0.04);
+}
+
+/* ---------- Video viewfinder ---------- */
+.viewfinder {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--ink);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.6) inset,
+    0 12px 40px rgba(20, 20, 40, 0.18);
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  background: var(--ink);
+}
+
+.viewfinderOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    inset 0 0 0 2px rgba(255, 255, 255, 0.25),
+    inset 0 0 80px rgba(0, 0, 0, 0.35);
+}
+
+.reticle {
+  position: absolute;
+  inset: 12% 10%;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  border-radius: var(--radius-md);
+  pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.18);
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--ink);
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: rgba(255, 255, 255, 0.85);
+  text-align: center;
+  padding: var(--space-md);
+  gap: var(--space-sm);
+}
+
+.placeholderIcon {
+  font-size: 48px;
+  opacity: 0.9;
+}
+
+/* ---------- Hero scan button ---------- */
+.scanButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-xs);
+  width: 100%;
+  padding: 22px 28px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background: rgba(10, 10, 10, 0.92);
+  color: var(--surface);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.2px;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 18px 40px rgba(20, 20, 40, 0.25),
+    0 4px 10px rgba(20, 20, 40, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  cursor: pointer;
+}
+
+.scanButton:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.25) inset,
+    0 22px 48px rgba(20, 20, 40, 0.30),
+    0 6px 14px rgba(20, 20, 40, 0.14);
+}
+
+.scanButton:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+.scanIcon {
+  font-size: 20px;
+}
+
+/* ---------- Secondary actions ---------- */
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.ghostBtn {
+  flex: 1 1 140px;
+  padding: var(--space-sm);
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(20, 20, 40, 0.12);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  font-family: inherit;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+
+.ghostBtn:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(20, 20, 40, 0.2);
+}
+
+.ghostBtn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+/* ---------- Status / errors ---------- */
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+}
+
+.statusError {
+  color: var(--error);
+  border-color: rgba(176, 0, 32, 0.25);
+  background: rgba(255, 235, 238, 0.7);
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(20, 20, 40, 0.18);
+  border-top-color: var(--color-text);
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ---------- Result ---------- */
+.resultTitle {
+  font-size: var(--font-size-heading);
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.4px;
+  margin-bottom: 4px;
+}
+
+.resultBrand {
+  color: var(--color-secondary);
+  font-size: var(--font-size-small);
+  margin-bottom: var(--space-sm);
+}
+
+.ingredientList {
+  list-style: none;
+  padding: 0;
+  margin: var(--space-sm) 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.ingredient {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(20, 20, 40, 0.06);
+}
+
+.ingredientName {
+  font-weight: var(--font-weight-medium);
+}
+
+.ingredientDose {
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+}
+
+.disclaimer {
+  margin-top: var(--space-md);
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+  line-height: 1.5;
+}
+
+/* ---------- Dashboard CTA (Glassmorphism) ---------- */
+.dashCta {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 20px 22px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.4));
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.9) inset,
+    0 14px 36px rgba(20, 20, 40, 0.10),
+    0 2px 6px rgba(20, 20, 40, 0.05);
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  color: var(--color-text);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.dashCta:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 1) inset,
+    0 22px 50px rgba(20, 20, 40, 0.14),
+    0 4px 10px rgba(20, 20, 40, 0.08);
+}
+
+.dashCtaIcon {
+  flex: 0 0 auto;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background: rgba(10, 10, 10, 0.92);
+  color: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 8px 20px rgba(20, 20, 40, 0.25);
+}
+
+.dashCtaText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.dashCtaTitle {
+  font-size: 17px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: -0.2px;
+}
+
+.dashCtaSub {
+  font-size: var(--font-size-small);
+  color: var(--color-secondary);
+}
+
+.dashCtaArrow {
+  font-size: 22px;
+  color: var(--color-secondary);
+}
