@@ -1,0 +1,8 @@
+.step {
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-label);
+  margin-bottom: var(--space-lg);
+}
