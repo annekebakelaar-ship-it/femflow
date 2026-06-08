@@ -39,23 +39,24 @@ export default function DashboardHome() {
     const today = new Date()
     const diffTime = Math.abs(today - start)
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
-    const daysInCycle = diffDays % menstrualData.cycleLength
+    const daysInCycle = diffDays % (menstrualData.cycleLength || 28)
 
     let phase = 'Unknown'
-    if (daysInCycle < 5) phase = 'Menstruatie'
+    const bleedingDays = menstrualData.bleedingDays || 5
+    if (daysInCycle < bleedingDays) phase = 'Menstruatie'
     else if (daysInCycle < 11) phase = 'Folliculair'
     else if (daysInCycle < 16) phase = 'Ovulatie'
     else phase = 'Luteaal'
 
     const nextPeriodDate = new Date(start)
-    nextPeriodDate.setDate(nextPeriodDate.getDate() + Math.ceil((diffDays + 1) / menstrualData.cycleLength) * menstrualData.cycleLength)
+    nextPeriodDate.setDate(nextPeriodDate.getDate() + Math.ceil((diffDays + 1) / (menstrualData.cycleLength || 28)) * (menstrualData.cycleLength || 28))
 
     return {
       phase,
       daysInCycle: daysInCycle + 1,
-      totalDays: menstrualData.cycleLength,
+      totalDays: menstrualData.cycleLength || 28,
       nextPeriod: nextPeriodDate.toLocaleDateString('nl-NL'),
-      todaySymptoms: menstrualData.entries.find(e => e.date === new Date().toISOString().split('T')[0])?.symptoms || []
+      todaySymptoms: []
     }
   }
 
@@ -64,9 +65,11 @@ export default function DashboardHome() {
     const start = new Date(menstrualData.startDate)
     const today = new Date()
     const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24))
-    const daysInCycle = diffDays % menstrualData.cycleLength
+    const cycleLen = menstrualData.cycleLength || 28
+    const bleedDays = menstrualData.bleedingDays || 5
+    const daysInCycle = diffDays % cycleLen
 
-    if (daysInCycle < 5) return 'follicular'
+    if (daysInCycle < bleedDays) return 'menstrual'
     else if (daysInCycle < 11) return 'follicular'
     else if (daysInCycle < 16) return 'ovulatory'
     else return 'luteal'
