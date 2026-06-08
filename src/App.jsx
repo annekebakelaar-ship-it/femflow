@@ -54,8 +54,24 @@ function AppContent() {
         const url = new URL(window.location.href)
         const token = url.searchParams.get('token')
         if (token) {
-          try { await verifyMagicLink(token) } catch {}
-          window.history.replaceState({}, '', '/')
+          try {
+            await verifyMagicLink(token)
+            // Fetch user info after verification
+            const me = await getMe()
+            setUser(me)
+            // Redirect to dashboard or menstruation setup
+            const menstruationData = localStorage.getItem('menstruation_data')
+            setTimeout(() => {
+              window.history.replaceState({}, '', menstruationData ? '/dashboard' : '/health/menstruation')
+              navigate(menstruationData ? '/dashboard' : '/health/menstruation')
+            }, 500)
+          } catch (err) {
+            console.error('Magic link verification failed:', err)
+            window.history.replaceState({}, '', '/login')
+            navigate('/login')
+          }
+        } else {
+          window.history.replaceState({}, '', '/login')
         }
       }
 

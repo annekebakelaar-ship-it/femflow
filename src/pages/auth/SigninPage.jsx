@@ -47,8 +47,8 @@ export default function SigninPage() {
     e.preventDefault()
     setError('')
 
-    if (!email) {
-      setError('Email is verplicht')
+    if (!email || !email.includes('@')) {
+      setError('Geldig email adres is verplicht')
       return
     }
 
@@ -60,7 +60,8 @@ export default function SigninPage() {
       }
       setStep('verify')
     } catch (err) {
-      setError(err.message || 'Could not send magic link')
+      console.error('Magic link request failed:', err)
+      setError(err.message || 'Kon magic link niet versturen. Probeer later opnieuw.')
     } finally {
       setLoading(false)
     }
@@ -70,7 +71,7 @@ export default function SigninPage() {
     e.preventDefault()
     setError('')
 
-    if (!token) {
+    if (!token || token.trim().length === 0) {
       setError('Token is verplicht')
       return
     }
@@ -84,13 +85,16 @@ export default function SigninPage() {
       await getMe()
 
       const menstruationData = localStorage.getItem('menstruation_data')
-      if (!menstruationData) {
-        navigate('/health/menstruation', { state: { fromSignin: true, constellation } })
-      } else {
-        navigate('/dashboard', { state: { constellation } })
-      }
+      setTimeout(() => {
+        if (!menstruationData) {
+          navigate('/health/menstruation', { state: { fromSignin: true, constellation } })
+        } else {
+          navigate('/dashboard', { state: { constellation } })
+        }
+      }, 300)
     } catch (err) {
-      setError(err.message || 'Invalid token')
+      console.error('Token verification failed:', err)
+      setError(err.message || 'Token ongeldig of verlopen. Vraag een nieuwe link aan.')
     } finally {
       setLoading(false)
     }
