@@ -174,8 +174,7 @@ export default function DashboardHome() {
                 icon={Calendar}
                 onClick={() => navigate('/health/menstruation')}
                 size={50}
-                description="Dag in je cyclus"
-                isActive={true}
+                  isActive={true}
               />
             </SwiperSlide>
           )}
@@ -189,8 +188,7 @@ export default function DashboardHome() {
                 icon={Zap}
                 onClick={() => navigate('/dashboard/progress')}
                 size={50}
-                description="Belastbaarheid score"
-                isActive={true}
+                  isActive={true}
               />
             </SwiperSlide>
           )}
@@ -204,8 +202,7 @@ export default function DashboardHome() {
                 icon={AlertCircle}
                 onClick={() => navigate('/health/symptoms')}
                 size={50}
-                description="Symptomen vandaag"
-                isActive={true}
+                  isActive={true}
               />
             </SwiperSlide>
           )}
@@ -219,7 +216,6 @@ export default function DashboardHome() {
               color="var(--accent)"
               onClick={() => navigate('/health/lifestyle-check')}
               size={50}
-              description="Levensstijl triggers"
             />
           </SwiperSlide>
 
@@ -232,7 +228,6 @@ export default function DashboardHome() {
               color="var(--accent)"
               onClick={() => navigate('/dashboard/learning')}
               size={50}
-              description="Persoonlijke kennisbank"
             />
           </SwiperSlide>
 
@@ -245,7 +240,6 @@ export default function DashboardHome() {
               color="var(--accent)"
               onClick={() => navigate('/dashboard/progress')}
               size={50}
-              description="90-daagse trends"
             />
           </SwiperSlide>
         </Swiper>
