@@ -73,7 +73,7 @@ app.post('/api/v1/auth/request-code', async (req, res) => {
 
     // Send email via Resend
     await resend.emails.send({
-      from: 'noreply@femflow.app',
+      from: 'noreply@resend.dev',
       to: email,
       subject: 'FemFlow Login Code',
       html: `<h2>Your FemFlow Login Code</h2><p style="font-size: 24px; font-weight: bold;">${code}</p><p>Valid for 10 minutes</p>`,
