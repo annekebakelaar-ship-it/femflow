@@ -11,6 +11,7 @@ import QuizResults from './pages/QuizResults'
 import SigninPage from './pages/auth/SigninPage'
 import Landing from './pages/wab/Landing'
 import MenstruationTracker from './pages/health/MenstruationTracker'
+import MenstruationHistory from './pages/health/MenstruationHistory'
 import PerimenopauzeTracker from './pages/health/PerimenopauzeTracker'
 import CycleAnalytics from './pages/health/CycleAnalytics'
 import WearableCycle from './pages/health/WearableCycle'
@@ -196,6 +197,7 @@ function AppContent() {
 
       {/* Health tracking */}
       <Route path="/health/menstruation" element={<MenstruationTracker />} />
+      <Route path="/health/menstruation/history" element={<MenstruationHistory />} />
       <Route path="/health/perimenopause" element={user ? <PerimenopauzeTracker /> : <Navigate to="/login" />} />
       <Route path="/health/cycle-analytics" element={user ? <CycleAnalytics /> : <Navigate to="/login" />} />
       <Route path="/health/wearable-cycle" element={user ? <WearableCycle /> : <Navigate to="/login" />} />

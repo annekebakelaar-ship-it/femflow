@@ -264,6 +264,26 @@ export default function Footer() {
             </button>
 
             <button
+              onClick={() => { navigate('/health/menstruation/history'); setDropdownOpen(false); }}
+              style={{
+                width: '100%',
+                padding: 'var(--space-md)',
+                background: 'none',
+                border: 'none',
+                textAlign: 'left',
+                fontSize: 'var(--font-size-body)',
+                color: 'var(--color-text)',
+                cursor: 'pointer',
+                borderBottom: '1px solid rgba(232, 224, 216, 0.4)',
+                transition: 'all 150ms ease',
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(199, 154, 110, 0.08)'}
+              onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+            >
+              Geschiedenis
+            </button>
+
+            <button
               onClick={() => { navigate('/health/symptoms'); setDropdownOpen(false); }}
               style={{
                 width: '100%',
