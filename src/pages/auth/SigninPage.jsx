@@ -255,26 +255,6 @@ export default function SigninPage() {
               >
                 {loading ? 'Verzenden...' : 'Magic link sturen →'}
               </button>
-
-              <button
-                type="button"
-                onClick={handleDevLogin}
-                disabled={loading}
-                style={{
-                  padding: '10px 16px',
-                  background: 'transparent',
-                  color: 'var(--ink)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
-                  fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  marginTop: 'var(--space-sm)',
-                  width: '100%',
-                  opacity: loading ? 0.5 : 1,
-                }}
-              >
-                [DEV] Quick login
-              </button>
             </form>
 
             <p style={{
