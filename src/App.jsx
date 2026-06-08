@@ -194,7 +194,7 @@ function AppContent() {
       } />
 
       {/* Health tracking */}
-      <Route path="/health/menstruation" element={user ? <MenstruationTracker /> : <Navigate to="/login" />} />
+      <Route path="/health/menstruation" element={<MenstruationTracker />} />
       <Route path="/health/perimenopause" element={user ? <PerimenopauzeTracker /> : <Navigate to="/login" />} />
       <Route path="/health/cycle-analytics" element={user ? <CycleAnalytics /> : <Navigate to="/login" />} />
       <Route path="/health/wearable-cycle" element={user ? <WearableCycle /> : <Navigate to="/login" />} />

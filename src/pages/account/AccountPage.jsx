@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { saveSecure, getSecure, deleteAllSecure, exportSecureData } from '../../utils/secureStorage'
+import { deleteAccount, clearToken } from '../../api/client'
 
 export default function AccountPage() {
   const navigate = useNavigate()
@@ -82,16 +83,20 @@ export default function AccountPage() {
   const handleDelete = async () => {
     setDeleteLoading(true)
     try {
-      // Delete all secure data
+      // Delete account on backend
+      await deleteAccount()
+
+      // Clear all local data
       deleteAllSecure()
-      // Clear consent
       localStorage.removeItem('consent_given_at')
       localStorage.removeItem('consent_version')
-      // Clear auth token
-      localStorage.removeItem('wab_jwt')
+      localStorage.removeItem('menstruation_data')
+      clearToken()
+
       setSaveStatus('✓ Account verwijderd')
       setTimeout(() => navigate('/'), 2000)
     } catch (err) {
+      console.error('Delete account error:', err)
       setSaveStatus('Fout bij verwijderen')
     } finally {
       setDeleteLoading(false)
