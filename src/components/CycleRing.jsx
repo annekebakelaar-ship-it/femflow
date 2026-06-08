@@ -26,7 +26,7 @@ export default function CycleRing({
   const k = size / 360;
 
   const R_LABEL = 162;
-  const R_RING = 133; // hartlijn van de gekleurde band -> hier zit de handle
+  const R_RING = 136; // hartlijn van de gekleurde band -> hier zit de handle
   const R_TICK = 116;
 
   const polar = (r, aDeg) => {
@@ -44,7 +44,12 @@ export default function CycleRing({
   const START = 180;
   const DIR = -1;
   const progress = ((day - 1) % cycleLength) / cycleLength;
-  const [ix, iy] = polar(R_RING, START + DIR * progress * 360);
+  const baseAngle = START + DIR * progress * 360;
+  const [ix, iy] = polar(R_RING, baseAngle);
+  const trail = [7, 13, 20].map((d, i) => {
+    const [tx, ty] = polar(R_RING, baseAngle - DIR * d);
+    return { tx, ty, r: 2.3 - i * 0.6, o: 0.5 - i * 0.14 };
+  });
 
   // pointer -> dag (omgekeerde van de hoek-formule)
   const setFromPointer = (e) => {
@@ -63,7 +68,7 @@ export default function CycleRing({
   };
 
   const ringMask =
-    "radial-gradient(circle closest-side at center, transparent 0 66%, #000 68% 79%, transparent 81%)";
+    "radial-gradient(circle closest-side at center, transparent 0 71%, #000 73% 78%, transparent 80%)";
 
   const phases = [
     { key: "menstruatie", naam: "Herstel" },
@@ -85,21 +90,28 @@ export default function CycleRing({
     <div style={{ position: "relative", width: size, height: size }}>
       {/* rustige frosted laag onder de ring — feathered rand zodat de foto in de hoeken doorloopt */}
       <div style={{ position: "absolute", inset: 0, borderRadius: "50%",
-        background: "rgba(231,221,197,0.78)",
-        backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)",
+        background: "rgba(231,221,197,0.4)",
+        backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
         WebkitMask: "radial-gradient(circle closest-side at center,#000 0 86%,transparent 100%)",
         mask: "radial-gradient(circle closest-side at center,#000 0 86%,transparent 100%)" }} />
 
       {/* track */}
       <div style={{ position: "absolute", inset: 0, borderRadius: "50%",
         background: "#000", opacity: 0.1, WebkitMask: ringMask, mask: ringMask }} />
+      {/* zachte gloed achter de ring (luminositeit i.p.v. harde schaduw) */}
+      <div style={{ position: "absolute", inset: 0, borderRadius: "50%",
+        background:
+          "conic-gradient(from 0deg,#ddccac 0deg,#cdb78f 60deg,#bfa87d 105deg," +
+          "#a48f68 150deg,#8f7a58 185deg,#ab9670 245deg,#cab895 300deg,#ddccac 360deg)",
+        WebkitMask: ringMask, mask: ringMask,
+        filter: "blur(7px)", opacity: 0.5 }} />
       {/* gekleurde ring */}
       <div style={{ position: "absolute", inset: 0, borderRadius: "50%",
         background:
-          "conic-gradient(from 0deg,#e6b25a 0deg,#c89346 60deg,#86714a 105deg," +
-          "#4f6470 150deg,#2a4753 185deg,#4a6d6c 245deg,#a98a4c 300deg,#e6b25a 360deg)",
+          "conic-gradient(from 0deg,#ddccac 0deg,#cdb78f 60deg,#bfa87d 105deg," +
+          "#a48f68 150deg,#8f7a58 185deg,#ab9670 245deg,#cab895 300deg,#ddccac 360deg)",
         WebkitMask: ringMask, mask: ringMask,
-        filter: "drop-shadow(0 4px 14px rgba(40,26,16,0.32))" }} />
+        filter: "drop-shadow(0 1px 5px rgba(40,30,20,0.16))" }} />
 
       {/* SVG: labels, stipjes, sleepzone + handle */}
       <svg ref={svgRef} viewBox="0 0 360 360"
@@ -109,7 +121,7 @@ export default function CycleRing({
         </defs>
 
         {ticks.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r={1.6} fill="#2a2218" opacity={0.18} />
+          <circle key={i} cx={x} cy={y} r={1.3} fill="#2a2218" opacity={0.15} />
         ))}
 
         {ringLabels.map((l) => (
@@ -129,9 +141,15 @@ export default function CycleRing({
           onPointerMove={(e) => { if (dragging.current) setFromPointer(e); }}
           onPointerUp={() => { dragging.current = false; }} />
 
+        {/* spoor-stipjes vóór de handle */}
+        {trail.map((t, i) => (
+          <circle key={"tr" + i} cx={t.tx} cy={t.ty} r={t.r} fill="#a48f68"
+            opacity={t.o} pointerEvents="none" />
+        ))}
+
         {/* handle ZIT op de kleurenring */}
-        <circle cx={ix} cy={iy} r={13} fill="#e6dcc4" pointerEvents="none" />
-        <circle cx={ix} cy={iy} r={9} fill="#2a2218" pointerEvents="none" />
+        <circle cx={ix} cy={iy} r={11} fill="#e6dcc4" pointerEvents="none" />
+        <circle cx={ix} cy={iy} r={7} fill="#2a2218" pointerEvents="none" />
       </svg>
 
       {/* midden — pointerEvents none zodat de ring sleepbaar blijft; knop wel klikbaar */}

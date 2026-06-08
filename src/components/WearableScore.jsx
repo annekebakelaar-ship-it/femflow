@@ -19,7 +19,7 @@ export default function WearableScore({
   const VB = 120;            // viewBox
   const c = VB / 2;          // midden (60)
   const r = 52;              // straal van de gauge
-  const sw = 9;              // dikte van de ring
+  const sw = 5;              // dikte van de ring (dunner, verfijnder)
   const k = size / size;     // (fonts hieronder schalen direct met size)
 
   const p = Math.max(0, Math.min(1, score / max));
@@ -43,8 +43,8 @@ export default function WearableScore({
     <div style={{ position: "relative", width: size, height: size }}>
       {/* rustige frosted laag */}
       <div style={{ position: "absolute", inset: 0, borderRadius: "50%",
-        background: "rgba(231,221,197,0.78)",
-        backdropFilter: "blur(7px)", WebkitBackdropFilter: "blur(7px)",
+        background: "rgba(231,221,197,0.4)",
+        backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)",
         WebkitMask: surfaceMask, mask: surfaceMask }} />
 
       <svg viewBox={`0 0 ${VB} ${VB}`}
@@ -52,27 +52,33 @@ export default function WearableScore({
         <defs>
           {/* goud -> brons, zelfde familie als de cyclusring */}
           <linearGradient id="ws-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#e6b25a" />
-            <stop offset="55%" stopColor="#6a7e76" />
-            <stop offset="100%" stopColor="#2a4753" />
+            <stop offset="0%" stopColor="#ddccac" />
+            <stop offset="55%" stopColor="#bfa87d" />
+            <stop offset="100%" stopColor="#8f7a58" />
           </linearGradient>
         </defs>
 
         {/* tikjes */}
         {ticks.map(([x, y], i) => (
-          <circle key={i} cx={x} cy={y} r={0.9} fill="#2a2218" opacity={0.16} />
+          <circle key={i} cx={x} cy={y} r={0.8} fill="#2a2218" opacity={0.14} />
         ))}
 
         {/* track */}
         <circle cx={c} cy={c} r={r} fill="none" stroke="#2a2218"
           strokeOpacity={0.12} strokeWidth={sw} />
 
+        {/* zachte gloed achter de boog (luminositeit) */}
+        <circle cx={c} cy={c} r={r} fill="none" stroke="url(#ws-grad)"
+          strokeWidth={sw} strokeLinecap="round"
+          strokeDasharray={circ} strokeDashoffset={circ * (1 - p)}
+          transform={`rotate(-90 ${c} ${c})`}
+          style={{ filter: "blur(3px)", opacity: 0.5 }} />
         {/* voortgangsboog, start bovenaan, met de klok mee */}
         <circle cx={c} cy={c} r={r} fill="none" stroke="url(#ws-grad)"
           strokeWidth={sw} strokeLinecap="round"
           strokeDasharray={circ} strokeDashoffset={circ * (1 - p)}
           transform={`rotate(-90 ${c} ${c})`}
-          style={{ filter: "drop-shadow(0 3px 8px rgba(40,26,16,0.30))",
+          style={{ filter: "drop-shadow(0 1px 4px rgba(40,30,20,0.16))",
                    transition: "stroke-dashoffset .6s ease" }} />
       </svg>
 
@@ -87,7 +93,7 @@ export default function WearableScore({
           textTransform: "uppercase", fontWeight: 600, opacity: 0.55,
           marginTop: size * 0.02 }}>{label}</span>
         <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: "italic",
-          fontSize: size * 0.07, marginTop: size * 0.015, color: "#2a4753" }}>
+          fontSize: size * 0.07, marginTop: size * 0.015, color: "#6e5b3e" }}>
           {status}
         </span>
       </div>

@@ -226,6 +226,8 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
       flexDirection: 'column',
       gap: 'var(--space-xl)',
       animation: 'fade-in 200ms ease',
+      overflow: 'hidden',
+      width: '100%',
     }}>
       <style>{`
         @keyframes fade-in {
