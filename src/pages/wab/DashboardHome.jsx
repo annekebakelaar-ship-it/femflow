@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Calendar, Zap, AlertCircle, Activity, Book, TrendingUp } from 'react-feather'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { clearToken } from '../../api/client'
+import { clearToken, getQuizResults } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
 import CircleWidget from '../../components/CircleWidget'
@@ -22,6 +22,7 @@ export default function DashboardHome() {
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
   const [menstrualData, setMenstrualData] = useState(null)
+  const [quizResults, setQuizResults] = useState(null)
 
   const [wearableData, setWearableData] = useState(null)
 
@@ -30,6 +31,15 @@ export default function DashboardHome() {
     if (stored) {
       setMenstrualData(stored)
     }
+
+    // Load quiz results
+    getQuizResults()
+      .then(result => {
+        if (result.constellation) {
+          setQuizResults(result)
+        }
+      })
+      .catch(err => console.error('Failed to load quiz results:', err))
   }, [])
 
   function getMenstrualPhase() {
@@ -247,6 +257,55 @@ export default function DashboardHome() {
 
       {/* Quiz Results Overview */}
       <QuizResultsOverview />
+
+      {/* Quiz Constellation Display */}
+      {quizResults?.constellation && (
+        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box' }}>
+          <h3 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            marginBottom: 'var(--space-md)',
+            color: 'var(--ink)',
+          }}>
+            Je patroon
+          </h3>
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+            gap: 'var(--space-md)',
+          }}>
+            {Object.entries(quizResults.constellation).map(([key, value]) => {
+              const labels = {
+                sleep: { label: 'Slaap', emoji: '😴' },
+                mood: { label: 'Stemming', emoji: '🎭' },
+                stress: { label: 'Stress', emoji: '⚡' },
+                energy: { label: 'Energie', emoji: '💪' },
+                cycle: { label: 'Cyclus', emoji: '🔄' },
+              }
+              const info = labels[key]
+              if (!value || !info) return null
+              return (
+                <div
+                  key={key}
+                  style={{
+                    background: 'rgba(199, 154, 110, 0.1)',
+                    padding: 'var(--space-md)',
+                    borderRadius: '8px',
+                    textAlign: 'center',
+                    fontSize: '24px',
+                  }}
+                >
+                  <div>{info.emoji}</div>
+                  <div style={{ fontSize: '12px', color: 'var(--ink-2)', marginTop: '4px' }}>
+                    {info.label}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
 
       {/* Cycle Ring Carousel */}
       {menstrualPhase && menstrualData && (
