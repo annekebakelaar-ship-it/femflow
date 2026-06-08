@@ -24,3 +24,8 @@ export function setupDevData() {
 
 // Quick setup - call in console: window.setupDev()
 window.setupDev = setupDevData
+
+// Auto-setup if ?dev=1 in URL
+if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('dev') === '1') {
+  setupDevData()
+}

@@ -84,6 +84,12 @@ function AppContent() {
         navigate('/dashboard')
       }
 
+      // Dev mode - auto-login
+      const isDevMode = new URLSearchParams(window.location.search).get('dev') === '1'
+      if (isDevMode) {
+        setUser({ id: 'dev-user', email: 'dev@test.com' })
+      }
+
       // Restore session
       if (getToken()) {
         try {
