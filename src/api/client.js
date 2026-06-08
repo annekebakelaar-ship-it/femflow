@@ -251,3 +251,19 @@ export async function deleteAccount() {
     method: 'DELETE',
   })
 }
+
+// ── Welcome Signups ─────────────────────────────────────────────────────────
+
+export async function saveWelcomeSignup(email) {
+  return request('/api/v1/welcome/signup', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  })
+}
+
+export async function unsubscribeEmail(email) {
+  return request('/api/v1/welcome/unsubscribe', {
+    method: 'POST',
+    body: JSON.stringify({ email }),
+  })
+}

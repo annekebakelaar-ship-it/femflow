@@ -8,6 +8,7 @@ import FeedbackWidget from './components/FeedbackWidget'
 import Welcome from './pages/Welcome'
 import SmartQuiz from './pages/SmartQuiz'
 import QuizResults from './pages/QuizResults'
+import Unsubscribe from './pages/Unsubscribe'
 import SigninPage from './pages/auth/SigninPage'
 import Landing from './pages/wab/Landing'
 import MenstruationTracker from './pages/health/MenstruationTracker'
@@ -139,6 +140,7 @@ function AppContent() {
       <Route path="/" element={<Welcome />} />
       <Route path="/quiz" element={<SmartQuiz />} />
       <Route path="/quiz/results" element={<QuizResults />} />
+      <Route path="/unsubscribe" element={<Unsubscribe />} />
 
       {/* Authentication (magic link) */}
       <Route path="/login" element={<SigninPage />} />

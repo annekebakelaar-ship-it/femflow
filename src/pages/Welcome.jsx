@@ -1,12 +1,25 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { saveWelcomeSignup } from '../api/client'
 import hero from '../assets/hero1.png'
 
 export default function Welcome() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
+  const [saving, setSaving] = useState(false)
 
-  function handleStartQuiz() {
+  async function handleStartQuiz() {
+    // Save email if provided
+    if (email && email.includes('@')) {
+      setSaving(true)
+      try {
+        await saveWelcomeSignup(email)
+      } catch (err) {
+        console.error('Failed to save email:', err)
+      } finally {
+        setSaving(false)
+      }
+    }
     navigate('/quiz', { state: { email: email || null } })
   }
 

@@ -30,6 +30,17 @@ CREATE TABLE IF NOT EXISTS femflow_menstruation_data (
   UNIQUE(user_id)
 );
 
+-- FemFlow Welcome signups (interest list)
+CREATE TABLE IF NOT EXISTS femflow_welcome_signups (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  subscribed BOOLEAN NOT NULL DEFAULT true,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  unsubscribed_at TIMESTAMP
+);
+
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_femflow_otp_codes_expires_at ON femflow_otp_codes(expires_at);
 CREATE INDEX IF NOT EXISTS idx_femflow_menstruation_data_user_id ON femflow_menstruation_data(user_id);
+CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_email ON femflow_welcome_signups(email);
+CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_subscribed ON femflow_welcome_signups(subscribed);

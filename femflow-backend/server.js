@@ -175,6 +175,65 @@ app.post('/api/v1/auth/apple-signin', async (req, res) => {
   }
 })
 
+// Save welcome signup (interest list)
+app.post('/api/v1/welcome/signup', async (req, res) => {
+  try {
+    const { email } = req.body
+
+    if (!email || !email.includes('@')) {
+      return res.status(400).json({ error: 'Valid email required' })
+    }
+
+    // Save to interest list
+    await pool.query(
+      'INSERT INTO femflow_welcome_signups (email, subscribed) VALUES ($1, true) ON CONFLICT (email) DO UPDATE SET subscribed = true, unsubscribed_at = NULL',
+      [email]
+    )
+
+    // Send welcome email
+    await sgMail.send({
+      to: email,
+      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app',
+      subject: 'Welkom bij FemFlow 💜',
+      html: `
+        <h2>Bedankt voor je interesse!</h2>
+        <p>We zien dat je geïnteresseerd bent in FemFlow. Je ontvangt updates over ons menstruatietracker.</p>
+        <p style="margin-top: 24px; font-size: 14px; color: #888;">
+          <a href="${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #888; text-decoration: underline;">
+            Verwijder mijn email
+          </a>
+        </p>
+      `,
+    })
+
+    res.json({ success: true, message: 'Email saved and welcome email sent' })
+  } catch (err) {
+    console.error('Welcome signup error:', err)
+    res.status(500).json({ error: 'Failed to save email' })
+  }
+})
+
+// Unsubscribe from interest list
+app.post('/api/v1/welcome/unsubscribe', async (req, res) => {
+  try {
+    const { email } = req.body
+
+    if (!email) {
+      return res.status(400).json({ error: 'Email required' })
+    }
+
+    await pool.query(
+      'UPDATE femflow_welcome_signups SET subscribed = false, unsubscribed_at = NOW() WHERE email = $1',
+      [email]
+    )
+
+    res.json({ success: true, message: 'Unsubscribed' })
+  } catch (err) {
+    console.error('Unsubscribe error:', err)
+    res.status(500).json({ error: 'Failed to unsubscribe' })
+  }
+})
+
 // ============================================================================
 // AUTH MIDDLEWARE
 // ============================================================================
