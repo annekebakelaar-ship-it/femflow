@@ -9,6 +9,7 @@ import ManualEntryModal from '../../components/ManualEntryModal'
 import MenstruationSetupSlideshow from '../../components/MenstruationSetupSlideshow'
 import logo from '../../assets/YouCapsLogo.png.png'
 import afbeelding1 from '../../assets/afbeelding1.png'
+import hero1 from '../../assets/hero1.png'
 
 const INITIAL_DATA = {
   name: '',
@@ -98,7 +99,10 @@ export default function MenstruationTracker() {
         maxWidth: '100%',
         margin: '0 auto',
         padding: '16px 0 0 0',
-        background: 'var(--bg)',
+        backgroundImage: `url(${hero1})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed',
         animation: 'fade-slide-up 240ms ease both',
       }}>
         {/* Header */}
@@ -127,7 +131,16 @@ export default function MenstruationTracker() {
           <div style={{ width: '20px' }} />
         </div>
 
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+        <div style={{
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          overflow: 'hidden',
+          background: 'rgba(255, 255, 255, 0.95)',
+          backdropFilter: 'blur(10px)',
+          margin: '16px',
+          borderRadius: '24px',
+        }}>
           <MenstruationSetupSlideshow
             onComplete={handleSetupComplete}
             onCancel={() => navigate('/dashboard')}
