@@ -136,6 +136,9 @@ export default function DashboardHome() {
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
       backgroundImage: `url(${hero1})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center top',
+      backgroundAttachment: 'fixed',
       position: 'relative',
     }}>
 
