@@ -4,6 +4,7 @@ import { Calendar, Zap, AlertCircle, Activity, Book, TrendingUp } from 'react-fe
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { clearToken } from '../../api/client'
+import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
 import CircleWidget from '../../components/CircleWidget'
 import WearableScore from '../../components/WearableScore'
@@ -25,34 +26,10 @@ export default function DashboardHome() {
   const [wearableData, setWearableData] = useState(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem('menstruation_data')
+    const stored = getSecure('menstruation_data')
     if (stored) {
-      setMenstrualData(JSON.parse(stored))
+      setMenstrualData(stored)
     }
-
-    // Fetch last wearable reading for readiness score
-    const fetchWearable = async () => {
-      try {
-        const res = await fetch('https://wearable-age-api.onrender.com/api/readings?days=1', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}` }
-        })
-        if (res.ok) {
-          const readings = await res.json()
-          if (readings.length > 0) {
-            const latest = readings[readings.length - 1]
-            setWearableData({
-              deep_sleep_percentage: (latest.deep_sleep_min / (latest.sleep_duration_min || 1)) * 100,
-              hrv_trend_deviation: 0, // Would be calculated from trend
-              resting_heart_rate_delta: latest.rhr_bpm ? latest.rhr_bpm - 60 : 0, // Baseline 60
-            })
-          }
-        }
-      } catch (err) {
-        console.error('Failed to fetch wearable data:', err)
-      }
-    }
-
-    fetchWearable()
   }, [])
 
   function getMenstrualPhase() {

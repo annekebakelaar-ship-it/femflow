@@ -46,6 +46,7 @@ export default function MenstruationTracker() {
     saveSecure('menstruation_data', data)
     setMenstrualData(data)
     setShowSetup(false)
+    setTimeout(() => navigate('/dashboard'), 500)
   }
 
   if (showConsent) {
