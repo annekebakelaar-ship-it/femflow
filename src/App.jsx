@@ -50,13 +50,14 @@ function AppContent() {
     async function init() {
       const path = location.pathname
 
-      // Magic link callback
+      // OTP code verification callback (if accessed via direct link)
       if (path === '/auth/verify') {
         const url = new URL(window.location.href)
-        const token = url.searchParams.get('token')
-        if (token) {
+        const code = url.searchParams.get('code')
+        const email = url.searchParams.get('email')
+        if (code && email) {
           try {
-            await verifyMagicLink(token)
+            await verifyMagicLink(code, email)
             // Fetch user info after verification
             const me = await getMe()
             setUser(me)
@@ -67,7 +68,7 @@ function AppContent() {
               navigate(menstruationData ? '/dashboard' : '/health/menstruation')
             }, 500)
           } catch (err) {
-            console.error('Magic link verification failed:', err)
+            console.error('OTP verification failed:', err)
             window.history.replaceState({}, '', '/login')
             navigate('/login')
           }

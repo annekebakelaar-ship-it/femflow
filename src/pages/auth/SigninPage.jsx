@@ -74,14 +74,14 @@ export default function SigninPage() {
     setError('')
 
     if (!token || token.trim().length === 0) {
-      setError('Token is verplicht')
+      setError('Code is verplicht')
       return
     }
 
     setLoading(true)
     try {
-      // Verify magic link
-      await verifyMagicLink(token)
+      // Verify OTP code
+      await verifyMagicLink(token, email)
 
       // Get user info
       await getMe()
@@ -95,8 +95,8 @@ export default function SigninPage() {
         }
       }, 300)
     } catch (err) {
-      console.error('Token verification failed:', err)
-      setError(err.message || 'Token ongeldig of verlopen. Vraag een nieuwe link aan.')
+      console.error('Code verification failed:', err)
+      setError(err.message || 'Code ongeldig of verlopen. Vraag een nieuwe code aan.')
     } finally {
       setLoading(false)
     }
@@ -253,7 +253,7 @@ export default function SigninPage() {
                   marginTop: 'var(--space-lg)',
                 }}
               >
-                {loading ? 'Verzenden...' : 'Magic link sturen →'}
+                {loading ? 'Verzenden...' : 'Code sturen →'}
               </button>
             </form>
 
@@ -297,7 +297,7 @@ export default function SigninPage() {
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
-              Controleer je email voor de magic link. Plak de code hier.
+              Controleer je email voor je 6-cijferige code.
             </p>
 
             {error && (
@@ -356,12 +356,13 @@ export default function SigninPage() {
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                 }}>
-                  Verificatie Token
+                  6-Cijferige Code
                 </label>
                 <input
                   type="text"
                   value={token}
-                  onChange={e => setToken(e.target.value)}
+                  onChange={e => setToken(e.target.value.slice(0, 6))}
+                  maxLength="6"
                   style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -369,22 +370,24 @@ export default function SigninPage() {
                     borderRadius: '8px',
                     fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400',
                     boxSizing: 'border-box',
+                    letterSpacing: '2px',
+                    textAlign: 'center',
                   }}
-                  placeholder="token hier plakken"
+                  placeholder="000000"
                 />
               </div>
 
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || token.length !== 6}
                 style={{
                   padding: '14px 24px',
-                  background: loading ? 'var(--border)' : 'var(--ink)',
-                  color: loading ? 'var(--ink-2)' : 'var(--surface)',
+                  background: (loading || token.length !== 6) ? 'var(--border)' : 'var(--ink)',
+                  color: (loading || token.length !== 6) ? 'var(--ink-2)' : 'var(--surface)',
                   border: 'none',
                   borderRadius: '8px',
                   fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600',
-                  cursor: loading ? 'not-allowed' : 'pointer',
+                  cursor: (loading || token.length !== 6) ? 'not-allowed' : 'pointer',
                   letterSpacing: '.04em',
                   marginTop: 'var(--space-lg)',
                 }}

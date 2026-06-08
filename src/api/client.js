@@ -1,6 +1,7 @@
-const BASE = 'https://wearable-age-api.onrender.com'
+// FemFlow API - Render backend (set via env var or use default)
+const BASE = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
 
-const JWT_KEY = 'wab_jwt'
+const JWT_KEY = 'femflow_jwt'
 
 export function getToken() {
   return localStorage.getItem(JWT_KEY)
@@ -33,42 +34,49 @@ async function request(path, options = {}) {
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
+// FemFlow: OTP Code Authentication (6-digit codes via email)
 export async function requestMagicLink(email) {
-  return request('/auth/request-link', {
+  return request('/api/v1/auth/request-code', {
     method: 'POST',
     body: JSON.stringify({ email }),
   })
 }
 
-export async function verifyMagicLink(token) {
-  const data = await request('/auth/verify', {
+export async function verifyMagicLink(code, email) {
+  const data = await request('/api/v1/auth/verify-code', {
     method: 'POST',
-    body: JSON.stringify({ token }),
+    body: JSON.stringify({ code, email }),
   })
-  saveToken(data.access_token)
+  if (data.token) {
+    saveToken(data.token)
+  }
   return data
 }
 
 export async function login(credentials) {
-  const data = await request('/auth/login', {
+  const data = await request('/api/v1/auth/verify-code', {
     method: 'POST',
     body: JSON.stringify(credentials),
   })
-  saveToken(data.access_token)
+  if (data.token) {
+    saveToken(data.token)
+  }
   return data
 }
 
 export async function signup(credentials) {
-  const data = await request('/auth/register', {
+  const data = await request('/api/v1/auth/verify-code', {
     method: 'POST',
     body: JSON.stringify(credentials),
   })
-  saveToken(data.access_token)
+  if (data.token) {
+    saveToken(data.token)
+  }
   return data
 }
 
 export async function getMe() {
-  return request('/auth/me')
+  return request('/api/v1/users/me')
 }
 
 // ── Oura ─────────────────────────────────────────────────────────────────────
@@ -209,4 +217,37 @@ export async function saveLifestyleTriggers(date, triggers) {
 
 export async function getLifestyleTriggers(date) {
   return request(`/api/v1/logs/triggers?date=${date}`)
+}
+
+// ── FemFlow Menstruation Data ───────────────────────────────────────
+
+export async function getMenstruationData() {
+  return request('/api/v1/menstruation')
+}
+
+export async function saveMenstruationData(startDate, cycleLength, bleedingDays) {
+  return request('/api/v1/menstruation', {
+    method: 'POST',
+    body: JSON.stringify({
+      start_date: startDate,
+      cycle_length: cycleLength,
+      bleeding_days: bleedingDays,
+    }),
+  })
+}
+
+export async function updateUserProfile(name, birthDate) {
+  return request('/api/v1/users/me', {
+    method: 'PUT',
+    body: JSON.stringify({
+      name,
+      birth_date: birthDate,
+    }),
+  })
+}
+
+export async function deleteAccount() {
+  return request('/api/v1/users/me', {
+    method: 'DELETE',
+  })
 }

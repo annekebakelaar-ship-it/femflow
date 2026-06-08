@@ -9,7 +9,8 @@ export async function handleGoogleSignIn(credentialResponse) {
     }
 
     // Send token to backend for verification
-    const response = await fetch('https://wearable-age-api.onrender.com/auth/google-signin', {
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
+    const response = await fetch(`${apiUrl}/api/v1/auth/google-signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),
@@ -47,7 +48,8 @@ export async function handleAppleSignIn(response) {
     }
 
     // Send token to backend for verification
-    const apiResponse = await fetch('https://wearable-age-api.onrender.com/auth/apple-signin', {
+    const apiUrl = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
+    const apiResponse = await fetch(`${apiUrl}/api/v1/auth/apple-signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token }),
