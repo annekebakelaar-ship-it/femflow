@@ -93,9 +93,11 @@ export default function MenstruationTracker() {
     return (
       <div style={{
         minHeight: '100vh',
-        maxWidth: 'var(--container-max)',
+        display: 'flex',
+        flexDirection: 'column',
+        maxWidth: '100%',
         margin: '0 auto',
-        padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
+        padding: '16px 0 0 0',
         background: 'var(--bg)',
         animation: 'fade-slide-up 240ms ease both',
       }}>
@@ -104,7 +106,8 @@ export default function MenstruationTracker() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 'var(--space-lg)',
+          marginBottom: '16px',
+          padding: '0 16px',
         }}>
           <button
             onClick={() => navigate('/dashboard')}
@@ -124,10 +127,12 @@ export default function MenstruationTracker() {
           <div style={{ width: '20px' }} />
         </div>
 
-        <MenstruationSetupSlideshow
-          onComplete={handleSetupComplete}
-          onCancel={() => navigate('/dashboard')}
-        />
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <MenstruationSetupSlideshow
+            onComplete={handleSetupComplete}
+            onCancel={() => navigate('/dashboard')}
+          />
+        </div>
       </div>
     )
   }

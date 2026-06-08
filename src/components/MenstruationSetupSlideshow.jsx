@@ -224,10 +224,12 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
     <div style={{
       display: 'flex',
       flexDirection: 'column',
-      gap: 'var(--space-xl)',
+      gap: '24px',
       animation: 'fade-in 200ms ease',
       overflow: 'hidden',
       width: '100%',
+      padding: '0 16px',
+      boxSizing: 'border-box',
     }}>
       <style>{`
         @keyframes fade-in {
@@ -237,14 +239,14 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
       `}</style>
 
       {/* Title */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginTop: '20px' }}>
         <h2 style={{
           fontFamily: 'var(--font-display)',
-          fontSize: '28px',
+          fontSize: 'clamp(22px, 6vw, 28px)',
           fontWeight: '600',
           color: 'var(--ink)',
           margin: 0,
-          lineHeight: '1.3',
+          lineHeight: '1.2',
         }}>
           {currentSlide.title}
         </h2>
@@ -264,10 +266,11 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
 
       {/* Content */}
       <div style={{
-        minHeight: '240px',
+        minHeight: '200px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flex: 1,
       }}>
         {currentSlide.content}
       </div>
@@ -275,11 +278,10 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
       {/* Navigation */}
       <div style={{
         display: 'flex',
-        gap: 'var(--space-md)',
-        marginTop: 'var(--space-lg)',
+        gap: '16px',
+        marginTop: 'auto',
+        marginBottom: '16px',
         width: '100%',
-        paddingLeft: 'var(--space-lg)',
-        paddingRight: 'var(--space-lg)',
       }}>
         <button
           onClick={() => {
