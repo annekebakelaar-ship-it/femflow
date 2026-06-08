@@ -131,7 +131,7 @@ export default function SigninPage() {
               marginBottom: 'var(--space-lg)',
               textAlign: 'center',
             }}>
-              Bewaar je patroon
+              Inloggen
             </h1>
 
             <p style={{
@@ -140,98 +140,60 @@ export default function SigninPage() {
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
-              Email je verifiëren. Geen wachtwoord nodig.
+              Kies hoe je wil inloggen
             </p>
 
-            {/* OAuth Buttons */}
+            {/* Google Sign In */}
             <div style={{
               display: 'flex',
-              flexDirection: 'column',
-              gap: 'var(--space-md)',
+              justifyContent: 'center',
               marginBottom: 'var(--space-lg)',
             }}>
-              {/* Google Sign In */}
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-              }}>
-                <GoogleLogin
-                  onSuccess={async (credentialResponse) => {
-                    setLoading(true)
-                    try {
-                      const result = await handleGoogleSignIn(credentialResponse)
-                      if (result.success) {
-                        saveToken(result.accessToken)
-                        const menstruationData = localStorage.getItem('menstruation_data')
-                        setTimeout(() => {
-                          navigate(menstruationData ? '/dashboard' : '/health/menstruation')
-                        }, 300)
-                      } else {
-                        setError(result.error || 'Google sign-in failed')
-                      }
-                    } catch (err) {
-                      setError(err.message || 'Google sign-in error')
-                    } finally {
-                      setLoading(false)
-                    }
-                  }}
-                  onError={() => {
-                    setError('Google sign-in failed. Probeer later opnieuw.')
-                  }}
-                  text="signin_with"
-                  theme="outline"
-                  size="large"
-                />
-              </div>
-
-              {/* Apple Sign In */}
-              <button
-                onClick={async () => {
+              <GoogleLogin
+                onSuccess={async (credentialResponse) => {
                   setLoading(true)
                   try {
-                    // Apple Sign In will be handled when user clicks
-                    // For now, show placeholder
-                    setError('Apple Sign In setup in progress. Use Google or Magic Link for now.')
+                    const result = await handleGoogleSignIn(credentialResponse)
+                    if (result.success) {
+                      saveToken(result.accessToken)
+                      const menstruationData = localStorage.getItem('menstruation_data')
+                      setTimeout(() => {
+                        navigate(menstruationData ? '/dashboard' : '/health/menstruation')
+                      }, 300)
+                    } else {
+                      setError(result.error || 'Google sign-in failed')
+                    }
+                  } catch (err) {
+                    setError(err.message || 'Google sign-in error')
                   } finally {
                     setLoading(false)
                   }
                 }}
-                style={{
-                  width: '100%',
-                  padding: '12px 16px',
-                  background: '#000',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '15px',
-                  fontWeight: '600',
-                  transition: 'all 150ms ease',
+                onError={() => {
+                  setError('Google sign-in failed. Probeer later opnieuw.')
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.opacity = '0.8'}
-                onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-              >
-                🍎 Sign in with Apple
-              </button>
+                text="signin_with"
+                theme="outline"
+                size="large"
+              />
+            </div>
 
-              {/* Divider */}
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                margin: '8px 0',
+            {/* Divider */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              margin: 'var(--space-lg) 0',
+            }}>
+              <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+              <span style={{
+                fontSize: '12px',
+                color: 'var(--ink-3)',
+                fontFamily: 'var(--font-sans)',
               }}>
-                <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-                <span style={{
-                  fontSize: '12px',
-                  color: 'var(--ink-3)',
-                  fontFamily: 'var(--font-sans)',
-                }}>
-                  of
-                </span>
-                <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
-              </div>
+                of login met email
+              </span>
+              <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
             </div>
 
             {error && (
