@@ -5,6 +5,7 @@ import { Pool } from 'pg'
 import { randomInt } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
+import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
 
 const { sign, verify } = jwtPkg
@@ -414,6 +415,161 @@ app.get('/api/v1/quiz/results', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error('Get quiz results error:', err)
     res.status(500).json({ error: 'Failed to fetch quiz results' })
+  }
+})
+
+// ============================================================================
+// WEARABLE (OURA) ENDPOINTS
+// ============================================================================
+
+// Request Oura OAuth URL
+app.post('/api/v1/wearable/request-connect', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+
+    // Oura OAuth URL
+    const ouraAuthUrl = new URL('https://cloud.ouraring.com/oauth/authorize')
+    ouraAuthUrl.searchParams.append('client_id', process.env.OURA_CLIENT_ID)
+    ouraAuthUrl.searchParams.append('redirect_uri', process.env.OURA_REDIRECT_URI)
+    ouraAuthUrl.searchParams.append('response_type', 'code')
+    ouraAuthUrl.searchParams.append('scope', 'personal daily')
+    ouraAuthUrl.searchParams.append('state', userId) // Simple state - in production use signed state
+
+    res.json({ auth_url: ouraAuthUrl.toString() })
+  } catch (err) {
+    console.error('Oura auth URL error:', err)
+    res.status(500).json({ error: 'Failed to generate Oura auth URL' })
+  }
+})
+
+// Oura OAuth callback
+app.get('/api/v1/wearable/callback', async (req, res) => {
+  try {
+    const { code, state } = req.query
+    const userId = state
+
+    if (!code || !userId) {
+      return res.status(400).json({ error: 'Missing code or state' })
+    }
+
+    // Exchange code for tokens
+    const tokenResponse = await axios.post('https://api.ouraring.com/oauth/token', {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: process.env.OURA_REDIRECT_URI,
+      client_id: process.env.OURA_CLIENT_ID,
+      client_secret: process.env.OURA_CLIENT_SECRET,
+    })
+
+    const { access_token, refresh_token, expires_in } = tokenResponse.data
+    const expiresAt = new Date(Date.now() + expires_in * 1000)
+
+    // Save tokens to database
+    await pool.query(
+      `INSERT INTO femflow_wearable_connections (user_id, wearable_type, access_token, refresh_token, token_expires_at)
+       VALUES ($1, 'oura', $2, $3, $4)
+       ON CONFLICT (user_id, wearable_type) DO UPDATE SET
+       access_token = $2, refresh_token = $3, token_expires_at = $4`,
+      [userId, access_token, refresh_token, expiresAt]
+    )
+
+    // Redirect back to frontend
+    res.redirect(`${process.env.FRONTEND_URL}/dashboard?wearable_connected=true`)
+  } catch (err) {
+    console.error('Oura callback error:', err)
+    res.redirect(`${process.env.FRONTEND_URL}/dashboard?wearable_error=true`)
+  }
+})
+
+// Get wearable connection status
+app.get('/api/v1/wearable/status', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+
+    const result = await pool.query(
+      'SELECT wearable_type, connected_at, last_sync_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
+      [userId, 'oura']
+    )
+
+    if (result.rows.length === 0) {
+      return res.json({ connected: false })
+    }
+
+    res.json({
+      connected: true,
+      wearable_type: 'oura',
+      connected_at: result.rows[0].connected_at,
+      last_sync_at: result.rows[0].last_sync_at,
+    })
+  } catch (err) {
+    console.error('Wearable status error:', err)
+    res.status(500).json({ error: 'Failed to fetch status' })
+  }
+})
+
+// Fetch and save Oura data
+app.post('/api/v1/wearable/pull', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+
+    // Get valid access token
+    const tokenResult = await pool.query(
+      'SELECT access_token, token_expires_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
+      [userId, 'oura']
+    )
+
+    if (tokenResult.rows.length === 0) {
+      return res.status(401).json({ error: 'Wearable not connected' })
+    }
+
+    let { access_token, token_expires_at } = tokenResult.rows[0]
+
+    // Check if token expired and refresh if needed
+    if (new Date(token_expires_at) < new Date()) {
+      // Token refresh logic would go here (for now, just error)
+      return res.status(401).json({ error: 'Token expired - please reconnect' })
+    }
+
+    // Fetch last 7 days of data from Oura
+    const today = new Date()
+    const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const startDate = sevenDaysAgo.toISOString().split('T')[0]
+    const endDate = today.toISOString().split('T')[0]
+
+    const ouraResponse = await axios.get('https://api.ouraring.com/v2/usercollection/daily_summaries', {
+      headers: { Authorization: `Bearer ${access_token}` },
+      params: { start_date: startDate, end_date: endDate },
+    })
+
+    // Save readings to database
+    for (const reading of ouraResponse.data.data) {
+      await pool.query(
+        `INSERT INTO femflow_biometric_readings (user_id, reading_date, sleep_duration_min, deep_sleep_min, hrv_ms, resting_heart_rate, recovery_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         ON CONFLICT (user_id, reading_date) DO UPDATE SET
+         sleep_duration_min = $3, deep_sleep_min = $4, hrv_ms = $5, resting_heart_rate = $6, recovery_index = $7`,
+        [
+          userId,
+          reading.day,
+          reading.sleep?.total_sleep_duration ? Math.round(reading.sleep.total_sleep_duration / 60) : null,
+          reading.sleep?.deep_sleep_duration ? Math.round(reading.sleep.deep_sleep_duration / 60) : null,
+          reading.heart_rate?.variability || null,
+          reading.heart_rate?.resting || null,
+          reading.readiness?.score || null,
+        ]
+      )
+    }
+
+    // Update last_sync_at
+    await pool.query(
+      'UPDATE femflow_wearable_connections SET last_sync_at = NOW() WHERE user_id = $1 AND wearable_type = $2',
+      [userId, 'oura']
+    )
+
+    res.json({ success: true, readings_synced: ouraResponse.data.data.length })
+  } catch (err) {
+    console.error('Oura pull error:', err)
+    res.status(500).json({ error: 'Failed to fetch Oura data' })
   }
 })
 

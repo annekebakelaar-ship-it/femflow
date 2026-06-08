@@ -30,6 +30,34 @@ CREATE TABLE IF NOT EXISTS femflow_menstruation_data (
   UNIQUE(user_id)
 );
 
+-- FemFlow Wearable Connections (Oura Ring OAuth)
+CREATE TABLE IF NOT EXISTS femflow_wearable_connections (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES femflow_users(id) ON DELETE CASCADE,
+  email VARCHAR(255),
+  wearable_type VARCHAR(50) NOT NULL DEFAULT 'oura',
+  access_token TEXT NOT NULL,
+  refresh_token TEXT,
+  token_expires_at TIMESTAMP,
+  connected_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  last_sync_at TIMESTAMP,
+  UNIQUE(user_id, wearable_type)
+);
+
+-- FemFlow Biometric Readings (from Oura)
+CREATE TABLE IF NOT EXISTS femflow_biometric_readings (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES femflow_users(id) ON DELETE CASCADE,
+  reading_date DATE NOT NULL,
+  sleep_duration_min INT,
+  deep_sleep_min INT,
+  hrv_ms FLOAT,
+  resting_heart_rate INT,
+  recovery_index INT,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE(user_id, reading_date)
+);
+
 -- FemFlow Quiz Results (saved after consent on Vraag 4)
 CREATE TABLE IF NOT EXISTS femflow_quiz_results (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -56,3 +84,6 @@ CREATE INDEX IF NOT EXISTS idx_femflow_quiz_results_user_id ON femflow_quiz_resu
 CREATE INDEX IF NOT EXISTS idx_femflow_quiz_results_email ON femflow_quiz_results(email);
 CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_email ON femflow_welcome_signups(email);
 CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_subscribed ON femflow_welcome_signups(subscribed);
+CREATE INDEX IF NOT EXISTS idx_femflow_wearable_connections_user_id ON femflow_wearable_connections(user_id);
+CREATE INDEX IF NOT EXISTS idx_femflow_biometric_readings_user_id ON femflow_biometric_readings(user_id);
+CREATE INDEX IF NOT EXISTS idx_femflow_biometric_readings_date ON femflow_biometric_readings(reading_date);

@@ -281,3 +281,21 @@ export async function saveQuizResults(email, constellation) {
 export async function getQuizResults() {
   return request('/api/v1/quiz/results')
 }
+
+// ── Wearable (Oura) ────────────────────────────────────────────────────────
+
+export async function requestWearableConnect() {
+  return request('/api/v1/wearable/request-connect', {
+    method: 'POST',
+  })
+}
+
+export async function getWearableStatus() {
+  return request('/api/v1/wearable/status')
+}
+
+export async function pullWearableData() {
+  return request('/api/v1/wearable/pull', {
+    method: 'POST',
+  })
+}
