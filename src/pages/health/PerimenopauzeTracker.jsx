@@ -62,10 +62,7 @@ export default function PerimenopauzeTracker() {
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
       padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-      backgroundImage: `url(${hormonalOverview})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--bg)',
       animation: 'fade-slide-up 240ms ease both',
     }}>
       {/* Header */}

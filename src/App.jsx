@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react'
-import { BrowserRouter, Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import ErrorBoundary from './components/ErrorBoundary'
 import Footer from './components/Footer'
+import FeedbackWidget from './components/FeedbackWidget'
 import Welcome from './pages/Welcome'
 import SmartQuiz from './pages/SmartQuiz'
 import QuizResults from './pages/QuizResults'
@@ -16,9 +18,10 @@ import QuizResultsPage from './pages/wab/QuizResultsPage'
 import LearningHub from './pages/wab/LearningHub'
 import ProgressAnalytics from './pages/wab/ProgressAnalytics'
 import Dashboard from './pages/wab/Dashboard'
-import Profile from './pages/account/Profile'
+import AccountPage from './pages/account/AccountPage'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import TermsOfService from './pages/legal/TermsOfService'
+import Support from './pages/legal/Support'
 import ConsentManagement from './pages/account/ConsentManagement'
 import FemLanding from './pages/fem/FemLanding'
 import FemQuizFunnel from './pages/fem/FemQuizFunnel'
@@ -144,18 +147,8 @@ function AppContent() {
         )
       } />
 
-      {/* Account (protected) */}
-      <Route path="/account" element={
-        user ? (
-          <Profile
-            user={user}
-            onBack={() => navigate('/dashboard')}
-            onLogout={handleLogout}
-          />
-        ) : (
-          <div>Please log in</div>
-        )
-      } />
+      {/* Account */}
+      <Route path="/account" element={<AccountPage />} />
 
       {/* WAB results */}
       <Route path="/results" element={
@@ -170,15 +163,15 @@ function AppContent() {
       } />
 
       {/* Health tracking */}
-      <Route path="/health/menstruation" element={user ? <MenstruationTracker /> : <div>Please log in</div>} />
-      <Route path="/health/perimenopause" element={user ? <PerimenopauzeTracker /> : <div>Please log in</div>} />
-      <Route path="/health/cycle-analytics" element={user ? <CycleAnalytics /> : <div>Please log in</div>} />
-      <Route path="/health/wearable-cycle" element={user ? <WearableCycle /> : <div>Please log in</div>} />
-      <Route path="/health/symptoms" element={user ? <SymptomLoggerPage /> : <div>Please log in</div>} />
-      <Route path="/health/lifestyle-check" element={user ? <LifestyleCheckPage /> : <div>Please log in</div>} />
+      <Route path="/health/menstruation" element={<MenstruationTracker />} />
+      <Route path="/health/perimenopause" element={user ? <PerimenopauzeTracker /> : <Navigate to="/login" />} />
+      <Route path="/health/cycle-analytics" element={user ? <CycleAnalytics /> : <Navigate to="/login" />} />
+      <Route path="/health/wearable-cycle" element={user ? <WearableCycle /> : <Navigate to="/login" />} />
+      <Route path="/health/symptoms" element={user ? <SymptomLoggerPage /> : <Navigate to="/login" />} />
+      <Route path="/health/lifestyle-check" element={user ? <LifestyleCheckPage /> : <Navigate to="/login" />} />
 
-      {/* Learning Hub */}
-      <Route path="/dashboard/learning" element={user ? <LearningHub /> : <div>Please log in</div>} />
+      {/* Learning Hub - accessible to all */}
+      <Route path="/dashboard/learning" element={<LearningHub />} />
 
       {/* Progress/Analytics */}
       <Route path="/dashboard/progress" element={user ? <ProgressAnalytics /> : <div>Please log in</div>} />
@@ -191,7 +184,10 @@ function AppContent() {
 
       {/* Legal Pages */}
       <Route path="/privacy" element={<PrivacyPolicy />} />
+      <Route path="/legal/privacy" element={<PrivacyPolicy />} />
       <Route path="/terms" element={<TermsOfService />} />
+      <Route path="/legal/terms" element={<TermsOfService />} />
+      <Route path="/support" element={<Support />} />
       <Route path="/consent" element={user ? <ConsentManagement /> : <div>Please log in</div>} />
 
       {/* FEM (old funnel) */}
@@ -210,16 +206,52 @@ function AppContent() {
           onShowFem={() => navigate('/fem-landing')}
         />
       } />
+
+      {/* 404 fallback */}
+      <Route path="*" element={
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          minHeight: '100vh',
+          padding: '20px',
+          background: 'var(--bg)',
+          fontFamily: 'var(--font-sans)',
+        }}>
+          <h1 style={{ color: 'var(--ink)', marginBottom: '16px' }}>404 - Pagina niet gevonden</h1>
+          <p style={{ color: 'var(--ink-2)', marginBottom: '24px' }}>
+            Deze pagina bestaat niet of is verplaatst.
+          </p>
+          <button
+            onClick={() => navigate('/')}
+            style={{
+              padding: '12px 24px',
+              background: 'var(--accent)',
+              color: 'white',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600',
+            }}
+          >
+            Terug naar home
+          </button>
+        </div>
+      } />
     </Routes>
     {user && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
+    {location.pathname !== '/' && <FeedbackWidget />}
     </div>
   )
 }
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <AppContent />
-    </BrowserRouter>
+    <ErrorBoundary>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
+    </ErrorBoundary>
   )
 }

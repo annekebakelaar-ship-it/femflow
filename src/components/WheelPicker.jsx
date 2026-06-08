@@ -17,7 +17,13 @@ function getYears(minYear, maxYear) {
 }
 
 export default function WheelPicker({ value, onChange, minYear = 1940, maxYear = new Date().getFullYear() }) {
-  const { day = 1, month = 1, year = maxYear } = value || {}
+  let day = 1, month = 1, year = maxYear
+
+  if (value && typeof value === 'object') {
+    day = Math.max(1, Math.min(31, parseInt(value.day) || 1))
+    month = Math.max(1, Math.min(12, parseInt(value.month) || 1))
+    year = Math.max(minYear, Math.min(maxYear, parseInt(value.year) || maxYear))
+  }
 
   const dayRef = useRef(null)
   const monthRef = useRef(null)

@@ -1,13 +1,20 @@
 export default function PrivacyPolicy() {
   return (
     <div style={{
-      maxWidth: '800px',
+      maxWidth: '100%',
+      width: '100%',
       margin: '0 auto',
-      padding: 'var(--space-lg)',
+      padding: '16px',
       fontFamily: 'var(--font-sans)',
       lineHeight: '1.7',
       color: 'var(--ink)',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
     }}>
+      <div style={{
+        maxWidth: '800px',
+        margin: '0 auto',
+      }}>
       <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
         Privacybeleid YouCaps
       </h1>
@@ -216,7 +223,7 @@ export default function PrivacyPolicy() {
           6.1 Recht op toegang (artikel 15)
         </h3>
         <p>
-          U kunt een kopie van al uw persoonlijke gegevens aanvragen. Stuur een e-mail naar privacy@youcaps.ai.
+          U kunt een kopie van al uw persoonlijke gegevens aanvragen. Stuur een e-mail naar privacy@youcaps.app.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -342,13 +349,13 @@ export default function PrivacyPolicy() {
         </p>
         <p style={{ marginTop: 'var(--space-sm)' }}>
           YouCaps BV<br />
-          E-mail: privacy@youcaps.ai<br />
-          [Adres TBD]
+          E-mail: privacy@youcaps.app<br />
+          WhatsApp: +31 6 17 26 14 63
         </p>
 
         <p style={{ marginTop: 'var(--space-lg)' }}>
-          <strong>Gegevensbeschermingsverantwoordelijke:</strong><br />
-          [Naam & e-mail TBD]
+          <strong>Contactpersoon Gegevensbescherming:</strong><br />
+          E-mail: privacy@youcaps.app
         </p>
       </section>
 
@@ -365,6 +372,7 @@ export default function PrivacyPolicy() {
         <strong>Laatst bijgewerkt:</strong> 4 juni 2026<br />
         <strong>Versie:</strong> 1.0
       </p>
+      </div>
     </div>
   )
 }

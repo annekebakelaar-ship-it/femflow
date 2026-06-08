@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Home, BarChart2, BookOpen, Users, Menu } from 'react-feather'
+import { getSecure } from '../utils/secureStorage'
 
 export default function Footer() {
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [userName, setUserName] = useState('Gebruiker')
   const dropdownRef = useRef(null)
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
@@ -26,6 +28,17 @@ export default function Footer() {
     }, 100)
 
     return () => clearInterval(interval)
+  }, [])
+
+  useEffect(() => {
+    try {
+      const data = getSecure('menstruation_data')
+      if (data && data.name) {
+        setUserName(data.name)
+      }
+    } catch (err) {
+      console.error('Failed to load user name')
+    }
   }, [])
 
   useEffect(() => {
@@ -121,17 +134,6 @@ export default function Footer() {
         <BookOpen size={20} strokeWidth={1.5} />
       </button>
 
-      {/* Team */}
-      <button
-        onClick={() => navigate('/dashboard/team')}
-        style={buttonStyle('/dashboard/team')}
-        title="Team"
-        onMouseEnter={handleButtonHover(true, isActive('/dashboard/team'))}
-        onMouseLeave={handleButtonHover(false, isActive('/dashboard/team'))}
-      >
-        <Users size={20} strokeWidth={1.5} />
-      </button>
-
       {/* Dropdown Menu (right) */}
       <div style={{ position: 'relative' }} ref={dropdownRef}>
         <button
@@ -165,20 +167,80 @@ export default function Footer() {
             border: '1px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '16px',
             boxShadow: '0 12px 32px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(199, 154, 110, 0.08)',
-            minWidth: '260px',
+            minWidth: '360px',
             zIndex: 200,
             maxHeight: 'calc(100vh - 120px)',
             overflowY: 'auto',
           }}>
-            {/* Gezondheidstools Section */}
+            {/* Profile Card */}
             <div style={{
               padding: 'var(--space-md)',
-              fontWeight: 'var(--font-weight-semibold)',
-              fontSize: 'var(--font-size-small)',
-              color: 'var(--color-label)',
               borderBottom: '1px solid rgba(232, 224, 216, 0.4)',
+              marginBottom: 'var(--space-md)',
             }}>
-              Gezondheidstools:
+              <div style={{
+                background: 'rgba(199, 154, 110, 0.1)',
+                padding: 'var(--space-md)',
+                borderRadius: '12px',
+              }}>
+                <p style={{
+                  margin: 0,
+                  fontSize: 'var(--font-size-small)',
+                  color: 'var(--ink-3)',
+                  marginBottom: '4px',
+                }}>
+                  Welkom
+                </p>
+                <p style={{
+                  margin: 0,
+                  fontSize: 'var(--font-size-body)',
+                  fontWeight: 'var(--font-weight-semibold)',
+                  color: 'var(--ink)',
+                  marginBottom: 'var(--space-md)',
+                }}>
+                  {userName}
+                </p>
+                <div style={{ display: 'flex', gap: '8px' }}>
+                  <button
+                    onClick={() => { navigate('/account'); setDropdownOpen(false); }}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      background: 'transparent',
+                      color: 'var(--accent)',
+                      border: '1px solid var(--accent)',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: 'var(--font-size-small)',
+                      fontWeight: 'var(--font-weight-semibold)',
+                      transition: 'all 150ms ease',
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(199, 154, 110, 0.1)'}
+                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                  >
+                    Instellingen
+                  </button>
+                  <button
+                    onClick={() => { navigate('/dashboard/supplements'); setDropdownOpen(false); }}
+                    style={{
+                      flex: 1,
+                      padding: '8px 12px',
+                      background: 'var(--accent)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '8px',
+                      cursor: 'pointer',
+                      fontSize: 'var(--font-size-small)',
+                      fontWeight: 'var(--font-weight-semibold)',
+                      transition: 'all 150ms ease',
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
+                    onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
+                  >
+                    Word nu lid
+                  </button>
+                </div>
+              </div>
             </div>
 
             <button

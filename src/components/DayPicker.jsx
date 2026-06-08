@@ -3,11 +3,13 @@ import { useState, useRef, useEffect } from 'react'
 export default function DayPicker({ value = 28, onChange, minDay = 10, maxDay = 50 }) {
   const wheelRef = useRef(null)
 
+  // Validate and clamp value
+  const safeValue = Math.max(minDay, Math.min(maxDay, Math.floor(Number(value) || minDay)))
   const days = Array.from({ length: maxDay - minDay + 1 }, (_, i) => minDay + i)
 
   useEffect(() => {
-    setTimeout(() => scrollToValue(value), 0)
-  }, [value])
+    setTimeout(() => scrollToValue(safeValue), 0)
+  }, [safeValue])
 
   function scrollToValue(val) {
     if (!wheelRef.current) return
@@ -129,8 +131,8 @@ export default function DayPicker({ value = 28, onChange, minDay = 10, maxDay = 
                 textAlign: 'center',
                 padding: '8px 4px',
                 fontSize: '20px',
-                fontWeight: value === d ? '600' : '400',
-                color: value === d ? '#2A211C' : '#A89E95',
+                fontWeight: safeValue === d ? '600' : '400',
+                color: safeValue === d ? '#2A211C' : '#A89E95',
                 transition: 'all 200ms ease',
               }}
             >

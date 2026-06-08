@@ -20,18 +20,17 @@ export default function CircleWidget({
         width: `${size}px`,
         height: `${size}px`,
         borderRadius: '50%',
-        border: hovered ? '1.5px solid transparent' : `1.5px solid ${isActive ? 'var(--accent)' : 'var(--ink-3)'}`,
-        background: hovered ? `linear-gradient(135deg, var(--accent), var(--info))` : 'transparent',
-        backgroundClip: hovered ? 'padding-box' : 'initial',
+        border: 'none',
+        background: hovered ? 'rgba(199, 154, 110, 0.25)' : 'rgba(199, 154, 110, 0.15)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         transition: 'all 150ms ease-out',
-        transform: hovered ? 'scale(1.04) rotateX(8deg) rotateY(-8deg)' : 'scale(1)',
+        transform: hovered ? 'scale(1.04)' : 'scale(1)',
         boxShadow: hovered
-          ? '0 24px 48px rgba(0, 0, 0, 0.35), 0 0 30px rgba(199, 154, 110, 0.4), 0 0 60px rgba(199, 154, 110, 0.2)'
-          : '0 16px 32px rgba(0, 0, 0, 0.25), 0 0 24px rgba(199, 154, 110, 0.3), 0 8px 16px rgba(0, 0, 0, 0.1)',
-        filter: 'brightness(1.1) contrast(1.05)',
+          ? '0 8px 16px rgba(0, 0, 0, 0.1)'
+          : '0 4px 8px rgba(0, 0, 0, 0.08)',
+        filter: 'brightness(1.05)',
         onMouseEnter: () => setHovered(true),
         onMouseLeave: () => setHovered(false),
       }}

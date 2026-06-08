@@ -7,6 +7,8 @@ import SymptomHeatmap from '../../components/SymptomHeatmap'
 import CycleSummary from '../../components/CycleSummary'
 import ManualEntryModal from '../../components/ManualEntryModal'
 import MenstruationSetupSlideshow from '../../components/MenstruationSetupSlideshow'
+import ConsentModal from '../../components/ConsentModal'
+import { saveSecure, getSecure } from '../../utils/secureStorage'
 import logo from '../../assets/YouCapsLogo.png.png'
 import afbeelding1 from '../../assets/afbeelding1.png'
 import hero1 from '../../assets/hero1.png'
@@ -16,7 +18,7 @@ const INITIAL_DATA = {
   birthDate: '',
   startDate: null,
   cycleLength: 28,
-  cycleLengths: [],  // Historical cycle lengths for variability analysis
+  cycleLengths: [],
   entries: [],
 }
 
@@ -27,52 +29,92 @@ export default function MenstruationTracker() {
   const [selectedDay, setSelectedDay] = useState(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [showSetup, setShowSetup] = useState(false)
+  const [showConsent, setShowConsent] = useState(false)
 
-  // Load data from localStorage
+  // Load data from secure localStorage
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('menstruation_data')
+      // Check if user has given consent
+      const consentGiven = localStorage.getItem('consent_given_at')
+      if (!consentGiven) {
+        setShowConsent(true)
+        setMenstrualData(INITIAL_DATA)
+        return
+      }
+
+      const stored = getSecure('menstruation_data')
       if (!stored) {
         setShowSetup(true)
         setMenstrualData(INITIAL_DATA)
         return
       }
 
-      const data = JSON.parse(stored)
-      setMenstrualData(data)
+      setMenstrualData(stored)
 
-      if (data.startDate) {
+      if (stored.startDate) {
         const today = new Date()
-        const start = new Date(data.startDate)
+        const start = new Date(stored.startDate)
         const daysFromStart = Math.floor((today - start) / (1000 * 60 * 60 * 24))
-        const daysInCycle = (daysFromStart % data.cycleLength) + 1
+        const daysInCycle = (daysFromStart % stored.cycleLength) + 1
         setSelectedDay(daysInCycle)
       }
     } catch (e) {
-      console.error('Failed to load menstruation data:', e)
+      console.error('Failed to load menstruation data')
       setShowSetup(true)
       setMenstrualData(INITIAL_DATA)
     }
   }, [])
 
-  // Save data to localStorage
+  // Save data to secure localStorage
   const saveMenstrualData = (data) => {
-    localStorage.setItem('menstruation_data', JSON.stringify(data))
+    if (!data || typeof data !== 'object') {
+      console.error('Invalid data to save')
+      return
+    }
+    saveSecure('menstruation_data', data)
     setMenstrualData(data)
+  }
+
+  // Handle consent
+  const handleConsentAccept = () => {
+    setShowConsent(false)
+    setShowSetup(true)
+  }
+
+  const handleConsentReject = () => {
+    navigate('/')
   }
 
   // Handle setup wizard
   const handleSetupComplete = (name, birthDate, startDate, cycleLength) => {
+    // Validate inputs
+    if (!name || name.length === 0) {
+      console.error('Invalid name')
+      return
+    }
+    if (!birthDate || birthDate.length !== 10) {
+      console.error('Invalid birthDate')
+      return
+    }
+    if (!startDate || startDate.length !== 10) {
+      console.error('Invalid startDate')
+      return
+    }
+    const cycle = parseInt(cycleLength)
+    if (isNaN(cycle) || cycle < 10 || cycle > 50) {
+      console.error('Invalid cycleLength')
+      return
+    }
+
     const newData = {
       ...INITIAL_DATA,
-      name,
+      name: String(name).substring(0, 100),
       birthDate,
       startDate,
-      cycleLength: parseInt(cycleLength) || 28,
+      cycleLength: cycle,
     }
     saveMenstrualData(newData)
     setShowSetup(false)
-    // Navigate to dashboard after setup
     setTimeout(() => navigate('/dashboard'), 500)
   }
 
@@ -89,6 +131,11 @@ export default function MenstruationTracker() {
     setIsModalOpen(false)
   }
 
+  // Show consent modal first
+  if (showConsent) {
+    return <ConsentModal onAccept={handleConsentAccept} onReject={handleConsentReject} />
+  }
+
   // Show setup wizard if no data
   if (showSetup || !menstrualData?.startDate) {
     return (
@@ -99,10 +146,7 @@ export default function MenstruationTracker() {
         maxWidth: '100%',
         margin: '0 auto',
         padding: '16px 0 0 0',
-        backgroundImage: `url(${hero1})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed',
+        background: 'var(--bg)',
         animation: 'fade-slide-up 240ms ease both',
       }}>
         {/* Header */}
@@ -114,7 +158,7 @@ export default function MenstruationTracker() {
           padding: '0 16px',
         }}>
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate('/')}
             style={{
               background: 'none',
               border: 'none',
@@ -136,14 +180,10 @@ export default function MenstruationTracker() {
           display: 'flex',
           flexDirection: 'column',
           overflow: 'hidden',
-          background: 'rgba(255, 255, 255, 0.95)',
-          backdropFilter: 'blur(10px)',
-          margin: '16px',
-          borderRadius: '24px',
         }}>
           <MenstruationSetupSlideshow
             onComplete={handleSetupComplete}
-            onCancel={() => navigate('/dashboard')}
+            onCancel={() => navigate('/')}
           />
         </div>
       </div>
@@ -161,10 +201,7 @@ export default function MenstruationTracker() {
       minHeight: '100vh',
       display: 'flex',
       justifyContent: 'center',
-      backgroundImage: `url(${afbeelding1})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--bg)',
       animation: 'fade-slide-up 240ms ease both',
     }}>
     <div style={{

@@ -49,7 +49,8 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
             type="text"
             placeholder="Jouw naam"
             value={name}
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setName(String(e.target.value).substring(0, 100))}
+            maxLength="100"
             style={{
               padding: '10px 16px',
               fontSize: 'var(--font-size-body)',
@@ -64,7 +65,7 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
           />
         </div>
       ),
-      isComplete: name.length > 0,
+      isComplete: name.trim().length > 0,
     },
     {
       title: 'Wanneer ben je geboren?',
@@ -213,7 +214,7 @@ export default function MenstruationSetupSlideshow({ onComplete, onCancel }) {
           />
         </div>
       ),
-      isComplete: !!cycleLength,
+      isComplete: cycleLength >= 10 && cycleLength <= 50,
     },
   ]
 

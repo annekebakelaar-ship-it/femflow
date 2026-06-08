@@ -143,22 +143,46 @@ export default function DashboardHome() {
       boxSizing: 'border-box',
       overflow: 'hidden',
     }}>
+      {/* Beta Badge */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        left: '20px',
+        zIndex: 100,
+      }}>
+        <span style={{
+          background: 'rgba(199, 154, 110, 0.9)',
+          color: 'white',
+          padding: '6px 12px',
+          borderRadius: '20px',
+          fontSize: '11px',
+          fontWeight: '600',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          fontFamily: 'var(--font-sans)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+        }}>
+          Beta v1.0
+        </span>
+      </div>
 
       {/* Circle Widgets Carousel */}
       <div style={{
         width: '100%',
-        padding: '32px 16px 24px 16px',
-        overflow: 'hidden',
+        padding: '32px 0 24px 0',
         boxSizing: 'border-box',
       }}>
         <Swiper
-          spaceBetween={8}
+          spaceBetween={4}
           slidesPerView="auto"
           centeredSlides={false}
           grabCursor={true}
           style={{
             maxWidth: '100%',
             overflow: 'hidden',
+            paddingLeft: '16px',
+            paddingRight: '16px',
           }}
         >
           {/* Cycle Day */}
@@ -252,7 +276,7 @@ export default function DashboardHome() {
 
       {/* Cycle Ring Carousel */}
       {menstrualPhase && menstrualData && (
-        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <div style={{ width: '100%', maxWidth: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"
@@ -273,7 +297,7 @@ export default function DashboardHome() {
 
       {/* Wearable Score Carousel */}
       {readinessScore && (
-        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <div style={{ width: '100%', maxWidth: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"

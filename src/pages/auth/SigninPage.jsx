@@ -16,6 +16,11 @@ export default function SigninPage() {
   const [loading, setLoading] = useState(false)
 
   async function handleDevLogin() {
+    // Only allow in development
+    if (process.env.NODE_ENV !== 'development') {
+      setError('Dev mode not available')
+      return
+    }
     setError('')
     setLoading(true)
     try {
@@ -270,7 +275,7 @@ export default function SigninPage() {
               </div>
             )}
 
-            {devLink && (
+            {process.env.NODE_ENV === 'development' && devLink && (
               <div style={{
                 background: '#E8F5E9',
                 border: '1px solid var(--success)',

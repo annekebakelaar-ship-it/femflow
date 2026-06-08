@@ -5,11 +5,40 @@ export default function ProgressAnalytics() {
   const navigate = useNavigate()
   const [data, setData] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
-    fetch("https://wearable-age-api.onrender.com/api/v1/analytics/90day-summary", {
-      headers: { Authorization: `Bearer ${localStorage.getItem("wab_jwt")}` }
-    }).then(r => r.json()).then(setData).catch(console.error).finally(() => setLoading(false))
+    async function fetchData() {
+      try {
+        const token = localStorage.getItem("wab_jwt")
+        if (!token) {
+          setError("Niet ingelogd")
+          setLoading(false)
+          return
+        }
+
+        const res = await fetch("https://wearable-age-api.onrender.com/api/v1/analytics/90day-summary", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json'
+          }
+        })
+
+        if (!res.ok) {
+          throw new Error(`API error: ${res.status}`)
+        }
+
+        const json = await res.json()
+        setData(json)
+      } catch (err) {
+        console.error("Failed to load analytics:", err)
+        setError("Kan gegevens niet laden. Probeer later opnieuw.")
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchData()
   }, [])
 
   if (loading) return <div style={{
@@ -19,6 +48,32 @@ export default function ProgressAnalytics() {
     fontSize: '13px',
     color: 'var(--ink)',
   }}>Laden...</div>
+
+  if (error) return <div style={{
+    padding: "var(--space-lg)",
+    textAlign: "center",
+    fontFamily: 'var(--font-sans)',
+    fontSize: '13px',
+    color: '#C62828',
+  }}>
+    {error}
+    <br /><br />
+    <button
+      onClick={() => navigate('/dashboard')}
+      style={{
+        background: 'var(--accent)',
+        color: 'white',
+        border: 'none',
+        padding: '8px 16px',
+        borderRadius: '6px',
+        cursor: 'pointer',
+        fontSize: '13px',
+      }}
+    >
+      Terug naar Dashboard
+    </button>
+  </div>
+
   if (!data) return <div style={{
     padding: "var(--space-lg)",
     textAlign: "center",
@@ -66,7 +121,7 @@ export default function ProgressAnalytics() {
           fontWeight: 500,
           marginBottom: "var(--space-md)",
           color: 'var(--ink)',
-        }}>😴 Slaap</h2>
+        }}>Slaap</h2>
         <div style={{
           background: "var(--surface)",
           border: "1px solid var(--border)",
@@ -126,7 +181,7 @@ export default function ProgressAnalytics() {
           fontWeight: 500,
           marginBottom: "var(--space-md)",
           color: 'var(--ink)',
-        }}>❤️ Hartslag</h2>
+        }}>Hartslag</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
           <div style={{
             background: "var(--surface)",
@@ -198,7 +253,7 @@ export default function ProgressAnalytics() {
           fontWeight: 500,
           marginBottom: "var(--space-md)",
           color: 'var(--ink)',
-        }}>🎭 Symptomen</h2>
+        }}>Symptomen</h2>
         <div style={{
           background: "var(--surface)",
           border: "1px solid var(--border)",
@@ -250,7 +305,7 @@ export default function ProgressAnalytics() {
           fontWeight: 500,
           marginBottom: "var(--space-md)",
           color: 'var(--ink)',
-        }}>💡 Inzichten</h2>
+        }}>Inzichten</h2>
         {data.insights.map((i, idx) => (
           <div key={idx} style={{
             background: "rgba(79, 140, 90, 0.08)",
@@ -277,7 +332,7 @@ export default function ProgressAnalytics() {
           fontWeight: 500,
           marginBottom: "var(--space-md)",
           color: 'var(--ink)',
-        }}>🎯 Aanbevelingen</h2>
+        }}>Aanbevelingen</h2>
         {data.recommendations.map((r, idx) => (
           <div key={idx} style={{
             background: "rgba(91, 124, 153, 0.08)",
