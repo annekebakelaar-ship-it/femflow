@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
+import { GoogleOAuthProvider } from '@react-oauth/google'
 import ErrorBoundary from './components/ErrorBoundary'
 import Footer from './components/Footer'
 import FeedbackWidget from './components/FeedbackWidget'
@@ -263,11 +264,16 @@ function AppContent() {
 }
 
 export default function App() {
+  // Google OAuth Client ID - set via environment variable when credentials are ready
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID_HERE'
+
   return (
     <ErrorBoundary>
-      <BrowserRouter>
-        <AppContent />
-      </BrowserRouter>
+      <GoogleOAuthProvider clientId={googleClientId}>
+        <BrowserRouter>
+          <AppContent />
+        </BrowserRouter>
+      </GoogleOAuthProvider>
     </ErrorBoundary>
   )
 }
