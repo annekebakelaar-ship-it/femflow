@@ -3,9 +3,11 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import { Pool } from 'pg'
 import { randomInt } from 'crypto'
-import { sign, verify } from 'jsonwebtoken'
+import jwtPkg from 'jsonwebtoken'
 import nodemailer from 'nodemailer'
 import { v4 as uuidv4 } from 'uuid'
+
+const { sign, verify } = jwtPkg
 
 dotenv.config()
 
