@@ -191,18 +191,28 @@ app.post('/api/v1/welcome/signup', async (req, res) => {
     )
 
     // Send welcome email
+    const unsubscribeLink = `${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}`
     await sgMail.send({
       to: email,
       from: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app',
-      subject: 'Welkom bij FemFlow 💜',
+      subject: 'Welkom bij FemFlow 🌿',
       html: `
-        <h2>Bedankt voor je interesse!</h2>
-        <p>We zien dat je geïnteresseerd bent in FemFlow. Je ontvangt updates over ons menstruatietracker.</p>
-        <p style="margin-top: 24px; font-size: 14px; color: #888;">
-          <a href="${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}" style="color: #888; text-decoration: underline;">
-            Verwijder mijn email
-          </a>
-        </p>
+        <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6;">
+          <h2 style="font-size: 24px; margin-bottom: 20px; color: #1a1a1a;">Fijn dat je je hebt aangemeld voor FemFlow.</h2>
+
+          <p>We bouwen aan een app die je cyclus en wearable-data omzet in inzicht — zonder labels, zonder oordeel. Gewoon jouw patronen, helder in beeld.</p>
+
+          <p>Je hoort van ons zodra we live gaan. Tot die tijd: geen spam, beloofd.</p>
+
+          <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+            Liefs,<br>
+            Het Youcaps-team
+          </p>
+
+          <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 13px;">
+            Liever geen mails meer? Je kunt je <a href="${unsubscribeLink}" style="color: #999; text-decoration: underline;">hier op elk moment uitschrijven</a>.
+          </p>
+        </div>
       `,
     })
 
