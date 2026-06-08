@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 import { Pool } from 'pg'
 import { randomInt } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
-import nodemailer from 'nodemailer'
+import { Resend } from 'resend'
 import { v4 as uuidv4 } from 'uuid'
 
 const { sign, verify } = jwtPkg
@@ -25,13 +25,7 @@ app.use(cors())
 app.use(express.json())
 
 // Email setup
-const transporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD,
-  },
-})
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Verify DB connection
 pool.query('SELECT NOW()', (err, res) => {
@@ -77,8 +71,9 @@ app.post('/api/v1/auth/request-code', async (req, res) => {
       [email, code, expiresAt]
     )
 
-    // Send email
-    await transporter.sendMail({
+    // Send email via Resend
+    await resend.emails.send({
+      from: 'noreply@femflow.app',
       to: email,
       subject: 'FemFlow Login Code',
       html: `<h2>Your FemFlow Login Code</h2><p style="font-size: 24px; font-weight: bold;">${code}</p><p>Valid for 10 minutes</p>`,
