@@ -1,15 +1,22 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getToken } from '../../api/client'
+import { getToken, seedWearableData } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import Footer from '../../components/Footer'
 import hero from '../../assets/hero1.png'
+
+const SCENARIOS = ['stable', 'declining', 'recovering', 'dip']
 
 export default function WearablePage() {
   const navigate = useNavigate()
   const [consentGiven, setConsentGiven] = useState(false)
   const [consentType, setConsentType] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [scenario, setScenario] = useState('stable')
+  const [days, setDays] = useState(60)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(null)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     // Check if user is logged in
@@ -31,6 +38,22 @@ export default function WearablePage() {
   function handleConsentGiven(choice) {
     setConsentType(choice)
     setConsentGiven(true)
+  }
+
+  async function handleGenerateTestData() {
+    setLoading(true)
+    setError(null)
+    setSuccess(null)
+
+    try {
+      const result = await seedWearableData(days, scenario)
+      setSuccess(`Generated ${result.readings_created} days of ${scenario} data`)
+      setTimeout(() => setSuccess(null), 3000)
+    } catch (err) {
+      setError(err.message || 'Failed to generate test data')
+    } finally {
+      setLoading(false)
+    }
   }
 
   if (!isLoggedIn) {
@@ -128,7 +151,7 @@ export default function WearablePage() {
               marginBottom: 'var(--space-md)',
               color: 'var(--ink)',
             }}>
-              🧪 Testdata Mode
+              Testdata Mode
             </h2>
             <p style={{
               fontSize: '15px',
@@ -136,28 +159,140 @@ export default function WearablePage() {
               lineHeight: 1.6,
               marginBottom: 'var(--space-lg)',
             }}>
-              Je gebruikt gesimuleerde wearable data. Dit helpt je FemFlow uit te testen zonder echte Oura device.
+              Genereer realistische slaap- en hersteldata voor testen zonder Oura device.
             </p>
-            <p style={{
-              fontSize: '13px',
-              color: 'var(--ink-3)',
-              marginBottom: 'var(--space-lg)',
-            }}>
-              Later kun je naar Oura Ring overschakelen.
-            </p>
+
+            {/* Scenario selector */}
+            <div style={{ marginBottom: 'var(--space-md)' }}>
+              <label style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: 'var(--ink-3)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                display: 'block',
+                marginBottom: '8px',
+              }}>
+                Scenario
+              </label>
+              <select
+                value={scenario}
+                onChange={(e) => setScenario(e.target.value)}
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  border: '1px solid rgba(199, 154, 110, 0.3)',
+                  borderRadius: '8px',
+                  fontSize: '14px',
+                  fontFamily: 'var(--font-sans)',
+                  background: 'white',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1,
+                }}
+              >
+                <option value="stable">Stabiel (consistent)</option>
+                <option value="declining">Afnemend (verslechtering)</option>
+                <option value="recovering">Herstellend (verbetering)</option>
+                <option value="dip">Dip (acute verslechtering)</option>
+              </select>
+            </div>
+
+            {/* Days input */}
+            <div style={{ marginBottom: 'var(--space-lg)' }}>
+              <label style={{
+                fontSize: '12px',
+                fontWeight: '600',
+                color: 'var(--ink-3)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                display: 'block',
+                marginBottom: '8px',
+              }}>
+                Aantal dagen: {days}
+              </label>
+              <input
+                type="range"
+                min="7"
+                max="180"
+                value={days}
+                onChange={(e) => setDays(parseInt(e.target.value))}
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  opacity: loading ? 0.6 : 1,
+                }}
+              />
+              <div style={{
+                fontSize: '12px',
+                color: 'var(--ink-3)',
+                marginTop: '4px',
+              }}>
+                {days} dagen data genereren
+              </div>
+            </div>
+
+            {/* Error message */}
+            {error && (
+              <div style={{
+                background: 'rgba(192, 73, 45, 0.1)',
+                border: '1px solid rgba(192, 73, 45, 0.3)',
+                padding: 'var(--space-md)',
+                borderRadius: '8px',
+                fontSize: '13px',
+                color: 'var(--error)',
+                marginBottom: 'var(--space-md)',
+              }}>
+                {error}
+              </div>
+            )}
+
+            {/* Success message */}
+            {success && (
+              <div style={{
+                background: 'rgba(79, 140, 90, 0.1)',
+                border: '1px solid rgba(79, 140, 90, 0.3)',
+                padding: 'var(--space-md)',
+                borderRadius: '8px',
+                fontSize: '13px',
+                color: 'var(--success)',
+                marginBottom: 'var(--space-md)',
+              }}>
+                {success}
+              </div>
+            )}
+
+            {/* Generate button */}
             <button
+              onClick={handleGenerateTestData}
+              disabled={loading}
               style={{
+                width: '100%',
                 padding: '12px 24px',
-                background: 'var(--accent)',
+                background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '8px',
-                cursor: 'pointer',
+                cursor: loading ? 'not-allowed' : 'pointer',
                 fontWeight: '600',
+                fontSize: '15px',
+                transition: 'all 200ms ease',
+                opacity: loading ? 0.7 : 1,
               }}
+              onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+              onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
             >
-              Genereer Testdata
+              {loading ? 'Genereren...' : 'Genereer Testdata'}
             </button>
+
+            <p style={{
+              fontSize: '12px',
+              color: 'var(--ink-3)',
+              marginTop: 'var(--space-md)',
+            }}>
+              Later kun je naar Oura Ring overschakelen in Instellingen.
+            </p>
           </div>
         )}
 
