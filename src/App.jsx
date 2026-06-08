@@ -9,6 +9,7 @@ import Welcome from './pages/Welcome'
 import SmartQuiz from './pages/SmartQuiz'
 import QuizResults from './pages/QuizResults'
 import Unsubscribe from './pages/Unsubscribe'
+import WearablePage from './pages/wearable/WearablePage'
 import SigninPage from './pages/auth/SigninPage'
 import Landing from './pages/wab/Landing'
 import MenstruationTracker from './pages/health/MenstruationTracker'
@@ -200,6 +201,7 @@ function AppContent() {
       {/* Health tracking */}
       <Route path="/health/menstruation" element={<MenstruationTracker />} />
       <Route path="/health/menstruation/history" element={<MenstruationHistory />} />
+      <Route path="/wearable" element={<WearablePage />} />
       <Route path="/health/perimenopause" element={user ? <PerimenopauzeTracker /> : <Navigate to="/login" />} />
       <Route path="/health/cycle-analytics" element={user ? <CycleAnalytics /> : <Navigate to="/login" />} />
       <Route path="/health/wearable-cycle" element={user ? <WearableCycle /> : <Navigate to="/login" />} />
