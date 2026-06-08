@@ -136,7 +136,39 @@ export default function SmartQuiz() {
 
   function handleAnswer(value) {
     const currentKey = questionsOrder[step]
-    setAnswers({ ...answers, [currentKey]: value })
+    const newAnswers = { ...answers, [currentKey]: value }
+    setAnswers(newAnswers)
+
+    // If this is q4_final and user selected "yes"
+    if (currentKey === 'q4_final' && value === 'yes') {
+      const constellation = {
+        sleep: !!newAnswers[`q2_${newAnswers.q1}`],
+        mood: newAnswers.q1 === 'mood',
+        stress: newAnswers.q3_related === 'ja',
+        energy: newAnswers.q1 === 'energy',
+        cycle: newAnswers.q1 === 'cycle',
+      }
+      // Save to localStorage for now, will be saved to DB after login
+      localStorage.setItem('pending_quiz_results', JSON.stringify({ email, constellation }))
+      // Navigate directly to login page
+      navigate('/login', { state: { constellation, email } })
+      return
+    }
+
+    // If this is q4_final and user selected "no", go to results page without saving
+    if (currentKey === 'q4_final' && value === 'no') {
+      const constellation = {
+        sleep: !!newAnswers[`q2_${newAnswers.q1}`],
+        mood: newAnswers.q1 === 'mood',
+        stress: newAnswers.q3_related === 'ja',
+        energy: newAnswers.q1 === 'energy',
+        cycle: newAnswers.q1 === 'cycle',
+      }
+      navigate('/quiz/results', { state: { answers: newAnswers, constellation, email } })
+      return
+    }
+
+    // Otherwise continue to next question
     setStep(step + 1)
   }
 

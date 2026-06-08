@@ -267,3 +267,16 @@ export async function unsubscribeEmail(email) {
     body: JSON.stringify({ email }),
   })
 }
+
+// ── Quiz Results ─────────────────────────────────────────────────────────────
+
+export async function saveQuizResults(email, constellation) {
+  return request('/api/v1/quiz/save', {
+    method: 'POST',
+    body: JSON.stringify({ email, constellation }),
+  })
+}
+
+export async function getQuizResults() {
+  return request('/api/v1/quiz/results')
+}

@@ -30,6 +30,16 @@ CREATE TABLE IF NOT EXISTS femflow_menstruation_data (
   UNIQUE(user_id)
 );
 
+-- FemFlow Quiz Results (saved after consent on Vraag 4)
+CREATE TABLE IF NOT EXISTS femflow_quiz_results (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES femflow_users(id) ON DELETE CASCADE,
+  email VARCHAR(255),
+  constellation JSONB NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
 -- FemFlow Welcome signups (interest list)
 CREATE TABLE IF NOT EXISTS femflow_welcome_signups (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -42,5 +52,7 @@ CREATE TABLE IF NOT EXISTS femflow_welcome_signups (
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_femflow_otp_codes_expires_at ON femflow_otp_codes(expires_at);
 CREATE INDEX IF NOT EXISTS idx_femflow_menstruation_data_user_id ON femflow_menstruation_data(user_id);
+CREATE INDEX IF NOT EXISTS idx_femflow_quiz_results_user_id ON femflow_quiz_results(user_id);
+CREATE INDEX IF NOT EXISTS idx_femflow_quiz_results_email ON femflow_quiz_results(email);
 CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_email ON femflow_welcome_signups(email);
 CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_subscribed ON femflow_welcome_signups(subscribed);

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google'
-import { requestMagicLink, verifyMagicLink, getMe, saveToken } from '../../api/client'
+import { requestMagicLink, verifyMagicLink, getMe, saveToken, saveQuizResults } from '../../api/client'
 import { handleGoogleSignIn } from '../../utils/oauthHandler'
 import hero from '../../assets/hero1.png'
 
@@ -65,6 +65,18 @@ export default function SigninPage() {
 
       // Get user info
       await getMe()
+
+      // Save pending quiz results if they exist
+      const pendingQuiz = localStorage.getItem('pending_quiz_results')
+      if (pendingQuiz) {
+        try {
+          const { email: quizEmail, constellation: quizConstellation } = JSON.parse(pendingQuiz)
+          await saveQuizResults(quizEmail, quizConstellation)
+          localStorage.removeItem('pending_quiz_results')
+        } catch (err) {
+          console.error('Failed to save quiz results after login:', err)
+        }
+      }
 
       const menstruationData = localStorage.getItem('menstruation_data')
       setTimeout(() => {
