@@ -221,7 +221,7 @@ export default function Footer() {
                     Instellingen
                   </button>
                   <button
-                    onClick={() => { navigate('/dashboard/supplements'); setDropdownOpen(false); }}
+                    onClick={() => { window.location.href = 'https://youcaps.app'; setDropdownOpen(false); }}
                     style={{
                       flex: 1,
                       padding: '8px 12px',
