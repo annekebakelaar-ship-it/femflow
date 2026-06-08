@@ -1,5 +1,31 @@
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 
+function exportToCSV(data) {
+  if (!data || data.length === 0) return
+
+  const headers = ['Date', 'HRV (ms)', 'RHR (bpm)', 'Sleep (hours)', 'Deep Sleep (hours)', 'Recovery Score']
+  const rows = data.map(row => [
+    row.reading_date,
+    row.hrv_ms || '',
+    row.resting_heart_rate || '',
+    (row.sleep_duration_min / 60).toFixed(1) || '',
+    (row.deep_sleep_min / 60).toFixed(1) || '',
+    row.recovery_index || '',
+  ])
+
+  const csv = [headers, ...rows].map(row => row.map(cell => `"${cell}"`).join(',')).join('\n')
+
+  const blob = new Blob([csv], { type: 'text/csv' })
+  const url = window.URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = `biometric-data-${new Date().toISOString().split('T')[0]}.csv`
+  document.body.appendChild(link)
+  link.click()
+  document.body.removeChild(link)
+  window.URL.revokeObjectURL(url)
+}
+
 export default function BiometricChart({ data }) {
   if (!data || data.length === 0) {
     return (
@@ -26,6 +52,32 @@ export default function BiometricChart({ data }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xl)' }}>
+      {/* Export button */}
+      <button
+        onClick={() => exportToCSV(data)}
+        style={{
+          alignSelf: 'flex-start',
+          padding: '10px 16px',
+          background: 'rgba(199, 154, 110, 0.1)',
+          color: 'var(--accent)',
+          border: '1px solid rgba(199, 154, 110, 0.3)',
+          borderRadius: '8px',
+          cursor: 'pointer',
+          fontSize: '13px',
+          fontWeight: '500',
+          transition: 'all 150ms ease',
+        }}
+        onMouseEnter={(e) => {
+          e.target.style.background = 'rgba(199, 154, 110, 0.2)'
+          e.target.style.borderColor = 'rgba(199, 154, 110, 0.5)'
+        }}
+        onMouseLeave={(e) => {
+          e.target.style.background = 'rgba(199, 154, 110, 0.1)'
+          e.target.style.borderColor = 'rgba(199, 154, 110, 0.3)'
+        }}
+      >
+        Download CSV
+      </button>
       {/* HRV & Recovery Trend */}
       <div style={{
         background: 'white',
