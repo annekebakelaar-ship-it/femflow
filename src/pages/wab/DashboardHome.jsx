@@ -145,11 +145,11 @@ export default function DashboardHome() {
       {/* Circle Widgets Carousel */}
       <div style={{
         width: '100%',
-        padding: 'var(--space-xl) var(--space-lg) 40px var(--space-lg)',
+        padding: '32px 16px 24px 16px',
         overflow: 'visible',
       }}>
         <Swiper
-          spaceBetween={0}
+          spaceBetween={8}
           slidesPerView="auto"
           centeredSlides={false}
           grabCursor={true}
@@ -166,7 +166,7 @@ export default function DashboardHome() {
                 label="Cyclus"
                 icon={Calendar}
                 onClick={() => navigate('/health/menstruation')}
-                size={60}
+                size={50}
                 description="Dag in je cyclus"
                 isActive={true}
               />
@@ -181,7 +181,7 @@ export default function DashboardHome() {
                 label="Bereid"
                 icon={Zap}
                 onClick={() => navigate('/dashboard/progress')}
-                size={60}
+                size={50}
                 description="Belastbaarheid score"
                 isActive={true}
               />
@@ -196,7 +196,7 @@ export default function DashboardHome() {
                 label="Symptomen"
                 icon={AlertCircle}
                 onClick={() => navigate('/health/symptoms')}
-                size={60}
+                size={50}
                 description="Symptomen vandaag"
                 isActive={true}
               />
@@ -211,7 +211,7 @@ export default function DashboardHome() {
               icon={Activity}
               color="var(--accent)"
               onClick={() => navigate('/health/lifestyle-check')}
-              size={60}
+              size={50}
               description="Levensstijl triggers"
             />
           </SwiperSlide>
@@ -224,7 +224,7 @@ export default function DashboardHome() {
               icon={Book}
               color="var(--accent)"
               onClick={() => navigate('/dashboard/learning')}
-              size={60}
+              size={50}
               description="Persoonlijke kennisbank"
             />
           </SwiperSlide>
@@ -237,7 +237,7 @@ export default function DashboardHome() {
               icon={TrendingUp}
               color="var(--accent)"
               onClick={() => navigate('/dashboard/progress')}
-              size={60}
+              size={50}
               description="90-daagse trends"
             />
           </SwiperSlide>
