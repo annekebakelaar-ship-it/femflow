@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { Moon, Smile, AlertCircle, Zap, RotateCw, CheckCircle } from 'react-feather'
 import hero from '../assets/hero1.png'
 
 export default function QuizResults() {
@@ -29,12 +30,12 @@ export default function QuizResults() {
     .slice(0, 2)
     .join(' en ')
 
-  const signalEmojis = {
-    sleep: '😴',
-    mood: '🎭',
-    stress: '⚡',
-    energy: '💪',
-    cycle: '🔄',
+  const signalIcons = {
+    sleep: <Moon size={32} strokeWidth={1.5} />,
+    mood: <Smile size={32} strokeWidth={1.5} />,
+    stress: <AlertCircle size={32} strokeWidth={1.5} />,
+    energy: <Zap size={32} strokeWidth={1.5} />,
+    cycle: <RotateCw size={32} strokeWidth={1.5} />,
   }
 
   return (
@@ -114,12 +115,12 @@ export default function QuizResults() {
               }}
             >
               <div style={{
-                fontSize: '32px',
-                marginBottom: '8px',
-                opacity: isActive ? 1 : 0.4,
+                marginBottom: '12px',
+                opacity: isActive ? 1 : 0.3,
                 transition: 'opacity 200ms ease',
+                color: isActive ? 'var(--accent)' : 'var(--ink-3)',
               }}>
-                {signalEmojis[signal]}
+                {signalIcons[signal]}
               </div>
               <p style={{
                 fontSize: '12px',
