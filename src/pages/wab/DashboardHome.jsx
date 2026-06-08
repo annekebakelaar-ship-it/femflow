@@ -214,7 +214,7 @@ export default function DashboardHome() {
           <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
             <CircleWidget
               value="—"
-              label="Leven"
+              label="Lifestyle"
               icon={Activity}
               color="var(--accent)"
               onClick={() => navigate('/health/lifestyle-check')}
@@ -227,7 +227,7 @@ export default function DashboardHome() {
           <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
             <CircleWidget
               value="—"
-              label="Leren"
+              label="Kennis"
               icon={Book}
               color="var(--accent)"
               onClick={() => navigate('/dashboard/learning')}

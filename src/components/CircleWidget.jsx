@@ -55,8 +55,13 @@ export default function CircleWidget({
           <IconComponent size={15} color={hovered || isActive ? 'var(--accent)' : 'var(--ink-2)'} strokeWidth={1.5} />
         </div>
       </div>
+      {label && (
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', fontWeight: '500', color: 'var(--ink)', textAlign: 'center', maxWidth: '100px', lineHeight: 1.3 }}>
+          {label}
+        </span>
+      )}
       {description && (
-        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--ink-2)', textAlign: 'center', maxWidth: '100px', lineHeight: 1.3 }}>
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', color: 'var(--ink-3)', textAlign: 'center', maxWidth: '100px', lineHeight: 1.3 }}>
           {description}
         </span>
       )}
