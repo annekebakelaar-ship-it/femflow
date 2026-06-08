@@ -13,34 +13,8 @@ export default function SigninPage() {
   const [step, setStep] = useState('email') // 'email' or 'verify'
   const [email, setEmail] = useState('')
   const [token, setToken] = useState('')
-  const [devLink, setDevLink] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
-  async function handleDevLogin() {
-    // Only allow in development
-    if (process.env.NODE_ENV !== 'development') {
-      setError('Dev mode not available')
-      return
-    }
-    setError('')
-    setLoading(true)
-    try {
-      // Generate mock dev token for testing
-      const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkZXYtdXNlci0xIiwiZW1haWwiOiJkZXZAZmVtZmxvdy5hcHAifQ.mock'
-      saveToken(mockToken)
-
-      const menstruationData = localStorage.getItem('menstruation_data')
-      const target = menstruationData ? '/dashboard' : '/health/menstruation'
-
-      setLoading(false)
-      navigate(target, { state: { constellation } })
-    } catch (err) {
-      console.error('Dev login error:', err)
-      setError('Dev login failed')
-      setLoading(false)
-    }
-  }
 
   async function handleRequestLink(e) {
     e.preventDefault()
@@ -175,28 +149,6 @@ export default function SigninPage() {
               />
             </div>
 
-            {/* Dev Quick Login */}
-            <button
-                onClick={handleDevLogin}
-                disabled={loading}
-                style={{
-                  width: '100%',
-                  padding: '12px 24px',
-                  background: 'var(--accent)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: '500',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  marginBottom: 'var(--space-lg)',
-                  opacity: loading ? 0.6 : 1,
-                }}
-              >
-                [DEV] Quick Login
-              </button>
-
             {/* Divider */}
             <div style={{
               display: 'flex',
@@ -330,38 +282,6 @@ export default function SigninPage() {
                 fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
               }}>
                 {error}
-              </div>
-            )}
-
-            {process.env.NODE_ENV === 'development' && devLink && (
-              <div style={{
-                background: '#E8F5E9',
-                border: '1px solid var(--success)',
-                padding: 'var(--space-md)',
-                borderRadius: '8px',
-                marginBottom: 'var(--space-lg)',
-                color: 'var(--success)',
-                fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
-              }}>
-                <p style={{ marginBottom: 'var(--space-sm)' }}>Dev mode: Magic link klaar</p>
-                <code style={{ fontSize: 12, wordBreak: 'break-all', display: 'block', marginBottom: 'var(--space-sm)', background: 'rgba(0,0,0,0.05)', padding: '8px', borderRadius: '4px' }}>
-                  {devLink}
-                </code>
-                <button
-                  onClick={handleUseMagicLink}
-                  style={{
-                    background: 'var(--success)',
-                    color: 'white',
-                    border: 'none',
-                    padding: '6px 12px',
-                    borderRadius: '4px',
-                    fontSize: 12,
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-sans)', fontWeight: '600',
-                  }}
-                >
-                  Gebruik link →
-                </button>
               </div>
             )}
 
