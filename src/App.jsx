@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 import { GoogleOAuthProvider } from '@react-oauth/google'
+import './utils/devSetup'
 import ErrorBoundary from './components/ErrorBoundary'
 import Footer from './components/Footer'
 import FeedbackWidget from './components/FeedbackWidget'

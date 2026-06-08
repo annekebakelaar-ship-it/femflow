@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getSecure } from '../../utils/secureStorage'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import logo from '../../assets/YouCapsLogo.png.png'
 
@@ -8,13 +9,13 @@ export default function CycleAnalytics() {
   const [menstrualData, setMenstrualData] = useState(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem('menstruation_data')
-    if (stored) {
-      try {
-        setMenstrualData(JSON.parse(stored))
-      } catch (e) {
-        console.error('Failed to load menstruation data:', e)
+    try {
+      const stored = getSecure('menstruation_data')
+      if (stored) {
+        setMenstrualData(stored)
       }
+    } catch (e) {
+      console.error('Failed to load menstruation data:', e)
     }
   }, [])
 
