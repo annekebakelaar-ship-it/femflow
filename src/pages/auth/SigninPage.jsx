@@ -8,13 +8,22 @@ import hero from '../../assets/hero1.png'
 export default function SigninPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const { constellation = null } = location.state || {}
+  const { constellation = null, email: welcomeEmail = null } = location.state || {}
 
   const [step, setStep] = useState('email') // 'email' or 'verify'
-  const [email, setEmail] = useState('')
+  const [email, setEmail] = useState(welcomeEmail || '')
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+  const [emailFromWelcome, setEmailFromWelcome] = useState(false)
+
+  useEffect(() => {
+    if (welcomeEmail) {
+      setEmail(welcomeEmail)
+      setEmailFromWelcome(true)
+      localStorage.setItem('welcome_email', welcomeEmail)
+    }
+  }, [welcomeEmail])
 
   async function handleRequestLink(e) {
     e.preventDefault()
@@ -183,16 +192,30 @@ export default function SigninPage() {
 
             <form onSubmit={handleRequestLink} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
               <div>
-                <label style={{
-                  display: 'block',
-                  fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                  marginBottom: '4px',
-                  color: 'var(--ink-3)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '.08em',
-                }}>
-                  Email
-                </label>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <label style={{
+                    fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
+                    color: 'var(--ink-3)',
+                    textTransform: 'uppercase',
+                    letterSpacing: '.08em',
+                  }}>
+                    Email
+                  </label>
+                  {emailFromWelcome && (
+                    <span style={{
+                      fontSize: '9px',
+                      fontWeight: '600',
+                      color: 'var(--accent)',
+                      background: 'rgba(199, 154, 110, 0.1)',
+                      padding: '2px 6px',
+                      borderRadius: '4px',
+                      textTransform: 'uppercase',
+                      letterSpacing: '.05em',
+                    }}>
+                      Uit Quiz
+                    </span>
+                  )}
+                </div>
                 <input
                   type="email"
                   value={email}
