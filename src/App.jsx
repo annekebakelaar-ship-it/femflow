@@ -51,6 +51,14 @@ function AppContent() {
     async function init() {
       const path = location.pathname
 
+      // Dev mode - check FIRST before any other logic
+      const isDevMode = new URLSearchParams(window.location.search).get('dev') === '1'
+      if (isDevMode && !user) {
+        setUser({ id: 'dev-user', email: 'dev@test.com' })
+        setAuthLoading(false)
+        return
+      }
+
       // OTP code verification callback (if accessed via direct link)
       if (path === '/auth/verify') {
         const url = new URL(window.location.href)
@@ -82,12 +90,6 @@ function AppContent() {
       if (location.search.includes('oura_connected=1')) {
         window.history.replaceState({}, '', '/')
         navigate('/dashboard')
-      }
-
-      // Dev mode - auto-login
-      const isDevMode = new URLSearchParams(window.location.search).get('dev') === '1'
-      if (isDevMode) {
-        setUser({ id: 'dev-user', email: 'dev@test.com' })
       }
 
       // Restore session
