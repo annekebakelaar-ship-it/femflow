@@ -149,6 +149,7 @@ export default function MenstruationTracker() {
 
 function SetupForm({ onComplete }) {
   const [name, setName] = useState('')
+  const [birthDate, setBirthDate] = useState('')
   const [startDate, setStartDate] = useState('')
   const [cycleLength, setCycleLength] = useState(28)
   const [bleedingDays, setBleedingDays] = useState(5)
@@ -157,7 +158,7 @@ function SetupForm({ onComplete }) {
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (!name.trim() || !startDate) {
+    if (!name.trim() || !birthDate || !startDate) {
       setError('Alle velden zijn verplicht')
       return
     }
@@ -177,6 +178,7 @@ function SetupForm({ onComplete }) {
 
     onComplete({
       name,
+      birthDate,
       startDate,
       cycleLength: cycle,
       bleedingDays: bleed,
@@ -224,6 +226,24 @@ function SetupForm({ onComplete }) {
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
         <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+          Geboortedatum
+        </label>
+        <input
+          type="date"
+          value={birthDate}
+          onChange={(e) => setBirthDate(e.target.value)}
+          style={{
+            width: '100%',
+            padding: '12px',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            fontFamily: 'inherit',
+          }}
+        />
+      </div>
+
+      <div style={{ marginBottom: 'var(--space-lg)' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
           Startdatum Huidge Cyclus
         </label>
         <input
@@ -250,7 +270,12 @@ function SetupForm({ onComplete }) {
           max="50"
           value={cycleLength}
           onChange={(e) => setCycleLength(e.target.value)}
-          style={{ width: '100%' }}
+          style={{
+            width: '100%',
+            accentColor: 'var(--accent)',
+            height: '6px',
+            cursor: 'pointer',
+          }}
         />
       </div>
 
@@ -264,7 +289,12 @@ function SetupForm({ onComplete }) {
           max="9"
           value={bleedingDays}
           onChange={(e) => setBleedingDays(e.target.value)}
-          style={{ width: '100%' }}
+          style={{
+            width: '100%',
+            accentColor: 'var(--accent)',
+            height: '6px',
+            cursor: 'pointer',
+          }}
         />
       </div>
 
