@@ -152,9 +152,7 @@ export default function SigninPage() {
             {/* Dev Mode Button */}
             <button
               onClick={() => {
-                window.setupDev()
-                // Set user state + refresh to pick up changes
-                setTimeout(() => window.location.href = '/dashboard', 500)
+                window.location.href = '/?dev=1'
               }}
               style={{
                 width: '100%',
