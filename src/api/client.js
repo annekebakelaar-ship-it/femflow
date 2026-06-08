@@ -299,3 +299,10 @@ export async function pullWearableData() {
     method: 'POST',
   })
 }
+
+export async function seedWearableData(days = 60, scenario = 'stable') {
+  return request('/api/v1/wearable/seed', {
+    method: 'POST',
+    body: JSON.stringify({ days, scenario }),
+  })
+}

@@ -7,6 +7,7 @@ import jwtPkg from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 import axios from 'axios'
 import { v4 as uuidv4 } from 'uuid'
+import { generateSleepRange } from './utils/synthDataGenerator.js'
 
 const { sign, verify } = jwtPkg
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -504,6 +505,41 @@ app.get('/api/v1/wearable/status', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error('Wearable status error:', err)
     res.status(500).json({ error: 'Failed to fetch status' })
+  }
+})
+
+// Seed synthetic Oura data (for demo/testing)
+app.post('/api/v1/wearable/seed', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+    const { days = 60, scenario = 'stable' } = req.body
+
+    // Generate synthetic data
+    const synthData = generateSleepRange(userId, days, scenario)
+
+    // Save to database
+    for (const reading of synthData.data) {
+      await pool.query(
+        `INSERT INTO femflow_biometric_readings (user_id, reading_date, sleep_duration_min, deep_sleep_min, hrv_ms, resting_heart_rate, recovery_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         ON CONFLICT (user_id, reading_date) DO UPDATE SET
+         sleep_duration_min = $3, deep_sleep_min = $4, hrv_ms = $5, resting_heart_rate = $6, recovery_index = $7`,
+        [
+          userId,
+          reading.day,
+          Math.round(reading.total_sleep_duration / 60),
+          Math.round(reading.deep_sleep_duration / 60),
+          reading.average_hrv,
+          reading.lowest_heart_rate,
+          reading.readiness_score,
+        ]
+      )
+    }
+
+    res.json({ success: true, readings_created: synthData.data.length, scenario })
+  } catch (err) {
+    console.error('Seed data error:', err)
+    res.status(500).json({ error: 'Failed to seed synthetic data' })
   }
 })
 
