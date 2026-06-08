@@ -271,6 +271,7 @@ export async function unsubscribeEmail(email) {
 // ── Quiz Results ─────────────────────────────────────────────────────────────
 
 export async function saveQuizResults(email, constellation) {
+  // For post-login: uses authenticated request
   return request('/api/v1/quiz/save', {
     method: 'POST',
     body: JSON.stringify({ email, constellation }),

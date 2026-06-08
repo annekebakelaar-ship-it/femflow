@@ -376,18 +376,19 @@ app.delete('/api/v1/users/me', authenticateToken, async (req, res) => {
 // QUIZ RESULTS ENDPOINTS
 // ============================================================================
 
-// Save quiz results (after consent on Vraag 4)
+// Save quiz results (pre-login or post-login)
 app.post('/api/v1/quiz/save', async (req, res) => {
   try {
     const { email, constellation } = req.body
+    const userId = req.userId || null // Only set if authenticated (post-login)
 
     if (!email || !constellation) {
       return res.status(400).json({ error: 'Email and constellation required' })
     }
 
     const result = await pool.query(
-      'INSERT INTO femflow_quiz_results (email, constellation, created_at, updated_at) VALUES ($1, $2, NOW(), NOW()) RETURNING id',
-      [email, JSON.stringify(constellation)]
+      'INSERT INTO femflow_quiz_results (user_id, email, constellation, created_at, updated_at) VALUES ($1, $2, $3, NOW(), NOW()) RETURNING id',
+      [userId, email, JSON.stringify(constellation)]
     )
 
     res.json({ success: true, id: result.rows[0].id })
