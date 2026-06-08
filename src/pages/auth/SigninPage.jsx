@@ -150,29 +150,27 @@ export default function SigninPage() {
             </div>
 
             {/* Dev Mode Button */}
-            {process.env.NODE_ENV === 'development' && (
-              <button
-                onClick={() => {
-                  window.setupDev()
-                  setTimeout(() => navigate('/dashboard'), 300)
-                }}
-                style={{
-                  width: '100%',
-                  padding: '12px 24px',
-                  background: 'var(--accent)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  fontSize: '13px',
-                  fontFamily: 'var(--font-sans)',
-                  fontWeight: '500',
-                  cursor: 'pointer',
-                  marginBottom: 'var(--space-lg)',
-                }}
-              >
-                [DEV] Quick Setup
-              </button>
-            )}
+            <button
+              onClick={() => {
+                window.setupDev()
+                setTimeout(() => navigate('/dashboard'), 300)
+              }}
+              style={{
+                width: '100%',
+                padding: '12px 24px',
+                background: 'var(--accent)',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                fontSize: '13px',
+                fontFamily: 'var(--font-sans)',
+                fontWeight: '500',
+                cursor: 'pointer',
+                marginBottom: 'var(--space-lg)',
+              }}
+            >
+              [DEV] Quick Setup
+            </button>
 
             {/* Divider */}
             <div style={{
