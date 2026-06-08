@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getToken, seedWearableData } from '../../api/client'
+import { getToken, seedWearableData, getWearableReadings } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
+import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
 import hero from '../../assets/hero1.png'
 
@@ -17,6 +18,8 @@ export default function WearablePage() {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(null)
   const [error, setError] = useState(null)
+  const [biometricData, setBiometricData] = useState(null)
+  const [loadingData, setLoadingData] = useState(false)
 
   useEffect(() => {
     // Check if user is logged in
@@ -26,6 +29,25 @@ export default function WearablePage() {
     }
     setIsLoggedIn(true)
   }, [])
+
+  useEffect(() => {
+    // Load biometric data when consent is given
+    if (!consentGiven) return
+
+    async function loadData() {
+      setLoadingData(true)
+      try {
+        const result = await getWearableReadings(90)
+        setBiometricData(result.data)
+      } catch (err) {
+        console.error('Failed to load biometric data:', err)
+      } finally {
+        setLoadingData(false)
+      }
+    }
+
+    loadData()
+  }, [consentGiven])
 
   useEffect(() => {
     const consent = localStorage.getItem('wearable_consent')
@@ -48,6 +70,11 @@ export default function WearablePage() {
     try {
       const result = await seedWearableData(days, scenario)
       setSuccess(`Generated ${result.readings_created} days of ${scenario} data`)
+
+      // Reload data
+      const newData = await getWearableReadings(90)
+      setBiometricData(newData.data)
+
       setTimeout(() => setSuccess(null), 3000)
     } catch (err) {
       setError(err.message || 'Failed to generate test data')
@@ -315,6 +342,32 @@ export default function WearablePage() {
           Consent intrekken
         </button>
       </div>
+
+      {/* Biometric Charts */}
+      {biometricData && biometricData.length > 0 && (
+        <div style={{ marginTop: 'var(--space-xl)' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '22px',
+            fontWeight: '500',
+            marginBottom: 'var(--space-lg)',
+            color: 'var(--ink)',
+          }}>
+            Jouw data
+          </h2>
+          <BiometricChart data={biometricData} />
+        </div>
+      )}
+
+      {loadingData && (
+        <div style={{
+          padding: 'var(--space-lg)',
+          textAlign: 'center',
+          color: 'var(--ink-2)',
+        }}>
+          Data laden...
+        </div>
+      )}
 
       <Footer />
     </div>

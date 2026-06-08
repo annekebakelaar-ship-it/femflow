@@ -306,3 +306,7 @@ export async function seedWearableData(days = 60, scenario = 'stable') {
     body: JSON.stringify({ days, scenario }),
   })
 }
+
+export async function getWearableReadings(days = 90) {
+  return request(`/api/v1/wearable/readings?days=${days}`)
+}

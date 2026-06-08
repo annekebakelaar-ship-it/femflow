@@ -482,6 +482,37 @@ app.get('/api/v1/wearable/callback', async (req, res) => {
   }
 })
 
+// Get biometric readings for user
+app.get('/api/v1/wearable/readings', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+    const { days = 90 } = req.query
+
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - parseInt(days))
+
+    const result = await pool.query(
+      `SELECT reading_date, sleep_duration_min, deep_sleep_min, hrv_ms, resting_heart_rate, recovery_index
+       FROM femflow_biometric_readings
+       WHERE user_id = $1 AND reading_date >= $2
+       ORDER BY reading_date ASC`,
+      [userId, startDate.toISOString().split('T')[0]]
+    )
+
+    res.json({
+      data: result.rows,
+      count: result.rows.length,
+      date_range: {
+        from: startDate.toISOString().split('T')[0],
+        to: new Date().toISOString().split('T')[0],
+      },
+    })
+  } catch (err) {
+    console.error('Readings fetch error:', err)
+    res.status(500).json({ error: 'Failed to fetch readings' })
+  }
+})
+
 // Get wearable connection status
 app.get('/api/v1/wearable/status', authenticateToken, async (req, res) => {
   try {
