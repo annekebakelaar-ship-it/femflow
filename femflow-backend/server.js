@@ -26,7 +26,6 @@ app.use(cors())
 app.use(express.json())
 
 // Email setup
-const resend = new Resend(process.env.RESEND_API_KEY)
 
 // Verify DB connection
 pool.query('SELECT NOW()', (err, res) => {
