@@ -243,8 +243,8 @@ export default function FeedbackWidget() {
                   textAlign: 'center',
                 }}>
                   Je feedback helpt ons direct {' '}
-                  <a href="mailto:feedback@youcaps.app" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
-                    feedback@youcaps.app
+                  <a href="mailto:info@youcaps.app" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                    info@youcaps.app
                   </a>
                 </p>
               </form>
