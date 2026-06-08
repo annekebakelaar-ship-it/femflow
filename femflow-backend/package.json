@@ -17,13 +17,13 @@
   "author": "YouCaps",
   "license": "MIT",
   "dependencies": {
+    "@sendgrid/mail": "^8.1.6",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.0",
     "pg": "^8.10.0",
-    "resend": "^3.5.0",
     "uuid": "^9.0.0"
   }
 }

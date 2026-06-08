@@ -4,10 +4,11 @@ import dotenv from 'dotenv'
 import { Pool } from 'pg'
 import { randomInt } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
-import { Resend } from 'resend'
+import sgMail from '@sendgrid/mail'
 import { v4 as uuidv4 } from 'uuid'
 
 const { sign, verify } = jwtPkg
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 dotenv.config()
 
@@ -71,10 +72,10 @@ app.post('/api/v1/auth/request-code', async (req, res) => {
       [email, code, expiresAt]
     )
 
-    // Send email via Resend
-    await resend.emails.send({
-      from: 'noreply@resend.dev',
+    // Send email via SendGrid
+    await sgMail.send({
       to: email,
+      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app',
       subject: 'FemFlow Login Code',
       html: `<h2>Your FemFlow Login Code</h2><p style="font-size: 24px; font-weight: bold;">${code}</p><p>Valid for 10 minutes</p>`,
     })
