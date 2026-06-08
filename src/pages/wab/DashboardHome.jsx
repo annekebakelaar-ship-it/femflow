@@ -129,9 +129,7 @@ export default function DashboardHome() {
   return (
     <div className="dashboard-hero" style={{
       minHeight: '100vh',
-      maxWidth: 'var(--container-max)',
-      margin: '0 auto',
-      padding: 'var(--space-lg) 0 140px 0',
+      width: '100%',
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
@@ -140,13 +138,18 @@ export default function DashboardHome() {
       backgroundPosition: 'center top',
       backgroundAttachment: 'fixed',
       position: 'relative',
+      paddingTop: 'var(--space-lg)',
+      paddingBottom: '140px',
+      boxSizing: 'border-box',
+      overflow: 'hidden',
     }}>
 
       {/* Circle Widgets Carousel */}
       <div style={{
         width: '100%',
         padding: '32px 16px 24px 16px',
-        overflow: 'visible',
+        overflow: 'hidden',
+        boxSizing: 'border-box',
       }}>
         <Swiper
           spaceBetween={8}
@@ -155,12 +158,12 @@ export default function DashboardHome() {
           grabCursor={true}
           style={{
             maxWidth: '100%',
-            overflow: 'visible',
+            overflow: 'hidden',
           }}
         >
           {/* Cycle Day */}
           {menstrualPhase && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <CircleWidget
                 value={menstrualPhase.daysInCycle}
                 label="Cyclus"
@@ -175,7 +178,7 @@ export default function DashboardHome() {
 
           {/* Readiness Score */}
           {wearableData && readinessScore && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <CircleWidget
                 value={readinessScore}
                 label="Bereid"
@@ -190,7 +193,7 @@ export default function DashboardHome() {
 
           {/* Symptoms Logged Today */}
           {menstrualPhase?.todaySymptoms && menstrualPhase.todaySymptoms.length > 0 && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', overflow: 'visible' }}>
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <CircleWidget
                 value={menstrualPhase.todaySymptoms.length}
                 label="Symptomen"
@@ -249,7 +252,7 @@ export default function DashboardHome() {
 
       {/* Cycle Ring Carousel */}
       {menstrualPhase && menstrualData && (
-        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)' }}>
+        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"
@@ -270,7 +273,7 @@ export default function DashboardHome() {
 
       {/* Wearable Score Carousel */}
       {readinessScore && (
-        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)' }}>
+        <div style={{ width: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"
