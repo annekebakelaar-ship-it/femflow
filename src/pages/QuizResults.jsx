@@ -212,9 +212,4 @@ export default function QuizResults() {
 
     </div>
   )
-
-      </div>
-
-    </div>
-  )
 }
