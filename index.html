@@ -126,5 +126,41 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        setTimeout(() => {
+          console.clear();
+          console.log('🔍 OVERFLOW DETECTION STARTED');
+
+          let overflowing = [];
+          const viewport = document.documentElement.clientWidth;
+
+          document.querySelectorAll('*').forEach((el) => {
+            const rect = el.getBoundingClientRect();
+            if (rect.right > viewport || rect.left < 0) {
+              overflowing.push({
+                tag: el.tagName,
+                class: el.className || 'no-class',
+                id: el.id || 'no-id',
+                width: el.offsetWidth,
+                right: rect.right,
+                left: rect.left,
+                overflow: Math.max(0, rect.right - viewport) + Math.max(0, -rect.left)
+              });
+              el.style.outline = '2px solid red';
+            }
+          });
+
+          if (overflowing.length > 0) {
+            console.error('❌ FOUND OVERFLOWING ELEMENTS:', overflowing);
+            overflowing.forEach(item => {
+              console.error(`  - ${item.tag}.${item.class}#${item.id} overflow: ${item.overflow}px`);
+            });
+          } else {
+            console.log('✅ NO OVERFLOW DETECTED');
+          }
+        }, 1000);
+      });
+    </script>
   </body>
 </html>
