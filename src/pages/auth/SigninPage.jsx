@@ -26,21 +26,18 @@ export default function SigninPage() {
     setError('')
     setLoading(true)
     try {
-      const res = await fetch('https://wearable-age-api.onrender.com/auth/dev-token')
-      if (!res.ok) throw new Error('Dev token not available')
-      const data = await res.json()
-      saveToken(data.access_token)
-      await getMe()
+      // Generate mock dev token for testing
+      const mockToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkZXYtdXNlci0xIiwiZW1haWwiOiJkZXZAZmVtZmxvdy5hcHAifQ.mock'
+      saveToken(mockToken)
 
       const menstruationData = localStorage.getItem('menstruation_data')
-      if (!menstruationData) {
-        navigate('/health/menstruation', { state: { fromSignin: true, constellation } })
-      } else {
-        navigate('/dashboard', { state: { constellation } })
-      }
+      const target = menstruationData ? '/dashboard' : '/health/menstruation'
+
+      setLoading(false)
+      navigate(target, { state: { constellation } })
     } catch (err) {
-      setError('Dev mode not available')
-    } finally {
+      console.error('Dev login error:', err)
+      setError('Dev login failed')
       setLoading(false)
     }
   }
@@ -177,6 +174,28 @@ export default function SigninPage() {
                 size="large"
               />
             </div>
+
+            {/* Dev Quick Login */}
+            <button
+                onClick={handleDevLogin}
+                disabled={loading}
+                style={{
+                  width: '100%',
+                  padding: '12px 24px',
+                  background: 'var(--accent)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  fontSize: '13px',
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: '500',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  marginBottom: 'var(--space-lg)',
+                  opacity: loading ? 0.6 : 1,
+                }}
+              >
+                [DEV] Quick Login
+              </button>
 
             {/* Divider */}
             <div style={{

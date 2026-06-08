@@ -112,7 +112,20 @@ function AppContent() {
     navigate('/')
   }
 
-  if (authLoading) return null
+  if (authLoading) return (
+    <div style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      background: '#F5EFEB',
+      fontFamily: 'system-ui, sans-serif',
+    }}>
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: '12px', color: '#888' }}>Loading...</div>
+      </div>
+    </div>
+  )
 
   return (
     <div style={{
