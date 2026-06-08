@@ -6,7 +6,7 @@
  * for testing and demo purposes.
  */
 
-const crypto = require('crypto')
+import { randomUUID } from 'crypto'
 
 const SCENARIOS = ['stable', 'declining', 'recovering', 'dip']
 
@@ -136,7 +136,7 @@ function buildSleepDocument(profile, day, metrics) {
   const bedtimeEnd = new Date(bedtimeStart.getTime() + timeInBed * 1000)
 
   return {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     day: day.toISOString().split('T')[0],
     type: 'long_sleep',
     bedtime_start: bedtimeStart.toISOString(),
@@ -184,7 +184,4 @@ function generateSleepRange(userId, days = 60, scenario = 'stable', endDay = nul
   return { data: docs, next_token: null }
 }
 
-module.exports = {
-  generateSleepRange,
-  SCENARIOS,
-}
+export { generateSleepRange, SCENARIOS }
