@@ -1,12 +1,24 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { getToken } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
+import Footer from '../../components/Footer'
 import hero from '../../assets/hero1.png'
 
 export default function WearablePage() {
   const navigate = useNavigate()
   const [consentGiven, setConsentGiven] = useState(false)
   const [consentType, setConsentType] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  useEffect(() => {
+    // Check if user is logged in
+    if (!getToken()) {
+      navigate('/login')
+      return
+    }
+    setIsLoggedIn(true)
+  }, [])
 
   useEffect(() => {
     const consent = localStorage.getItem('wearable_consent')
@@ -19,6 +31,10 @@ export default function WearablePage() {
   function handleConsentGiven(choice) {
     setConsentType(choice)
     setConsentGiven(true)
+  }
+
+  if (!isLoggedIn) {
+    return null
   }
 
   if (!consentGiven) {
@@ -164,6 +180,8 @@ export default function WearablePage() {
           Consent intrekken
         </button>
       </div>
+
+      <Footer />
     </div>
   )
 }
