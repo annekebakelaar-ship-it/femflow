@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveWelcomeSignup } from '../api/client'
-import hero from '../assets/hero1.png'
+import hero from '../assets/hero4.png'
 
 export default function Welcome() {
   const navigate = useNavigate()
