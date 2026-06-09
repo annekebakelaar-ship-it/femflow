@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Calendar, Zap, AlertCircle, Activity, Book, TrendingUp } from 'react-feather'
+import { Book, TrendingUp } from 'react-feather'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 import { clearToken, getQuizResults, getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
-import CircleWidget from '../../components/CircleWidget'
 import WearableScore from '../../components/WearableScore'
 import HRVInsightsCard from '../../components/HRVInsightsCard'
 import CycleInsightsCard from '../../components/CycleInsightsCard'
@@ -174,64 +173,6 @@ export default function DashboardHome() {
         }}>
           Beta v1.0
         </span>
-      </div>
-
-      {/* Circle Widgets Grid */}
-      <div style={{
-        width: '100%',
-        padding: 'var(--space-xl) var(--space-lg)',
-        boxSizing: 'border-box',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 'var(--space-sm)',
-      }}>
-        {/* Cycle Day */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CircleWidget
-            value={menstrualPhase?.daysInCycle || '—'}
-            label="Cyclus"
-            icon={Calendar}
-            onClick={() => navigate('/health/menstruation')}
-            size={25}
-            isActive={menstrualPhase ? true : false}
-          />
-        </div>
-
-        {/* Readiness Score */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CircleWidget
-            value={readinessScore || '—'}
-            label="Bereid"
-            icon={Zap}
-            onClick={() => navigate('/dashboard/progress')}
-            size={25}
-            isActive={readinessScore ? true : false}
-          />
-        </div>
-
-        {/* Symptoms Logged Today */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CircleWidget
-            value={menstrualPhase?.todaySymptoms?.length || '—'}
-            label="Symptomen"
-            icon={AlertCircle}
-            onClick={() => navigate('/health/symptoms')}
-            size={25}
-            isActive={menstrualPhase?.todaySymptoms?.length > 0 ? true : false}
-          />
-        </div>
-
-        {/* Lifestyle Triggers */}
-        <div style={{ display: 'flex', justifyContent: 'center' }}>
-          <CircleWidget
-            value="—"
-            label="Lifestyle"
-            icon={Activity}
-            color="var(--accent)"
-            onClick={() => navigate('/health/lifestyle-check')}
-            size={25}
-          />
-        </div>
       </div>
 
       {/* Quiz Results Overview */}
