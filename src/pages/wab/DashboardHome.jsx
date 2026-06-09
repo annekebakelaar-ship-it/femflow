@@ -192,7 +192,7 @@ export default function DashboardHome() {
             label="Cyclus"
             icon={Calendar}
             onClick={() => navigate('/health/menstruation')}
-            size={50}
+            size={25}
             isActive={menstrualPhase ? true : false}
           />
         </div>
@@ -204,7 +204,7 @@ export default function DashboardHome() {
             label="Bereid"
             icon={Zap}
             onClick={() => navigate('/dashboard/progress')}
-            size={50}
+            size={25}
             isActive={readinessScore ? true : false}
           />
         </div>
@@ -216,7 +216,7 @@ export default function DashboardHome() {
             label="Symptomen"
             icon={AlertCircle}
             onClick={() => navigate('/health/symptoms')}
-            size={50}
+            size={25}
             isActive={menstrualPhase?.todaySymptoms?.length > 0 ? true : false}
           />
         </div>
@@ -229,7 +229,7 @@ export default function DashboardHome() {
             icon={Activity}
             color="var(--accent)"
             onClick={() => navigate('/health/lifestyle-check')}
-            size={50}
+            size={25}
           />
         </div>
       </div>
