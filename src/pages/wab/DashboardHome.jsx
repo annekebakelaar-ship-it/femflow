@@ -6,10 +6,10 @@ import 'swiper/css'
 import { clearToken, getQuizResults, getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
-import WearableScore from '../../components/WearableScore'
 import HRVInsightsCard from '../../components/HRVInsightsCard'
 import CycleInsightsCard from '../../components/CycleInsightsCard'
-import CycleRing from '../../components/CycleRing'
+import CycleBloom from '../../components/CycleBloom'
+import WearableBloom from '../../components/WearableBloom'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import WearableOverlay from '../../components/WearableOverlay'
@@ -242,11 +242,16 @@ export default function DashboardHome() {
             grabCursor={true}
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <CycleRing
-                size={260}
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+              <CycleBloom
+                size={320}
                 day={menstrualPhase.daysInCycle}
-                cycleLength={menstrualData.cycleLength}
+                phases={[
+                  { poetic: "Herstel", clinical: "Menstruatie", days: 5 },
+                  { poetic: "Opbouw", clinical: "Folliculair", days: 8 },
+                  { poetic: "Verbind", clinical: "Ovulatie", days: 3 },
+                  { poetic: "Verhelder", clinical: "Luteaal", days: 12 },
+                ]}
               />
             </SwiperSlide>
           </Swiper>
@@ -271,12 +276,11 @@ export default function DashboardHome() {
             grabCursor={true}
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <WearableScore
-                size={260}
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+              <WearableBloom
+                size={320}
                 score={hrvScore}
                 label="Hartritme Variabiliteit"
-                max={100}
               />
             </SwiperSlide>
           </Swiper>
