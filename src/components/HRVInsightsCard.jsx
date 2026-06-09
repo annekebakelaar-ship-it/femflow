@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import afb7 from '../assets/afb7.png'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
@@ -20,11 +19,9 @@ export default function HRVInsightsCard({ hrvScore }) {
       style={{
         width: '100%',
         padding: 'var(--space-md) var(--space-lg)',
-        margin: 'var(--space-lg) var(--space-lg) var(--space-lg) var(--space-md)',
+        margin: 'var(--space-sm) var(--space-lg) var(--space-lg) var(--space-md)',
         minHeight: '100px',
-        backgroundImage: `url(${afb7})`,
-        backgroundSize: '120%',
-        backgroundPosition: 'center',
+        background: 'rgba(255, 255, 255, 0.9)',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',
@@ -34,12 +31,12 @@ export default function HRVInsightsCard({ hrvScore }) {
         alignItems: 'center',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(199, 154, 110, 0.05)'
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)'
         e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.4)'
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'white'
+        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)'
         e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.2)'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
@@ -55,8 +52,7 @@ export default function HRVInsightsCard({ hrvScore }) {
           <p style={{
             margin: 0,
             fontSize: '13px',
-            color: 'white',
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            color: 'var(--ink-3)',
             marginBottom: '2px',
             fontWeight: '600',
           }}>
@@ -66,8 +62,7 @@ export default function HRVInsightsCard({ hrvScore }) {
             margin: 0,
             fontSize: '20px',
             fontWeight: '700',
-            color: 'white',
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            color: 'var(--ink)',
           }}>
             {hrvScore} — {getHrvStatus(hrvScore)}
           </p>
@@ -76,13 +71,12 @@ export default function HRVInsightsCard({ hrvScore }) {
           <p style={{
             margin: 0,
             fontSize: '12px',
-            color: 'white',
-            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+            color: 'var(--ink)',
             fontWeight: '500',
           }}>
             Bekijk inzichten
           </p>
-          <ChevronRight size={16} color="white" strokeWidth={2} style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
+          <ChevronRight size={16} color="var(--ink)" strokeWidth={2} />
         </div>
       </div>
     </div>

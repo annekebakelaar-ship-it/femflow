@@ -16,8 +16,7 @@ import WearableOverlay from '../../components/WearableOverlay'
 import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
-import hero1 from '../../assets/hero1.png'
-import hero3 from '../../assets/hero3.png'
+import hero4 from '../../assets/hero4.png'
 import afbeelding1 from '../../assets/afbeelding1.png'
 import logo from '../../assets/YouCapsLogo.png.png'
 
@@ -144,7 +143,12 @@ export default function DashboardHome() {
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
-      background: '#F5EFEB',
+      backgroundImage: `linear-gradient(rgba(255,255,255,0.05), rgba(255,255,255,0.05)), url(${hero4})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+      WebkitBackdropFilter: 'blur(3px)',
+      backdropFilter: 'blur(3px)',
       position: 'relative',
       paddingTop: 'var(--space-lg)',
       paddingBottom: '140px',
