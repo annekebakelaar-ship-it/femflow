@@ -3,7 +3,7 @@ import ConnectModal from '../../components/wab/ConnectModal'
 import QuestionnaireForm from '../../components/wab/QuestionnaireForm'
 import LoginModal from '../../components/wab/LoginModal'
 import QuickForm from './QuickForm'
-import hero from '../../assets/hero1.png'
+import hero from '../../assets/hero4.png'
 
 export default function Landing({ onResult, lastResult, onViewLast, user, onLogin, onShowDashboard, onShowFem }) {
   const [step, setStep]         = useState('landing')

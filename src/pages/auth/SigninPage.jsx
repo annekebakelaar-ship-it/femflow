@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google'
 import { requestMagicLink, verifyMagicLink, getMe, saveToken, saveQuizResults } from '../../api/client'
 import { handleGoogleSignIn } from '../../utils/oauthHandler'
-import hero from '../../assets/hero1.png'
+import hero from '../../assets/hero4.png'
 
 export default function SigninPage() {
   const navigate = useNavigate()
