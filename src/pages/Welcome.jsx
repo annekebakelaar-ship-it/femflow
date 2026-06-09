@@ -51,9 +51,7 @@ export default function Welcome() {
           marginBottom: 'var(--space-lg)',
           color: 'var(--ink)',
         }}>
-          Je slaap, je stemming, je cyclus veranderen subtiel.
-          <br />
-          Wij helpen je het patroon zien.
+          FemFlow, de perimenopauze app.
         </h1>
 
         <p style={{
