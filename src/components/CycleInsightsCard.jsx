@@ -28,11 +28,11 @@ export default function CycleInsightsCard({ menstrualPhase }) {
       style={{
         width: '100%',
         padding: 'var(--space-md) var(--space-lg)',
-        margin: 'var(--space-lg)',
+        margin: 'var(--space-lg) var(--space-lg) var(--space-lg) var(--space-md)',
         minHeight: '100px',
         backgroundImage: `url(${afb12})`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'right',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',

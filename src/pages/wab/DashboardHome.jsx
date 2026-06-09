@@ -182,8 +182,8 @@ export default function DashboardHome() {
         padding: 'var(--space-xl) var(--space-lg)',
         boxSizing: 'border-box',
         display: 'grid',
-        gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: 'var(--space-md)',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: 'var(--space-sm)',
       }}>
         {/* Cycle Day */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
