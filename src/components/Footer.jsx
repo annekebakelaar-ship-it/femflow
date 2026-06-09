@@ -9,6 +9,7 @@ export default function Footer() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [userName, setUserName] = useState('Gebruiker')
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
   const dropdownRef = useRef(null)
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
@@ -39,6 +40,15 @@ export default function Footer() {
     } catch (err) {
       console.error('Failed to load user name')
     }
+  }, [])
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   useEffect(() => {
@@ -160,17 +170,17 @@ export default function Footer() {
           <div style={{
             position: 'absolute',
             bottom: '48px',
-            right: window.innerWidth < 480 ? '50%' : -180,
-            left: window.innerWidth < 480 ? '50%' : 'auto',
-            transform: window.innerWidth < 480 ? 'translateX(50%)' : 'none',
+            right: isMobile ? 'auto' : '-180px',
+            left: isMobile ? '-50vw' : 'auto',
+            transform: isMobile ? 'translateX(50vw)' : 'none',
             background: 'rgba(255, 255, 255, 0.95)',
             backdropFilter: 'blur(12px)',
             WebkitBackdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.3)',
             borderRadius: '16px',
             boxShadow: '0 12px 32px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(199, 154, 110, 0.08)',
-            width: window.innerWidth < 480 ? 'calc(100vw - 32px)' : '360px',
-            maxWidth: '360px',
+            width: isMobile ? 'calc(100vw - 40px)' : '360px',
+            maxWidth: isMobile ? 'calc(100vw - 40px)' : '360px',
             zIndex: 200,
             maxHeight: 'calc(100vh - 120px)',
             overflowY: 'auto',

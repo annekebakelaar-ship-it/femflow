@@ -24,8 +24,10 @@ export default function CircleWidget({
         border: 'none',
         background: hovered ? 'rgba(199, 154, 110, 0.25)' : 'rgba(199, 154, 110, 0.15)',
         display: 'flex',
+        flexDirection: 'column',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
+        padding: '12px 0',
         transition: 'all 150ms ease-out',
         transform: hovered ? 'scale(1.04)' : 'scale(1)',
         boxShadow: hovered
@@ -44,14 +46,9 @@ export default function CircleWidget({
           </span>
         )}
         <div style={{
-          position: 'absolute',
-          bottom: '8px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          padding: '0 4px',
-          background: 'transparent',
           display: 'flex',
           alignItems: 'center',
+          justifyContent: 'center',
         }}>
           <IconComponent size={20} color={hovered || isActive ? 'var(--accent)' : 'var(--ink-2)'} strokeWidth={1.5} />
         </div>
