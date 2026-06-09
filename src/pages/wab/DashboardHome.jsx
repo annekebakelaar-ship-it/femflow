@@ -231,11 +231,15 @@ export default function DashboardHome() {
         </div>
       )}
 
-      {/* Cycle Ring Carousel */}
+      {/* Cycle Bloom & Card with Hero5 Background */}
       {menstrualPhase && menstrualData && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-md) var(--space-lg)',
+          backgroundImage: `url(${hero5})`,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: 'var(--space-sm) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
@@ -246,7 +250,7 @@ export default function DashboardHome() {
             grabCursor={true}
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <CycleBloom
                 size={320}
                 day={menstrualPhase.daysInCycle}
@@ -259,30 +263,19 @@ export default function DashboardHome() {
               />
             </SwiperSlide>
           </Swiper>
+          {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
         </div>
       )}
 
-      {/* Cycle Insights Card */}
-      {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
-
-      {/* Hero5 under Cycle section */}
-      {menstrualPhase && (
-        <div style={{
-          width: '100%',
-          padding: 'var(--space-sm) var(--space-lg)',
-          boxSizing: 'border-box',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-          <img src={hero5} alt="" style={{ maxWidth: '100%', height: 'auto', maxHeight: '200px', objectFit: 'contain' }} />
-        </div>
-      )}
-
-      {/* Wearable Score Carousel - HRV */}
+      {/* Wearable Bloom & Card with Hero4 Background */}
       {hrvScore != null && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-md) var(--space-lg)',
+          backgroundImage: `url(${hero4})`,
+          backgroundSize: 'contain',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          padding: 'var(--space-sm) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
@@ -293,7 +286,7 @@ export default function DashboardHome() {
             grabCursor={true}
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center', paddingTop: 'calc(env(safe-area-inset-top, 0px) + 56px)' }}>
+            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <WearableBloom
                 size={320}
                 score={hrvScore}
@@ -301,22 +294,7 @@ export default function DashboardHome() {
               />
             </SwiperSlide>
           </Swiper>
-        </div>
-      )}
-
-      {/* HRV Insights Card */}
-      {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
-
-      {/* Hero4 under Wearable section */}
-      {hrvScore != null && (
-        <div style={{
-          width: '100%',
-          padding: 'var(--space-sm) var(--space-lg)',
-          boxSizing: 'border-box',
-          display: 'flex',
-          justifyContent: 'center',
-        }}>
-          <img src={hero4} alt="" style={{ maxWidth: '100%', height: 'auto', maxHeight: '200px', objectFit: 'contain' }} />
+          {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
         </div>
       )}
 
