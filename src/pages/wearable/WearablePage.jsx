@@ -83,6 +83,20 @@ export default function WearablePage() {
     }
   }
 
+  async function handleConnectOura() {
+    try {
+      setError(null)
+      const result = await requestWearableConnect()
+      if (result.auth_url) {
+        window.location.href = result.auth_url
+      } else {
+        setError('Failed to get Oura authentication URL')
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to connect Oura')
+    }
+  }
+
   if (!isLoggedIn) {
     return null
   }
@@ -149,7 +163,21 @@ export default function WearablePage() {
             }}>
               Klik om je Oura Ring te verbinden via OAuth.
             </p>
+            {error && (
+              <div style={{
+                background: 'rgba(192, 73, 45, 0.1)',
+                border: '1px solid rgba(192, 73, 45, 0.3)',
+                padding: 'var(--space-md)',
+                borderRadius: '8px',
+                fontSize: '13px',
+                color: 'var(--error)',
+                marginBottom: 'var(--space-lg)',
+              }}>
+                {error}
+              </div>
+            )}
             <button
+              onClick={handleConnectOura}
               style={{
                 padding: '12px 24px',
                 background: 'var(--ink)',
@@ -158,7 +186,10 @@ export default function WearablePage() {
                 borderRadius: '8px',
                 cursor: 'pointer',
                 fontWeight: '600',
+                transition: 'opacity 200ms ease',
               }}
+              onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
+              onMouseLeave={(e) => (e.target.style.opacity = '1')}
             >
               Verbind Oura
             </button>
