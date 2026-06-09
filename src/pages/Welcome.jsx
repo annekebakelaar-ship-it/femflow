@@ -49,14 +49,16 @@ export default function Welcome() {
           letterSpacing: '-0.5px',
           lineHeight: 1.2,
           marginBottom: 'var(--space-lg)',
-          color: 'var(--ink)',
+          color: 'white',
+          textShadow: '0 2px 8px rgba(0,0,0,0.4)',
         }}>
           FemFlow, de perimenopauze app.
         </h1>
 
         <p style={{
           fontSize: 'var(--font-size-body)',
-          color: 'var(--ink-2)',
+          color: 'white',
+          textShadow: '0 1px 4px rgba(0,0,0,0.3)',
           lineHeight: 1.6,
           marginBottom: 'var(--space-xl)',
         }}>

@@ -122,13 +122,16 @@ export default function SigninPage() {
               fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, letterSpacing: '-0.5px',
               marginBottom: 'var(--space-lg)',
               textAlign: 'center',
+              color: 'white',
+              textShadow: '0 2px 8px rgba(0,0,0,0.4)',
             }}>
               Inloggen
             </h1>
 
             <p style={{
               fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5,
-              color: 'var(--ink-2)',
+              color: 'white',
+              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
