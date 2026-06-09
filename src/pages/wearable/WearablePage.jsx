@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getToken, seedWearableData, getWearableReadings } from '../../api/client'
+import { getToken, seedWearableData, getWearableReadings, getWearableStatus } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
@@ -21,6 +21,8 @@ export default function WearablePage() {
   const [error, setError] = useState(null)
   const [biometricData, setBiometricData] = useState(null)
   const [loadingData, setLoadingData] = useState(false)
+  const [wearableStatus, setWearableStatus] = useState(null)
+  const [checkingStatus, setCheckingStatus] = useState(false)
 
   useEffect(() => {
     // Check if user is logged in
@@ -32,7 +34,7 @@ export default function WearablePage() {
   }, [])
 
   useEffect(() => {
-    // Load biometric data when consent is given
+    // Load biometric data and status when consent is given
     if (!consentGiven) return
 
     async function loadData() {
@@ -47,8 +49,23 @@ export default function WearablePage() {
       }
     }
 
+    async function loadStatus() {
+      setCheckingStatus(true)
+      try {
+        const status = await getWearableStatus()
+        setWearableStatus(status)
+      } catch (err) {
+        console.error('Failed to load wearable status:', err)
+      } finally {
+        setCheckingStatus(false)
+      }
+    }
+
     loadData()
-  }, [consentGiven])
+    if (consentType === 'real') {
+      loadStatus()
+    }
+  }, [consentGiven, consentType])
 
   useEffect(() => {
     const consent = localStorage.getItem('wearable_consent')
@@ -164,22 +181,66 @@ export default function WearablePage() {
             borderRadius: '12px',
             boxShadow: 'var(--shadow-sm)',
           }}>
-            <h2 style={{
-              fontSize: '18px',
-              fontWeight: '600',
-              marginBottom: 'var(--space-md)',
-              color: 'var(--ink)',
-            }}>
-              Oura Ring verbinden
-            </h2>
-            <p style={{
-              fontSize: '15px',
-              color: 'var(--ink-2)',
-              lineHeight: 1.6,
-              marginBottom: 'var(--space-lg)',
-            }}>
-              Klik om je Oura Ring te verbinden via OAuth.
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>
+              <h2 style={{
+                fontSize: '18px',
+                fontWeight: '600',
+                color: 'var(--ink)',
+              }}>
+                Oura Ring verbinden
+              </h2>
+              {wearableStatus && wearableStatus.connected && (
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '13px',
+                  color: 'var(--success)',
+                  fontWeight: '500',
+                }}>
+                  <span style={{ width: '8px', height: '8px', background: 'var(--success)', borderRadius: '50%' }}></span>
+                  Verbonden
+                </div>
+              )}
+            </div>
+            {wearableStatus ? (
+              wearableStatus.connected ? (
+                <div style={{
+                  background: 'rgba(79, 140, 90, 0.1)',
+                  border: '1px solid rgba(79, 140, 90, 0.3)',
+                  padding: 'var(--space-md)',
+                  borderRadius: '8px',
+                  marginBottom: 'var(--space-lg)',
+                  fontSize: '14px',
+                  color: 'var(--ink)',
+                }}>
+                  <p style={{ margin: '0 0 8px 0' }}>Je Oura Ring is verbonden.</p>
+                  {wearableStatus.last_sync_at && (
+                    <p style={{ margin: 0, fontSize: '13px', color: 'var(--ink-2)' }}>
+                      Laatste synchronisatie: {new Date(wearableStatus.last_sync_at).toLocaleDateString('nl-NL')}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <p style={{
+                  fontSize: '15px',
+                  color: 'var(--ink-2)',
+                  lineHeight: 1.6,
+                  marginBottom: 'var(--space-lg)',
+                }}>
+                  Klik om je Oura Ring te verbinden via OAuth.
+                </p>
+              )
+            ) : (
+              <p style={{
+                fontSize: '15px',
+                color: 'var(--ink-2)',
+                lineHeight: 1.6,
+                marginBottom: 'var(--space-lg)',
+              }}>
+                Klik om je Oura Ring te verbinden via OAuth.
+              </p>
+            )}
             {success && (
               <div style={{
                 background: 'rgba(79, 140, 90, 0.1)',
@@ -206,23 +267,25 @@ export default function WearablePage() {
                 {error}
               </div>
             )}
-            <button
-              onClick={handleConnectOura}
-              style={{
-                padding: '12px 24px',
-                background: 'var(--ink)',
-                color: 'white',
-                border: 'none',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                fontWeight: '600',
-                transition: 'opacity 200ms ease',
-              }}
-              onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
-              onMouseLeave={(e) => (e.target.style.opacity = '1')}
-            >
-              Verbind Oura
-            </button>
+            {!wearableStatus || !wearableStatus.connected ? (
+              <button
+                onClick={handleConnectOura}
+                style={{
+                  padding: '12px 24px',
+                  background: 'var(--ink)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  fontWeight: '600',
+                  transition: 'opacity 200ms ease',
+                }}
+                onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
+                onMouseLeave={(e) => (e.target.style.opacity = '1')}
+              >
+                Verbind Oura
+              </button>
+            ) : null}
           </div>
         )}
 
