@@ -27,7 +27,7 @@ export default function CycleInsightsCard({ menstrualPhase }) {
       style={{
         width: '100%',
         padding: 'var(--space-md) var(--space-lg)',
-        margin: '0 var(--space-lg) var(--space-lg) var(--space-md)',
+        margin: '0 var(--space-lg) var(--space-lg) 0',
         minHeight: '100px',
         background: 'rgba(61, 40, 23, 0.8)',
         border: '1px solid rgba(199, 154, 110, 0.2)',
