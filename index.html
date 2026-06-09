@@ -12,8 +12,17 @@
     <meta property="og:url" content="https://femflow-two.vercel.app" />
     <meta property="og:type" content="website" />
 
-    <!-- Analytics -->
-    <script defer data-domain="femflow-two.vercel.app" src="https://plausible.io/js/script.js"></script>
+    <!-- Analytics: Google Analytics 4 (GDPR-compliant) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9FW3RS7H5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-Q9FW3RS7H5', {
+        anonymize_ip: true,
+        cookie_flags: 'SameSite=None;Secure'
+      });
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
