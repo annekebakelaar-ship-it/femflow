@@ -19,7 +19,7 @@ export default function HRVInsightsCard({ hrvScore }) {
       style={{
         width: '100%',
         padding: 'var(--space-md) var(--space-lg)',
-        margin: 'var(--space-sm) var(--space-lg) var(--space-lg) var(--space-md)',
+        margin: '0 var(--space-lg) var(--space-lg) var(--space-md)',
         minHeight: '100px',
         background: 'rgba(61, 40, 23, 0.8)',
         border: '1px solid rgba(199, 154, 110, 0.2)',
