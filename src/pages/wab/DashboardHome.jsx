@@ -179,7 +179,7 @@ export default function DashboardHome() {
       {/* Circle Widgets Grid */}
       <div style={{
         width: '100%',
-        padding: '32px var(--space-lg) 24px var(--space-lg)',
+        padding: 'var(--space-xl) var(--space-lg)',
         boxSizing: 'border-box',
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
