@@ -296,13 +296,16 @@ export default function SigninPage() {
               fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, letterSpacing: '-0.5px',
               marginBottom: 'var(--space-lg)',
               textAlign: 'center',
+              color: 'white',
+              textShadow: '0 2px 8px rgba(0,0,0,0.4)',
             }}>
               Verifieer je email
             </h1>
 
             <p style={{
               fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5,
-              color: 'var(--ink-2)',
+              color: 'white',
+              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
@@ -329,7 +332,8 @@ export default function SigninPage() {
                   display: 'block',
                   fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
                   marginBottom: '4px',
-                  color: 'var(--ink-3)',
+                  color: 'white',
+                  textShadow: '0 1px 3px rgba(0,0,0,0.3)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                 }}>
@@ -343,12 +347,14 @@ export default function SigninPage() {
                   style={{
                     width: '100%',
                     padding: '12px 16px',
-                    border: '1px solid var(--border)',
+                    border: '2px solid rgba(255, 255, 255, 0.8)',
                     borderRadius: '8px',
                     fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400',
                     boxSizing: 'border-box',
                     letterSpacing: '2px',
                     textAlign: 'center',
+                    background: 'rgba(255, 255, 255, 0.95)',
+                    color: 'var(--ink)',
                   }}
                   placeholder="000000"
                 />
