@@ -17,6 +17,7 @@ import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
 import hero4 from '../../assets/hero4.png'
+import hero5 from '../../assets/hero5.png'
 import afbeelding1 from '../../assets/afbeelding1.png'
 import logo from '../../assets/YouCapsLogo.png.png'
 
@@ -234,7 +235,7 @@ export default function DashboardHome() {
       {menstrualPhase && menstrualData && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-xl) var(--space-lg)',
+          padding: 'var(--space-md) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
@@ -264,11 +265,24 @@ export default function DashboardHome() {
       {/* Cycle Insights Card */}
       {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
 
+      {/* Hero5 under Cycle section */}
+      {menstrualPhase && (
+        <div style={{
+          width: '100%',
+          padding: 'var(--space-sm) var(--space-lg)',
+          boxSizing: 'border-box',
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          <img src={hero5} alt="" style={{ maxWidth: '100%', height: 'auto', maxHeight: '200px', objectFit: 'contain' }} />
+        </div>
+      )}
+
       {/* Wearable Score Carousel - HRV */}
       {hrvScore != null && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-xl) var(--space-lg)',
+          padding: 'var(--space-md) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
@@ -292,6 +306,19 @@ export default function DashboardHome() {
 
       {/* HRV Insights Card */}
       {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
+
+      {/* Hero4 under Wearable section */}
+      {hrvScore != null && (
+        <div style={{
+          width: '100%',
+          padding: 'var(--space-sm) var(--space-lg)',
+          boxSizing: 'border-box',
+          display: 'flex',
+          justifyContent: 'center',
+        }}>
+          <img src={hero4} alt="" style={{ maxWidth: '100%', height: 'auto', maxHeight: '200px', objectFit: 'contain' }} />
+        </div>
+      )}
 
       {/* Cycle Length Pattern */}
       {menstrualData && <CycluslengteGrafiek menstrualData={menstrualData} />}
