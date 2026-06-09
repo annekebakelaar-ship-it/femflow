@@ -333,11 +333,6 @@ export default function DashboardHome() {
           padding: 'var(--space-xl) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
-          backgroundImage: `url(${hero3})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderRadius: '12px',
-          margin: 'var(--space-lg) 0',
         }}>
           <Swiper
             spaceBetween={0}
@@ -365,11 +360,6 @@ export default function DashboardHome() {
           padding: 'var(--space-xl) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
-          backgroundImage: `url(${hero3})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          borderRadius: '12px',
-          margin: 'var(--space-lg) 0',
         }}>
           <Swiper
             spaceBetween={0}

@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import afb3 from '../assets/afb3.png'
+import afb7 from '../assets/afb7.png'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
@@ -20,15 +20,15 @@ export default function HRVInsightsCard({ hrvScore }) {
       style={{
         width: '100%',
         padding: 'var(--space-lg)',
-        margin: 'var(--space-lg)',
-        marginTop: 0,
-        backgroundImage: `url(${afb3})`,
+        margin: '0 var(--space-lg) var(--space-lg) var(--space-lg)',
+        backgroundImage: `url(${afb7})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',
         transition: 'all 200ms ease',
+        boxSizing: 'border-box',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'rgba(199, 154, 110, 0.05)'
