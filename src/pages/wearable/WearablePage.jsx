@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getToken, seedWearableData, getWearableReadings } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
@@ -10,6 +10,7 @@ const SCENARIOS = ['stable', 'declining', 'recovering', 'dip']
 
 export default function WearablePage() {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const [consentGiven, setConsentGiven] = useState(false)
   const [consentType, setConsentType] = useState(null)
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -55,7 +56,23 @@ export default function WearablePage() {
       setConsentGiven(true)
       setConsentType(consent)
     }
-  }, [])
+
+    // Handle OAuth callback messages
+    const ouraConnected = searchParams.get('oura_connected')
+    const ouraError = searchParams.get('oura_error')
+
+    if (ouraConnected) {
+      setSuccess('Oura Ring verbonden! Je data wordt nu gesynchroniseerd.')
+      setTimeout(() => setSuccess(null), 5000)
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+
+    if (ouraError) {
+      setError('Oura verbinding mislukt. Probeer het opnieuw.')
+      setTimeout(() => setError(null), 5000)
+      window.history.replaceState({}, document.title, window.location.pathname)
+    }
+  }, [searchParams])
 
   function handleConsentGiven(choice) {
     setConsentType(choice)
@@ -163,6 +180,19 @@ export default function WearablePage() {
             }}>
               Klik om je Oura Ring te verbinden via OAuth.
             </p>
+            {success && (
+              <div style={{
+                background: 'rgba(79, 140, 90, 0.1)',
+                border: '1px solid rgba(79, 140, 90, 0.3)',
+                padding: 'var(--space-md)',
+                borderRadius: '8px',
+                fontSize: '13px',
+                color: 'var(--success)',
+                marginBottom: 'var(--space-lg)',
+              }}>
+                {success}
+              </div>
+            )}
             {error && (
               <div style={{
                 background: 'rgba(192, 73, 45, 0.1)',

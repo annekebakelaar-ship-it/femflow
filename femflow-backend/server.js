@@ -474,11 +474,11 @@ app.get('/api/v1/wearable/callback', async (req, res) => {
       [userId, access_token, refresh_token, expiresAt]
     )
 
-    // Redirect back to frontend
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard?wearable_connected=true`)
+    // Redirect back to wearable page with success
+    res.redirect(`${process.env.FRONTEND_URL}/wearable?oura_connected=true`)
   } catch (err) {
     console.error('Oura callback error:', err)
-    res.redirect(`${process.env.FRONTEND_URL}/dashboard?wearable_error=true`)
+    res.redirect(`${process.env.FRONTEND_URL}/wearable?oura_error=true`)
   }
 })
 
