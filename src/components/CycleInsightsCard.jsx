@@ -1,28 +1,36 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import afb7 from '../assets/afb7.png'
+import afb12 from '../assets/afb12.png'
 
-export default function HRVInsightsCard({ hrvScore }) {
+export default function CycleInsightsCard({ menstrualPhase }) {
   const navigate = useNavigate()
 
-  if (!hrvScore) return null
+  if (!menstrualPhase) return null
 
-  const getHrvStatus = (score) => {
-    if (score >= 80) return 'Optimaal'
-    if (score >= 60) return 'Goed'
-    if (score >= 40) return 'Matig'
-    return 'Laag'
+  const getPhaseColor = (phase) => {
+    switch (phase) {
+      case 'Menstruatie':
+        return 'rgba(192, 73, 45, 0.1)'
+      case 'Folliculair':
+        return 'rgba(79, 140, 90, 0.1)'
+      case 'Ovulatie':
+        return 'rgba(199, 154, 110, 0.1)'
+      case 'Luteaal':
+        return 'rgba(139, 97, 73, 0.1)'
+      default:
+        return 'rgba(199, 154, 110, 0.1)'
+    }
   }
 
   return (
     <div
-      onClick={() => navigate('/wearable/hrv-insights')}
+      onClick={() => navigate('/health/menstruation')}
       style={{
         width: 'calc(90% - 2 * var(--space-lg))',
         maxWidth: '500px',
         padding: 'var(--space-lg)',
         margin: '0 auto',
-        backgroundImage: `url(${afb7})`,
+        backgroundImage: `url(${afb12})`,
         backgroundSize: '150%',
         backgroundPosition: 'center',
         border: '1px solid rgba(199, 154, 110, 0.2)',
@@ -37,7 +45,7 @@ export default function HRVInsightsCard({ hrvScore }) {
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'white'
+        e.currentTarget.style.background = 'transparent'
         e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.2)'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
@@ -50,7 +58,7 @@ export default function HRVInsightsCard({ hrvScore }) {
             color: 'var(--ink-2)',
             marginBottom: '4px',
           }}>
-            Jouw HRV score vandaag
+            Je cyclus vandaag
           </p>
           <p style={{
             margin: 0,
@@ -58,7 +66,7 @@ export default function HRVInsightsCard({ hrvScore }) {
             fontWeight: '600',
             color: 'var(--ink)',
           }}>
-            {hrvScore} — {getHrvStatus(hrvScore)}
+            Dag {menstrualPhase.daysInCycle} — {menstrualPhase.phase}
           </p>
           <p style={{
             margin: '8px 0 0 0',
@@ -66,7 +74,7 @@ export default function HRVInsightsCard({ hrvScore }) {
             color: 'var(--accent)',
             fontWeight: '500',
           }}>
-            Bekijk de inzichten
+            Bekijk je inzichten
           </p>
         </div>
         <ChevronRight size={24} color="var(--accent)" strokeWidth={2} />

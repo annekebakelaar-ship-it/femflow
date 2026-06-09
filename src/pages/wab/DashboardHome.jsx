@@ -9,6 +9,7 @@ import ReadinessScore from '../../components/ReadinessScore'
 import CircleWidget from '../../components/CircleWidget'
 import WearableScore from '../../components/WearableScore'
 import HRVInsightsCard from '../../components/HRVInsightsCard'
+import CycleInsightsCard from '../../components/CycleInsightsCard'
 import CycleRing from '../../components/CycleRing'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
@@ -348,6 +349,9 @@ export default function DashboardHome() {
           </Swiper>
         </div>
       )}
+
+      {/* Cycle Insights Card */}
+      {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
 
       {/* Wearable Score Carousel - HRV */}
       {hrvScore != null && (
