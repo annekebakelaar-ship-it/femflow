@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getToken, seedWearableData, getWearableReadings, getWearableStatus } from '../../api/client'
+import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
@@ -128,6 +128,30 @@ export default function WearablePage() {
       }
     } catch (err) {
       setError(err.message || 'Failed to connect Oura')
+    }
+  }
+
+  async function handleSyncOuraData() {
+    setLoading(true)
+    setError(null)
+    setSuccess(null)
+
+    try {
+      const result = await pullWearableData()
+      setSuccess(`${result.readings_synced} dagen data gesynchroniseerd van Oura`)
+
+      // Reload status and biometric data
+      const status = await getWearableStatus()
+      setWearableStatus(status)
+
+      const newData = await getWearableReadings(90)
+      setBiometricData(newData.data)
+
+      setTimeout(() => setSuccess(null), 4000)
+    } catch (err) {
+      setError(err.message || 'Failed to sync Oura data')
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -285,7 +309,27 @@ export default function WearablePage() {
               >
                 Verbind Oura
               </button>
-            ) : null}
+            ) : (
+              <button
+                onClick={handleSyncOuraData}
+                disabled={loading}
+                style={{
+                  padding: '12px 24px',
+                  background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
+                  color: 'white',
+                  border: 'none',
+                  borderRadius: '8px',
+                  cursor: loading ? 'not-allowed' : 'pointer',
+                  fontWeight: '600',
+                  transition: 'opacity 200ms ease',
+                  opacity: loading ? 0.7 : 1,
+                }}
+                onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
+              >
+                {loading ? 'Synchroniseren...' : 'Gegevens synchroniseren'}
+              </button>
+            )}
           </div>
         )}
 
