@@ -121,7 +121,7 @@ export default function Bloom({
 
       {/* midden-inhoud */}
       <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column",
-        alignItems: "center", justifyContent: "center", textAlign: "center", color: "#2a2218",
+        alignItems: "center", justifyContent: "center", textAlign: "center", color: "white",
         fontFamily: "'Geist','Helvetica Neue',sans-serif", padding: size * centerPadding }}>
         {children}
       </div>

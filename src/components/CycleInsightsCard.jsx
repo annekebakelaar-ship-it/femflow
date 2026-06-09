@@ -29,7 +29,7 @@ export default function CycleInsightsCard({ menstrualPhase }) {
         padding: 'var(--space-md) var(--space-lg)',
         margin: 'var(--space-sm) var(--space-lg) var(--space-lg) var(--space-md)',
         minHeight: '100px',
-        background: 'rgba(255, 255, 255, 0.9)',
+        background: 'rgba(61, 40, 23, 0.8)',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',
@@ -39,12 +39,12 @@ export default function CycleInsightsCard({ menstrualPhase }) {
         alignItems: 'center',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.95)'
+        e.currentTarget.style.background = 'rgba(61, 40, 23, 0.9)'
         e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.4)'
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(255, 255, 255, 0.9)'
+        e.currentTarget.style.background = 'rgba(61, 40, 23, 0.8)'
         e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.2)'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
@@ -60,7 +60,7 @@ export default function CycleInsightsCard({ menstrualPhase }) {
           <p style={{
             margin: 0,
             fontSize: '13px',
-            color: 'var(--ink-3)',
+            color: 'white',
             marginBottom: '2px',
             fontWeight: '600',
           }}>
@@ -70,7 +70,7 @@ export default function CycleInsightsCard({ menstrualPhase }) {
             margin: 0,
             fontSize: '20px',
             fontWeight: '700',
-            color: 'var(--ink)',
+            color: 'white',
           }}>
             {menstrualPhase.phase}
           </p>
@@ -79,12 +79,12 @@ export default function CycleInsightsCard({ menstrualPhase }) {
           <p style={{
             margin: 0,
             fontSize: '12px',
-            color: 'var(--ink)',
+            color: 'white',
             fontWeight: '500',
           }}>
             Bekijk inzichten
           </p>
-          <ChevronRight size={16} color="var(--ink)" strokeWidth={2} />
+          <ChevronRight size={16} color="white" strokeWidth={2} />
         </div>
       </div>
     </div>
