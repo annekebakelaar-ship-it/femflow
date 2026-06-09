@@ -186,46 +186,40 @@ export default function DashboardHome() {
         gap: 'var(--space-md)',
       }}>
         {/* Cycle Day */}
-        {menstrualPhase && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircleWidget
-              value={menstrualPhase.daysInCycle}
-              label="Cyclus"
-              icon={Calendar}
-              onClick={() => navigate('/health/menstruation')}
-              size={50}
-              isActive={true}
-            />
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CircleWidget
+            value={menstrualPhase?.daysInCycle || '—'}
+            label="Cyclus"
+            icon={Calendar}
+            onClick={() => navigate('/health/menstruation')}
+            size={50}
+            isActive={menstrualPhase ? true : false}
+          />
+        </div>
 
         {/* Readiness Score */}
-        {wearableData && readinessScore && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircleWidget
-              value={readinessScore}
-              label="Bereid"
-              icon={Zap}
-              onClick={() => navigate('/dashboard/progress')}
-              size={50}
-              isActive={true}
-            />
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CircleWidget
+            value={readinessScore || '—'}
+            label="Bereid"
+            icon={Zap}
+            onClick={() => navigate('/dashboard/progress')}
+            size={50}
+            isActive={readinessScore ? true : false}
+          />
+        </div>
 
         {/* Symptoms Logged Today */}
-        {menstrualPhase?.todaySymptoms && menstrualPhase.todaySymptoms.length > 0 && (
-          <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <CircleWidget
-              value={menstrualPhase.todaySymptoms.length}
-              label="Symptomen"
-              icon={AlertCircle}
-              onClick={() => navigate('/health/symptoms')}
-              size={50}
-              isActive={true}
-            />
-          </div>
-        )}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CircleWidget
+            value={menstrualPhase?.todaySymptoms?.length || '—'}
+            label="Symptomen"
+            icon={AlertCircle}
+            onClick={() => navigate('/health/symptoms')}
+            size={50}
+            isActive={menstrualPhase?.todaySymptoms?.length > 0 ? true : false}
+          />
+        </div>
 
         {/* Lifestyle Triggers */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
