@@ -17,6 +17,8 @@ import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
 import hero1 from '../../assets/hero1.png'
+import hero3 from '../../assets/hero3.png'
+import afbeelding1 from '../../assets/afbeelding1.png'
 import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function DashboardHome() {
@@ -325,7 +327,18 @@ export default function DashboardHome() {
 
       {/* Cycle Ring Carousel */}
       {menstrualPhase && menstrualData && (
-        <div style={{ width: '100%', maxWidth: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '100%',
+          padding: 'var(--space-xl) var(--space-lg)',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          backgroundImage: `url(${hero3})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '12px',
+          margin: 'var(--space-lg) 0',
+        }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"
@@ -346,7 +359,18 @@ export default function DashboardHome() {
 
       {/* Wearable Score Carousel - HRV */}
       {hrvScore != null && (
-        <div style={{ width: '100%', maxWidth: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '100%',
+          padding: 'var(--space-xl) var(--space-lg)',
+          boxSizing: 'border-box',
+          overflow: 'hidden',
+          backgroundImage: `url(${hero3})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '12px',
+          margin: 'var(--space-lg) 0',
+        }}>
           <Swiper
             spaceBetween={0}
             slidesPerView="auto"
