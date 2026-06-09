@@ -26,10 +26,10 @@ export default function CycleInsightsCard({ menstrualPhase }) {
     <div
       onClick={() => navigate('/health/menstruation')}
       style={{
-        width: 'calc(90% - 2 * var(--space-lg))',
-        maxWidth: '500px',
-        padding: 'var(--space-lg)',
-        margin: '0 auto',
+        width: '100%',
+        padding: 'var(--space-md) var(--space-lg)',
+        margin: '0 var(--space-lg)',
+        minHeight: '100px',
         backgroundImage: `url(${afb12})`,
         backgroundSize: '150%',
         backgroundPosition: 'center',
@@ -38,6 +38,8 @@ export default function CycleInsightsCard({ menstrualPhase }) {
         cursor: 'pointer',
         transition: 'all 200ms ease',
         boxSizing: 'border-box',
+        display: 'flex',
+        alignItems: 'center',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.background = 'rgba(199, 154, 110, 0.05)'
@@ -50,34 +52,34 @@ export default function CycleInsightsCard({ menstrualPhase }) {
         e.currentTarget.style.transform = 'translateY(0)'
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: 'var(--space-md)' }}>
         <div>
           <p style={{
             margin: 0,
-            fontSize: '14px',
+            fontSize: '13px',
             color: 'var(--ink-2)',
-            marginBottom: '4px',
+            marginBottom: '2px',
           }}>
-            Je cyclus vandaag
+            Dag {menstrualPhase.daysInCycle}
           </p>
           <p style={{
             margin: 0,
-            fontSize: '24px',
+            fontSize: '20px',
             fontWeight: '600',
             color: 'var(--ink)',
           }}>
-            Dag {menstrualPhase.daysInCycle} — {menstrualPhase.phase}
+            {menstrualPhase.phase}
           </p>
           <p style={{
-            margin: '8px 0 0 0',
-            fontSize: '13px',
+            margin: '4px 0 0 0',
+            fontSize: '12px',
             color: 'var(--accent)',
             fontWeight: '500',
           }}>
-            Bekijk je inzichten
+            Bekijk inzichten
           </p>
         </div>
-        <ChevronRight size={24} color="var(--accent)" strokeWidth={2} />
+        <ChevronRight size={20} color="var(--accent)" strokeWidth={2} />
       </div>
     </div>
   )

@@ -176,100 +176,68 @@ export default function DashboardHome() {
         </span>
       </div>
 
-      {/* Circle Widgets Carousel */}
+      {/* Circle Widgets Grid */}
       <div style={{
         width: '100%',
         padding: '32px var(--space-lg) 24px var(--space-lg)',
         boxSizing: 'border-box',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, 1fr)',
+        gap: 'var(--space-md)',
       }}>
-        <Swiper
-          spaceBetween={12}
-          slidesPerView="auto"
-          centeredSlides={true}
-          grabCursor={true}
-          style={{
-            maxWidth: '100%',
-            overflow: 'hidden',
-          }}
-        >
-          {/* Cycle Day */}
-          {menstrualPhase && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <CircleWidget
-                value={menstrualPhase.daysInCycle}
-                label="Cyclus"
-                icon={Calendar}
-                onClick={() => navigate('/health/menstruation')}
-                size={50}
-                  isActive={true}
-              />
-            </SwiperSlide>
-          )}
-
-          {/* Readiness Score */}
-          {wearableData && readinessScore && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <CircleWidget
-                value={readinessScore}
-                label="Bereid"
-                icon={Zap}
-                onClick={() => navigate('/dashboard/progress')}
-                size={50}
-                  isActive={true}
-              />
-            </SwiperSlide>
-          )}
-
-          {/* Symptoms Logged Today */}
-          {menstrualPhase?.todaySymptoms && menstrualPhase.todaySymptoms.length > 0 && (
-            <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <CircleWidget
-                value={menstrualPhase.todaySymptoms.length}
-                label="Symptomen"
-                icon={AlertCircle}
-                onClick={() => navigate('/health/symptoms')}
-                size={50}
-                  isActive={true}
-              />
-            </SwiperSlide>
-          )}
-
-          {/* Lifestyle Triggers */}
-          <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
+        {/* Cycle Day */}
+        {menstrualPhase && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <CircleWidget
-              value="—"
-              label="Lifestyle"
-              icon={Activity}
-              color="var(--accent)"
-              onClick={() => navigate('/health/lifestyle-check')}
+              value={menstrualPhase.daysInCycle}
+              label="Cyclus"
+              icon={Calendar}
+              onClick={() => navigate('/health/menstruation')}
               size={50}
+              isActive={true}
             />
-          </SwiperSlide>
+          </div>
+        )}
 
-          {/* Learning Hub */}
-          <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
+        {/* Readiness Score */}
+        {wearableData && readinessScore && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
             <CircleWidget
-              value="—"
-              label="Kennis"
-              icon={Book}
-              color="var(--accent)"
-              onClick={() => navigate('/dashboard/learning')}
-              size={50}
-            />
-          </SwiperSlide>
-
-          {/* Progress Analytics */}
-          <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-            <CircleWidget
-              value="—"
-              label="Trends"
-              icon={TrendingUp}
-              color="var(--accent)"
+              value={readinessScore}
+              label="Bereid"
+              icon={Zap}
               onClick={() => navigate('/dashboard/progress')}
               size={50}
+              isActive={true}
             />
-          </SwiperSlide>
-        </Swiper>
+          </div>
+        )}
+
+        {/* Symptoms Logged Today */}
+        {menstrualPhase?.todaySymptoms && menstrualPhase.todaySymptoms.length > 0 && (
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <CircleWidget
+              value={menstrualPhase.todaySymptoms.length}
+              label="Symptomen"
+              icon={AlertCircle}
+              onClick={() => navigate('/health/symptoms')}
+              size={50}
+              isActive={true}
+            />
+          </div>
+        )}
+
+        {/* Lifestyle Triggers */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <CircleWidget
+            value="—"
+            label="Lifestyle"
+            icon={Activity}
+            color="var(--accent)"
+            onClick={() => navigate('/health/lifestyle-check')}
+            size={50}
+          />
+        </div>
       </div>
 
       {/* Quiz Results Overview */}
