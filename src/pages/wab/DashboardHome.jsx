@@ -147,7 +147,7 @@ export default function DashboardHome() {
       backgroundSize: 'contain',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat',
-      backgroundColor: '#3d2817',
+      backgroundColor: '#1f130a',
       position: 'relative',
       paddingTop: 'var(--space-lg)',
       paddingBottom: '140px',
