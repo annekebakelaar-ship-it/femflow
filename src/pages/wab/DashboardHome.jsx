@@ -8,6 +8,7 @@ import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
 import CircleWidget from '../../components/CircleWidget'
 import WearableScore from '../../components/WearableScore'
+import HRVInsightsCard from '../../components/HRVInsightsCard'
 import CycleRing from '../../components/CycleRing'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
@@ -367,6 +368,9 @@ export default function DashboardHome() {
           </Swiper>
         </div>
       )}
+
+      {/* HRV Insights Card */}
+      {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
 
       {/* Cycle Length Pattern */}
       {menstrualData && <CycluslengteGrafiek menstrualData={menstrualData} />}
