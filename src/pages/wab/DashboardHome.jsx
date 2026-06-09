@@ -178,7 +178,7 @@ export default function DashboardHome() {
       {/* Circle Widgets Carousel */}
       <div style={{
         width: '100%',
-        padding: '32px 0 24px 0',
+        padding: '32px var(--space-lg) 24px var(--space-lg)',
         boxSizing: 'border-box',
       }}>
         <Swiper
@@ -189,8 +189,6 @@ export default function DashboardHome() {
           style={{
             maxWidth: '100%',
             overflow: 'hidden',
-            paddingLeft: '16px',
-            paddingRight: '16px',
           }}
         >
           {/* Cycle Day */}
@@ -329,7 +327,6 @@ export default function DashboardHome() {
       {menstrualPhase && menstrualData && (
         <div style={{
           width: '100%',
-          maxWidth: '100%',
           padding: 'var(--space-xl) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
@@ -356,7 +353,6 @@ export default function DashboardHome() {
       {hrvScore != null && (
         <div style={{
           width: '100%',
-          maxWidth: '100%',
           padding: 'var(--space-xl) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',

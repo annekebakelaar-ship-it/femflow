@@ -18,9 +18,9 @@ export default function HRVInsightsCard({ hrvScore }) {
     <div
       onClick={() => navigate('/wearable/hrv-insights')}
       style={{
-        width: '100%',
+        width: 'calc(100% - 2 * var(--space-lg))',
         padding: 'var(--space-lg)',
-        margin: '0 var(--space-lg) var(--space-lg) var(--space-lg)',
+        margin: '0 var(--space-lg)',
         backgroundImage: `url(${afb7})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
