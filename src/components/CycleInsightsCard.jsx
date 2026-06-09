@@ -52,34 +52,46 @@ export default function CycleInsightsCard({ menstrualPhase }) {
         e.currentTarget.style.transform = 'translateY(0)'
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', gap: 'var(--space-md)' }}>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        width: '100%',
+        height: '100%',
+      }}>
         <div>
           <p style={{
             margin: 0,
             fontSize: '13px',
-            color: 'var(--ink-2)',
+            color: 'white',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
             marginBottom: '2px',
+            fontWeight: '600',
           }}>
             Dag {menstrualPhase.daysInCycle}
           </p>
           <p style={{
             margin: 0,
             fontSize: '20px',
-            fontWeight: '600',
-            color: 'var(--ink)',
+            fontWeight: '700',
+            color: 'white',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
           }}>
             {menstrualPhase.phase}
           </p>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
           <p style={{
-            margin: '4px 0 0 0',
+            margin: 0,
             fontSize: '12px',
-            color: 'var(--accent)',
+            color: 'white',
+            textShadow: '0 2px 4px rgba(0,0,0,0.3)',
             fontWeight: '500',
           }}>
             Bekijk inzichten
           </p>
+          <ChevronRight size={16} color="white" strokeWidth={2} style={{ filter: 'drop-shadow(0 2px 4px rgba(0,0,0,0.3))' }} />
         </div>
-        <ChevronRight size={20} color="var(--accent)" strokeWidth={2} />
       </div>
     </div>
   )
