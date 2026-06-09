@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import afbeelding1 from '../assets/afbeelding1.png'
+import afb3 from '../assets/afb3.png'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
@@ -22,7 +22,7 @@ export default function HRVInsightsCard({ hrvScore }) {
         padding: 'var(--space-lg)',
         margin: 'var(--space-lg)',
         marginTop: 0,
-        backgroundImage: `url(${afbeelding1})`,
+        backgroundImage: `url(${afb3})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         border: '1px solid rgba(199, 154, 110, 0.2)',
