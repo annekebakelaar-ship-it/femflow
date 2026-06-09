@@ -18,7 +18,8 @@ export default function CircleWidget({
   // Responsief sizing gebaseerd op schermgrootte
   const getResponsiveSize = () => {
     if (isMobile(width)) {
-      return Math.max(60, Math.min(90, width / 4))
+      // Mobiel: 80-110px, ongeveer 25% van viewport width
+      return Math.max(80, Math.min(110, width / 3.5))
     }
     return size
   }

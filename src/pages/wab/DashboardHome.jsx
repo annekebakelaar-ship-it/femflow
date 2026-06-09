@@ -182,9 +182,9 @@ export default function DashboardHome() {
         boxSizing: 'border-box',
       }}>
         <Swiper
-          spaceBetween={4}
+          spaceBetween={12}
           slidesPerView="auto"
-          centeredSlides={false}
+          centeredSlides={true}
           grabCursor={true}
           style={{
             maxWidth: '100%',
