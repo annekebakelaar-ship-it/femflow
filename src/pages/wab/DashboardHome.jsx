@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Calendar, Zap, AlertCircle, Activity, Book, TrendingUp } from 'react-feather'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { clearToken, getQuizResults } from '../../api/client'
+import { clearToken, getQuizResults, getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
 import CircleWidget from '../../components/CircleWidget'
@@ -25,6 +25,7 @@ export default function DashboardHome() {
   const [quizResults, setQuizResults] = useState(null)
 
   const [wearableData, setWearableData] = useState(null)
+  const [hrvScore, setHrvScore] = useState(null)
 
   useEffect(() => {
     const stored = getSecure('menstruation_data')
@@ -40,6 +41,23 @@ export default function DashboardHome() {
         }
       })
       .catch(err => console.error('Failed to load quiz results:', err))
+
+    // Load wearable data for HRV score
+    getWearableReadings(7)
+      .then(result => {
+        if (result.data && result.data.length > 0) {
+          const hrvValues = result.data
+            .map(d => d.hrv_ms)
+            .filter(v => v != null && v > 0)
+
+          if (hrvValues.length > 0) {
+            const avgHrv = hrvValues.reduce((a, b) => a + b, 0) / hrvValues.length
+            const hrvScore0to100 = Math.min(100, Math.round((avgHrv / 100) * 100))
+            setHrvScore(hrvScore0to100)
+          }
+        }
+      })
+      .catch(err => console.error('Failed to load wearable data:', err))
   }, [])
 
   function getMenstrualPhase() {
@@ -328,8 +346,8 @@ export default function DashboardHome() {
         </div>
       )}
 
-      {/* Wearable Score Carousel */}
-      {readinessScore && (
+      {/* Wearable Score Carousel - HRV */}
+      {hrvScore != null && (
         <div style={{ width: '100%', maxWidth: '100%', padding: 'var(--space-xl) var(--space-lg)', boxSizing: 'border-box', overflow: 'hidden' }}>
           <Swiper
             spaceBetween={0}
@@ -341,8 +359,8 @@ export default function DashboardHome() {
             <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
               <WearableScore
                 size={260}
-                score={readinessScore}
-                label="Belastbaarheid"
+                score={hrvScore}
+                label="Hartritme Variabiliteit"
                 max={100}
               />
             </SwiperSlide>
