@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
+import hero5 from '../assets/hero5.png'
 
 export default function CycleInsightsCard({ menstrualPhase }) {
   const navigate = useNavigate()
@@ -26,10 +27,14 @@ export default function CycleInsightsCard({ menstrualPhase }) {
       onClick={() => navigate('/health/menstruation')}
       style={{
         width: '100%',
+        maxWidth: 'calc(100vw - 16px)',
         padding: 'var(--space-md) var(--space-lg)',
         margin: '0 var(--space-lg) var(--space-lg) 0',
         minHeight: '100px',
         background: 'rgba(61, 40, 23, 0.8)',
+        backgroundImage: `url(${hero5})`,
+        backgroundSize: '120%',
+        backgroundPosition: 'center',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',

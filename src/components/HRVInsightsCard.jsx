@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
+import hero4 from '../assets/hero4.png'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
@@ -18,10 +19,14 @@ export default function HRVInsightsCard({ hrvScore }) {
       onClick={() => navigate('/wearable/hrv-insights')}
       style={{
         width: '100%',
+        maxWidth: 'calc(100vw - 16px)',
         padding: 'var(--space-md) var(--space-lg)',
         margin: '0 var(--space-lg) var(--space-lg) 0',
         minHeight: '100px',
         background: 'rgba(61, 40, 23, 0.8)',
+        backgroundImage: `url(${hero4})`,
+        backgroundSize: '120%',
+        backgroundPosition: 'center',
         border: '1px solid rgba(199, 154, 110, 0.2)',
         borderRadius: '12px',
         cursor: 'pointer',
