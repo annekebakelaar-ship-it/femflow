@@ -35,6 +35,7 @@ import SymptomLoggerPage from './pages/wab/SymptomLoggerPage'
 import LifestyleCheckPage from './pages/wab/LifestyleCheckPage'
 import WearableDashboard from './pages/wab/WearableDashboard'
 import SupplementsPage from './pages/wab/SupplementsPage'
+import MenuPage from './pages/MenuPage'
 import { getToken, clearToken, verifyMagicLink, getMe } from './api/client'
 
 const STORAGE_KEY = 'wab_last_result'
@@ -186,6 +187,9 @@ function AppContent() {
 
       {/* Account */}
       <Route path="/account" element={<AccountPage />} />
+
+      {/* Menu */}
+      <Route path="/menu" element={<MenuPage />} />
 
       {/* WAB results */}
       <Route path="/results" element={
