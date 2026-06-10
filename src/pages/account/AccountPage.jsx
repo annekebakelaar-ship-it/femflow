@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { saveSecure, getSecure, deleteAllSecure, exportSecureData } from '../../utils/secureStorage'
 import { deleteAccount, clearToken } from '../../api/client'
+import HuisartsRapport from '../../components/huisartsrapport/HuisartsRapport'
 
 export default function AccountPage() {
   const navigate = useNavigate()
@@ -331,6 +332,11 @@ export default function AccountPage() {
         >
           Download mijn gegevens (JSON)
         </button>
+
+        {/* Huisartsrapport */}
+        <div style={{ marginBottom: '24px' }}>
+          <HuisartsRapport />
+        </div>
 
         {/* Delete Section */}
         <div style={{

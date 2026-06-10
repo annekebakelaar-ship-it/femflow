@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Cloud, Zap, Moon, Heart } from 'react-feather'
+import { saveSecure, getSecure } from '../utils/secureStorage'
 
 const SYMPTOMS = [
   { id: 'brain_fog', label: 'Brain fog', icon: 'cloud' },
@@ -23,32 +24,30 @@ export default function SymptomQuicklog() {
   const [confirmed, setConfirmed] = useState(null)
   const [loading, setLoading] = useState(false)
 
-  async function handleSymptomLog(symptomId) {
+  // Symptomen blijven client-side (secureStorage), conform privacy-uitgangspunt.
+  // De oude versie postte naar de WAB-API waar dit endpoint niet bestaat,
+  // waardoor logging stilletjes faalde.
+  function handleSymptomLog(symptomId) {
     if (loading) return
     setLoading(true)
     setSelected(symptomId)
 
     try {
-      const response = await fetch('https://wearable-age-api.onrender.com/api/v1/logs/symptom', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
-        },
-        body: JSON.stringify({ symptom_type: symptomId }),
+      const symptom = SYMPTOMS.find(s => s.id === symptomId)
+      const log = getSecure('symptom_log') || []
+      log.push({
+        symptom: symptomId,
+        label: symptom?.label || symptomId,
+        date: new Date().toISOString(),
       })
+      saveSecure('symptom_log', log)
 
-      if (response.ok) {
-        setConfirmed(symptomId)
-        setTimeout(() => {
-          setConfirmed(null)
-          setSelected(null)
-          setLoading(false)
-        }, 1200)
-      } else {
-        setLoading(false)
+      setConfirmed(symptomId)
+      setTimeout(() => {
+        setConfirmed(null)
         setSelected(null)
-      }
+        setLoading(false)
+      }, 1200)
     } catch (err) {
       console.error('Failed to log symptom:', err)
       setLoading(false)
