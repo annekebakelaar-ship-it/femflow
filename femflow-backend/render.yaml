@@ -25,6 +25,6 @@ services:
       - key: OURA_REDIRECT_URI
         value: https://femflow-api.onrender.com/api/v1/wearable/callback
       - key: GOOGLE_CLIENT_ID
-        value: 502146335879-qat32rfvjptbt1f6up3aklg4f7gnmaev.apps.googleusercontent.com
+        value: 301005977940-ik0644unicrshca121j39j8k8tn4qill.apps.googleusercontent.com
       - key: FRONTEND_URL
         value: https://femflow.youcaps.app
