@@ -28,8 +28,6 @@ import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import TermsOfService from './pages/legal/TermsOfService'
 import Support from './pages/legal/Support'
 import ConsentManagement from './pages/account/ConsentManagement'
-import FemLanding from './pages/fem/FemLanding'
-import FemQuizFunnel from './pages/fem/FemQuizFunnel'
 import SymptomLoggerPage from './pages/dashboard/SymptomLoggerPage'
 import LifestyleCheckPage from './pages/dashboard/LifestyleCheckPage'
 import WearableDashboard from './pages/dashboard/WearableDashboard'
@@ -119,7 +117,7 @@ function AppContent() {
 
   return (
     <div style={{
-      background: location.pathname === '/' || location.pathname === '/fem-landing' || location.pathname.startsWith('/fem-') ? 'transparent' : '#F5EFEB',
+      background: location.pathname === '/' ? 'transparent' : '#F5EFEB',
       minHeight: '100vh',
     }}>
     <Routes>
@@ -205,10 +203,6 @@ function AppContent() {
       <Route path="/legal/terms" element={<TermsOfService />} />
       <Route path="/support" element={<Support />} />
       <Route path="/consent" element={user ? <ConsentManagement /> : <div>Please log in</div>} />
-
-      {/* FEM (old funnel) */}
-      <Route path="/fem-landing" element={<FemLanding onStartQuiz={() => navigate('/fem-quiz')} user={user} />} />
-      <Route path="/fem-quiz" element={<FemQuizFunnel onComplete={() => navigate('/')} user={user} />} />
 
       {/* 404 fallback */}
       <Route path="*" element={
