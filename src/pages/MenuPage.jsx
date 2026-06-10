@@ -195,7 +195,7 @@ export default function MenuPage() {
 
       <button
         onClick={() => {
-          localStorage.removeItem('wab_jwt')
+          localStorage.removeItem('femflow_jwt')
           navigate('/')
         }}
         style={{

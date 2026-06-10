@@ -28,7 +28,7 @@ export default function LifestyleTriggers() {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}`
+          'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
         },
         body: JSON.stringify({ date, triggers: newTriggers }),
       })

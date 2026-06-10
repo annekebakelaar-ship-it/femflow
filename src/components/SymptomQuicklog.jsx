@@ -33,7 +33,7 @@ export default function SymptomQuicklog() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}`
+          'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
         },
         body: JSON.stringify({ symptom_type: symptomId }),
       })

@@ -1,554 +1,514 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useApp } from '../../context/AppContext'
-import Label from '../../components/Label'
+import {
+  LineChart, Line, XAxis, YAxis, ResponsiveContainer,
+  Tooltip, ReferenceLine,
+} from 'recharts'
+import { getReadings, pullOuraData, getOuraStatus, requestOuraConnect, clearToken, seedSynthData, checkConsent } from '../../api/client'
+import TrendsSection from '../../components/TrendsSection'
+import ReformulationSection from '../../components/ReformulationSection'
+import SupplementsSection from '../../components/SupplementsSection'
+import ConsentModal from '../../components/ConsentModal'
+import hero from '../../assets/hero1.png'
 
-const BASE = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000').replace(/\/$/, '')
+const METRICS = [
+  { metricKey: 'hrv_ms',         label: 'HRV',        unit: 'ms',  color: 'var(--ink)', goodHigh: true  },
+  { metricKey: 'rhr_bpm',        label: 'Resting HR',  unit: 'bpm', color: 'var(--error)', goodHigh: false },
+  { metricKey: 'deep_sleep_min', label: 'Deep Sleep',  unit: 'min', color: 'var(--success)', goodHigh: true  },
+]
 
-function useSavedAdvice() {
-  const [advice, setAdvice] = useState(null)
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('youcaps_advice')
-      if (raw) setAdvice(JSON.parse(raw))
-    } catch {}
-  }, [])
-  return advice
+function shortDate(iso) {
+  const d = new Date(iso)
+  return `${d.getDate()}/${d.getMonth() + 1}`
 }
 
-function computeMetrics(data) {
-  const sorted = [...data].sort((a, b) => a.date.localeCompare(b.date))
-  const last7  = sorted.slice(-7)
-  const prev7  = sorted.slice(-14, -7)
-  const avg = (arr, field) => {
-    const vals = arr.map(d => d[field]).filter(v => v != null)
-    return vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : null
-  }
-  const trend = (curr, prev) => (curr == null || prev == null) ? null : curr - prev
-  const hrv   = avg(last7, 'hrv_ms')
-  const sleep = avg(last7, 'total_sleep_min')
-  const steps = avg(last7, 'steps')
-  return {
-    hrv:   { value: hrv,   trend: trend(hrv,   avg(prev7, 'hrv_ms'))           },
-    sleep: { value: sleep, trend: trend(sleep,  avg(prev7, 'total_sleep_min')) },
-    steps: { value: steps, trend: trend(steps,  avg(prev7, 'steps'))           },
-  }
-}
-
-function computeVitalScore(data) {
-  if (!data?.length) return null
-  const sorted = [...data].sort((a, b) => a.date.localeCompare(b.date))
-  const last14 = sorted.slice(-14)
-  const last7  = sorted.slice(-7)
-  const prev7  = sorted.slice(-14, -7)
-
-  function dayScore(d) {
-    let score = 0, weight = 0
-    if (d.hrv_ms != null)          { score += Math.min(100, (d.hrv_ms / 70) * 100) * 0.45; weight += 0.45 }
-    if (d.total_sleep_min != null) { score += Math.max(0, Math.min(100, 100 - Math.abs(d.total_sleep_min - 480) / 4.8)) * 0.35; weight += 0.35 }
-    if (d.steps != null)           { score += Math.min(100, (d.steps / 10000) * 100) * 0.20; weight += 0.20 }
-    return weight > 0 ? score / weight : null
-  }
-
-  const avgScore = arr => {
-    const vals = arr.map(d => dayScore(d)).filter(v => v != null)
-    return vals.length ? vals.reduce((s, v) => s + v, 0) / vals.length : null
-  }
-
-  const current  = avgScore(last7)
-  const previous = avgScore(prev7)
-
-  return {
-    score:   current != null ? Math.round(current) : null,
-    trend:   current != null && previous != null ? Math.round(current - previous) : null,
-    history: last14.map(d => ({ date: d.date, score: dayScore(d) != null ? Math.round(dayScore(d)) : null })),
-  }
-}
-
-function vitalStatus(score) {
-  if (score >= 80) return 'Uitstekend herstel'
-  if (score >= 65) return 'Goed hersteld'
-  if (score >= 50) return 'Matig herstel'
-  return 'Herstel nodig'
-}
-
-function useCountUp(target, duration = 900) {
-  const [count, setCount] = useState(0)
-  useEffect(() => {
-    if (target == null) return
-    setCount(0)
-    const start = Date.now()
-    const tick = () => {
-      const progress = Math.min((Date.now() - start) / duration, 1)
-      const eased = 1 - Math.pow(1 - progress, 3)
-      setCount(Math.round(eased * target))
-      if (progress < 1) requestAnimationFrame(tick)
-    }
-    requestAnimationFrame(tick)
-  }, [target])
-  return count
-}
-
-function useOuraData() {
-  const [rawData, setRawData] = useState(null)
-
-  useEffect(() => {
-    const cached = sessionStorage.getItem('oura_pulled_data')
-    if (cached) {
-      try {
-        const { data } = JSON.parse(cached)
-        if (Array.isArray(data) && data.length > 0) {
-          setRawData(data)
-          return
-        }
-      } catch {}
-    }
-
-    fetch(`${BASE}/api/oura/pull`, { method: 'POST' })
-      .then(r => r.ok ? r.json() : null)
-      .then(result => {
-        if (!result?.data?.length) return
-        sessionStorage.setItem('oura_pulled_data', JSON.stringify(result))
-        setRawData(result.data)
-      })
-      .catch(() => {})
-  }, [])
-
-  return { rawData, metrics: rawData ? computeMetrics(rawData) : null }
-}
-
-function MetricTile({ label, value, unit, trend, decimals = 0 }) {
-  const fmt = v => v == null ? '—' : Number(v).toFixed(decimals)
-  const trendPositive = trend != null && trend > 0
-  const trendNegative = trend != null && trend < 0
-
-  return (
-    <div style={{
-      padding: '16px',
-      borderRadius: '16px',
-      background: 'rgba(255,255,255,0.6)',
-      border: '1px solid rgba(0,0,0,0.06)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '4px',
-    }}>
-      <span style={{ fontSize: 'var(--font-size-micro)', color: 'var(--color-label)', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
-        {label}
-      </span>
-      <span style={{ fontSize: '1.6rem', fontWeight: 'var(--font-weight-semibold)', letterSpacing: '-1px', lineHeight: 1 }}>
-        {fmt(value)}<span style={{ fontSize: 'var(--font-size-small)', fontWeight: 'var(--font-weight-regular)', color: 'var(--color-secondary)', marginLeft: '3px' }}>{unit}</span>
-      </span>
-      {trend != null && (
-        <span style={{ fontSize: 'var(--font-size-micro)', color: trendPositive ? '#2e7d32' : trendNegative ? '#c62828' : 'var(--color-secondary)' }}>
-          {trendPositive ? '↑' : trendNegative ? '↓' : '='} {fmt(Math.abs(trend))} {unit} vs vorige week
-        </span>
-      )}
-    </div>
-  )
-}
-
-function VitalScoreCard({ score, trend, history }) {
-  if (score == null) return null
-  const status = vitalStatus(score)
-  const displayScore = useCountUp(score)
-
-  return (
-    <div style={{
-      background: 'var(--color-text)',
-      color: 'white',
-      borderRadius: '20px',
-      padding: '24px 24px 20px',
-      marginBottom: 'var(--space-xl)',
-      animation: 'fade-slide-up 300ms ease both',
-    }}>
-      <div style={{
-        fontSize: 'var(--font-size-micro)',
-        color: 'rgba(255,255,255,0.45)',
-        letterSpacing: '0.5px',
+function MiniChart({ data, metricKey, label, unit, color }) {
+  const rawValues = data.map(d => d[metricKey])
+  const values = rawValues.filter(v => v != null && v !== undefined && !isNaN(v))
+  console.log(`MiniChart ${metricKey}: data.length=${data.length}, rawValues=[${rawValues.slice(0,3)}...], filtered=${values.length}`)
+  if (!values.length) return (
+    <div style={{ marginBottom: 'var(--space-lg)' }}>
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '11px',
+        fontWeight: 500,
+        color: 'var(--ink)',
+        letterSpacing: '0.08em',
         textTransform: 'uppercase',
-        marginBottom: '10px',
+        marginBottom: 8,
+      }}>{label}</p>
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '13px',
+        fontWeight: 400,
+        color: 'var(--ink)',
       }}>
-        Vital Score
-      </div>
-
-      <div style={{ display: 'flex', alignItems: 'flex-end', gap: '14px', marginBottom: '6px' }}>
-        <span style={{
-          fontSize: '4.5rem',
-          fontWeight: 'var(--font-weight-semibold)',
-          letterSpacing: '-4px',
-          lineHeight: 1,
-        }}>
-          {displayScore}
-        </span>
-        {trend != null && (
-          <span style={{
-            fontSize: 'var(--font-size-small)',
-            color: trend > 0 ? '#81c784' : trend < 0 ? '#ef9a9a' : 'rgba(255,255,255,0.4)',
-            marginBottom: '10px',
-          }}>
-            {trend > 0 ? '↑' : trend < 0 ? '↓' : '='} {Math.abs(trend)} vs vorige week
-          </span>
-        )}
-      </div>
-
-      <div style={{
-        fontSize: 'var(--font-size-body)',
-        color: 'rgba(255,255,255,0.65)',
-        marginBottom: '22px',
-      }}>
-        {status}
-      </div>
-
-      {history.length > 0 && (
-        <>
-          <div style={{ display: 'flex', alignItems: 'flex-end', gap: '3px', height: '36px' }}>
-            {history.map((h, i) => {
-              const isToday = i === history.length - 1
-              const pct = h.score != null ? h.score / 100 : 0
-              return (
-                <div
-                  key={i}
-                  style={{
-                    flex: 1,
-                    height: `${Math.max(3, pct * 36)}px`,
-                    borderRadius: '3px',
-                    background: isToday ? 'white' : 'rgba(255,255,255,0.22)',
-                    animation: 'fade-slide-up 300ms ease both',
-                    animationDelay: `${i * 40}ms`,
-                  }}
-                />
-              )
-            })}
-          </div>
-          <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginTop: '7px',
-            fontSize: '10px',
-            color: 'rgba(255,255,255,0.3)',
-          }}>
-            <span>14 dagen</span>
-            <span>Vandaag</span>
-          </div>
-        </>
-      )}
+        No data yet {data.length > 0 ? `(${data.length} readings, filtered=${values.length})` : '(0 readings)'}
+      </p>
     </div>
   )
-}
 
-const PRIORITY_DOT = { hoog: '#2e7d32', middel: '#e67e22', laag: '#aaa' }
+  const avg  = values.reduce((s, v) => s + v, 0) / values.length
+  const last = values[values.length - 1]
 
-function FirstVisitBanner({ advice, email, onDismiss }) {
   return (
     <div style={{ marginBottom: 'var(--space-xl)' }}>
-      <h1 style={{
-        fontSize: 'var(--font-size-display)',
-        fontWeight: 'var(--font-weight-semibold)',
-        letterSpacing: '-1px', lineHeight: 1.1,
-        marginBottom: 'var(--space-sm)',
-      }}>
-        Je formule is klaar.
-      </h1>
-      <p style={{
-        fontSize: 'var(--font-size-body)',
-        color: 'var(--color-secondary)',
-        lineHeight: 1.6,
-        marginBottom: 'var(--space-lg)',
-      }}>
-        Samengesteld op basis van je biometrische data. Eerste levering binnen 5–7 werkdagen.
-      </p>
-
-      {advice?.supplements?.length > 0 && (
-        <div style={{
-          border: '1px solid var(--color-border)',
-          borderRadius: '16px',
-          marginBottom: 'var(--space-lg)',
-          overflow: 'hidden',
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          fontWeight: 500,
+          color: 'var(--ink)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
         }}>
-          {advice.supplements.map((s, i) => (
-            <div key={i} style={{
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-              padding: '14px var(--space-md)',
-              borderBottom: i < advice.supplements.length - 1 ? '1px solid var(--color-border-subtle)' : 'none',
-              gap: 'var(--space-sm)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                <span style={{
-                  width: 7, height: 7, borderRadius: '50%', flexShrink: 0,
-                  background: PRIORITY_DOT[s.priority] || '#aaa',
-                }} />
-                <div>
-                  <div style={{ fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-body)' }}>{s.name}</div>
-                  <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', marginTop: '1px' }}>
-                    {s.reason.split('.')[0]}.
-                  </div>
-                </div>
-              </div>
-              <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', whiteSpace: 'nowrap', flexShrink: 0 }}>
-                {s.dose}
-              </span>
-            </div>
-          ))}
+          {label}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 6 }}>
+          <span style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '20px',
+            fontWeight: 600,
+            color,
+            fontFeatureSettings: "'tnum'",
+          }}>
+            {Math.round(last)}
+          </span>
+          <span style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            color: 'var(--ink-3)',
+            fontWeight: 500,
+            textTransform: 'uppercase',
+            letterSpacing: '0.08em',
+          }}>{unit}</span>
         </div>
-      )}
-
-      <div style={{
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        padding: 'var(--space-md)',
-        background: 'var(--color-border-subtle)',
-        borderRadius: '12px',
-        marginBottom: 'var(--space-lg)',
-      }}>
-        <div>
-          <p style={{ fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-body)', margin: 0 }}>Eerste levering</p>
-          <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', margin: '2px 0 0' }}>
-            Bevestiging gestuurd naar {email || 'je e-mail'}
-          </p>
-        </div>
-        <span style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', whiteSpace: 'nowrap' }}>
-          5–7 werkdagen
-        </span>
       </div>
 
-      <button
-        onClick={onDismiss}
-        style={{
-          background: 'none', border: 'none', padding: 0,
-          fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)',
-          cursor: 'pointer', textDecoration: 'underline',
-        }}
-      >
-        Ga naar mijn dashboard →
-      </button>
+      <ResponsiveContainer width="100%" height={140}>
+        <LineChart data={data} margin={{ top: 8, right: 8, bottom: 8, left: -20 }}>
+          <XAxis dataKey="date" tickFormatter={shortDate} tick={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 11,
+            fill: 'var(--ink-3)',
+            fontWeight: 500,
+            letterSpacing: '0.08em',
+          }} interval="preserveStartEnd" axisLine={false} tickLine={false} />
+          <YAxis domain={['auto', 'auto']} tick={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: 11,
+            fill: 'var(--ink-3)',
+            fontWeight: 500,
+          }} width={40} />
+          <Tooltip
+            contentStyle={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              border: `1px solid var(--border)`,
+              borderRadius: 'var(--radius-sm)',
+              background: 'var(--surface)',
+              color: 'var(--ink)',
+            }}
+            labelFormatter={shortDate}
+            formatter={v => [`${Math.round(v)} ${unit}`, label]}
+          />
+          <ReferenceLine y={avg} stroke="var(--border-subtle)" strokeDasharray="3 3" />
+          <Line
+            type="monotone" dataKey={metricKey}
+            stroke={color} strokeWidth={2.5}
+            dot={false} connectNulls={false}
+            activeDot={{ r: 4, fill: color, strokeWidth: 0 }}
+          />
+        </LineChart>
+      </ResponsiveContainer>
+
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '11px',
+        fontWeight: 500,
+        color: 'var(--ink-3)',
+        marginTop: 6,
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+      }}>
+        Avg {Math.round(avg)} {unit} · {values.length} days
+      </p>
     </div>
   )
 }
 
-function nextDelivery() {
-  const now = new Date()
-  const first = new Date(now.getFullYear(), now.getMonth() + 1, 1)
-  return first.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' })
-}
+export default function Dashboard({ user, onBack, onLogout, onAccount }) {
+  const [readings, setReadings]         = useState([])
+  const [ouraConnected, setOuraConnected] = useState(false)
+  const [pulling, setPulling]           = useState(false)
+  const [seeding, setSeeding]           = useState(false)
+  const [scenario, setScenario]         = useState('stable')
+  const [loading, setLoading]           = useState(true)
+  const [error, setError]               = useState('')
+  const [showConsentModal, setShowConsentModal] = useState(false)
 
-export default function Dashboard() {
-  const { state } = useApp()
-  const navigate = useNavigate()
-  const [showDevMenu, setShowDevMenu] = useState(false)
-  const [isFirstVisit, setIsFirstVisit] = useState(
-    () => localStorage.getItem('youcaps_first_visit') === 'true'
-  )
-  const { rawData, metrics: oura } = useOuraData()
-  const vitalScore = rawData ? computeVitalScore(rawData) : null
-  const advice = useSavedAdvice()
-  const email = localStorage.getItem('youcaps_email') || ''
+  useEffect(() => {
+    Promise.all([
+      getReadings(90).then(setReadings).catch(e => setError(`Readings error: ${e.message}`)),
+      getOuraStatus().then(s => setOuraConnected(s.connected)).catch(() => {}),
+    ]).finally(() => setLoading(false))
+  }, [])
 
-  function dismissFirstVisit() {
-    localStorage.removeItem('youcaps_first_visit')
-    setIsFirstVisit(false)
+  async function handleConnectOura() {
+    try {
+      // Check if user has consent first
+      const hasConsent = await checkConsent('1.0', ['store', 'reformulate']).catch(() => false)
+      if (!hasConsent) {
+        setShowConsentModal(true)
+        return
+      }
+
+      // User has consent, proceed with OAuth
+      const { connect_url } = await requestOuraConnect()
+      window.location.href = connect_url
+    } catch {
+      setError('Could not start Oura connection.')
+    }
   }
 
-  if (isFirstVisit) {
-    return (
-      <div>
-        <FirstVisitBanner advice={advice} email={email} onDismiss={dismissFirstVisit} />
-      </div>
-    )
+  function onConsentGiven() {
+    setShowConsentModal(false)
+    handleConnectOura()  // Now proceed with OAuth
   }
 
-  const greeting = (() => {
-    const h = new Date().getHours()
-    if (h < 12) return 'Goedemorgen.'
-    if (h < 18) return 'Goedemiddag.'
-    return 'Goedenavond.'
-  })()
+  async function handlePull() {
+    setPulling(true)
+    setError('')
+    try {
+      await pullOuraData()
+      const fresh = await getReadings(90)
+      setReadings(fresh)
+    } catch {
+      setError('Could not fetch Oura data.')
+    } finally {
+      setPulling(false)
+    }
+  }
+
+  async function handleSeed() {
+    setSeeding(true)
+    setError('')
+    try {
+      await seedSynthData(90, scenario)
+      // Wait a moment for DB to flush, then fetch fresh data
+      await new Promise(r => setTimeout(r, 500))
+      const fresh = await getReadings(90)
+      setReadings([...fresh])  // Force re-render with new array reference
+    } catch (e) {
+      setError(`Could not generate demo data: ${e.message}`)
+    } finally {
+      setSeeding(false)
+    }
+  }
+
+  function handleLogout() {
+    clearToken()
+    onLogout?.()
+  }
 
   return (
-    <div>
-      <h1 style={{
-        fontSize: 'var(--font-size-display)',
-        fontWeight: 'var(--font-weight-semibold)',
-        letterSpacing: '-1px',
-        marginBottom: 'var(--space-xl)',
-      }}>
-        {greeting}
-      </h1>
+    <div style={{
+      minHeight: '100vh',
+      maxWidth: 'var(--container-max)',
+      margin: '0 auto',
+      padding: 'var(--space-lg) var(--container-padding) var(--space-xxl)',
+      animation: 'fade-slide-up 240ms ease both',
+      backgroundImage: `url(${hero})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed',
+    }}>
 
-      {/* Vital Score */}
-      {vitalScore?.score != null && (
-        <VitalScoreCard
-          score={vitalScore.score}
-          trend={vitalScore.trend}
-          history={vitalScore.history}
+      {/* Consent Modal */}
+      {showConsentModal && (
+        <ConsentModal
+          onConsent={onConsentGiven}
+          onCancel={() => setShowConsentModal(false)}
         />
       )}
 
-      {/* Gezondheid */}
-      {oura ? (
-        <section style={{ marginBottom: 'var(--space-xl)' }}>
-          <Label>GEZONDHEID · 7 DAGEN</Label>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px', marginTop: 'var(--space-sm)' }}>
-            {[
-              { label: 'HRV',     value: oura.hrv.value,   trend: oura.hrv.trend,   unit: 'ms', decimals: 0 },
-              { label: 'Slaap',   value: oura.sleep.value != null ? oura.sleep.value / 60 : null, trend: oura.sleep.trend != null ? oura.sleep.trend / 60 : null, unit: 'u', decimals: 1 },
-              { label: 'Stappen', value: oura.steps.value, trend: oura.steps.trend, unit: 'st', decimals: 0 },
-            ].map((t, i) => (
-              <div key={t.label} style={{ animation: 'fade-slide-up 280ms ease both', animationDelay: `${i * 70}ms` }}>
-                <MetricTile {...t} />
-              </div>
-            ))}
-          </div>
-        </section>
-      ) : (
-        <section style={{ marginBottom: 'var(--space-xl)' }}>
-          <button
-            onClick={() => navigate('/connect')}
-            style={{
-              width: '100%', padding: '16px 20px',
-              border: '1px dashed var(--color-border)',
-              borderRadius: 0, background: 'transparent',
-              fontFamily: 'var(--font-mono)',
-              fontSize: '10px', fontWeight: 500,
-              letterSpacing: '.16em', textTransform: 'uppercase',
-              color: 'var(--color-secondary)',
-              cursor: 'pointer',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            }}
-          >
-            <span>Koppel je wearable voor gepersonaliseerde data</span>
-            <span>→</span>
-          </button>
-        </section>
-      )}
-
-      {/* Jouw formule */}
-      {advice?.supplements?.length > 0 && (
-        <section style={{ marginBottom: 'var(--space-xl)' }}>
-          <Label>JOUW FORMULE</Label>
-          <div style={{ marginTop: 'var(--space-sm)', border: '1px solid var(--color-border)', borderRadius: '14px', overflow: 'hidden' }}>
-            {advice.supplements.map((s, i) => (
-              <div key={i} style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                padding: '14px var(--space-md)',
-                borderBottom: i < advice.supplements.length - 1 ? '1px solid var(--color-border-subtle)' : 'none',
-                animation: 'fade-slide-up 280ms ease both',
-                animationDelay: `${i * 60}ms`,
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: PRIORITY_DOT[s.priority] || '#aaa', flexShrink: 0 }} />
-                  <div>
-                    <div style={{ fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-body)' }}>{s.name}</div>
-                    <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', marginTop: '1px' }}>{s.dose}</div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {/* Levering */}
-      <section style={{ marginBottom: 'var(--space-xxl)' }}>
-        <Label>LEVERING</Label>
-        <div style={{
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          marginTop: 'var(--space-sm)',
-          padding: 'var(--space-md)',
-          background: 'var(--color-border-subtle)',
-          borderRadius: '14px',
+      {/* Nav */}
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
+        <button onClick={onBack} style={{
+          background: 'none',
+          border: 'none',
+          padding: 0,
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          fontWeight: 500,
+          color: 'var(--ink-3)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          cursor: 'pointer',
         }}>
-          <div>
-            <p style={{ fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-body)', margin: 0 }}>
-              Volgende levering
-            </p>
-            <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)', margin: '2px 0 0' }}>
-              Maandelijks · opzegbaar
-            </p>
-          </div>
-          <span style={{ fontWeight: 'var(--font-weight-medium)', fontSize: 'var(--font-size-body)', color: 'var(--color-text)' }}>
-            {nextDelivery()}
-          </span>
-        </div>
-      </section>
-
-      <section style={{ paddingTop: 'var(--space-md)', borderTop: '1px solid var(--color-border-subtle)' }}>
-        <button
-          type="button"
-          onClick={() => setShowDevMenu(v => !v)}
-          style={{
+          ← Back
+        </button>
+        <span style={{
+          fontFamily: 'var(--font-display)',
+          fontWeight: 500,
+          fontSize: '15px',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: 'var(--ink)',
+        }}>YOUCAPS</span>
+        <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
+          <button onClick={onAccount} style={{
             background: 'none',
             border: 'none',
-            color: 'var(--color-label)',
-            fontSize: 'var(--font-size-micro)',
-            letterSpacing: '0.5px',
+            padding: 0,
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: 500,
+            color: 'var(--ink-3)',
+            letterSpacing: '0.08em',
             textTransform: 'uppercase',
             cursor: 'pointer',
+          }}>
+            Account
+          </button>
+          <button onClick={handleLogout} style={{
+            background: 'none',
+            border: 'none',
             padding: 0,
-          }}
-          aria-expanded={showDevMenu}
-          aria-controls="dev-menu"
-        >
-          {showDevMenu ? '· instellingen verbergen' : '· instellingen'}
-        </button>
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: 500,
+            color: 'var(--ink-3)',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
+          }}>
+            Sign out
+          </button>
+        </div>
+      </nav>
 
-        {showDevMenu && (
-          <div
-            id="dev-menu"
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '11px',
+        fontWeight: 500,
+        color: 'var(--ink-3)',
+        letterSpacing: '0.08em',
+        textTransform: 'uppercase',
+        marginBottom: 'var(--space-sm)',
+      }}>
+        Biomarker History
+      </p>
+      <h2 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '20px',
+        fontWeight: 500,
+        lineHeight: 1.25,
+        letterSpacing: '-0.5px',
+        marginBottom: 'var(--space-xs)',
+        color: 'var(--ink)',
+      }}>
+        {user?.email || 'Your data'}
+      </h2>
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '13px',
+        fontWeight: 400,
+        color: 'var(--ink-2)',
+        marginBottom: 'var(--space-xl)',
+      }}>
+        Last 90 days · {readings.length} readings stored
+      </p>
+
+      {/* Oura connection */}
+      <div style={{
+        marginBottom: 'var(--space-xl)',
+        padding: 'var(--space-md)',
+        border: `1px solid var(--border-subtle)`,
+        borderRadius: 'var(--radius-md)',
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '13px',
+              fontWeight: 500,
+              marginBottom: 2,
+              color: 'var(--ink)',
+            }}>Oura Ring</p>
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              fontWeight: 500,
+              color: ouraConnected ? 'var(--success)' : 'var(--ink-3)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+            }}>
+              {ouraConnected ? '✓ Connected' : 'Not connected'}
+            </p>
+          </div>
+          {ouraConnected ? (
+            <button
+              onClick={handlePull}
+              disabled={pulling}
+              style={{
+                padding: '10px 20px',
+                border: `1px solid var(--border)`,
+                background: 'transparent',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '11px',
+                fontWeight: 500,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                color: 'var(--ink)',
+                borderRadius: 'var(--radius-md)',
+                cursor: pulling ? 'not-allowed' : 'pointer',
+                opacity: pulling ? 0.5 : 1,
+              }}
+            >
+              {pulling ? 'Syncing…' : 'Sync now'}
+            </button>
+          ) : (
+            <button
+              onClick={handleConnectOura}
+              style={{
+                padding: '10px 20px',
+                border: 'none',
+                background: 'var(--ink)',
+                color: 'var(--surface)',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '11px',
+                fontWeight: 600,
+                letterSpacing: '0.08em',
+                textTransform: 'uppercase',
+                borderRadius: 'var(--radius-md)',
+                cursor: 'pointer',
+              }}
+            >
+              Connect →
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Synthetic data */}
+      <div style={{
+        marginBottom: 'var(--space-xl)',
+        padding: 'var(--space-md)',
+        border: `1px solid var(--border-subtle)`,
+        borderRadius: 'var(--radius-md)',
+      }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '13px',
+          fontWeight: 500,
+          marginBottom: 4,
+          color: 'var(--ink)',
+        }}>Demo data</p>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          fontWeight: 400,
+          color: 'var(--ink-3)',
+          marginBottom: 'var(--space-sm)',
+          lineHeight: 1.5,
+        }}>
+          Generate 90 days of realistic synthetic data — no Oura required.
+        </p>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <select
+            value={scenario}
+            onChange={e => setScenario(e.target.value)}
             style={{
-              marginTop: 'var(--space-sm)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '8px',
-              alignItems: 'flex-start',
+              flex: 1,
+              padding: '10px 8px',
+              border: `1px solid var(--border)`,
+              background: 'var(--surface)',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              fontWeight: 400,
+              color: 'var(--ink)',
+              letterSpacing: '0.08em',
+              outline: 'none',
+              borderRadius: 'var(--radius-sm)',
             }}
           >
-            <button
-              type="button"
-              onClick={() => navigate('/onboarding/goal')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--color-secondary)',
-                fontSize: 'var(--font-size-small)',
-                cursor: 'pointer',
-                padding: 0,
-                textDecoration: 'underline',
-              }}
-            >
-              Bekijk Onboarding
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/onboarding/subscribe')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--color-secondary)',
-                fontSize: 'var(--font-size-small)',
-                cursor: 'pointer',
-                padding: 0,
-                textDecoration: 'underline',
-              }}
-            >
-              Bekijk Abonnement-flow
-            </button>
-            <button
-              type="button"
-              onClick={() => navigate('/signin')}
-              style={{
-                background: 'none',
-                border: 'none',
-                color: 'var(--color-secondary)',
-                fontSize: 'var(--font-size-small)',
-                cursor: 'pointer',
-                padding: 0,
-                textDecoration: 'underline',
-              }}
-            >
-              Bekijk Sign-in scherm
-            </button>
-          </div>
-        )}
-      </section>
+            <option value="stable">Stable</option>
+            <option value="declining">Declining</option>
+            <option value="recovering">Recovering</option>
+            <option value="dip">Dip (illness/stress)</option>
+          </select>
+          <button
+            onClick={handleSeed}
+            disabled={seeding}
+            style={{
+              padding: '10px 20px',
+              border: 'none',
+              background: 'var(--ink)',
+              color: 'var(--surface)',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              fontWeight: 600,
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              borderRadius: 'var(--radius-md)',
+              cursor: seeding ? 'not-allowed' : 'pointer',
+              opacity: seeding ? 0.5 : 1,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {seeding ? 'Generating…' : 'Generate →'}
+          </button>
+        </div>
+      </div>
+
+      {error && (
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '13px',
+          fontWeight: 400,
+          color: 'var(--error)',
+          marginBottom: 'var(--space-md)',
+        }}>{error}</p>
+      )}
+
+      {loading ? (
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          fontWeight: 400,
+          color: 'var(--ink-3)',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+        }}>Loading…</p>
+      ) : readings.length === 0 ? (
+        <div style={{ textAlign: 'center', padding: 'var(--space-xxl) 0' }}>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '15px',
+            fontWeight: 400,
+            color: 'var(--ink-2)',
+            marginBottom: 'var(--space-sm)',
+          }}>No readings yet.</p>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '13px',
+            fontWeight: 400,
+            color: 'var(--ink-3)',
+            lineHeight: 1.5,
+          }}>
+            Connect your Oura Ring or use the calculator to generate your first reading.
+          </p>
+        </div>
+      ) : (
+        <div>
+          {METRICS.map(m => (
+            <MiniChart key={m.key} data={readings} {...m} />
+          ))}
+          <TrendsSection userId={user?.id} />
+          <ReformulationSection userId={user?.id} />
+          <SupplementsSection />
+        </div>
+      )}
     </div>
   )
 }

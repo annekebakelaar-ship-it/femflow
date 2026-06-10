@@ -7,7 +7,7 @@ export default function QuizResultsOverview() {
 
   useEffect(() => {
     try {
-      const stored = localStorage.getItem('wab_last_result')
+      const stored = localStorage.getItem('femflow_last_result')
       if (stored) {
         setQuizResult(JSON.parse(stored))
       }

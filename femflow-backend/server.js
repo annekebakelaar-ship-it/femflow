@@ -85,7 +85,7 @@ pool.query('SELECT NOW()', (err, res) => {
   if (err) {
     console.error('Database connection error:', err)
   } else {
-    console.log('✅ Database connected')
+    console.log('Database connected')
   }
 })
 
@@ -737,5 +737,5 @@ app.post('/api/v1/wearable/pull', authenticateToken, async (req, res) => {
 // ============================================================================
 
 app.listen(PORT, () => {
-  console.log(`🚀 FemFlow API running on port ${PORT}`)
+  console.log(`FemFlow API running on port ${PORT}`)
 })

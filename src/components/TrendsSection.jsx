@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 async function getTrends(userId) {
   const BASE = 'https://wearable-age-api.onrender.com'
-  const token = localStorage.getItem('wab_jwt')
+  const token = localStorage.getItem('femflow_jwt')
   const res = await fetch(`${BASE}/api/trends/${userId}`, {
     headers: { 'Authorization': `Bearer ${token}` }
   })

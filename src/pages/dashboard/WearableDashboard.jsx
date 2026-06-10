@@ -12,7 +12,7 @@ export default function WearableDashboard() {
     const fetchWearableData = async () => {
       try {
         const res = await fetch('https://wearable-age-api.onrender.com/api/readings?days=1', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}` }
+          headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
         })
         if (res.ok) {
           const readings = await res.json()

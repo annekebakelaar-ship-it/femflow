@@ -12,18 +12,16 @@ import Unsubscribe from './pages/Unsubscribe'
 import WearablePage from './pages/wearable/WearablePage'
 import HRVInsightsPage from './pages/wearable/HRVInsightsPage'
 import SigninPage from './pages/auth/SigninPage'
-import Landing from './pages/wab/Landing'
 import MenstruationTracker from './pages/health/MenstruationTracker'
 import MenstruationHistory from './pages/health/MenstruationHistory'
 import PerimenopauzeTracker from './pages/health/PerimenopauzeTracker'
 import CycleAnalytics from './pages/health/CycleAnalytics'
 import WearableCycle from './pages/health/WearableCycle'
-import Results from './pages/wab/Results'
-import DashboardHome from './pages/wab/DashboardHome'
-import QuizResultsPage from './pages/wab/QuizResultsPage'
-import LearningHub from './pages/wab/LearningHub'
-import ProgressAnalytics from './pages/wab/ProgressAnalytics'
-import Dashboard from './pages/wab/Dashboard'
+import DashboardHome from './pages/dashboard/DashboardHome'
+import QuizResultsPage from './pages/dashboard/QuizResultsPage'
+import LearningHub from './pages/dashboard/LearningHub'
+import ProgressAnalytics from './pages/dashboard/ProgressAnalytics'
+import Dashboard from './pages/dashboard/Dashboard'
 import AccountPage from './pages/account/AccountPage'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import TermsOfService from './pages/legal/TermsOfService'
@@ -31,22 +29,14 @@ import Support from './pages/legal/Support'
 import ConsentManagement from './pages/account/ConsentManagement'
 import FemLanding from './pages/fem/FemLanding'
 import FemQuizFunnel from './pages/fem/FemQuizFunnel'
-import SymptomLoggerPage from './pages/wab/SymptomLoggerPage'
-import LifestyleCheckPage from './pages/wab/LifestyleCheckPage'
-import WearableDashboard from './pages/wab/WearableDashboard'
-import SupplementsPage from './pages/wab/SupplementsPage'
+import SymptomLoggerPage from './pages/dashboard/SymptomLoggerPage'
+import LifestyleCheckPage from './pages/dashboard/LifestyleCheckPage'
+import WearableDashboard from './pages/dashboard/WearableDashboard'
+import SupplementsPage from './pages/dashboard/SupplementsPage'
 import MenuPage from './pages/MenuPage'
 import { getToken, clearToken, verifyMagicLink, getMe } from './api/client'
 
-const STORAGE_KEY = 'wab_last_result'
-
-function loadStored() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) } catch { return null }
-}
-
 function AppContent() {
-  const [result, setResult]         = useState(null)
-  const [lastResult, setLastResult] = useState(loadStored)
   const [user, setUser]             = useState(null)
   const [authLoading, setAuthLoading] = useState(true)
   const navigate = useNavigate()
@@ -104,13 +94,6 @@ function AppContent() {
     init()
   }, [location, navigate])
 
-
-  function handleResult(r) {
-    setResult(r)
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(r)) } catch {}
-    setLastResult(r)
-    navigate('/results', { state: { result: r } })
-  }
 
   function handleLogout() {
     clearToken()
@@ -191,18 +174,6 @@ function AppContent() {
       {/* Menu */}
       <Route path="/menu" element={<MenuPage />} />
 
-      {/* WAB results */}
-      <Route path="/results" element={
-        result ? (
-          <Results
-            result={result}
-            onReset={() => { setResult(null); navigate('/') }}
-          />
-        ) : (
-          <div>No result</div>
-        )
-      } />
-
       {/* Health tracking */}
       <Route path="/health/menstruation" element={<MenstruationTracker />} />
       <Route path="/health/menstruation/history" element={<MenstruationHistory />} />
@@ -237,19 +208,6 @@ function AppContent() {
       {/* FEM (old funnel) */}
       <Route path="/fem-landing" element={<FemLanding onStartQuiz={() => navigate('/fem-quiz')} user={user} />} />
       <Route path="/fem-quiz" element={<FemQuizFunnel onComplete={() => navigate('/')} user={user} />} />
-
-      {/* Default landing */}
-      <Route path="/" element={
-        <Landing
-          onResult={handleResult}
-          lastResult={lastResult}
-          onViewLast={() => { setResult(lastResult); navigate('/results') }}
-          user={user}
-          onLogin={setUser}
-          onShowDashboard={() => navigate('/dashboard')}
-          onShowFem={() => navigate('/fem-landing')}
-        />
-      } />
 
       {/* 404 fallback */}
       <Route path="*" element={

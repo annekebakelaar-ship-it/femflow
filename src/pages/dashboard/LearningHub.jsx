@@ -239,7 +239,7 @@ export default function LearningHub() {
   async function loadContent() {
     setLoading(true)
     try {
-      const token = localStorage.getItem('wab_jwt')
+      const token = localStorage.getItem('femflow_jwt')
       const headers = token ? { 'Authorization': `Bearer ${token}` } : {}
 
       if (selectedCategory) {

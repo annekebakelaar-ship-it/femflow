@@ -55,7 +55,7 @@ export default function ReadinessScore({ wearableData, cycleData }) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}`
+        'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
       },
       body: JSON.stringify({
         wearable_data: wearableData,

@@ -20,8 +20,15 @@ No emojis in development output. Calm wellness aesthetic.
 Tech stack:
 - Frontend: React 18 + Vite, Router-based navigation, inline styles with CSS variables
 - Backend: Express.js + PostgreSQL (Neon), JWT auth (30-day tokens), OTP via email (SendGrid)
-- Hosting: Vercel (frontend), Render (backend)
+- Hosting: Vercel (frontend, canoniek domein femflow.youcaps.app), Render (backend)
 - Database: Shared Neon instance with WAB (femflow_ table prefix isolation)
+- Backend code staat IN deze repo: femflow-backend/ (geen losse repo)
+
+Mappenstructuur frontend:
+- src/pages/dashboard/ — dashboard, results, learning hub, analytics
+- src/pages/health/ — cycle/menstruatie/perimenopauze trackers
+- src/pages/auth/, account/, legal/, wearable/, fem/ — overige flows
+- localStorage keys hebben femflow_ prefix (femflow_jwt, femflow_last_result)
 
 Key patterns:
 1. API client in src/api/client.js (centralized requests + token management)
@@ -61,8 +68,13 @@ Key patterns:
 - Error handling via ErrorBoundary wrapper
 - Loading states with return null or loading UI
 
+### Environment variables (Vite)
+- Frontend leest ALLEEN import.meta.env.VITE_* (nooit process.env / REACT_APP_*)
+- Lokaal: .env (zie .env.example) — productie: Vercel project settings
+- VITE_API_URL (backend base URL), VITE_GOOGLE_CLIENT_ID (Google OAuth)
+
 ### API endpoints
-Base URL: process.env.REACT_APP_API_URL (default: https://femflow-api.onrender.com)
+Base URL: import.meta.env.VITE_API_URL (default: https://femflow-api.onrender.com)
 
 Key routes:
 - POST /api/v1/auth/request-code (email login)

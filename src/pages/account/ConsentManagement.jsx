@@ -15,7 +15,7 @@ export default function ConsentManagement() {
   async function loadConsents() {
     try {
       const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/consent-status', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}` }
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
       })
       if (res.ok) {
         const data = await res.json()
@@ -52,7 +52,7 @@ export default function ConsentManagement() {
   async function handleDataExport() {
     try {
       const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/data-export?format=json', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}` }
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
       })
       if (res.ok) {
         const data = await res.json()
@@ -79,11 +79,11 @@ export default function ConsentManagement() {
     try {
       const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/account', {
         method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('wab_jwt')}` }
+        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
       })
       if (res.ok) {
         // Clear auth and redirect to welcome
-        localStorage.removeItem('wab_jwt')
+        localStorage.removeItem('femflow_jwt')
         navigate('/')
       }
     } catch (err) {

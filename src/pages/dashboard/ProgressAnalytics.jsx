@@ -10,7 +10,7 @@ export default function ProgressAnalytics() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const token = localStorage.getItem("wab_jwt")
+        const token = localStorage.getItem("femflow_jwt")
         if (!token) {
           setError("Niet ingelogd")
           setLoading(false)

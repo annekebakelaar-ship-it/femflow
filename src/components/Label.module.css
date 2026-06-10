@@ -1,8 +1,0 @@
-.label {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: .22em;
-  color: var(--color-label);
-}

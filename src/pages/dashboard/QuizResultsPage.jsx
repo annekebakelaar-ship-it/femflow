@@ -11,7 +11,7 @@ export default function QuizResultsPage() {
   // Fallback to localStorage if no state provided
   const quizResult = result || (() => {
     try {
-      const stored = localStorage.getItem('wab_last_result')
+      const stored = localStorage.getItem('femflow_last_result')
       return stored ? JSON.parse(stored) : null
     } catch (e) {
       return null
