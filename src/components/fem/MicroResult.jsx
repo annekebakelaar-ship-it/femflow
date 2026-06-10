@@ -1,4 +1,4 @@
-export default function MicroResult({ data, onConsent, onBack, loading }) {
+export default function MicroResult({ onConsent, onBack, loading }) {
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>
       <h2 style={{ fontSize: 'var(--font-size-body)', fontWeight: 'var(--font-weight-semibold)', marginBottom: 'var(--space-lg)' }}>

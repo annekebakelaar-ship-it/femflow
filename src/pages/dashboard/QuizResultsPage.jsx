@@ -13,7 +13,7 @@ export default function QuizResultsPage() {
     try {
       const stored = localStorage.getItem('femflow_last_result')
       return stored ? JSON.parse(stored) : null
-    } catch (e) {
+    } catch {
       return null
     }
   })()
@@ -111,7 +111,6 @@ export default function QuizResultsPage() {
     .filter(([_, v]) => v)
     .map(([key]) => key)
 
-  const displayDay = selectedDay || currentDayInCycle
 
   return (
     <div style={{

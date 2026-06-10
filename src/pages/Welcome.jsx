@@ -6,7 +6,7 @@ import hero from '../assets/hero4.png'
 export default function Welcome() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
-  const [saving, setSaving] = useState(false)
+  const [, setSaving] = useState(false)
 
   async function handleStartQuiz() {
     // Save email if provided

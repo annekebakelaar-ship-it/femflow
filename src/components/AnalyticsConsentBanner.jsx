@@ -15,7 +15,7 @@ export default function AnalyticsConsentBanner() {
   if (consent) return null
 
   function decide(value) {
-    try { localStorage.setItem(CONSENT_KEY, value) } catch {}
+    try { localStorage.setItem(CONSENT_KEY, value) } catch { /* localStorage niet beschikbaar */ }
     if (value === 'granted' && window.initAnalytics) window.initAnalytics()
     setConsent(value)
   }

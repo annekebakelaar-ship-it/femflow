@@ -1,11 +1,9 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import SymptomQuicklog from '../../components/SymptomQuicklog'
 import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function SymptomLoggerPage() {
   const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div style={{

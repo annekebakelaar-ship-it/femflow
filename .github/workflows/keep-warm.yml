@@ -1,0 +1,23 @@
+# Houdt de Render free-tier backend wakker tijdens uren dat gebruikers
+# de app realistisch gebruiken. Render free spint een service na ~15 min
+# inactiviteit omlaag; de eerste request daarna duurt dan ~50 seconden.
+#
+# Bewust NIET 24/7: free-tier instance-uren zijn beperkt (750/maand per
+# workspace, gedeeld met andere services). Pings lopen 05:00-21:50 UTC
+# (07:00-23:50 NL zomertijd) — 's nachts mag hij slapen.
+name: Keep backend warm
+
+on:
+  schedule:
+    - cron: '*/10 5-21 * * *'
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ping health endpoint
+        run: |
+          status=$(curl -s -o /dev/null -w "%{http_code}" -m 90 https://femflow-api.onrender.com/api/v1/health)
+          echo "Health check: HTTP $status"
+          test "$status" = "200"

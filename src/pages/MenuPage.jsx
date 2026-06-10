@@ -13,7 +13,7 @@ export default function MenuPage() {
       if (data && data.name) {
         setUserName(data.name)
       }
-    } catch (err) {
+    } catch {
       console.error('Failed to load user name')
     }
   }, [])

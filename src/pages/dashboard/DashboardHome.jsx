@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Book, TrendingUp } from 'react-feather'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css'
-import { clearToken, getQuizResults, getWearableReadings } from '../../api/client'
+import { getQuizResults, getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import ReadinessScore from '../../components/ReadinessScore'
 import HRVInsightsCard from '../../components/HRVInsightsCard'
@@ -16,16 +15,13 @@ import WearableOverlay from '../../components/WearableOverlay'
 import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
-import afbeelding1 from '../../assets/afbeelding1.png'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function DashboardHome() {
-  const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen] = useState(false)
   const [menstrualData, setMenstrualData] = useState(null)
   const [quizResults, setQuizResults] = useState(null)
 
-  const [wearableData, setWearableData] = useState(null)
+  const [wearableData] = useState(null)
   const [hrvScore, setHrvScore] = useState(null)
 
   useEffect(() => {
@@ -70,7 +66,7 @@ export default function DashboardHome() {
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
     const daysInCycle = diffDays % (menstrualData.cycleLength || 28)
 
-    let phase = 'Unknown'
+    let phase
     const bleedingDays = menstrualData.bleedingDays || 5
     if (daysInCycle < bleedingDays) phase = 'Menstruatie'
     else if (daysInCycle < 11) phase = 'Folliculair'
@@ -89,47 +85,7 @@ export default function DashboardHome() {
     }
   }
 
-  function getCurrentPhase(menstrualData) {
-    if (!menstrualData?.startDate) return 'irregular'
-    const start = new Date(menstrualData.startDate)
-    const today = new Date()
-    const diffDays = Math.floor((today - start) / (1000 * 60 * 60 * 24))
-    const cycleLen = menstrualData.cycleLength || 28
-    const bleedDays = menstrualData.bleedingDays || 5
-    const daysInCycle = diffDays % cycleLen
-
-    if (daysInCycle < bleedDays) return 'menstrual'
-    else if (daysInCycle < 11) return 'follicular'
-    else if (daysInCycle < 16) return 'ovulatory'
-    else return 'luteal'
-  }
-
-  function handleLogout() {
-    clearToken()
-    navigate('/')
-  }
-
   const menstrualPhase = getMenstrualPhase()
-
-  // Calculate readiness score dynamically
-  const calculateReadiness = () => {
-    if (!wearableData || !menstrualData) return null
-
-    const sleepScore = Math.min(100, (wearableData.deep_sleep_percentage || 25) * 2)
-    const hrvScore = 50 // Default baseline
-    const rhrScore = Math.max(1, 100 - Math.abs(wearableData.resting_heart_rate_delta || 0) * 2)
-
-    const cycleMultiplier = {
-      'follicular': 1.1,
-      'ovulatory': 1.15,
-      'luteal': 0.8,
-    }[getCurrentPhase(menstrualData)] || 1
-
-    const baseScore = (sleepScore * 0.3 + hrvScore * 0.35 + rhrScore * 0.35)
-    return Math.round(baseScore * cycleMultiplier)
-  }
-
-  const readinessScore = calculateReadiness()
 
   useEffect(() => {
     localStorage.setItem('dashboardMenuOpen', JSON.stringify(menuOpen))

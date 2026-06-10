@@ -1,7 +1,4 @@
 export default function ResultScreen({ result, onRestart, onClose }) {
-  const activeSignals = Object.entries(result.constellation || {})
-    .filter(([_, v]) => v)
-    .map(([k, _]) => k)
 
   return (
     <div style={{ maxWidth: '600px', margin: '0 auto' }}>

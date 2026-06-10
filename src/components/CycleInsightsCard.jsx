@@ -6,21 +6,6 @@ export default function CycleInsightsCard({ menstrualPhase }) {
 
   if (!menstrualPhase) return null
 
-  const getPhaseColor = (phase) => {
-    switch (phase) {
-      case 'Menstruatie':
-        return 'rgba(192, 73, 45, 0.1)'
-      case 'Folliculair':
-        return 'rgba(79, 140, 90, 0.1)'
-      case 'Ovulatie':
-        return 'rgba(199, 154, 110, 0.1)'
-      case 'Luteaal':
-        return 'rgba(139, 97, 73, 0.1)'
-      default:
-        return 'rgba(199, 154, 110, 0.1)'
-    }
-  }
-
   return (
     <div
       onClick={() => navigate('/health/menstruation')}

@@ -159,7 +159,6 @@ export default function VariabiliteitsBand({ menstrualData }) {
   const pixelsPerDay = timelineWidth / daysToShow
 
   // Calculate positions on timeline (centered at ~day 28-32)
-  const todayPos = 0
   const innerMinPos = daysUntilInnerMin * pixelsPerDay
   const innerMaxPos = daysUntilInnerMax * pixelsPerDay
   const outerMinPos = daysUntilOuterMin * pixelsPerDay

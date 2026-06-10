@@ -253,7 +253,7 @@ export default function LearningHub() {
             setArticles(await res.json())
             return
           }
-        } catch (apiErr) {
+        } catch {
           console.warn('API unavailable, using mock data')
         }
         // Fallback to mock
@@ -271,7 +271,7 @@ export default function LearningHub() {
 
           // If API worked, skip fallback
           if (recRes.ok && featRes.ok) return
-        } catch (apiErr) {
+        } catch {
           console.warn('API unavailable, using mock data')
         }
         // Fallback to mock

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData } from '../../api/client'
+import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData, requestWearableConnect } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
@@ -22,7 +22,7 @@ export default function WearablePage() {
   const [biometricData, setBiometricData] = useState(null)
   const [loadingData, setLoadingData] = useState(false)
   const [wearableStatus, setWearableStatus] = useState(null)
-  const [checkingStatus, setCheckingStatus] = useState(false)
+  const [, setCheckingStatus] = useState(false)
 
   useEffect(() => {
     // Check if user is logged in

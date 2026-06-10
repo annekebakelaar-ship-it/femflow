@@ -26,7 +26,7 @@ const SCREEN_LABELS = [
   'Resultaat',
 ]
 
-export default function FemQuizFunnel({ onComplete, user }) {
+export default function FemQuizFunnel({ onComplete }) {
   const [step, setStep] = useState(0)
   const [sessionId, setSessionId] = useState(null)
   const [data, setData] = useState({
@@ -37,7 +37,7 @@ export default function FemQuizFunnel({ onComplete, user }) {
     energy_pattern: null,
     cycle_change: null,
   })
-  const [consentGiven, setConsentGiven] = useState(false)
+  const [, setConsentGiven] = useState(false)
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

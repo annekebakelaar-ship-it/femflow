@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Frown, Circle, Zap, HelpCircle, AlertCircle, Heart, TrendingDown, CheckCircle, Clock, Plus, Save } from 'react-feather'
 import hero from '../assets/hero1.png'

@@ -1,11 +1,10 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BarChart2, Target, TrendingUp, AlertCircle, Zap } from 'react-feather'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import { getMockCycleLengths } from '../../utils/cycleHelper'
 import logo from '../../assets/YouCapsLogo.png.png'
-import hormonalOverview from '../../assets/hormonaloverview.png'
 
 const mockRegularCycles = () => {
   const today = new Date()
@@ -228,7 +227,7 @@ export default function PerimenopauzeTracker() {
         menstrualData={{
           ...menstrualData,
           // Override entries to use mock cycle data
-          entries: getMockCycleLengths(grafiekMode).flatMap((cycle, i) => [
+          entries: getMockCycleLengths(grafiekMode).flatMap((cycle) => [
             { date: cycle.startDate.toISOString().split('T')[0], bleeding: true },
           ]),
         }}

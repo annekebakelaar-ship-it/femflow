@@ -363,7 +363,7 @@ function authenticateToken(req, res, next) {
     const decoded = verify(token, JWT_SECRET)
     req.userId = decoded.userId
     next()
-  } catch (err) {
+  } catch {
     res.status(403).json({ error: 'Invalid token' })
   }
 }

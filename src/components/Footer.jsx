@@ -6,7 +6,6 @@ export default function Footer() {
   const navigate = useNavigate()
   const location = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
   const iconColor = (path) => isActive(path) ? 'var(--ink)' : 'var(--ink-2)'
@@ -25,15 +24,6 @@ export default function Footer() {
     }, 100)
 
     return () => clearInterval(interval)
-  }, [])
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
   }, [])
 
   const buttonStyle = (path) => ({

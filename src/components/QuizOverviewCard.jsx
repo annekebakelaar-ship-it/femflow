@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import quizOverviewBg from '../assets/quizoverview.png'
 
 export default function QuizOverviewCard() {
   const navigate = useNavigate()

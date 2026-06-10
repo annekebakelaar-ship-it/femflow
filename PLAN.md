@@ -4,6 +4,20 @@ Stand van zaken per 10 juni 2026, na volledige doorlichting van frontend, backen
 configuratie en alle kopieën op schijf. Volgorde = prioriteit: eerst wat gebruikers
 en privacy raakt, dan kapotte config, dan schoonmaak, dan afmaken.
 
+## STATUS (10 juni 2026)
+
+| Fase | Status |
+|------|--------|
+| 1 — Security & GDPR | AF — live, Neon-migratie gedraaid |
+| 2 — Configuratie | AF — live, Vercel env vars omgezet |
+| 3 — Schoonmaak | AF — 84 dode bestanden weg, wab_jwt-bug gefixt |
+| 4 — Halve features | AF — Google-login echt, feedback werkt, GA4 opt-in |
+| 5 — Fundament | AF — ESLint (0 errors), 19 tests, keep-warm workflow |
+
+Bonusvondsten onderweg: wab_jwt-tokenbug (8 componenten), ontbrekende
+requestWearableConnect-import (Oura-koppelknop crashte), devLink-ReferenceError
+in SigninPage, pool.query-transactie zonder dedicated client.
+
 ---
 
 ## Fase 1 — Kritiek: security & GDPR (backend)

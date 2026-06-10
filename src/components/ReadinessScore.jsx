@@ -17,7 +17,7 @@ function calculateReadinessLocal(wearable, cycle) {
   const rhrDelta = wearable.resting_heart_rate_delta || 0
   const phase = cycle.cycle_phase || 'irregular'
 
-  let phaseMultiplier = 1.0
+  let phaseMultiplier
   if (phase === 'luteal') {
     phaseMultiplier = cycle.current_day >= 25 ? 1.4 : 1.2
   } else if (phase === 'follicular') {

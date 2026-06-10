@@ -1,11 +1,9 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import LifestyleTriggers from '../../components/LifestyleTriggers'
 import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function LifestyleCheckPage() {
   const navigate = useNavigate()
-  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <div style={{
