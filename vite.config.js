@@ -13,9 +13,6 @@ import react from '@vitejs/plugin-react'
  *   VITE_API_BASE_URL (.env.local) voor de absolute backend-URL.
  */
 export default defineConfig({
-  define: {
-    'import.meta.env.VITE_API_BASE_URL': JSON.stringify('https://wearable-age-api.onrender.com'),
-  },
   plugins: [react()],
   server: {
     host: true,           // luister ook op 0.0.0.0 (LAN/tunnel)

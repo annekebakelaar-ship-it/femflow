@@ -1,5 +1,5 @@
-// FemFlow API - Render backend (set via env var or use default)
-const BASE = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
+// FemFlow API - Render backend (set via VITE_API_URL or use default)
+const BASE = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
 
 const JWT_KEY = 'femflow_jwt'
 

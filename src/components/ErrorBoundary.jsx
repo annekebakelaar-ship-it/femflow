@@ -33,7 +33,7 @@ class ErrorBoundary extends React.Component {
           <p style={{ color: 'var(--ink-2)', marginBottom: '24px', textAlign: 'center', maxWidth: '400px' }}>
             We hebben een fout gevonden. Dit is niet jouw schuld! Probeer de pagina opnieuw te laden.
           </p>
-          {process.env.NODE_ENV === 'development' && (
+          {import.meta.env.DEV && (
             <details style={{
               background: '#F5EFEB',
               padding: '12px',

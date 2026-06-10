@@ -14,9 +14,15 @@ services:
         sync: false
       - key: DATABASE_URL
         sync: false
-      - key: EMAIL_USER
+      - key: SENDGRID_API_KEY
         sync: false
-      - key: EMAIL_PASSWORD
+      - key: SENDGRID_FROM_EMAIL
+        value: noreply@femflow.youcaps.app
+      - key: OURA_CLIENT_ID
         sync: false
+      - key: OURA_CLIENT_SECRET
+        sync: false
+      - key: OURA_REDIRECT_URI
+        value: https://femflow-api.onrender.com/api/v1/wearable/callback
       - key: FRONTEND_URL
-        value: https://femflow-two.vercel.app
+        value: https://femflow.youcaps.app

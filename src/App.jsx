@@ -291,8 +291,8 @@ function AppContent() {
 }
 
 export default function App() {
-  // Google OAuth Client ID - set via environment variable when credentials are ready
-  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID_HERE'
+  // Google OAuth Client ID - set via VITE_GOOGLE_CLIENT_ID (Vite leest alleen VITE_*)
+  const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID || 'YOUR_GOOGLE_CLIENT_ID_HERE'
 
   return (
     <ErrorBoundary>

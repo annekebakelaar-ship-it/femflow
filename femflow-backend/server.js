@@ -36,10 +36,14 @@ app.set('trust proxy', 1)
 
 // Middleware
 const allowedOrigins = [
-  process.env.FRONTEND_URL,
-  'http://localhost:5175',
-  'http://localhost:5173',
-].filter(Boolean)
+  ...new Set([
+    process.env.FRONTEND_URL,
+    'https://femflow.youcaps.app',
+    'https://femflow-two.vercel.app',
+    'http://localhost:5175',
+    'http://localhost:5173',
+  ].filter(Boolean)),
+]
 app.use(cors({ origin: allowedOrigins }))
 app.use(express.json())
 

@@ -9,7 +9,7 @@ export async function handleGoogleSignIn(credentialResponse) {
     }
 
     // Send token to backend for verification
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
     const response = await fetch(`${apiUrl}/api/v1/auth/google-signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -48,7 +48,7 @@ export async function handleAppleSignIn(response) {
     }
 
     // Send token to backend for verification
-    const apiUrl = process.env.REACT_APP_API_URL || 'https://femflow-api.onrender.com'
+    const apiUrl = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
     const apiResponse = await fetch(`${apiUrl}/api/v1/auth/apple-signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
