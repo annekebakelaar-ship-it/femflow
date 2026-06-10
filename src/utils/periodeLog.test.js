@@ -67,3 +67,56 @@ describe('laatsteStart', () => {
     expect(laatsteStart(data).toISOString().split('T')[0]).toBe('2026-05-13')
   })
 })
+
+import { alleStarts, verwijderPeriodeStart } from './periodeLog'
+
+describe('alleStarts', () => {
+  it('combineert startDate en entries chronologisch, zonder dubbelen', () => {
+    const data = {
+      startDate: '2026-03-01',
+      entries: [
+        { bleeding: true, date: '2026-01-05' },
+        { bleeding: true, date: '2026-03-01' }, // dubbel met startDate
+        { bleeding: false, date: '2026-02-10' },
+      ],
+    }
+    expect(alleStarts(data).map(d => d.toISOString().split('T')[0]))
+      .toEqual(['2026-01-05', '2026-03-01'])
+  })
+})
+
+describe('verwijderPeriodeStart', () => {
+  const basis = {
+    startDate: '2026-04-01',
+    cycleLength: 28,
+    entries: [
+      { bleeding: true, date: '2026-04-29' },
+      { bleeding: true, date: '2026-05-27' },
+    ],
+  }
+
+  it('verwijdert een entry', () => {
+    const { status, data } = verwijderPeriodeStart(basis, '2026-04-29')
+    expect(status).toBe('verwijderd')
+    expect(data.entries).toEqual([{ bleeding: true, date: '2026-05-27' }])
+    expect(data.startDate).toBe('2026-04-01')
+  })
+
+  it('schuift het anker op bij verwijderen van startDate', () => {
+    const { status, data } = verwijderPeriodeStart(basis, '2026-04-01')
+    expect(status).toBe('verwijderd')
+    expect(data.startDate).toBe('2026-04-29')
+    expect(data.entries).toEqual([{ bleeding: true, date: '2026-05-27' }])
+  })
+
+  it('weigert de laatste overgebleven start', () => {
+    const enkel = { startDate: '2026-04-01', entries: [] }
+    const { status, data } = verwijderPeriodeStart(enkel, '2026-04-01')
+    expect(status).toBe('laatste')
+    expect(data.startDate).toBe('2026-04-01')
+  })
+
+  it('niet-gevonden bij onbekende datum', () => {
+    expect(verwijderPeriodeStart(basis, '2026-12-25').status).toBe('niet-gevonden')
+  })
+})

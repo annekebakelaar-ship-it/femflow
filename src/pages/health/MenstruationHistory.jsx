@@ -1,70 +1,51 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getSecure } from '../../utils/secureStorage'
+import { Trash2 } from 'react-feather'
+import { getSecure, saveSecure } from '../../utils/secureStorage'
+import { alleStarts, verwijderPeriodeStart } from '../../utils/periodeLog'
 
+// Echte cyclushistorie: de gelogde menstruatiestarts, met de berekende
+// cycluslengtes ertussen en de mogelijkheid een foutje te verwijderen.
+// (De oude versie toonde een extrapolatie van de ingestelde cycluslengte
+// en presenteerde die voorspelling als geschiedenis.)
 export default function MenstruationHistory() {
   const navigate = useNavigate()
   const [data, setData] = useState(null)
+  const [bevestigDatum, setBevestigDatum] = useState(null)
+  const [melding, setMelding] = useState('')
 
   useEffect(() => {
-    try {
-      const stored = getSecure('menstruation_data')
-      if (stored) {
-        setData(stored)
-      }
-    } catch (err) {
-      console.error('Failed to load data:', err)
-    }
+    setData(getSecure('menstruation_data'))
   }, [])
 
-  if (!data?.startDate) {
-    return (
-      <div style={{
-        minHeight: '100vh',
-        padding: 'var(--space-lg)',
-        background: 'var(--bg)',
-      }}>
-        <button
-          onClick={() => navigate('/dashboard')}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            fontSize: '20px',
-            marginBottom: 'var(--space-lg)',
-          }}
-        >
-          ←
-        </button>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-lg)' }}>
-          Menstruatie Geschiedenis
-        </h1>
-        <p style={{ color: 'var(--ink-2)' }}>Geen menstruatie data gevonden</p>
-      </div>
-    )
+  function handleVerwijder(datum) {
+    const { status, data: nieuw } = verwijderPeriodeStart(data, datum)
+    if (status === 'verwijderd') {
+      saveSecure('menstruation_data', nieuw)
+      setData(nieuw)
+      setMelding('')
+    } else if (status === 'laatste') {
+      setMelding('De laatste start kan niet verwijderd worden. Pas de datum aan via Mijn Gegevens.')
+    }
+    setBevestigDatum(null)
   }
 
-  const start = new Date(data.startDate)
-  const today = new Date()
-  const cycles = []
+  const starts = alleStarts(data)
 
-  // Generate list of past cycles
-  for (let i = 0; i < 6; i++) {
-    const cycleStart = new Date(start)
-    cycleStart.setDate(cycleStart.getDate() + i * data.cycleLength)
-
-    if (cycleStart > today) break
-
-    const cycleEnd = new Date(cycleStart)
-    cycleEnd.setDate(cycleEnd.getDate() + data.bleedingDays - 1)
-
-    cycles.push({
-      number: i + 1,
-      start: cycleStart,
-      bleedingEnd: cycleEnd,
-      cycleLength: data.cycleLength,
-    })
-  }
+  // Nieuwste eerst; lengte = dagen tot de vólgende start
+  const rijen = starts.map((start, i) => {
+    const volgende = starts[i + 1] || null
+    const lengte = volgende ? Math.round((volgende - start) / 86400000) : null
+    const vorigeLengte = i > 0 && starts[i - 1]
+      ? Math.round((start - starts[i - 1]) / 86400000) : null
+    return {
+      datum: start,
+      iso: start.toISOString().split('T')[0],
+      lengte,
+      sprongMarker: lengte != null && vorigeLengte != null && Math.abs(lengte - vorigeLengte) >= 7,
+      langeCyclusMarker: lengte != null && lengte >= 60,
+    }
+  }).reverse()
 
   return (
     <div style={{
@@ -86,61 +67,134 @@ export default function MenstruationHistory() {
           ←
         </button>
 
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-lg)' }}>
-          Menstruatie Geschiedenis
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: '4px', color: 'var(--ink)' }}>
+          Cyclushistorie
         </h1>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '13px', color: 'var(--ink-2)', margin: '0 0 var(--space-lg) 0' }}>
+          Je gelogde menstruatiestarts. Een foutje? Verwijder de start en log opnieuw.
+        </p>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
-          {cycles.map((cycle) => (
-            <div
-              key={cycle.number}
-              style={{
-                background: 'var(--surface)',
-                padding: 'var(--space-md)',
-                borderRadius: '12px',
-                boxShadow: 'var(--shadow-sm)',
-              }}
-            >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: 'var(--space-sm)' }}>
-                <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '600', color: 'var(--ink)' }}>
-                  Cyclus {cycle.number}
-                </h3>
-                <span style={{ fontSize: '12px', color: 'var(--ink-3)', background: 'var(--accent-soft)', padding: '4px 8px', borderRadius: '6px' }}>
-                  {cycle.cycleLength} dagen
-                </span>
+        {melding && (
+          <div style={{
+            background: 'var(--surface-warm)',
+            border: '1px solid var(--border)',
+            borderRadius: '8px',
+            padding: '12px 16px',
+            marginBottom: 'var(--space-md)',
+            fontFamily: 'var(--font-sans)',
+            fontSize: '13px',
+            color: 'var(--ink-2)',
+          }}>
+            {melding}
+          </div>
+        )}
+
+        {rijen.length === 0 ? (
+          <p style={{ color: 'var(--ink-2)', fontFamily: 'var(--font-sans)', fontSize: '14px' }}>
+            Nog geen starts gelogd. Gebruik de logknop op het dashboard om je eerste
+            menstruatiestart vast te leggen.
+          </p>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+            {rijen.map(rij => (
+              <div
+                key={rij.iso}
+                style={{
+                  background: 'var(--surface)',
+                  border: '1px solid var(--border)',
+                  padding: 'var(--space-md)',
+                  borderRadius: '12px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  gap: 'var(--space-md)',
+                }}
+              >
+                <div>
+                  <p style={{ margin: 0, fontSize: '15px', fontWeight: '600', color: 'var(--ink)', fontFamily: 'var(--font-sans)' }}>
+                    {rij.datum.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long', year: 'numeric' })}
+                  </p>
+                  <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: 'var(--ink-3)', fontFamily: 'var(--font-sans)' }}>
+                    {rij.lengte != null ? `Cyclus van ${rij.lengte} dagen` : 'Lopende cyclus'}
+                    {rij.sprongMarker && ' · ±7 dagen t.o.v. vorige'}
+                    {rij.langeCyclusMarker && ' · 60+ dagen'}
+                  </p>
+                </div>
+
+                {bevestigDatum === rij.iso ? (
+                  <div style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                    <button
+                      onClick={() => handleVerwijder(rij.iso)}
+                      style={{
+                        padding: '8px 12px',
+                        background: 'var(--error)',
+                        color: 'white',
+                        border: 'none',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '12px',
+                        fontWeight: '600',
+                      }}
+                    >
+                      Verwijder
+                    </button>
+                    <button
+                      onClick={() => setBevestigDatum(null)}
+                      style={{
+                        padding: '8px 12px',
+                        background: 'transparent',
+                        color: 'var(--ink-2)',
+                        border: '1px solid var(--border)',
+                        borderRadius: '8px',
+                        cursor: 'pointer',
+                        fontFamily: 'var(--font-sans)',
+                        fontSize: '12px',
+                      }}
+                    >
+                      Houd
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setBevestigDatum(rij.iso)}
+                    title="Verwijder deze start"
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      cursor: 'pointer',
+                      color: 'var(--ink-3)',
+                      padding: '8px',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <Trash2 size={16} strokeWidth={1.5} />
+                  </button>
+                )}
               </div>
+            ))}
+          </div>
+        )}
 
-              <div style={{ fontSize: '13px', color: 'var(--ink-2)', lineHeight: '1.6' }}>
-                <p style={{ margin: '4px 0' }}>
-                  <strong>Menstruatie:</strong> {cycle.start.toLocaleDateString('nl-NL')} - {cycle.bleedingEnd.toLocaleDateString('nl-NL')} ({cycle.bleedingEnd.getDate() - cycle.start.getDate() + 1} dagen)
-                </p>
-                <p style={{ margin: '4px 0' }}>
-                  <strong>Volgende:</strong> {new Date(cycle.start.getTime() + cycle.cycleLength * 24 * 60 * 60 * 1000).toLocaleDateString('nl-NL')}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{
-          marginTop: 'var(--space-xl)',
-          padding: 'var(--space-md)',
-          background: 'rgba(199, 154, 110, 0.05)',
-          borderRadius: '12px',
-          fontSize: '13px',
-          color: 'var(--ink-2)',
-          lineHeight: '1.6',
-        }}>
-          <p style={{ margin: '0 0 var(--space-sm) 0' }}>
-            <strong>Cyclus lengte:</strong> {data.cycleLength} dagen
-          </p>
-          <p style={{ margin: '0 0 var(--space-sm) 0' }}>
-            <strong>Menstruatie duration:</strong> {data.bleedingDays} dagen
-          </p>
-          <p style={{ margin: '0' }}>
-            <strong>Gestart:</strong> {start.toLocaleDateString('nl-NL')}
-          </p>
-        </div>
+        {data?.startDate && (
+          <div style={{
+            marginTop: 'var(--space-xl)',
+            padding: 'var(--space-md)',
+            background: 'rgba(199, 154, 110, 0.05)',
+            borderRadius: '12px',
+            fontSize: '13px',
+            color: 'var(--ink-2)',
+            lineHeight: '1.6',
+            fontFamily: 'var(--font-sans)',
+          }}>
+            <p style={{ margin: '0 0 var(--space-sm) 0' }}>
+              <strong>Ingestelde cycluslengte:</strong> {data.cycleLength} dagen
+            </p>
+            <p style={{ margin: 0 }}>
+              <strong>Menstruatieduur:</strong> {data.bleedingDays} dagen
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

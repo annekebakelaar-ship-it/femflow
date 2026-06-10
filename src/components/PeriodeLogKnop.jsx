@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Droplet, Check } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
 import { logOpties, voegPeriodeStartToe, laatsteStart } from '../utils/periodeLog'
@@ -7,6 +8,7 @@ import { logOpties, voegPeriodeStartToe, laatsteStart } from '../utils/periodeLo
 // dagen (vandaag/gisteren/eergisteren) voor wie het loggen even uitstelde.
 // Data blijft client-side in secureStorage, consistent met de tracker.
 export default function PeriodeLogKnop({ onGelogd }) {
+  const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const [melding, setMelding] = useState(null) // { tekst, type: 'ok' | 'info' }
 
@@ -58,6 +60,22 @@ export default function PeriodeLogKnop({ onGelogd }) {
                   margin: '2px 0 0 0',
                 }}>
                   Laatste start: {laatste.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' })}
+                  {' · '}
+                  <button
+                    onClick={() => navigate('/health/menstruation/history')}
+                    style={{
+                      background: 'none',
+                      border: 'none',
+                      padding: 0,
+                      cursor: 'pointer',
+                      color: 'var(--accent)',
+                      fontFamily: 'var(--font-sans)',
+                      fontSize: '12px',
+                      textDecoration: 'underline',
+                    }}
+                  >
+                    historie
+                  </button>
                 </p>
               )}
               {melding && (

@@ -59,3 +59,55 @@ export function laatsteStart(menstrualData) {
   ]
   return new Date(Math.max(...datums.map(d => d.getTime())))
 }
+
+// Alle gelogde starts (startDate + bleeding-entries), chronologisch oplopend
+export function alleStarts(menstrualData) {
+  if (!menstrualData?.startDate) return []
+  const datums = [new Date(menstrualData.startDate)]
+  for (const e of menstrualData.entries || []) {
+    if (e.bleeding && e.date) {
+      const d = new Date(e.date)
+      if (!datums.some(x => x.toDateString() === d.toDateString())) datums.push(d)
+    }
+  }
+  return datums.sort((a, b) => a - b)
+}
+
+// Verwijdert een gelogde start.
+// - Entry-datum: entry weg
+// - startDate zelf: oudste entry wordt de nieuwe startDate (anker schuift op)
+// - Laatste overgebleven start: weigeren ('laatste') — dan blijft er een
+//   geldig record over; de datum aanpassen kan via Mijn Gegevens
+export function verwijderPeriodeStart(menstrualData, datum) {
+  if (!menstrualData?.startDate) return { status: 'niet-gevonden', data: menstrualData }
+  const zelfdeDag = (a, b) => new Date(a).toDateString() === new Date(b).toDateString()
+  const entries = menstrualData.entries || []
+
+  const entryIndex = entries.findIndex(e => e.bleeding && e.date && zelfdeDag(e.date, datum))
+  if (entryIndex !== -1) {
+    return {
+      status: 'verwijderd',
+      data: { ...menstrualData, entries: entries.filter((_, i) => i !== entryIndex) },
+    }
+  }
+
+  if (zelfdeDag(menstrualData.startDate, datum)) {
+    const bloedEntries = entries
+      .filter(e => e.bleeding && e.date)
+      .sort((a, b) => new Date(a.date) - new Date(b.date))
+    if (bloedEntries.length === 0) {
+      return { status: 'laatste', data: menstrualData }
+    }
+    const nieuweStart = bloedEntries[0]
+    return {
+      status: 'verwijderd',
+      data: {
+        ...menstrualData,
+        startDate: nieuweStart.date,
+        entries: entries.filter(e => e !== nieuweStart),
+      },
+    }
+  }
+
+  return { status: 'niet-gevonden', data: menstrualData }
+}
