@@ -15,6 +15,7 @@ import WearableOverlay from '../../components/WearableOverlay'
 import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
+import PeriodeLogKnop from '../../components/PeriodeLogKnop'
 
 export default function DashboardHome() {
   const [menuOpen] = useState(false)
@@ -127,6 +128,11 @@ export default function DashboardHome() {
         }}>
           Beta v1.0
         </span>
+      </div>
+
+      {/* Menstruatiestart loggen — de kernhandeling, dus bovenaan */}
+      <div style={{ marginTop: '56px' }}>
+        <PeriodeLogKnop onGelogd={() => setMenstrualData(getSecure('menstruation_data'))} />
       </div>
 
       {/* Quiz Results Overview */}
