@@ -133,7 +133,7 @@ function AppContent() {
 
       {/* Dashboard home (protected) */}
       <Route path="/dashboard" element={
-        user ? <DashboardHome /> : <div>Please log in</div>
+        user ? <DashboardHome /> : <Navigate to="/login" replace />
       } />
 
       {/* Quiz Results Page */}
@@ -149,7 +149,7 @@ function AppContent() {
             onAccount={() => navigate('/account')}
           />
         ) : (
-          <div>Please log in</div>
+          <Navigate to="/login" replace />
         )
       } />
 
@@ -163,7 +163,7 @@ function AppContent() {
             onAccount={() => navigate('/account')}
           />
         ) : (
-          <div>Please log in</div>
+          <Navigate to="/login" replace />
         )
       } />
 
@@ -188,13 +188,13 @@ function AppContent() {
       <Route path="/dashboard/learning" element={<LearningHub />} />
 
       {/* Progress/Analytics */}
-      <Route path="/dashboard/progress" element={user ? <ProgressAnalytics /> : <div>Please log in</div>} />
+      <Route path="/dashboard/progress" element={user ? <ProgressAnalytics /> : <Navigate to="/login" replace />} />
 
       {/* Wearable Dashboard */}
-      <Route path="/dashboard/wearable" element={user ? <WearableDashboard /> : <div>Please log in</div>} />
+      <Route path="/dashboard/wearable" element={user ? <WearableDashboard /> : <Navigate to="/login" replace />} />
 
       {/* Supplements */}
-      <Route path="/dashboard/supplements" element={user ? <SupplementsPage /> : <div>Please log in</div>} />
+      <Route path="/dashboard/supplements" element={user ? <SupplementsPage /> : <Navigate to="/login" replace />} />
 
       {/* Legal Pages */}
       <Route path="/privacy" element={<PrivacyPolicy />} />
@@ -202,7 +202,7 @@ function AppContent() {
       <Route path="/terms" element={<TermsOfService />} />
       <Route path="/legal/terms" element={<TermsOfService />} />
       <Route path="/support" element={<Support />} />
-      <Route path="/consent" element={user ? <ConsentManagement /> : <div>Please log in</div>} />
+      <Route path="/consent" element={user ? <ConsentManagement /> : <Navigate to="/login" replace />} />
 
       {/* 404 fallback */}
       <Route path="*" element={
