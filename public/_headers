@@ -1,2 +1,0 @@
-/*
-  Content-Security-Policy: default-src 'self' https://wearable-age-api.onrender.com; script-src 'self' 'unsafe-inline' https://plausible.io; connect-src 'self' https://wearable-age-api.onrender.com https://plausible.io https://cloud.ouraring.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:;

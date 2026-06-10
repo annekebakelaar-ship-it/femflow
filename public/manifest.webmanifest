@@ -1,0 +1,33 @@
+{
+  "name": "FemFlow — Cyclus & Perimenopauze Tracker",
+  "short_name": "FemFlow",
+  "description": "Volg je cyclus, symptomen en wearable-data. Privacyvriendelijk: je gezondheidsdata blijft op je eigen apparaat.",
+  "id": "/",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F6F1EC",
+  "theme_color": "#F6F1EC",
+  "lang": "nl",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
