@@ -1,8 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import rateLimit, { ipKeyGenerator } from 'express-rate-limit'
 import { Pool } from 'pg'
-import { randomInt } from 'crypto'
+import { randomInt, createHash } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 import axios from 'axios'
@@ -10,9 +11,16 @@ import { v4 as uuidv4 } from 'uuid'
 import { generateSleepRange } from './utils/synthDataGenerator.js'
 
 const { sign, verify } = jwtPkg
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 dotenv.config()
+
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
+const JWT_SECRET = process.env.JWT_SECRET
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET is not set — refusing to start')
+  process.exit(1)
+}
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -23,11 +31,50 @@ const pool = new Pool({
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
 })
 
+// Render zit achter een proxy; nodig zodat rate limiting het echte client-IP ziet
+app.set('trust proxy', 1)
+
 // Middleware
-app.use(cors())
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost:5175',
+  'http://localhost:5173',
+].filter(Boolean)
+app.use(cors({ origin: allowedOrigins }))
 app.use(express.json())
 
 // Email setup
+
+// Rate limiters voor publieke endpoints
+// - OTP aanvragen: max 5 per kwartier per IP (voorkomt e-mail-bombing via SendGrid)
+// - OTP verifiëren: max 5 pogingen per e-mailadres per 10 min (code is 6 cijfers,
+//   10 min geldig — zonder limiet is brute force haalbaar)
+// - Overige publieke writes: ruime spamrem per IP
+const otpRequestLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many code requests — try again in 15 minutes' },
+})
+
+const otpVerifyLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+  keyGenerator: (req) =>
+    req.body?.email ? String(req.body.email).toLowerCase() : ipKeyGenerator(req.ip),
+  message: { error: 'Too many attempts — request a new code' },
+})
+
+const publicWriteLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests — try again later' },
+})
 
 // Verify DB connection
 pool.query('SELECT NOW()', (err, res) => {
@@ -54,8 +101,12 @@ app.get('/api/v1/health', (req, res) => {
 // AUTH ENDPOINTS
 // ============================================================================
 
+function hashOtp(code) {
+  return createHash('sha256').update(code).digest('hex')
+}
+
 // Request OTP code
-app.post('/api/v1/auth/request-code', async (req, res) => {
+app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
   try {
     const { email } = req.body
 
@@ -67,10 +118,14 @@ app.post('/api/v1/auth/request-code', async (req, res) => {
     const code = String(randomInt(100000, 999999))
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10 min
 
-    // Store code in DB
+    // Opportunistic cleanup van verlopen codes
+    await pool.query('DELETE FROM femflow_otp_codes WHERE expires_at < NOW()')
+
+    // Store hashed code in DB (plaintext codes horen niet in de database)
+    const codeHash = hashOtp(code)
     await pool.query(
       'INSERT INTO femflow_otp_codes (email, code, expires_at) VALUES ($1, $2, $3) ON CONFLICT (email) DO UPDATE SET code=$2, expires_at=$3',
-      [email, code, expiresAt]
+      [email, codeHash, expiresAt]
     )
 
     // Send email via SendGrid
@@ -89,7 +144,7 @@ app.post('/api/v1/auth/request-code', async (req, res) => {
 })
 
 // Verify OTP code
-app.post('/api/v1/auth/verify-code', async (req, res) => {
+app.post('/api/v1/auth/verify-code', otpVerifyLimiter, async (req, res) => {
   try {
     const { email, code } = req.body
 
@@ -97,10 +152,10 @@ app.post('/api/v1/auth/verify-code', async (req, res) => {
       return res.status(400).json({ error: 'Email and code required' })
     }
 
-    // Check code
+    // Check code (vergelijk op hash)
     const result = await pool.query(
       'SELECT * FROM femflow_otp_codes WHERE email = $1 AND code = $2 AND expires_at > NOW()',
-      [email, code]
+      [email, hashOtp(String(code))]
     )
 
     if (result.rows.length === 0) {
@@ -125,7 +180,7 @@ app.post('/api/v1/auth/verify-code', async (req, res) => {
     }
 
     // Generate JWT
-    const token = sign({ userId, email }, process.env.JWT_SECRET || 'dev-secret', {
+    const token = sign({ userId, email }, JWT_SECRET, {
       expiresIn: '30d',
     })
 
@@ -178,7 +233,7 @@ app.post('/api/v1/auth/apple-signin', async (req, res) => {
 })
 
 // Save welcome signup (interest list)
-app.post('/api/v1/welcome/signup', async (req, res) => {
+app.post('/api/v1/welcome/signup', publicWriteLimiter, async (req, res) => {
   try {
     const { email } = req.body
 
@@ -226,7 +281,7 @@ app.post('/api/v1/welcome/signup', async (req, res) => {
 })
 
 // Unsubscribe from interest list
-app.post('/api/v1/welcome/unsubscribe', async (req, res) => {
+app.post('/api/v1/welcome/unsubscribe', publicWriteLimiter, async (req, res) => {
   try {
     const { email } = req.body
 
@@ -259,7 +314,7 @@ function authenticateToken(req, res, next) {
   }
 
   try {
-    const decoded = verify(token, process.env.JWT_SECRET || 'dev-secret')
+    const decoded = verify(token, JWT_SECRET)
     req.userId = decoded.userId
     next()
   } catch (err) {
@@ -359,18 +414,29 @@ app.post('/api/v1/menstruation', authenticateToken, async (req, res) => {
 
 // Delete user & data (GDPR)
 app.delete('/api/v1/users/me', authenticateToken, async (req, res) => {
+  // Transactie vereist één dedicated client: pool.query('BEGIN') geeft geen
+  // garantie dat vervolgqueries op dezelfde connectie landen
+  const client = await pool.connect()
   try {
-    await pool.query('BEGIN')
-    await pool.query('DELETE FROM femflow_menstruation_data WHERE user_id = $1', [req.userId])
-    await pool.query('DELETE FROM femflow_otp_codes WHERE email = (SELECT email FROM femflow_users WHERE id = $1)', [req.userId])
-    await pool.query('DELETE FROM femflow_users WHERE id = $1', [req.userId])
-    await pool.query('COMMIT')
+    await client.query('BEGIN')
+    // Alle tabellen met persoonsgegevens, ook die zonder ON DELETE CASCADE
+    // of die op e-mail in plaats van user_id sleutelen
+    await client.query('DELETE FROM femflow_menstruation_data WHERE user_id = $1', [req.userId])
+    await client.query('DELETE FROM femflow_biometric_readings WHERE user_id = $1', [req.userId])
+    await client.query('DELETE FROM femflow_wearable_connections WHERE user_id = $1', [req.userId])
+    await client.query('DELETE FROM femflow_quiz_results WHERE user_id = $1 OR email = (SELECT email FROM femflow_users WHERE id = $1)', [req.userId])
+    await client.query('DELETE FROM femflow_welcome_signups WHERE email = (SELECT email FROM femflow_users WHERE id = $1)', [req.userId])
+    await client.query('DELETE FROM femflow_otp_codes WHERE email = (SELECT email FROM femflow_users WHERE id = $1)', [req.userId])
+    await client.query('DELETE FROM femflow_users WHERE id = $1', [req.userId])
+    await client.query('COMMIT')
 
     res.json({ success: true, message: 'Account deleted' })
   } catch (err) {
-    await pool.query('ROLLBACK')
+    await client.query('ROLLBACK')
     console.error('Delete user error:', err)
     res.status(500).json({ error: 'Failed to delete account' })
+  } finally {
+    client.release()
   }
 })
 
@@ -379,10 +445,22 @@ app.delete('/api/v1/users/me', authenticateToken, async (req, res) => {
 // ============================================================================
 
 // Save quiz results (pre-login or post-login)
-app.post('/api/v1/quiz/save', async (req, res) => {
+// Optionele auth: zonder middleware was req.userId hier altijd null, waardoor
+// resultaten nooit aan een account gekoppeld werden
+app.post('/api/v1/quiz/save', publicWriteLimiter, async (req, res) => {
   try {
     const { email, constellation } = req.body
-    const userId = req.userId || null // Only set if authenticated (post-login)
+
+    let userId = null
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token) {
+      try {
+        userId = verify(token, JWT_SECRET).userId
+      } catch {
+        // Ongeldig token negeren: quiz opslaan mag ook anoniem
+      }
+    }
 
     if (!email || !constellation) {
       return res.status(400).json({ error: 'Email and constellation required' })
@@ -434,7 +512,9 @@ app.post('/api/v1/wearable/request-connect', authenticateToken, async (req, res)
     ouraAuthUrl.searchParams.append('redirect_uri', process.env.OURA_REDIRECT_URI)
     ouraAuthUrl.searchParams.append('response_type', 'code')
     ouraAuthUrl.searchParams.append('scope', 'personal daily')
-    ouraAuthUrl.searchParams.append('state', userId) // Simple state - in production use signed state
+    // Signed state: voorkomt dat iemand de callback met een willekeurig userId aanroept
+    const state = sign({ userId, purpose: 'oura_oauth' }, JWT_SECRET, { expiresIn: '10m' })
+    ouraAuthUrl.searchParams.append('state', state)
 
     res.json({ auth_url: ouraAuthUrl.toString() })
   } catch (err) {
@@ -447,10 +527,18 @@ app.post('/api/v1/wearable/request-connect', authenticateToken, async (req, res)
 app.get('/api/v1/wearable/callback', async (req, res) => {
   try {
     const { code, state } = req.query
-    const userId = state
 
-    if (!code || !userId) {
+    if (!code || !state) {
       return res.status(400).json({ error: 'Missing code or state' })
+    }
+
+    let userId
+    try {
+      const decoded = verify(state, JWT_SECRET)
+      if (decoded.purpose !== 'oura_oauth') throw new Error('wrong purpose')
+      userId = decoded.userId
+    } catch {
+      return res.status(403).json({ error: 'Invalid or expired state' })
     }
 
     // Exchange code for tokens

@@ -11,9 +11,10 @@ CREATE TABLE IF NOT EXISTS femflow_users (
 );
 
 -- FemFlow OTP codes for email authentication
+-- code bevat een sha256-hash van de 6-cijferige code (64 hex chars), nooit plaintext
 CREATE TABLE IF NOT EXISTS femflow_otp_codes (
   email VARCHAR(255) PRIMARY KEY,
-  code VARCHAR(6) NOT NULL,
+  code VARCHAR(64) NOT NULL,
   expires_at TIMESTAMP NOT NULL,
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
@@ -76,6 +77,14 @@ CREATE TABLE IF NOT EXISTS femflow_welcome_signups (
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
   unsubscribed_at TIMESTAMP
 );
+
+-- ============================================================================
+-- MIGRATIES — handmatig draaien op Neon (eenmalig, in volgorde)
+-- ============================================================================
+
+-- 2026-06-10: OTP-codes worden voortaan gehasht opgeslagen (sha256 = 64 chars)
+-- ALTER TABLE femflow_otp_codes ALTER COLUMN code TYPE VARCHAR(64);
+-- DELETE FROM femflow_otp_codes;  -- oude plaintext codes ongeldig maken
 
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_femflow_otp_codes_expires_at ON femflow_otp_codes(expires_at);
