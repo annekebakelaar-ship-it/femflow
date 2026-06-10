@@ -16,6 +16,7 @@ import { getMockWearableData } from '../../utils/wearableCycleHelper'
 import QuizResultsOverview from '../../components/QuizResultsOverview'
 import QuizOverviewCard from '../../components/QuizOverviewCard'
 import PeriodeLogKnop from '../../components/PeriodeLogKnop'
+import SupplementSuggestie from '../../components/SupplementSuggestie'
 
 export default function DashboardHome() {
   const [menuOpen] = useState(false)
@@ -262,6 +263,9 @@ export default function DashboardHome() {
 
       {/* Variability Band (Cycle Uncertainty Window) */}
       {menstrualData && <VariabiliteitsBand menstrualData={menstrualData} />}
+
+      {/* YouCaps funnel: verschijnt alleen met onderbouwende eigen data */}
+      <SupplementSuggestie cyclusFase={menstrualPhase?.phase || null} />
     </div>
   )
 }

@@ -5,7 +5,6 @@ import {
 } from 'recharts'
 import { getReadings, pullOuraData, getOuraStatus, requestOuraConnect, clearToken, seedSynthData, checkConsent, giveConsent } from '../../api/client'
 import TrendsSection from '../../components/TrendsSection'
-import ReformulationSection from '../../components/ReformulationSection'
 import SupplementsSection from '../../components/SupplementsSection'
 import ConsentModal from '../../components/ConsentModal'
 import hero from '../../assets/hero1.png'
@@ -508,7 +507,6 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             <MiniChart key={m.key} data={readings} {...m} />
           ))}
           <TrendsSection />
-          <ReformulationSection userId={user?.id} />
           <SupplementsSection />
         </div>
       )}
