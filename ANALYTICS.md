@@ -9,26 +9,19 @@
 
 GA4 is configured with privacy-first settings:
 
-1. **IP Anonymization** — User IPs are anonymized before sending to Google
-2. **Cookieless Tracking** — No cookies needed for basic tracking
+1. **Consent first** — GA4 wordt PAS geladen na expliciet akkoord via de
+   consent-banner (`AnalyticsConsentBanner`). Zonder akkoord wordt het script
+   niet geladen en gaat er geen byte naar Google. De keuze staat in
+   localStorage onder `femflow_analytics_consent` ('granted' / 'denied').
+2. **IP Anonymization** — User IPs are anonymized before sending to Google
 3. **Data Retention** — Limited to 14 days (configured in GA4 settings)
-4. **Cookie Consent** — Optional; data sends regardless but users can opt-out
 
 ### Setup
 
-GA4 tracking script is loaded in `index.html`:
-```html
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9FW3RS7H5"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-Q9FW3RS7H5', {
-    anonymize_ip: true,
-    cookie_flags: 'SameSite=None;Secure'
-  });
-</script>
-```
+De consent-gated loader staat in `index.html`: `window.initAnalytics()`
+injecteert het gtag-script en wordt aangeroepen (a) bij page load als er al
+eerder consent gegeven is, of (b) door de banner zodra de gebruiker akkoord
+geeft.
 
 ### Access Dashboard
 
@@ -58,8 +51,9 @@ gtag('event', 'cycle_logged', {
 
 ### Privacy Notes
 
-- Users in EU should see a cookie consent banner (optional for GA4 with IP anonymization)
-- No personal data is collected (health data stays in Supabase, encrypted)
+- EU-gebruikers zien de consent-banner bij hun eerste bezoek; analytics is
+  opt-in, niet opt-out
+- No personal data is collected (health data stays in Neon, encrypted)
 - GA4 data is not linked to user identities
 - Data retention can be adjusted in GA4 Settings > Data Retention
 

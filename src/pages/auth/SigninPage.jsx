@@ -36,10 +36,7 @@ export default function SigninPage() {
 
     setLoading(true)
     try {
-      const result = await requestMagicLink(email)
-      if (result.dev_link) {
-        setDevLink(result.dev_link)
-      }
+      await requestMagicLink(email)
       setStep('verify')
     } catch (err) {
       console.error('Magic link request failed:', err)
@@ -92,12 +89,6 @@ export default function SigninPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  function handleUseMagicLink() {
-    const urlParams = new URLSearchParams(devLink.split('?')[1])
-    const t = urlParams.get('token')
-    if (t) setToken(t)
   }
 
   return (

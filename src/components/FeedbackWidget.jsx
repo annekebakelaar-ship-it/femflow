@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { MessageCircle, X } from 'react-feather'
+import { sendFeedback } from '../api/client'
 
 export default function FeedbackWidget() {
   const [isOpen, setIsOpen] = useState(false)
@@ -7,26 +8,16 @@ export default function FeedbackWidget() {
   const [email, setEmail] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!feedback.trim()) return
 
     setLoading(true)
+    setError('')
     try {
-      // Send to backend or email service
-      const data = {
-        feedback: feedback.trim(),
-        email: email.trim() || 'anonymous',
-        timestamp: new Date().toISOString(),
-        url: window.location.href,
-      }
-
-      // For now, just log to console (can be replaced with API call)
-      console.log('Feedback submitted:', data)
-
-      // In production, send to API:
-      // await fetch('/api/feedback', { method: 'POST', body: JSON.stringify(data) })
+      await sendFeedback(feedback.trim(), email.trim() || null, window.location.href)
 
       setSubmitted(true)
       setTimeout(() => {
@@ -37,6 +28,7 @@ export default function FeedbackWidget() {
       }, 2000)
     } catch (err) {
       console.error('Failed to submit feedback:', err)
+      setError('Versturen mislukt. Probeer het later opnieuw.')
     } finally {
       setLoading(false)
     }
@@ -158,6 +150,19 @@ export default function FeedbackWidget() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {error && (
+                  <div style={{
+                    background: '#FCE4EC',
+                    border: '1px solid var(--error)',
+                    borderRadius: '8px',
+                    padding: '10px 12px',
+                    color: 'var(--error)',
+                    fontFamily: 'var(--font-sans)',
+                    fontSize: '13px',
+                  }}>
+                    {error}
+                  </div>
+                )}
                 <p style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '13px',

@@ -310,3 +310,10 @@ export async function seedWearableData(days = 60, scenario = 'stable') {
 export async function getWearableReadings(days = 90) {
   return request(`/api/v1/wearable/readings?days=${days}`)
 }
+
+export async function sendFeedback(feedback, email, url) {
+  return request('/api/v1/feedback', {
+    method: 'POST',
+    body: JSON.stringify({ feedback, email, url }),
+  })
+}

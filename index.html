@@ -12,16 +12,29 @@
     <meta property="og:url" content="https://femflow.youcaps.app" />
     <meta property="og:type" content="website" />
 
-    <!-- Analytics: Google Analytics 4 (GDPR-compliant) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-Q9FW3RS7H5"></script>
+    <!-- Analytics: Google Analytics 4 — laadt PAS na expliciete consent (GDPR).
+         De banner in de app roept window.initAnalytics() aan na akkoord. -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-Q9FW3RS7H5', {
-        anonymize_ip: true,
-        cookie_flags: 'SameSite=None;Secure'
-      });
+      window.initAnalytics = function () {
+        if (window.__gaLoaded) return;
+        window.__gaLoaded = true;
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Q9FW3RS7H5';
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', 'G-Q9FW3RS7H5', {
+          anonymize_ip: true,
+          cookie_flags: 'SameSite=None;Secure'
+        });
+      };
+      try {
+        if (localStorage.getItem('femflow_analytics_consent') === 'granted') {
+          window.initAnalytics();
+        }
+      } catch (e) {}
     </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />

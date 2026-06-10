@@ -7,6 +7,7 @@ import { randomInt, createHash } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
 import sgMail from '@sendgrid/mail'
 import axios from 'axios'
+import { OAuth2Client } from 'google-auth-library'
 import { v4 as uuidv4 } from 'uuid'
 import { generateSleepRange } from './utils/synthDataGenerator.js'
 
@@ -109,6 +110,30 @@ function hashOtp(code) {
   return createHash('sha256').update(code).digest('hex')
 }
 
+// Leest het JWT uit de Authorization header als dat er is; null bij afwezig/ongeldig.
+// Voor endpoints die zowel anoniem als ingelogd werken (quiz/save, feedback).
+function getOptionalUserId(req) {
+  const authHeader = req.headers['authorization']
+  const token = authHeader && authHeader.split(' ')[1]
+  if (!token) return null
+  try {
+    return verify(token, JWT_SECRET).userId
+  } catch {
+    return null
+  }
+}
+
+// Haalt bestaande user op of maakt er een aan; geeft userId terug
+async function findOrCreateUser(email, name = null) {
+  const existing = await pool.query('SELECT id FROM femflow_users WHERE email = $1', [email])
+  if (existing.rows.length > 0) return existing.rows[0].id
+  const created = await pool.query(
+    'INSERT INTO femflow_users (id, email, name, created_at) VALUES ($1, $2, $3, NOW()) RETURNING id',
+    [uuidv4(), email, name]
+  )
+  return created.rows[0].id
+}
+
 // Request OTP code
 app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
   try {
@@ -170,18 +195,7 @@ app.post('/api/v1/auth/verify-code', otpVerifyLimiter, async (req, res) => {
     await pool.query('DELETE FROM femflow_otp_codes WHERE email = $1', [email])
 
     // Create or get user
-    let userResult = await pool.query('SELECT id FROM femflow_users WHERE email = $1', [email])
-    let userId
-
-    if (userResult.rows.length === 0) {
-      const newUserResult = await pool.query(
-        'INSERT INTO femflow_users (id, email, created_at) VALUES ($1, $2, NOW()) RETURNING id',
-        [uuidv4(), email]
-      )
-      userId = newUserResult.rows[0].id
-    } else {
-      userId = userResult.rows[0].id
-    }
+    const userId = await findOrCreateUser(email)
 
     // Generate JWT
     const token = sign({ userId, email }, JWT_SECRET, {
@@ -195,44 +209,46 @@ app.post('/api/v1/auth/verify-code', otpVerifyLimiter, async (req, res) => {
   }
 })
 
-// Google OAuth (placeholder - requires Google token validation)
-app.post('/api/v1/auth/google-signin', async (req, res) => {
+// Google sign-in: valideer het ID-token tegen Google's publieke keys
+const googleOAuthClient = new OAuth2Client()
+
+app.post('/api/v1/auth/google-signin', publicWriteLimiter, async (req, res) => {
   try {
     const { token } = req.body
     if (!token) {
       return res.status(400).json({ error: 'Google token required' })
     }
+    if (!process.env.GOOGLE_CLIENT_ID) {
+      return res.status(503).json({ error: 'Google sign-in not configured' })
+    }
 
-    // TODO: Validate token with Google API
-    // For now, return placeholder response
+    let payload
+    try {
+      const ticket = await googleOAuthClient.verifyIdToken({
+        idToken: token,
+        audience: process.env.GOOGLE_CLIENT_ID,
+      })
+      payload = ticket.getPayload()
+    } catch {
+      return res.status(401).json({ error: 'Invalid Google token' })
+    }
+
+    if (!payload.email || !payload.email_verified) {
+      return res.status(401).json({ error: 'Google account email not verified' })
+    }
+
+    const userId = await findOrCreateUser(payload.email, payload.name || null)
+    const jwtToken = sign({ userId, email: payload.email }, JWT_SECRET, { expiresIn: '30d' })
+
     res.json({
       success: true,
-      message: 'Google OAuth not yet configured on backend',
-      token: 'placeholder',
+      access_token: jwtToken,
+      userId,
+      user: { id: userId, email: payload.email },
     })
   } catch (err) {
     console.error('Google sign-in error:', err)
     res.status(500).json({ error: 'Google sign-in failed' })
-  }
-})
-
-// Apple OAuth (placeholder)
-app.post('/api/v1/auth/apple-signin', async (req, res) => {
-  try {
-    const { token } = req.body
-    if (!token) {
-      return res.status(400).json({ error: 'Apple token required' })
-    }
-
-    // TODO: Validate token with Apple API
-    res.json({
-      success: true,
-      message: 'Apple OAuth not yet configured on backend',
-      token: 'placeholder',
-    })
-  } catch (err) {
-    console.error('Apple sign-in error:', err)
-    res.status(500).json({ error: 'Apple sign-in failed' })
   }
 })
 
@@ -302,6 +318,32 @@ app.post('/api/v1/welcome/unsubscribe', publicWriteLimiter, async (req, res) => 
   } catch (err) {
     console.error('Unsubscribe error:', err)
     res.status(500).json({ error: 'Failed to unsubscribe' })
+  }
+})
+
+// ============================================================================
+// FEEDBACK
+// ============================================================================
+
+// Feedback uit de FeedbackWidget; werkt anoniem en ingelogd
+app.post('/api/v1/feedback', publicWriteLimiter, async (req, res) => {
+  try {
+    const { feedback, email, url } = req.body
+
+    if (!feedback || feedback.trim().length < 10) {
+      return res.status(400).json({ error: 'Feedback of at least 10 characters required' })
+    }
+
+    const userId = getOptionalUserId(req)
+    await pool.query(
+      'INSERT INTO femflow_feedback (user_id, email, message, page_url) VALUES ($1, $2, $3, $4)',
+      [userId, email || null, feedback.trim().slice(0, 500), (url || '').slice(0, 500) || null]
+    )
+
+    res.json({ success: true })
+  } catch (err) {
+    console.error('Feedback error:', err)
+    res.status(500).json({ error: 'Failed to save feedback' })
   }
 })
 
@@ -454,17 +496,7 @@ app.delete('/api/v1/users/me', authenticateToken, async (req, res) => {
 app.post('/api/v1/quiz/save', publicWriteLimiter, async (req, res) => {
   try {
     const { email, constellation } = req.body
-
-    let userId = null
-    const authHeader = req.headers['authorization']
-    const token = authHeader && authHeader.split(' ')[1]
-    if (token) {
-      try {
-        userId = verify(token, JWT_SECRET).userId
-      } catch {
-        // Ongeldig token negeren: quiz opslaan mag ook anoniem
-      }
-    }
+    const userId = getOptionalUserId(req)
 
     if (!email || !constellation) {
       return res.status(400).json({ error: 'Email and constellation required' })
@@ -545,14 +577,17 @@ app.get('/api/v1/wearable/callback', async (req, res) => {
       return res.status(403).json({ error: 'Invalid or expired state' })
     }
 
-    // Exchange code for tokens
-    const tokenResponse = await axios.post('https://api.ouraring.com/oauth/token', {
-      grant_type: 'authorization_code',
-      code: code,
-      redirect_uri: process.env.OURA_REDIRECT_URI,
-      client_id: process.env.OURA_CLIENT_ID,
-      client_secret: process.env.OURA_CLIENT_SECRET,
-    })
+    // Exchange code for tokens (Oura verwacht application/x-www-form-urlencoded)
+    const tokenResponse = await axios.post(
+      'https://api.ouraring.com/oauth/token',
+      new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: process.env.OURA_REDIRECT_URI,
+        client_id: process.env.OURA_CLIENT_ID,
+        client_secret: process.env.OURA_CLIENT_SECRET,
+      })
+    )
 
     const { access_token, refresh_token, expires_in } = tokenResponse.data
     const expiresAt = new Date(Date.now() + expires_in * 1000)
@@ -666,56 +701,101 @@ app.post('/api/v1/wearable/seed', authenticateToken, async (req, res) => {
   }
 })
 
+// Geeft een geldig Oura access token voor deze user; ververst het automatisch
+// via het refresh token als het (bijna) verlopen is. Null = niet verbonden of
+// refresh onmogelijk (dan moet de user opnieuw koppelen).
+async function getValidOuraToken(userId) {
+  const result = await pool.query(
+    'SELECT access_token, refresh_token, token_expires_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
+    [userId, 'oura']
+  )
+  if (result.rows.length === 0) return null
+
+  const { access_token, refresh_token, token_expires_at } = result.rows[0]
+
+  // Nog minstens een minuut geldig: gewoon gebruiken
+  if (token_expires_at && new Date(token_expires_at) > new Date(Date.now() + 60 * 1000)) {
+    return access_token
+  }
+
+  if (!refresh_token) return null
+
+  const tokenResponse = await axios.post(
+    'https://api.ouraring.com/oauth/token',
+    new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token,
+      client_id: process.env.OURA_CLIENT_ID,
+      client_secret: process.env.OURA_CLIENT_SECRET,
+    })
+  )
+
+  const fresh = tokenResponse.data
+  const expiresAt = new Date(Date.now() + fresh.expires_in * 1000)
+  await pool.query(
+    `UPDATE femflow_wearable_connections SET access_token = $1, refresh_token = $2, token_expires_at = $3
+     WHERE user_id = $4 AND wearable_type = $5`,
+    [fresh.access_token, fresh.refresh_token || refresh_token, expiresAt, userId, 'oura']
+  )
+
+  return fresh.access_token
+}
+
 // Fetch and save Oura data
 app.post('/api/v1/wearable/pull', authenticateToken, async (req, res) => {
   try {
     const userId = req.userId
 
-    // Get valid access token
-    const tokenResult = await pool.query(
-      'SELECT access_token, token_expires_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
-      [userId, 'oura']
-    )
-
-    if (tokenResult.rows.length === 0) {
-      return res.status(401).json({ error: 'Wearable not connected' })
+    let accessToken
+    try {
+      accessToken = await getValidOuraToken(userId)
+    } catch (err) {
+      console.error('Oura token refresh failed:', err.response?.data || err.message)
+      return res.status(401).json({ error: 'Token refresh failed - please reconnect' })
+    }
+    if (!accessToken) {
+      return res.status(401).json({ error: 'Wearable not connected - please reconnect' })
     }
 
-    let { access_token, token_expires_at } = tokenResult.rows[0]
-
-    // Check if token expired and refresh if needed
-    if (new Date(token_expires_at) < new Date()) {
-      // Token refresh logic would go here (for now, just error)
-      return res.status(401).json({ error: 'Token expired - please reconnect' })
-    }
-
-    // Fetch last 7 days of data from Oura
+    // Fetch last 7 days of data from Oura v2
+    // (er bestaat geen daily_summaries endpoint; slaap en readiness zijn aparte collecties)
     const today = new Date()
     const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
-    const startDate = sevenDaysAgo.toISOString().split('T')[0]
-    const endDate = today.toISOString().split('T')[0]
+    const params = {
+      start_date: sevenDaysAgo.toISOString().split('T')[0],
+      end_date: today.toISOString().split('T')[0],
+    }
+    const headers = { Authorization: `Bearer ${accessToken}` }
 
-    const ouraResponse = await axios.get('https://api.ouraring.com/v2/usercollection/daily_summaries', {
-      headers: { Authorization: `Bearer ${access_token}` },
-      params: { start_date: startDate, end_date: endDate },
-    })
+    const [sleepResponse, readinessResponse] = await Promise.all([
+      axios.get('https://api.ouraring.com/v2/usercollection/sleep', { headers, params }),
+      axios.get('https://api.ouraring.com/v2/usercollection/daily_readiness', { headers, params }),
+    ])
 
-    // Save readings to database
-    for (const reading of ouraResponse.data.data) {
+    // Merge per dag: slaapsessies (alleen de hoofdslaap, geen naps) + readiness score
+    const byDay = {}
+    for (const s of sleepResponse.data.data) {
+      if (s.type && s.type !== 'long_sleep') continue
+      byDay[s.day] = {
+        sleep_min: s.total_sleep_duration ? Math.round(s.total_sleep_duration / 60) : null,
+        deep_min: s.deep_sleep_duration ? Math.round(s.deep_sleep_duration / 60) : null,
+        hrv: s.average_hrv ?? null,
+        rhr: s.lowest_heart_rate ?? null,
+      }
+    }
+    for (const r of readinessResponse.data.data) {
+      byDay[r.day] = { ...(byDay[r.day] || {}), readiness: r.score ?? null }
+    }
+
+    const days = Object.keys(byDay)
+    for (const day of days) {
+      const d = byDay[day]
       await pool.query(
         `INSERT INTO femflow_biometric_readings (user_id, reading_date, sleep_duration_min, deep_sleep_min, hrv_ms, resting_heart_rate, recovery_index)
          VALUES ($1, $2, $3, $4, $5, $6, $7)
          ON CONFLICT (user_id, reading_date) DO UPDATE SET
          sleep_duration_min = $3, deep_sleep_min = $4, hrv_ms = $5, resting_heart_rate = $6, recovery_index = $7`,
-        [
-          userId,
-          reading.day,
-          reading.sleep?.total_sleep_duration ? Math.round(reading.sleep.total_sleep_duration / 60) : null,
-          reading.sleep?.deep_sleep_duration ? Math.round(reading.sleep.deep_sleep_duration / 60) : null,
-          reading.heart_rate?.variability || null,
-          reading.heart_rate?.resting || null,
-          reading.readiness?.score || null,
-        ]
+        [userId, day, d.sleep_min ?? null, d.deep_min ?? null, d.hrv ?? null, d.rhr ?? null, d.readiness ?? null]
       )
     }
 
@@ -725,9 +805,9 @@ app.post('/api/v1/wearable/pull', authenticateToken, async (req, res) => {
       [userId, 'oura']
     )
 
-    res.json({ success: true, readings_synced: ouraResponse.data.data.length })
+    res.json({ success: true, readings_synced: days.length })
   } catch (err) {
-    console.error('Oura pull error:', err)
+    console.error('Oura pull error:', err.response?.data || err.message)
     res.status(500).json({ error: 'Failed to fetch Oura data' })
   }
 })

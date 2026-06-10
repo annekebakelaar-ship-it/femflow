@@ -78,13 +78,27 @@ CREATE TABLE IF NOT EXISTS femflow_welcome_signups (
   unsubscribed_at TIMESTAMP
 );
 
+-- FemFlow Feedback (uit de FeedbackWidget; user_id optioneel)
+CREATE TABLE IF NOT EXISTS femflow_feedback (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES femflow_users(id) ON DELETE SET NULL,
+  email VARCHAR(255),
+  message TEXT NOT NULL,
+  page_url VARCHAR(500),
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
 -- ============================================================================
 -- MIGRATIES — handmatig draaien op Neon (eenmalig, in volgorde)
 -- ============================================================================
 
 -- 2026-06-10: OTP-codes worden voortaan gehasht opgeslagen (sha256 = 64 chars)
+-- [GEDRAAID 2026-06-10]
 -- ALTER TABLE femflow_otp_codes ALTER COLUMN code TYPE VARCHAR(64);
 -- DELETE FROM femflow_otp_codes;  -- oude plaintext codes ongeldig maken
+
+-- 2026-06-10: feedback-tabel voor de FeedbackWidget (fase 4)
+-- Draai het CREATE TABLE femflow_feedback statement hierboven op Neon.
 
 -- Indexes for performance
 CREATE INDEX IF NOT EXISTS idx_femflow_otp_codes_expires_at ON femflow_otp_codes(expires_at);

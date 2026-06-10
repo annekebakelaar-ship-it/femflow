@@ -5,6 +5,7 @@ import './utils/devSetup'
 import ErrorBoundary from './components/ErrorBoundary'
 import Footer from './components/Footer'
 import FeedbackWidget from './components/FeedbackWidget'
+import AnalyticsConsentBanner from './components/AnalyticsConsentBanner'
 import Welcome from './pages/Welcome'
 import SmartQuiz from './pages/SmartQuiz'
 import QuizResults from './pages/QuizResults'
@@ -244,6 +245,7 @@ function AppContent() {
     </Routes>
     {user && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
     {location.pathname !== '/' && <FeedbackWidget />}
+    <AnalyticsConsentBanner />
     </div>
   )
 }
