@@ -1,5 +1,65 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
+import { getWearableReadings } from "../../api/client"
+import { getSecure } from "../../utils/secureStorage"
+
+// Bouwt de 90-dagensamenvatting client-side uit eigen readings + symptoomlog.
+// Verving de call naar een niet-bestaand WAB-endpoint, waardoor deze pagina
+// voor elke gebruiker "Kan gegevens niet laden" toonde.
+function buildSummary(readings, symptomLog) {
+  const avg = arr => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null)
+  const trend = arr => {
+    if (arr.length < 4) return "stabiel"
+    const helft = Math.floor(arr.length / 2)
+    const eerste = avg(arr.slice(0, helft))
+    const tweede = avg(arr.slice(helft))
+    const verschil = (tweede - eerste) / eerste
+    if (verschil > 0.03) return "stijgend"
+    if (verschil < -0.03) return "dalend"
+    return "stabiel"
+  }
+
+  const slaap = readings.map(r => r.sleep_duration_min).filter(v => v != null)
+  const hrv = readings.map(r => r.hrv_ms).filter(v => v != null)
+  const rhr = readings.map(r => r.resting_heart_rate).filter(v => v != null)
+
+  const frequency = {}
+  const drieMaandenTerug = new Date()
+  drieMaandenTerug.setDate(drieMaandenTerug.getDate() - 90)
+  for (const entry of symptomLog || []) {
+    if (!entry.date || new Date(entry.date) < drieMaandenTerug) continue
+    const label = entry.label || entry.symptom
+    frequency[label] = (frequency[label] || 0) + 1
+  }
+  const totalLogged = Object.values(frequency).reduce((a, b) => a + b, 0)
+
+  const insights = []
+  if (slaap.length) insights.push(`Gemiddeld ${(avg(slaap) / 60).toFixed(1)} uur slaap over ${slaap.length} geregistreerde nachten`)
+  if (hrv.length >= 4) insights.push(`Je HRV-verloop over deze periode is ${trend(hrv)}`)
+  if (totalLogged > 0) insights.push(`Je logde ${totalLogged} symptomen in 90 dagen`)
+
+  const recommendations = []
+  if (slaap.length && avg(slaap) < 7 * 60) recommendations.push("Je gemiddelde slaapduur ligt onder de 7 uur; let op je slaapritme")
+  recommendations.push("Bespreek aanhoudende of opvallende veranderingen met je huisarts")
+
+  return {
+    sleep: {
+      average_hours: slaap.length ? (avg(slaap) / 60).toFixed(1) : "-",
+      entries: slaap.length,
+    },
+    hrv: {
+      average: hrv.length ? Math.round(avg(hrv)) : "-",
+      trend: trend(hrv),
+    },
+    rhr: {
+      average_bpm: rhr.length ? Math.round(avg(rhr)) : "-",
+      trend: trend(rhr),
+    },
+    symptoms: { total_logged: totalLogged, frequency },
+    insights,
+    recommendations,
+  }
+}
 
 export default function ProgressAnalytics() {
   const navigate = useNavigate()
@@ -17,19 +77,15 @@ export default function ProgressAnalytics() {
           return
         }
 
-        const res = await fetch("https://wearable-age-api.onrender.com/api/v1/analytics/90day-summary", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
-        })
+        const result = await getWearableReadings(90)
+        const symptomLog = getSecure("symptom_log") || []
 
-        if (!res.ok) {
-          throw new Error(`API error: ${res.status}`)
+        if ((!result.data || result.data.length === 0) && symptomLog.length === 0) {
+          setError("Nog geen data om samen te vatten. Koppel een wearable of log symptomen.")
+          return
         }
 
-        const json = await res.json()
-        setData(json)
+        setData(buildSummary(result.data || [], symptomLog))
       } catch (err) {
         console.error("Failed to load analytics:", err)
         setError("Kan gegevens niet laden. Probeer later opnieuw.")

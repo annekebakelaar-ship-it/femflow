@@ -2,23 +2,20 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import logo from '../../assets/YouCapsLogo.png.png'
 import SupplementsSection from '../../components/SupplementsSection'
+import { getWearableReadings } from '../../api/client'
 
 export default function WearableDashboard() {
   const navigate = useNavigate()
   const [wearableData, setWearableData] = useState(null)
 
   useEffect(() => {
-    // Fetch wearable data
+    // Laatste reading via de FemFlow-API (voorheen: niet-bestaand WAB-endpoint)
     const fetchWearableData = async () => {
       try {
-        const res = await fetch('https://wearable-age-api.onrender.com/api/readings?days=1', {
-          headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
-        })
-        if (res.ok) {
-          const readings = await res.json()
-          if (readings.length > 0) {
-            setWearableData(readings[readings.length - 1])
-          }
+        const result = await getWearableReadings(1)
+        if (result.data && result.data.length > 0) {
+          const laatste = result.data[result.data.length - 1]
+          setWearableData({ ...laatste, rhr_bpm: laatste.resting_heart_rate })
         }
       } catch (err) {
         console.error('Failed to fetch wearable data:', err)

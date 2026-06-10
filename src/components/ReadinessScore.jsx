@@ -46,32 +46,13 @@ export default function ReadinessScore({ wearableData, cycleData }) {
   const [readiness, setReadiness] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  // Berekening gebeurt lokaal: de oude remote call ging naar de WAB-API
+  // waar dit endpoint niet bestaat, en kon bovendien een foutobject als
+  // score renderen. De lokale formule was al de fallback.
   useEffect(() => {
     if (!wearableData || !cycleData) return
-
-    setLoading(true)
-
-    fetch('https://wearable-age-api.onrender.com/api/readiness/calculate', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
-      },
-      body: JSON.stringify({
-        wearable_data: wearableData,
-        cycle_data: cycleData,
-      }),
-    })
-      .then(r => r.json())
-      .then(data => {
-        setReadiness(data)
-        setLoading(false)
-      })
-      .catch(() => {
-        const local = calculateReadinessLocal(wearableData, cycleData)
-        setReadiness(local)
-        setLoading(false)
-      })
+    setReadiness(calculateReadinessLocal(wearableData, cycleData))
+    setLoading(false)
   }, [wearableData, cycleData])
 
   if (loading || !readiness) return null

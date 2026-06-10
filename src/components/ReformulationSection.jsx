@@ -31,8 +31,9 @@ export default function ReformulationSection({ userId }) {
       .finally(() => setLoading(false))
   }, [userId])
 
-  if (loading) return <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-micro)', color: 'var(--color-label)' }}>Analyzing trends…</p>
-  if (error) return <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-negative)' }}>{error}</p>
+  // WAB-erfenis (supplement-strip): endpoint bestaat niet in de FemFlow-
+  // backend. Stil falen i.p.v. een rode foutmelding voor elke gebruiker.
+  if (loading || error) return null
   if (!data) return null
 
   return (

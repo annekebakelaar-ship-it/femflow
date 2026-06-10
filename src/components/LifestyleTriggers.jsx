@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { saveSecure, getSecure } from '../utils/secureStorage'
 
 const TRIGGERS = [
   { id: 'alcohol', label: 'Alcohol', emoji: '🍷' },
@@ -19,24 +20,22 @@ export default function LifestyleTriggers() {
   useEffect(() => {
     const today = new Date().toISOString().split('T')[0]
     setDate(today)
+    // Eerder vandaag gelogde triggers terugzetten
+    const log = getSecure('trigger_log') || {}
+    if (log[today]) setTriggers(log[today])
   }, [])
 
-  async function saveTriggers(newTriggers) {
+  // Client-side opslag (secureStorage), zelfde patroon als symptomen.
+  // De oude versie deed een PUT naar de WAB-API waar dit endpoint niet
+  // bestaat, waardoor opslaan stilletjes faalde.
+  function saveTriggers(newTriggers) {
     setSaving(true)
     try {
-      const res = await fetch('https://wearable-age-api.onrender.com/api/v1/logs/triggers', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}`
-        },
-        body: JSON.stringify({ date, triggers: newTriggers }),
-      })
-
-      if (res.ok) {
-        setSaved(true)
-        setTimeout(() => setSaved(false), 1200)
-      }
+      const log = getSecure('trigger_log') || {}
+      log[date] = newTriggers
+      saveSecure('trigger_log', log)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 1200)
     } catch (err) {
       console.error('Failed to save triggers:', err)
     } finally {

@@ -1,5 +1,27 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { saveSecure, getSecure, exportSecureData, deleteAllSecure } from '../../utils/secureStorage'
+import { deleteAccount, clearToken } from '../../api/client'
+
+// Toestemmingen leven client-side: de app slaat gezondheidsdata lokaal op
+// (secureStorage) en de analytics-keuze staat los in femflow_analytics_consent.
+const DEFAULT_CONSENTS = {
+  cyclus_tracking: {
+    enabled: true,
+    can_revoke: false,
+    description: 'Cyclusdata lokaal opslaan op dit apparaat. Nodig om de app te gebruiken.',
+  },
+  wearable_data: {
+    enabled: true,
+    can_revoke: true,
+    description: 'Wearable-data (slaap, HRV) ophalen en tonen wanneer je een wearable koppelt.',
+  },
+  anonieme_statistieken: {
+    enabled: false,
+    can_revoke: true,
+    description: 'Anonieme gebruiksstatistieken om FemFlow te verbeteren.',
+  },
+}
 
 export default function ConsentManagement() {
   const navigate = useNavigate()
@@ -12,34 +34,47 @@ export default function ConsentManagement() {
     loadConsents()
   }, [])
 
-  async function loadConsents() {
+  function loadConsents() {
     try {
-      const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/consent-status', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
-      })
-      if (res.ok) {
-        const data = await res.json()
-        setConsents(data.consents)
+      const opgeslagen = getSecure('consents') || {}
+      // Analytics-keuze meenemen uit de consent-banner
+      const analytics = localStorage.getItem('femflow_analytics_consent')
+      const samengevoegd = { ...DEFAULT_CONSENTS, ...opgeslagen }
+      if (analytics) {
+        samengevoegd.anonieme_statistieken = {
+          ...samengevoegd.anonieme_statistieken,
+          enabled: analytics === 'granted',
+        }
       }
+      setConsents(samengevoegd)
     } catch (err) {
       console.error('Failed to load consents:', err)
+      setConsents(DEFAULT_CONSENTS)
     } finally {
       setLoading(false)
     }
   }
 
-  async function handleToggle(consentKey) {
+  function handleToggle(consentKey) {
     setSaving(true)
     try {
-      // TODO: Implement backend endpoint to save consent changes
-      // For now, update local state
-      setConsents(prev => ({
-        ...prev,
-        [consentKey]: {
-          ...prev[consentKey],
-          enabled: !prev[consentKey].enabled
+      setConsents(prev => {
+        const next = {
+          ...prev,
+          [consentKey]: {
+            ...prev[consentKey],
+            enabled: !prev[consentKey].enabled,
+          },
         }
-      }))
+        saveSecure('consents', next)
+        // Analytics-toggle doorzetten naar de consent-banner-keuze
+        if (consentKey === 'anonieme_statistieken') {
+          const granted = next[consentKey].enabled
+          localStorage.setItem('femflow_analytics_consent', granted ? 'granted' : 'denied')
+          if (granted && window.initAnalytics) window.initAnalytics()
+        }
+        return next
+      })
       setSaved(true)
       setTimeout(() => setSaved(false), 2000)
     } catch (err) {
@@ -49,22 +84,18 @@ export default function ConsentManagement() {
     }
   }
 
-  async function handleDataExport() {
+  // Export van alle lokaal opgeslagen gezondheidsdata (AVG-inzagerecht).
+  // Client-side: de data staat in secureStorage, niet op een server.
+  function handleDataExport() {
     try {
-      const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/data-export?format=json', {
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
-      })
-      if (res.ok) {
-        const data = await res.json()
-        // Download as JSON file
-        const blob = new Blob([JSON.stringify(data.data, null, 2)], { type: 'application/json' })
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = data.filename
-        a.click()
-        URL.revokeObjectURL(url)
-      }
+      const data = exportSecureData() || {}
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `femflow-data-export-${new Date().toISOString().split('T')[0]}.json`
+      a.click()
+      URL.revokeObjectURL(url)
     } catch (err) {
       console.error('Failed to export data:', err)
     }
@@ -77,15 +108,12 @@ export default function ConsentManagement() {
     if (!confirmed) return
 
     try {
-      const res = await fetch('https://wearable-age-api.onrender.com/api/v1/user/account', {
-        method: 'DELETE',
-        headers: { 'Authorization': `Bearer ${localStorage.getItem('femflow_jwt')}` }
-      })
-      if (res.ok) {
-        // Clear auth and redirect to welcome
-        localStorage.removeItem('femflow_jwt')
-        navigate('/')
-      }
+      // Serverdata weg via de FemFlow-API (voorheen: niet-bestaand WAB-endpoint,
+      // waardoor deze knop stilletjes niets deed), daarna lokale data en token
+      await deleteAccount()
+      deleteAllSecure()
+      clearToken()
+      navigate('/')
     } catch (err) {
       console.error('Failed to delete account:', err)
     }

@@ -236,53 +236,18 @@ export default function LearningHub() {
     }
   }, [selectedCategory])
 
-  async function loadContent() {
+  // Content komt uit de lokale bibliotheek. De oude versie probeerde eerst
+  // een niet-bestaand WAB-endpoint en viel daarna pas terug — dat kostte
+  // alleen wachttijd en consolefouten.
+  function loadContent() {
     setLoading(true)
     try {
-      const token = localStorage.getItem('femflow_jwt')
-      const headers = token ? { 'Authorization': `Bearer ${token}` } : {}
-
       if (selectedCategory) {
-        // Try API first, fallback to mock data
-        try {
-          const res = await fetch(
-            `https://wearable-age-api.onrender.com/api/v1/learning/articles?category=${selectedCategory}`,
-            { headers, timeout: 5000 }
-          )
-          if (res.ok) {
-            setArticles(await res.json())
-            return
-          }
-        } catch {
-          console.warn('API unavailable, using mock data')
-        }
-        // Fallback to mock
         setArticles(MOCK_ARTICLES.bycategory[selectedCategory] || [])
       } else {
-        // Try API first, fallback to mock data
-        try {
-          const [recRes, featRes] = await Promise.all([
-            fetch('https://wearable-age-api.onrender.com/api/v1/learning/recommendations?limit=6', { headers, timeout: 5000 }),
-            fetch('https://wearable-age-api.onrender.com/api/v1/learning/featured?limit=3', { headers, timeout: 5000 }),
-          ])
-
-          if (recRes.ok) setRecommended(await recRes.json())
-          if (featRes.ok) setFeatured(await featRes.json())
-
-          // If API worked, skip fallback
-          if (recRes.ok && featRes.ok) return
-        } catch {
-          console.warn('API unavailable, using mock data')
-        }
-        // Fallback to mock
         setRecommended(MOCK_ARTICLES.recommended)
         setFeatured(MOCK_ARTICLES.featured)
       }
-    } catch (err) {
-      console.error('Failed to load learning content:', err)
-      // Final fallback
-      setRecommended(MOCK_ARTICLES.recommended)
-      setFeatured(MOCK_ARTICLES.featured)
     } finally {
       setLoading(false)
     }
