@@ -79,74 +79,60 @@ export async function getMe() {
   return request('/api/v1/users/me')
 }
 
-// ── Oura ─────────────────────────────────────────────────────────────────────
+// ── Oura (legacy-namen; delegeren naar de echte /api/v1/wearable endpoints) ───
+// De oude paden (/api/oura/*, /api/readings) stammen uit WAB en bestaan niet
+// in de FemFlow-backend — alle aanroepen faalden daardoor met een 404.
 
 export async function requestOuraConnect() {
-  return request('/api/oura/request-connect', { method: 'POST' })
+  const res = await requestWearableConnect()
+  return { connect_url: res.auth_url }
 }
 
 export async function pullOuraData() {
-  return request('/api/oura/pull', { method: 'POST' })
+  return pullWearableData()
 }
 
 export async function getOuraStatus() {
-  return request('/api/oura/status')
+  return getWearableStatus()
 }
 
 export async function seedSynthData(days = 90, scenario = 'stable') {
-  return request(`/api/oura/seed?days=${days}&scenario=${scenario}`, { method: 'POST' })
+  return seedWearableData(days, scenario)
 }
 
-// ── Readings ─────────────────────────────────────────────────────────────────
-
+// Geeft een platte array readings terug, met rhr_bpm-alias voor oude callers
 export async function getReadings(days = 90) {
-  return request(`/api/readings?days=${days}`)
+  const res = await getWearableReadings(days)
+  return (res.data || []).map(r => ({ ...r, rhr_bpm: r.resting_heart_rate }))
 }
 
-// ── Age calculation ───────────────────────────────────────────────────────────
+// ── Consent (client-side: er is bewust geen consent-endpoint op de server) ───
 
-export async function calculateAge(payload) {
-  return request('/api/age/calculate', {
-    method: 'POST',
-    body: JSON.stringify(payload),
-  })
-}
-
-// ── Reformulation ─────────────────────────────────────────────────────────
-
-export async function evaluateReformulation() {
-  return request('/api/reformulate/evaluate', { method: 'POST' })
-}
-
-export async function getReformulation(userId) {
-  return request(`/api/reformulate/${userId}`)
-}
-
-// ── Consent ───────────────────────────────────────────────────────────────
+const CONSENT_KEY = 'femflow_wearable_consent'
 
 export async function giveConsent(consentVersion, purposes) {
-  return request('/consent/give', {
-    method: 'POST',
-    body: JSON.stringify({ consent_version: consentVersion, purposes }),
-  })
+  localStorage.setItem(CONSENT_KEY, JSON.stringify({
+    consent_version: consentVersion,
+    purposes,
+    given_at: new Date().toISOString(),
+  }))
+  return { success: true }
 }
 
 export async function checkConsent(consentVersion, purposes) {
-  const res = await request(`/consent/status?consent_version=${consentVersion}`)
-  return res.has_active_consent && res.purposes && purposes.every(p => res.purposes.includes(p))
+  try {
+    const stored = JSON.parse(localStorage.getItem(CONSENT_KEY))
+    return !!stored
+      && stored.consent_version === consentVersion
+      && purposes.every(p => stored.purposes.includes(p))
+  } catch {
+    return false
+  }
 }
 
-export async function withdrawConsent(consentVersion, deleteData = true) {
-  return request('/consent/withdraw', {
-    method: 'POST',
-    body: JSON.stringify({ consent_version: consentVersion, delete_data: deleteData }),
-  })
-}
-
-// ── Supplements ────────────────────────────────────────────────────────────────
-
-export async function getSupplements() {
-  return request('/api/reformulate/latest')
+export async function withdrawConsent() {
+  localStorage.removeItem(CONSENT_KEY)
+  return { success: true }
 }
 
 // ── FEM Quiz (Perimenopauze Herkenning) ────────────────────────────────────────

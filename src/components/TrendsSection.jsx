@@ -1,104 +1,129 @@
 import { useState, useEffect } from 'react'
+import { TrendingUp, TrendingDown, Minus } from 'react-feather'
+import { getWearableReadings } from '../api/client'
+import { berekenTrend } from '../utils/trendHelper'
 
-async function getTrends(userId) {
-  const BASE = 'https://wearable-age-api.onrender.com'
-  const token = localStorage.getItem('femflow_jwt')
-  const res = await fetch(`${BASE}/api/trends/${userId}`, {
-    headers: { 'Authorization': `Bearer ${token}` }
-  })
-  if (!res.ok) throw new Error('Failed to fetch trends')
-  return res.json()
+// Biomarker-trends over de laatste 90 dagen, volledig client-side berekend
+// uit eigen wearable-readings. Neutraal gepresenteerd, zonder interpretatie.
+
+const BIOMARKERS = [
+  { veld: 'hrv_ms', label: 'HRV', eenheid: 'ms', decimalen: 0 },
+  { veld: 'resting_heart_rate', label: 'Rusthartslag', eenheid: 'bpm', decimalen: 0 },
+  { veld: 'sleep_duration_min', label: 'Slaapduur', eenheid: 'u', decimalen: 1, naarUren: true },
+]
+
+function TrendIcoon({ richting }) {
+  if (richting === 'stijgend') return <TrendingUp size={14} strokeWidth={1.5} />
+  if (richting === 'dalend') return <TrendingDown size={14} strokeWidth={1.5} />
+  return <Minus size={14} strokeWidth={1.5} />
 }
 
-const statusColors = {
-  stable: '#2e7d32',      // green
-  mild: '#f57c00',        // orange
-  strong: '#c0392b',      // red
-  learning_baseline: '#999',
-}
-
-const statusLabels = {
-  stable: 'Stable',
-  mild: 'Mild ↗',
-  strong: 'Strong ↗',
-  learning_baseline: 'Learning',
-}
-
-export default function TrendsSection({ userId }) {
+export default function TrendsSection() {
   const [trends, setTrends] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
 
   useEffect(() => {
-    getTrends(userId)
-      .then(data => setTrends(data))
-      .catch(e => setError(e.message))
-      .finally(() => setLoading(false))
-  }, [userId])
+    getWearableReadings(90)
+      .then(result => {
+        if (!result.data || result.data.length < 4) return
 
-  // WAB-erfenis: dit endpoint bestaat niet in de FemFlow-backend. Tot er een
-  // eigen trends-bron is faalt deze sectie stil in plaats van met een rode
-  // foutmelding voor elke gebruiker.
-  if (loading || error) return null
-  if (!trends?.results) return null
+        const berekend = BIOMARKERS.map(bm => {
+          const waarden = result.data.map(r => r[bm.veld])
+          const trend = berekenTrend(waarden)
+          if (trend.gemiddelde == null) return null
+          const gem = bm.naarUren ? trend.gemiddelde / 60 : trend.gemiddelde
+          return {
+            ...bm,
+            richting: trend.richting,
+            pctVerschil: trend.pctVerschil,
+            gemiddelde: gem.toFixed(bm.decimalen),
+          }
+        }).filter(Boolean)
+
+        if (berekend.length > 0) setTrends(berekend)
+      })
+      .catch(() => {
+        // Geen wearable gekoppeld of niet ingelogd: sectie blijft verborgen
+      })
+  }, [])
+
+  if (!trends) return null
 
   return (
-    <div style={{ marginTop: 'var(--space-xxl)' }}>
-      <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-micro)', color: 'var(--color-label)', letterSpacing: '.4px', textTransform: 'uppercase', marginBottom: 'var(--space-sm)' }}>
-        Trend Analysis
-      </p>
-      <h3 style={{ fontSize: 'var(--font-size-heading)', fontWeight: 'var(--font-weight-semibold)', letterSpacing: '-0.5px', marginBottom: 'var(--space-lg)' }}>
-        Biomarker Trends
+    <div style={{ marginTop: 'var(--space-xl)' }}>
+      <h3 style={{
+        fontFamily: 'var(--font-display)',
+        fontSize: '18px',
+        fontWeight: '500',
+        color: 'var(--ink)',
+        margin: '0 0 4px 0',
+      }}>
+        Trends
       </h3>
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '12px',
+        color: 'var(--ink-3)',
+        margin: '0 0 var(--space-md) 0',
+      }}>
+        Laatste 90 dagen, tweede helft vergeleken met de eerste
+      </p>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-lg)' }}>
-        {trends.results.map(t => (
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+        gap: 'var(--space-sm)',
+      }}>
+        {trends.map(t => (
           <div
-            key={t.biomarker}
+            key={t.veld}
             style={{
+              background: 'var(--surface)',
+              border: '1px solid var(--border)',
+              borderRadius: '12px',
               padding: 'var(--space-md)',
-              border: `1px solid ${statusColors[t.status] || '#ccc'}`,
-              borderRadius: 4,
-              background: 'var(--color-bg-subtle)',
             }}
           >
-            <p style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--font-size-micro)', color: 'var(--color-label)', marginBottom: 4 }}>
-              {t.biomarker}
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              fontWeight: '600',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              color: 'var(--ink-3)',
+              margin: '0 0 6px 0',
+            }}>
+              {t.label}
             </p>
-
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 'var(--space-sm)' }}>
-              <span
-                style={{
-                  display: 'inline-block',
-                  padding: '4px 8px',
-                  background: statusColors[t.status],
-                  color: 'white',
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 'var(--font-size-micro)',
-                  fontWeight: 'bold',
-                  letterSpacing: '.08em',
-                }}
-              >
-                {statusLabels[t.status]}
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '20px',
+              fontWeight: '600',
+              color: 'var(--ink)',
+              margin: '0 0 6px 0',
+              fontVariantNumeric: 'tabular-nums',
+            }}>
+              {t.gemiddelde} <span style={{ fontSize: '12px', fontWeight: '400', color: 'var(--ink-2)' }}>{t.eenheid}</span>
+            </p>
+            <div style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '3px 8px',
+              borderRadius: '999px',
+              background: 'var(--accent-soft)',
+              color: 'var(--ink-2)',
+              fontFamily: 'var(--font-sans)',
+              fontSize: '11px',
+              fontWeight: '500',
+            }}>
+              <TrendIcoon richting={t.richting} />
+              <span>
+                {t.richting}
+                {t.pctVerschil != null && t.richting !== 'stabiel' && t.richting !== 'onvoldoende data'
+                  ? ` ${t.pctVerschil > 0 ? '+' : ''}${t.pctVerschil}%`
+                  : ''}
               </span>
             </div>
-
-            {t.status !== 'learning_baseline' && (
-              <div style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-secondary)' }}>
-                <p>{t.human_summary}</p>
-                {t.pct_change !== null && (
-                  <p style={{ marginTop: 4, fontWeight: 'bold' }}>
-                    {t.pct_change > 0 ? '↑' : '↓'} {Math.abs(t.pct_change).toFixed(1)}%
-                  </p>
-                )}
-              </div>
-            )}
-
-            {t.status === 'learning_baseline' && (
-              <p style={{ fontSize: 'var(--font-size-small)', color: 'var(--color-label)' }}>
-                {t.human_summary}
-              </p>
-            )}
           </div>
         ))}
       </div>

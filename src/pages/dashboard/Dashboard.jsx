@@ -3,7 +3,7 @@ import {
   LineChart, Line, XAxis, YAxis, ResponsiveContainer,
   Tooltip, ReferenceLine,
 } from 'recharts'
-import { getReadings, pullOuraData, getOuraStatus, requestOuraConnect, clearToken, seedSynthData, checkConsent } from '../../api/client'
+import { getReadings, pullOuraData, getOuraStatus, requestOuraConnect, clearToken, seedSynthData, checkConsent, giveConsent } from '../../api/client'
 import TrendsSection from '../../components/TrendsSection'
 import ReformulationSection from '../../components/ReformulationSection'
 import SupplementsSection from '../../components/SupplementsSection'
@@ -170,7 +170,10 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
     }
   }
 
-  function onConsentGiven() {
+  async function onConsentGiven() {
+    // Consent eerst vastleggen, anders blijft checkConsent false en
+    // verschijnt de modal in een oneindige lus
+    await giveConsent('1.0', ['store', 'reformulate'])
     setShowConsentModal(false)
     handleConnectOura()  // Now proceed with OAuth
   }
@@ -226,8 +229,8 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
       {/* Consent Modal */}
       {showConsentModal && (
         <ConsentModal
-          onConsent={onConsentGiven}
-          onCancel={() => setShowConsentModal(false)}
+          onAccept={onConsentGiven}
+          onReject={() => setShowConsentModal(false)}
         />
       )}
 
@@ -504,7 +507,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
           {METRICS.map(m => (
             <MiniChart key={m.key} data={readings} {...m} />
           ))}
-          <TrendsSection userId={user?.id} />
+          <TrendsSection />
           <ReformulationSection userId={user?.id} />
           <SupplementsSection />
         </div>

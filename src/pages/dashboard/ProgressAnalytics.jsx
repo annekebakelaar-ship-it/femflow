@@ -2,22 +2,13 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { getWearableReadings } from "../../api/client"
 import { getSecure } from "../../utils/secureStorage"
+import { berekenTrend, gemiddelde as avg } from "../../utils/trendHelper"
 
 // Bouwt de 90-dagensamenvatting client-side uit eigen readings + symptoomlog.
 // Verving de call naar een niet-bestaand WAB-endpoint, waardoor deze pagina
 // voor elke gebruiker "Kan gegevens niet laden" toonde.
 function buildSummary(readings, symptomLog) {
-  const avg = arr => (arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : null)
-  const trend = arr => {
-    if (arr.length < 4) return "stabiel"
-    const helft = Math.floor(arr.length / 2)
-    const eerste = avg(arr.slice(0, helft))
-    const tweede = avg(arr.slice(helft))
-    const verschil = (tweede - eerste) / eerste
-    if (verschil > 0.03) return "stijgend"
-    if (verschil < -0.03) return "dalend"
-    return "stabiel"
-  }
+  const trend = arr => berekenTrend(arr).richting
 
   const slaap = readings.map(r => r.sleep_duration_min).filter(v => v != null)
   const hrv = readings.map(r => r.hrv_ms).filter(v => v != null)
