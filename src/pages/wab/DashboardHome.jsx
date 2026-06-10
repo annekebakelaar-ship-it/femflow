@@ -225,14 +225,10 @@ export default function DashboardHome() {
         </div>
       )}
 
-      {/* Cycle Bloom & Card with Hero5 Background */}
+      {/* Cycle Bloom Carousel */}
       {menstrualPhase && menstrualData && (
         <div style={{
           width: '100%',
-          backgroundImage: `url(${hero5})`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
           padding: 'var(--space-sm) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
@@ -261,14 +257,10 @@ export default function DashboardHome() {
         </div>
       )}
 
-      {/* Wearable Bloom & Card with Hero4 Background */}
+      {/* Wearable Bloom Carousel */}
       {hrvScore != null && (
         <div style={{
           width: '100%',
-          backgroundImage: `url(${hero4})`,
-          backgroundSize: 'contain',
-          backgroundPosition: 'center',
-          backgroundRepeat: 'no-repeat',
           padding: 'var(--space-sm) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
