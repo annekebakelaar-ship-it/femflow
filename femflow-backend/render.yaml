@@ -24,6 +24,12 @@ services:
         sync: false
       - key: OURA_REDIRECT_URI
         value: https://femflow-api.onrender.com/api/v1/wearable/callback
+      - key: FITBIT_CLIENT_ID
+        sync: false
+      - key: FITBIT_CLIENT_SECRET
+        sync: false
+      - key: FITBIT_REDIRECT_URI
+        value: https://femflow-api.onrender.com/api/v1/wearable/fitbit/callback
       - key: GOOGLE_CLIENT_ID
         value: 301005977940-ik0644unicrshca121j39j8k8tn4qill.apps.googleusercontent.com
       - key: FRONTEND_URL

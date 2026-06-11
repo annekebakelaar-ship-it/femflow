@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData, requestWearableConnect } from '../../api/client'
+import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData, requestWearableConnect, requestFitbitConnect, pullFitbitData } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
@@ -77,15 +77,17 @@ export default function WearablePage() {
     // Handle OAuth callback messages
     const ouraConnected = searchParams.get('oura_connected')
     const ouraError = searchParams.get('oura_error')
+    const fitbitConnected = searchParams.get('fitbit_connected')
+    const fitbitError = searchParams.get('fitbit_error')
 
-    if (ouraConnected) {
-      setSuccess('Oura Ring verbonden! Je data wordt nu gesynchroniseerd.')
+    if (ouraConnected || fitbitConnected) {
+      setSuccess(`${fitbitConnected ? 'Fitbit' : 'Oura Ring'} verbonden! Je data wordt nu gesynchroniseerd.`)
       setTimeout(() => setSuccess(null), 5000)
       window.history.replaceState({}, document.title, window.location.pathname)
     }
 
-    if (ouraError) {
-      setError('Oura verbinding mislukt. Probeer het opnieuw.')
+    if (ouraError || fitbitError) {
+      setError(`${fitbitError ? 'Fitbit' : 'Oura'} verbinding mislukt. Probeer het opnieuw.`)
       setTimeout(() => setError(null), 5000)
       window.history.replaceState({}, document.title, window.location.pathname)
     }
@@ -131,14 +133,55 @@ export default function WearablePage() {
     }
   }
 
-  async function handleSyncOuraData() {
+  async function handleConnectFitbit() {
+    try {
+      setError(null)
+      const result = await requestFitbitConnect()
+      if (result.auth_url) {
+        window.location.href = result.auth_url
+      } else {
+        setError('Failed to get Fitbit authentication URL')
+      }
+    } catch (err) {
+      setError(err.message || 'Failed to connect Fitbit')
+    }
+  }
+
+  async function handleSyncData() {
     setLoading(true)
     setError(null)
     setSuccess(null)
 
     try {
-      const result = await pullWearableData()
-      setSuccess(`${result.readings_synced} dagen data gesynchroniseerd van Oura`)
+      // Synchroniseer elke gekoppelde provider; een falende provider
+      // blokkeert de andere niet
+      const providers = wearableStatus?.providers || {}
+      const resultaten = []
+      const fouten = []
+
+      if (providers.oura || (!providers.oura && !providers.fitbit)) {
+        try {
+          const r = await pullWearableData()
+          resultaten.push(`${r.readings_synced} dagen van Oura`)
+        } catch (err) {
+          fouten.push(`Oura: ${err.message}`)
+        }
+      }
+      if (providers.fitbit) {
+        try {
+          const r = await pullFitbitData()
+          resultaten.push(`${r.readings_synced} dagen van Fitbit`)
+        } catch (err) {
+          fouten.push(`Fitbit: ${err.message}`)
+        }
+      }
+
+      if (resultaten.length > 0) {
+        setSuccess(`Gesynchroniseerd: ${resultaten.join(', ')}`)
+      }
+      if (fouten.length > 0 && resultaten.length === 0) {
+        setError(fouten.join(' · '))
+      }
 
       // Reload status and biometric data
       const status = await getWearableStatus()
@@ -149,7 +192,7 @@ export default function WearablePage() {
 
       setTimeout(() => setSuccess(null), 4000)
     } catch (err) {
-      setError(err.message || 'Failed to sync Oura data')
+      setError(err.message || 'Failed to sync wearable data')
     } finally {
       setLoading(false)
     }
@@ -211,7 +254,7 @@ export default function WearablePage() {
                 fontWeight: '600',
                 color: 'var(--ink)',
               }}>
-                Oura Ring verbinden
+                Wearable verbinden
               </h2>
               {wearableStatus && wearableStatus.connected && (
                 <div style={{
@@ -252,7 +295,7 @@ export default function WearablePage() {
                   lineHeight: 1.6,
                   marginBottom: 'var(--space-lg)',
                 }}>
-                  Klik om je Oura Ring te verbinden via OAuth.
+                  Verbind je Oura Ring of Fitbit via een beveiligde koppeling.
                 </p>
               )
             ) : (
@@ -262,7 +305,7 @@ export default function WearablePage() {
                 lineHeight: 1.6,
                 marginBottom: 'var(--space-lg)',
               }}>
-                Klik om je Oura Ring te verbinden via OAuth.
+                Verbind je Oura Ring of Fitbit via een beveiligde koppeling.
               </p>
             )}
             {success && (
@@ -291,45 +334,67 @@ export default function WearablePage() {
                 {error}
               </div>
             )}
-            {!wearableStatus || !wearableStatus.connected ? (
-              <button
-                onClick={handleConnectOura}
-                style={{
-                  padding: '12px 24px',
-                  background: 'var(--ink)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: 'pointer',
-                  fontWeight: '600',
-                  transition: 'opacity 200ms ease',
-                }}
-                onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
-                onMouseLeave={(e) => (e.target.style.opacity = '1')}
-              >
-                Verbind Oura
-              </button>
-            ) : (
-              <button
-                onClick={handleSyncOuraData}
-                disabled={loading}
-                style={{
-                  padding: '12px 24px',
-                  background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '8px',
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  fontWeight: '600',
-                  transition: 'opacity 200ms ease',
-                  opacity: loading ? 0.7 : 1,
-                }}
-                onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
-                onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
-              >
-                {loading ? 'Synchroniseren...' : 'Gegevens synchroniseren'}
-              </button>
-            )}
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              {!wearableStatus?.providers?.oura && (
+                <button
+                  onClick={handleConnectOura}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'var(--ink)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'opacity 200ms ease',
+                  }}
+                  onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
+                  onMouseLeave={(e) => (e.target.style.opacity = '1')}
+                >
+                  Verbind Oura
+                </button>
+              )}
+              {!wearableStatus?.providers?.fitbit && (
+                <button
+                  onClick={handleConnectFitbit}
+                  style={{
+                    padding: '12px 24px',
+                    background: 'var(--ink)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontWeight: '600',
+                    transition: 'opacity 200ms ease',
+                  }}
+                  onMouseEnter={(e) => (e.target.style.opacity = '0.9')}
+                  onMouseLeave={(e) => (e.target.style.opacity = '1')}
+                >
+                  Verbind Fitbit
+                </button>
+              )}
+              {wearableStatus?.connected && (
+                <button
+                  onClick={handleSyncData}
+                  disabled={loading}
+                  style={{
+                    padding: '12px 24px',
+                    background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    cursor: loading ? 'not-allowed' : 'pointer',
+                    fontWeight: '600',
+                    transition: 'opacity 200ms ease',
+                    opacity: loading ? 0.7 : 1,
+                  }}
+                  onMouseEnter={(e) => !loading && (e.target.style.opacity = '0.9')}
+                  onMouseLeave={(e) => !loading && (e.target.style.opacity = '1')}
+                >
+                  {loading ? 'Synchroniseren...' : 'Gegevens synchroniseren'}
+                </button>
+              )}
+            </div>
           </div>
         )}
 

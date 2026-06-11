@@ -233,3 +233,15 @@ export async function sendFeedback(feedback, email, url) {
     body: JSON.stringify({ feedback, email, url }),
   })
 }
+
+export async function requestFitbitConnect() {
+  return request('/api/v1/wearable/fitbit/request-connect', {
+    method: 'POST',
+  })
+}
+
+export async function pullFitbitData() {
+  return request('/api/v1/wearable/fitbit/pull', {
+    method: 'POST',
+  })
+}

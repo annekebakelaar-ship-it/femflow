@@ -640,23 +640,27 @@ app.get('/api/v1/wearable/readings', authenticateToken, async (req, res) => {
   }
 })
 
-// Get wearable connection status
+// Get wearable connection status (alle providers)
 app.get('/api/v1/wearable/status', authenticateToken, async (req, res) => {
   try {
     const userId = req.userId
 
     const result = await pool.query(
-      'SELECT wearable_type, connected_at, last_sync_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
-      [userId, 'oura']
+      'SELECT wearable_type, connected_at, last_sync_at FROM femflow_wearable_connections WHERE user_id = $1',
+      [userId]
     )
 
+    const providers = {}
+    for (const row of result.rows) providers[row.wearable_type] = true
+
     if (result.rows.length === 0) {
-      return res.json({ connected: false })
+      return res.json({ connected: false, providers })
     }
 
     res.json({
       connected: true,
-      wearable_type: 'oura',
+      providers,
+      wearable_type: result.rows[0].wearable_type,
       connected_at: result.rows[0].connected_at,
       last_sync_at: result.rows[0].last_sync_at,
     })
@@ -809,6 +813,207 @@ app.post('/api/v1/wearable/pull', authenticateToken, async (req, res) => {
   } catch (err) {
     console.error('Oura pull error:', err.response?.data || err.message)
     res.status(500).json({ error: 'Failed to fetch Oura data' })
+  }
+})
+
+// ============================================================================
+// WEARABLE: FITBIT
+// Fitbit is van Google: OAuth loopt via accounts.google.com (offline access
+// voor refresh tokens), de data-API blijft api.fitbit.com. Zelfde
+// Google Cloud-client als de andere YouCaps-koppelingen.
+// ============================================================================
+
+const FITBIT_SCOPES = [
+  'https://www.googleapis.com/auth/userinfo.profile',
+  'https://www.fitbit.com/api/activity',
+  'https://www.fitbit.com/api/heartrate',
+  'https://www.fitbit.com/api/sleep',
+].join(' ')
+
+const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
+const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
+const FITBIT_API = 'https://api.fitbit.com'
+
+// Start Fitbit OAuth: geeft de Google-consent-URL terug
+app.post('/api/v1/wearable/fitbit/request-connect', authenticateToken, async (req, res) => {
+  try {
+    if (!process.env.FITBIT_CLIENT_ID || !process.env.FITBIT_REDIRECT_URI) {
+      return res.status(503).json({ error: 'Fitbit not configured' })
+    }
+
+    const state = sign({ userId: req.userId, purpose: 'fitbit_oauth' }, JWT_SECRET, { expiresIn: '10m' })
+    const url = new URL(GOOGLE_AUTH_URL)
+    url.searchParams.append('client_id', process.env.FITBIT_CLIENT_ID)
+    url.searchParams.append('redirect_uri', process.env.FITBIT_REDIRECT_URI)
+    url.searchParams.append('response_type', 'code')
+    url.searchParams.append('scope', FITBIT_SCOPES)
+    url.searchParams.append('access_type', 'offline')   // refresh token meekrijgen
+    url.searchParams.append('prompt', 'consent')        // anders geen refresh token bij herkoppeling
+    url.searchParams.append('state', state)
+
+    res.json({ auth_url: url.toString() })
+  } catch (err) {
+    console.error('Fitbit auth URL error:', err)
+    res.status(500).json({ error: 'Failed to generate Fitbit auth URL' })
+  }
+})
+
+// Fitbit OAuth callback
+app.get('/api/v1/wearable/fitbit/callback', async (req, res) => {
+  try {
+    const { code, state } = req.query
+    if (!code || !state) {
+      return res.status(400).json({ error: 'Missing code or state' })
+    }
+
+    let userId
+    try {
+      const decoded = verify(state, JWT_SECRET)
+      if (decoded.purpose !== 'fitbit_oauth') throw new Error('wrong purpose')
+      userId = decoded.userId
+    } catch {
+      return res.status(403).json({ error: 'Invalid or expired state' })
+    }
+
+    const tokenResponse = await axios.post(
+      GOOGLE_TOKEN_URL,
+      new URLSearchParams({
+        grant_type: 'authorization_code',
+        code: code,
+        redirect_uri: process.env.FITBIT_REDIRECT_URI,
+        client_id: process.env.FITBIT_CLIENT_ID,
+        client_secret: process.env.FITBIT_CLIENT_SECRET,
+      })
+    )
+
+    const { access_token, refresh_token, expires_in } = tokenResponse.data
+    const expiresAt = new Date(Date.now() + expires_in * 1000)
+
+    await pool.query(
+      `INSERT INTO femflow_wearable_connections (user_id, wearable_type, access_token, refresh_token, token_expires_at)
+       VALUES ($1, 'fitbit', $2, $3, $4)
+       ON CONFLICT (user_id, wearable_type) DO UPDATE SET
+       access_token = $2, refresh_token = COALESCE($3, femflow_wearable_connections.refresh_token), token_expires_at = $4`,
+      [userId, access_token, refresh_token || null, expiresAt]
+    )
+
+    res.redirect(`${process.env.FRONTEND_URL}/wearable?fitbit_connected=true`)
+  } catch (err) {
+    console.error('Fitbit callback error:', err.response?.data || err.message)
+    res.redirect(`${process.env.FRONTEND_URL}/wearable?fitbit_error=true`)
+  }
+})
+
+// Geldig Fitbit access token, automatisch ververst via Google
+async function getValidFitbitToken(userId) {
+  const result = await pool.query(
+    'SELECT access_token, refresh_token, token_expires_at FROM femflow_wearable_connections WHERE user_id = $1 AND wearable_type = $2',
+    [userId, 'fitbit']
+  )
+  if (result.rows.length === 0) return null
+
+  const { access_token, refresh_token, token_expires_at } = result.rows[0]
+
+  if (token_expires_at && new Date(token_expires_at) > new Date(Date.now() + 60 * 1000)) {
+    return access_token
+  }
+  if (!refresh_token) return null
+
+  const tokenResponse = await axios.post(
+    GOOGLE_TOKEN_URL,
+    new URLSearchParams({
+      grant_type: 'refresh_token',
+      refresh_token,
+      client_id: process.env.FITBIT_CLIENT_ID,
+      client_secret: process.env.FITBIT_CLIENT_SECRET,
+    })
+  )
+
+  const fresh = tokenResponse.data
+  const expiresAt = new Date(Date.now() + fresh.expires_in * 1000)
+  await pool.query(
+    `UPDATE femflow_wearable_connections SET access_token = $1, refresh_token = $2, token_expires_at = $3
+     WHERE user_id = $4 AND wearable_type = $5`,
+    [fresh.access_token, fresh.refresh_token || refresh_token, expiresAt, userId, 'fitbit']
+  )
+  return fresh.access_token
+}
+
+// Haal Fitbit-data op (laatste 7 dagen) en sla op als biometric readings
+app.post('/api/v1/wearable/fitbit/pull', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.userId
+
+    let accessToken
+    try {
+      accessToken = await getValidFitbitToken(userId)
+    } catch (err) {
+      console.error('Fitbit token refresh failed:', err.response?.data || err.message)
+      return res.status(401).json({ error: 'Token refresh failed - please reconnect' })
+    }
+    if (!accessToken) {
+      return res.status(401).json({ error: 'Fitbit not connected - please reconnect' })
+    }
+
+    const today = new Date()
+    const weekTerug = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000)
+    const start = weekTerug.toISOString().split('T')[0]
+    const end = today.toISOString().split('T')[0]
+    const headers = { Authorization: `Bearer ${accessToken}` }
+
+    // Range-endpoints: drie calls voor de hele week i.p.v. drie per dag.
+    // HRV kan ontbreken (niet elk device meet het) — dan null.
+    const [sleepRes, heartRes, hrvRes] = await Promise.all([
+      axios.get(`${FITBIT_API}/1.2/user/-/sleep/date/${start}/${end}.json`, { headers }),
+      axios.get(`${FITBIT_API}/1/user/-/activities/heart/date/${start}/${end}.json`, { headers }),
+      axios.get(`${FITBIT_API}/1/user/-/hrv/date/${start}/${end}.json`, { headers }).catch(() => null),
+    ])
+
+    const byDay = {}
+    for (const s of sleepRes.data.sleep || []) {
+      if (!s.isMainSleep) continue
+      byDay[s.dateOfSleep] = {
+        sleep_min: s.minutesAsleep ?? null,
+        deep_min: s.levels?.summary?.deep?.minutes ?? null,
+      }
+    }
+    for (const h of heartRes.data['activities-heart'] || []) {
+      byDay[h.dateTime] = {
+        ...(byDay[h.dateTime] || {}),
+        rhr: h.value?.restingHeartRate ?? null,
+      }
+    }
+    for (const v of hrvRes?.data?.hrv || []) {
+      byDay[v.dateTime] = {
+        ...(byDay[v.dateTime] || {}),
+        hrv: v.value?.dailyRmssd ?? null,
+      }
+    }
+
+    const days = Object.keys(byDay)
+    for (const day of days) {
+      const d = byDay[day]
+      await pool.query(
+        `INSERT INTO femflow_biometric_readings (user_id, reading_date, sleep_duration_min, deep_sleep_min, hrv_ms, resting_heart_rate, recovery_index)
+         VALUES ($1, $2, $3, $4, $5, $6, $7)
+         ON CONFLICT (user_id, reading_date) DO UPDATE SET
+         sleep_duration_min = COALESCE($3, femflow_biometric_readings.sleep_duration_min),
+         deep_sleep_min = COALESCE($4, femflow_biometric_readings.deep_sleep_min),
+         hrv_ms = COALESCE($5, femflow_biometric_readings.hrv_ms),
+         resting_heart_rate = COALESCE($6, femflow_biometric_readings.resting_heart_rate)`,
+        [userId, day, d.sleep_min ?? null, d.deep_min ?? null, d.hrv ?? null, d.rhr ?? null, null]
+      )
+    }
+
+    await pool.query(
+      'UPDATE femflow_wearable_connections SET last_sync_at = NOW() WHERE user_id = $1 AND wearable_type = $2',
+      [userId, 'fitbit']
+    )
+
+    res.json({ success: true, readings_synced: days.length })
+  } catch (err) {
+    console.error('Fitbit pull error:', err.response?.data || err.message)
+    res.status(500).json({ error: 'Failed to fetch Fitbit data' })
   }
 })
 
