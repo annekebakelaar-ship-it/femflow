@@ -1,5 +1,7 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ArrowLeft } from 'react-feather'
+import { FEATURED, RECOMMENDED, BY_CATEGORY } from '../../content/artikelen'
 
 const CATEGORIES = [
   { id: 'sleep', label: 'Slaap' },
@@ -10,247 +12,21 @@ const CATEGORIES = [
   { id: 'mood', label: 'Stemming' },
 ]
 
-const MOCK_ARTICLES = {
-  featured: [
-    {
-      id: 'sleep-quality-1',
-      title: 'Slaapkwaliteit in je cyclus',
-      subtitle: 'Waarom je slaap varieert gedurende je maand',
-      category: 'sleep',
-      difficulty: 'beginner',
-      readTime: 5,
-      description: 'Je hormonen beïnvloeden je slaappatroon. Leer hoe je je slaap kunt optimaliseren in elke cyclus fase.',
-      source: 'YouCaps Research',
-    },
-    {
-      id: 'stress-hormones-1',
-      title: 'Stress en hormoonbalans',
-      subtitle: 'Hoe chronische stress je cyclus verstoort',
-      category: 'stress',
-      difficulty: 'intermediate',
-      readTime: 8,
-      description: 'Cortisol kan je menstruatiecyclus beïnvloeden. Ontdek hoe stress je lichaam aanvalt en wat je eraan kunt doen.',
-      source: 'Medical Review',
-    },
-    {
-      id: 'cycle-basics-1',
-      title: 'Je cyclus begrijpen',
-      subtitle: 'Complete gids naar de 4 fasen',
-      category: 'cycle',
-      difficulty: 'beginner',
-      readTime: 7,
-      description: 'Menstruatie, folliculair, ovulatie en luteal. Elke fase heeft unieke kenmerken. Leer wat te verwachten.',
-      source: 'YouCaps Academy',
-    },
-  ],
-  recommended: [
-    {
-      id: 'nutrition-iron-1',
-      title: 'IJzer en menstruatie',
-      subtitle: 'Zorg voor voldoende ijzer tijdens je periode',
-      category: 'nutrition',
-      difficulty: 'beginner',
-      readTime: 6,
-      description: 'Je lichaam verliest bloed, dus ijzer. Voedingsmiddelen rijker dan je denkt.',
-      reason: 'Gebaseerd op je trackerdata',
-    },
-    {
-      id: 'exercise-cycle-1',
-      title: 'Training aanpassen aan je cyclus',
-      subtitle: 'Waarom intensiteit ter zake doet',
-      category: 'exercise',
-      difficulty: 'intermediate',
-      readTime: 9,
-      description: 'Hoge intensiteit in je folliculaire fase, rust in je luteal. Hier\'s waarom en hoe.',
-      reason: 'Je trainingspatronen passen hier',
-    },
-    {
-      id: 'mood-pms-1',
-      title: 'PMS en emotionele gezondheid',
-      subtitle: 'Wat er hormoonmatig gebeurt',
-      category: 'mood',
-      difficulty: 'intermediate',
-      readTime: 7,
-      description: 'PMDD is echt. Leer de signalen herkennen en wat je kunt doen.',
-      reason: 'Je symptomen duiden erop',
-    },
-    {
-      id: 'sleep-hygiene-1',
-      title: 'Slaaphygiëne tips',
-      subtitle: 'Bouw betere slaapgewoontes op',
-      category: 'sleep',
-      difficulty: 'beginner',
-      readTime: 5,
-      description: 'Consistent slapen, koele kamers, geen screens. De basis werkt echt.',
-    },
-    {
-      id: 'stress-management-1',
-      title: 'Stressmanagement technieken',
-      subtitle: 'Adeemhalingsoefeningen die werken',
-      category: 'stress',
-      difficulty: 'beginner',
-      readTime: 6,
-      description: '4-7-8 ademen, meditatie, wandelen. Simpel maar effectief.',
-    },
-    {
-      id: 'nutrition-hydration-1',
-      title: 'Vochtopname in je cyclus',
-      subtitle: 'Water is je beste vriend',
-      category: 'nutrition',
-      difficulty: 'beginner',
-      readTime: 4,
-      description: 'Je lichaam heeft meer water nodig in bepaalde fasen. Hoeveel? Hier\'s het antwoord.',
-    },
-  ],
-  bycategory: {
-    sleep: [
-      {
-        id: 'sleep-quality-1',
-        title: 'Slaapkwaliteit in je cyclus',
-        category: 'sleep',
-        difficulty: 'beginner',
-        readTime: 5,
-        description: 'Hormonen beïnvloeden slaap. Progesterone kan je slaperig maken, estrogeen houdt je wakker.',
-      },
-      {
-        id: 'sleep-hygiene-1',
-        title: 'Slaaphygiëne tips',
-        category: 'sleep',
-        difficulty: 'beginner',
-        readTime: 5,
-        description: 'Consistent slapen op dezelfde tijd, koele kamers, geen devices voor bed.',
-      },
-      {
-        id: 'sleep-phases-1',
-        title: 'REM en NREM slaap',
-        category: 'sleep',
-        difficulty: 'intermediate',
-        readTime: 8,
-        description: 'Waarom beide soorten slaap belangrijk zijn en hoe je ervan kunt profiteren.',
-      },
-    ],
-    stress: [
-      {
-        id: 'stress-hormones-1',
-        title: 'Stress en hormoonbalans',
-        category: 'stress',
-        difficulty: 'intermediate',
-        readTime: 8,
-        description: 'Chronische stress verhoogt cortisol, wat je cyclus kan verstoren.',
-      },
-      {
-        id: 'stress-management-1',
-        title: 'Stressmanagement technieken',
-        category: 'stress',
-        difficulty: 'beginner',
-        readTime: 6,
-        description: 'Adeemhalings- en meditatietechnieken die daadwerkelijk werken.',
-      },
-    ],
-    cycle: [
-      {
-        id: 'cycle-basics-1',
-        title: 'Je cyclus begrijpen',
-        category: 'cycle',
-        difficulty: 'beginner',
-        readTime: 7,
-        description: 'Menstruatie (dag 1-5), Folliculair (5-13), Ovulatie (dag 14), Luteal (15-28).',
-      },
-      {
-        id: 'cycle-tracking-1',
-        title: 'Hoe je cyclus te tracken',
-        category: 'cycle',
-        difficulty: 'beginner',
-        readTime: 6,
-        description: 'Start dag, duur, symptomen. De basisinformatie die je nodig hebt.',
-      },
-    ],
-    nutrition: [
-      {
-        id: 'nutrition-iron-1',
-        title: 'IJzer en menstruatie',
-        category: 'nutrition',
-        difficulty: 'beginner',
-        readTime: 6,
-        description: 'IJzer verlies tijdens menstruatie. Kikkererwten, rode bieten, donker groen blad.',
-      },
-      {
-        id: 'nutrition-hydration-1',
-        title: 'Vochtopname in je cyclus',
-        category: 'nutrition',
-        difficulty: 'beginner',
-        readTime: 4,
-        description: 'Je lichaam retourneert meer water in luteal. Drink meer.',
-      },
-    ],
-    exercise: [
-      {
-        id: 'exercise-cycle-1',
-        title: 'Training aanpassen aan je cyclus',
-        category: 'exercise',
-        difficulty: 'intermediate',
-        readTime: 9,
-        description: 'Hoge HIIT in folliculaire fase, meer cardio en yoga in luteal.',
-      },
-      {
-        id: 'exercise-strength-1',
-        title: 'Kracht trainen door je cyclus heen',
-        category: 'exercise',
-        difficulty: 'intermediate',
-        readTime: 8,
-        description: 'Je bent sterker rond ovulatie. Plan je PRs daar.',
-      },
-    ],
-    mood: [
-      {
-        id: 'mood-pms-1',
-        title: 'PMS en emotionele gezondheid',
-        category: 'mood',
-        difficulty: 'intermediate',
-        readTime: 7,
-        description: 'PMDD is een echte diagnose. Herken de signalen.',
-      },
-      {
-        id: 'mood-exercise-1',
-        title: 'Bewegen voor je stemming',
-        category: 'mood',
-        difficulty: 'beginner',
-        readTime: 5,
-        description: 'Beweging reguleert serotonine. Je voelt je beter.',
-      },
-    ],
-  },
-}
 
 export default function LearningHub() {
   const navigate = useNavigate()
-  const [recommended, setRecommended] = useState(MOCK_ARTICLES.recommended)
-  const [featured, setFeatured] = useState(MOCK_ARTICLES.featured)
   const [selectedCategory, setSelectedCategory] = useState(null)
-  const [articles, setArticles] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [leesArtikel, setLeesArtikel] = useState(null)
 
-  useEffect(() => {
-    if (selectedCategory) {
-      loadContent()
-    }
-  }, [selectedCategory])
+  // Content komt uit de lokale bibliotheek (src/content/artikelen.js) —
+  // geen netwerk, geen laadstatus nodig
+  const featured = FEATURED
+  const recommended = RECOMMENDED
+  const articles = selectedCategory ? (BY_CATEGORY[selectedCategory] || []) : []
+  const loading = false
 
-  // Content komt uit de lokale bibliotheek. De oude versie probeerde eerst
-  // een niet-bestaand WAB-endpoint en viel daarna pas terug — dat kostte
-  // alleen wachttijd en consolefouten.
-  function loadContent() {
-    setLoading(true)
-    try {
-      if (selectedCategory) {
-        setArticles(MOCK_ARTICLES.bycategory[selectedCategory] || [])
-      } else {
-        setRecommended(MOCK_ARTICLES.recommended)
-        setFeatured(MOCK_ARTICLES.featured)
-      }
-    } finally {
-      setLoading(false)
-    }
+  if (leesArtikel) {
+    return <ArtikelLezer artikel={leesArtikel} onTerug={() => setLeesArtikel(null)} />
   }
 
   return (
@@ -358,7 +134,7 @@ export default function LearningHub() {
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
               {articles.map(article => (
-                <ArticleCard key={article.id} article={article} />
+                <ArticleCard key={article.id} article={article} onLees={() => setLeesArtikel(article)} />
               ))}
             </div>
           )}
@@ -380,7 +156,7 @@ export default function LearningHub() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                 {featured.map(article => (
-                  <ArticleCard key={article.id} article={article} isFeatured />
+                  <ArticleCard key={article.id} article={article} isFeatured onLees={() => setLeesArtikel(article)} />
                 ))}
               </div>
             </div>
@@ -400,7 +176,7 @@ export default function LearningHub() {
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
                 {recommended.map(article => (
-                  <ArticleCard key={article.id} article={article} withReason />
+                  <ArticleCard key={article.id} article={article} withReason onLees={() => setLeesArtikel(article)} />
                 ))}
               </div>
             </div>
@@ -411,7 +187,7 @@ export default function LearningHub() {
   )
 }
 
-function ArticleCard({ article, isFeatured, withReason }) {
+function ArticleCard({ article, isFeatured, withReason, onLees }) {
   const difficultyColor = {
     beginner: 'var(--success)',
     intermediate: '#FFD700',
@@ -419,7 +195,8 @@ function ArticleCard({ article, isFeatured, withReason }) {
   }
 
   return (
-    <div style={{
+    <div onClick={onLees} style={{
+      cursor: 'pointer',
       background: isFeatured ? 'var(--surface-warm)' : 'var(--surface)',
       border: `1px solid ${isFeatured ? 'var(--accent)' : 'var(--border)'}`,
       borderRadius: '8px',
@@ -462,16 +239,16 @@ function ArticleCard({ article, isFeatured, withReason }) {
             margin: '0 0 8px 0',
             lineHeight: '1.5',
           }}>
-            {article.excerpt}
+            {article.description}
           </p>
 
-          {withReason && article.why_recommended && (
+          {withReason && article.reason && (
             <p style={{
               fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
               color: 'var(--accent)',
               margin: '0',
             }}>
-              ✓ {article.why_recommended}
+              ✓ {article.reason}
             </p>
           )}
         </div>
@@ -493,9 +270,93 @@ function ArticleCard({ article, isFeatured, withReason }) {
             margin: 0,
             textAlign: 'right',
           }}>
-            {article.reading_time_minutes} min
+            {article.readTime} min
           </p>
         </div>
+      </div>
+    </div>
+  )
+}
+
+// Volledige leesweergave van een artikel uit de bibliotheek
+function ArtikelLezer({ artikel, onTerug }) {
+  return (
+    <div style={{
+      minHeight: '100vh',
+      maxWidth: 'var(--container-max)',
+      margin: '0 auto',
+      padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
+    }}>
+      <button
+        onClick={onTerug}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          background: 'none',
+          border: 'none',
+          color: 'var(--ink-2)',
+          cursor: 'pointer',
+          fontSize: '13px',
+          fontFamily: 'var(--font-sans)',
+          marginBottom: 'var(--space-lg)',
+          padding: 0,
+        }}
+      >
+        <ArrowLeft size={14} strokeWidth={1.5} /> Kennisbank
+      </button>
+
+      <p style={{
+        fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
+        color: 'var(--ink-3)', letterSpacing: '0.12em', textTransform: 'uppercase',
+        margin: '0 0 8px 0',
+      }}>
+        {artikel.readTime} min lezen · {artikel.source}
+      </p>
+
+      <h1 style={{
+        fontFamily: 'var(--font-display)', fontSize: '26px', fontWeight: '500',
+        lineHeight: 1.2, color: 'var(--ink)', margin: '0 0 6px 0',
+      }}>
+        {artikel.title}
+      </h1>
+      <p style={{
+        fontFamily: 'var(--font-sans)', fontSize: '15px', color: 'var(--ink-2)',
+        margin: '0 0 var(--space-xl) 0', lineHeight: 1.5,
+      }}>
+        {artikel.subtitle}
+      </p>
+
+      {artikel.body.map((sectie, i) => (
+        <div key={i} style={{ marginBottom: 'var(--space-lg)' }}>
+          <h2 style={{
+            fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500',
+            color: 'var(--ink)', margin: '0 0 8px 0',
+          }}>
+            {sectie.kop}
+          </h2>
+          <p style={{
+            fontFamily: 'var(--font-sans)', fontSize: '15px', lineHeight: 1.65,
+            color: 'var(--ink-2)', margin: 0,
+          }}>
+            {sectie.tekst}
+          </p>
+        </div>
+      ))}
+
+      <div style={{
+        marginTop: 'var(--space-xl)',
+        padding: 'var(--space-md)',
+        background: 'var(--surface-warm)',
+        border: '1px solid var(--border)',
+        borderRadius: '8px',
+        fontFamily: 'var(--font-sans)',
+        fontSize: '12px',
+        color: 'var(--ink-3)',
+        lineHeight: 1.5,
+      }}>
+        Dit artikel is informatief en geen medisch advies. Bespreek aanhoudende
+        klachten of twijfels altijd met je huisarts.
       </div>
     </div>
   )
