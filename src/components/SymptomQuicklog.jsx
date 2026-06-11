@@ -1,151 +1,243 @@
 import { useState } from 'react'
-import { Cloud, Zap, Moon, Heart } from 'react-feather'
+import { Cloud, Zap, Moon, Heart, Thermometer, Sunset, Frown, Activity, RotateCw, Move, X } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
 
+// Symptoomset: de vier oorspronkelijke ids blijven ongewijzigd zodat
+// bestaande logs, het huisartsrapport en de supplementsuggesties blijven
+// kloppen; de zes nieuwe dekken de meest gerapporteerde perimenopauze-
+// en cyclusklachten.
 const SYMPTOMS = [
-  { id: 'brain_fog', label: 'Brain fog', icon: 'cloud' },
-  { id: 'hot_flash', label: 'Opvlieger', icon: 'zap' },
-  { id: 'extreme_fatigue', label: 'Vermoeidheid', icon: 'moon' },
-  { id: 'mood_swing', label: 'Stemming', icon: 'heart' },
+  { id: 'hot_flash', label: 'Opvlieger', icon: Zap },
+  { id: 'night_sweats', label: 'Nachtzweten', icon: Thermometer },
+  { id: 'extreme_fatigue', label: 'Vermoeidheid', icon: Moon },
+  { id: 'sleep_problem', label: 'Slecht geslapen', icon: Sunset },
+  { id: 'mood_swing', label: 'Stemming', icon: Heart },
+  { id: 'brain_fog', label: 'Brain fog', icon: Cloud },
+  { id: 'headache', label: 'Hoofdpijn', icon: Frown },
+  { id: 'cramps', label: 'Krampen', icon: Activity },
+  { id: 'dizziness', label: 'Duizeligheid', icon: RotateCw },
+  { id: 'joint_pain', label: 'Gewrichtspijn', icon: Move },
 ]
 
-const getSymptomIcon = (iconName) => {
-  const icons = {
-    cloud: <Cloud size={20} strokeWidth={1.5} />,
-    zap: <Zap size={20} strokeWidth={1.5} />,
-    moon: <Moon size={20} strokeWidth={1.5} />,
-    alert: <Heart size={20} strokeWidth={1.5} />,
-  }
-  return icons[iconName] || null
+const DAG_LETTERS = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
+
+function isVandaag(isoDate) {
+  return new Date(isoDate).toDateString() === new Date().toDateString()
 }
 
 export default function SymptomQuicklog() {
-  const [selected, setSelected] = useState(null)
-  const [confirmed, setConfirmed] = useState(null)
-  const [loading, setLoading] = useState(false)
+  const [log, setLog] = useState(() => getSecure('symptom_log') || [])
+  const [zojuist, setZojuist] = useState(null)
 
-  // Symptomen blijven client-side (secureStorage), conform privacy-uitgangspunt.
-  // De oude versie postte naar de WAB-API waar dit endpoint niet bestaat,
-  // waardoor logging stilletjes faalde.
-  function handleSymptomLog(symptomId) {
-    if (loading) return
-    setLoading(true)
-    setSelected(symptomId)
+  function bewaar(nieuw) {
+    saveSecure('symptom_log', nieuw)
+    setLog(nieuw)
+  }
 
-    try {
-      const symptom = SYMPTOMS.find(s => s.id === symptomId)
-      const log = getSecure('symptom_log') || []
-      log.push({
-        symptom: symptomId,
-        label: symptom?.label || symptomId,
-        date: new Date().toISOString(),
-      })
-      saveSecure('symptom_log', log)
+  function handleLog(symptom) {
+    bewaar([...log, { symptom: symptom.id, label: symptom.label, date: new Date().toISOString() }])
+    setZojuist(symptom.id)
+    setTimeout(() => setZojuist(null), 900)
+  }
 
-      setConfirmed(symptomId)
-      setTimeout(() => {
-        setConfirmed(null)
-        setSelected(null)
-        setLoading(false)
-      }, 1200)
-    } catch (err) {
-      console.error('Failed to log symptom:', err)
-      setLoading(false)
-      setSelected(null)
+  // Verwijdert de laatste log van vandaag voor dit symptoom (foutje herstellen)
+  function handleOngedaan(symptomId) {
+    for (let i = log.length - 1; i >= 0; i--) {
+      if (log[i].symptom === symptomId && isVandaag(log[i].date)) {
+        bewaar(log.filter((_, idx) => idx !== i))
+        return
+      }
     }
   }
 
-  return (
-    <div style={{ padding: '0 var(--space-lg)', marginBottom: 'var(--space-lg)', opacity: 0.7 }}>
-      <p style={{
-        fontSize: 'var(--font-size-micro)',
-        color: 'var(--color-label)',
-        letterSpacing: '0.12em',
-        textTransform: 'uppercase',
-        marginBottom: 'var(--space-md)',
-        fontWeight: 'var(--font-weight-semibold)',
-        textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
-      }}>
-        Symptomen
-      </p>
+  // Telling per symptoom voor vandaag
+  const vandaag = {}
+  for (const entry of log) {
+    if (isVandaag(entry.date)) vandaag[entry.symptom] = (vandaag[entry.symptom] || 0) + 1
+  }
+  const vandaagChips = SYMPTOMS.filter(s => vandaag[s.id])
 
+  // Totalen per dag voor de laatste 7 dagen (oud -> nieuw)
+  const week = []
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date()
+    d.setDate(d.getDate() - i)
+    const aantal = log.filter(e => new Date(e.date).toDateString() === d.toDateString()).length
+    week.push({ letter: DAG_LETTERS[d.getDay()], aantal, vandaag: i === 0 })
+  }
+
+  return (
+    <div>
+      {/* Symptoomtegels */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, 1fr)',
-        gap: 'var(--space-sm)',
-        padding: 'var(--space-lg)',
-        background: 'white',
-        borderRadius: '16px',
-        boxShadow: '0 12px 40px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(42, 33, 28, 0.08)',
+        gap: '10px',
       }}>
         {SYMPTOMS.map(symptom => {
-          const isSelected = selected === symptom.id
-          const isConfirmed = confirmed === symptom.id
+          const Icoon = symptom.icon
+          const aantal = vandaag[symptom.id] || 0
+          const isZojuist = zojuist === symptom.id
 
           return (
             <button
               key={symptom.id}
-              onClick={() => handleSymptomLog(symptom.id)}
-              disabled={loading && !isSelected}
+              onClick={() => handleLog(symptom)}
               style={{
                 position: 'relative',
-                padding: 'var(--space-md)',
-                background: isConfirmed ? '#E8F5E9' : 'transparent',
-                border: isConfirmed
-                  ? '1px solid #2e7d32'
-                  : isSelected
-                  ? '1px solid var(--color-accent)'
-                  : '1px solid var(--color-border)',
-                borderRadius: '2px',
-                cursor: loading && !isSelected ? 'not-allowed' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                padding: '14px 12px',
+                background: aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
+                border: `1px solid ${isZojuist ? 'var(--success)' : aantal > 0 ? 'var(--accent)' : 'var(--border)'}`,
+                borderRadius: '12px',
+                cursor: 'pointer',
                 transition: 'all 150ms ease',
-                opacity: loading && !isSelected ? 0.6 : 1,
+                textAlign: 'left',
               }}
-              onMouseEnter={e => {
-                if (!loading && !isConfirmed) {
-                  e.target.style.borderColor = 'var(--color-accent)'
-                }
-              }}
+              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
               onMouseLeave={e => {
-                if (!isConfirmed) {
-                  e.target.style.borderColor = 'var(--color-border)'
-                }
+                e.currentTarget.style.borderColor = aantal > 0 ? 'var(--accent)' : 'var(--border)'
               }}
             >
-              <div style={{ margin: '0 0 4px 0', color: 'var(--ink-2)' }}>{getSymptomIcon(symptom.icon)}</div>
-              <p style={{
-                fontSize: 'var(--font-size-small)',
-                fontWeight: 'var(--font-weight-regular)',
-                color: isConfirmed ? '#2e7d32' : 'var(--color-text)',
-                margin: 0,
-                textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
+              <Icoon size={18} strokeWidth={1.5} color={aantal > 0 ? 'var(--accent)' : 'var(--ink-3)'} />
+              <span style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '13px',
+                fontWeight: '500',
+                color: 'var(--ink)',
+                flex: 1,
               }}>
                 {symptom.label}
-              </p>
-
-              {isConfirmed && (
-                <div style={{
-                  position: 'absolute',
-                  top: '6px',
-                  right: '6px',
-                  width: '16px',
-                  height: '16px',
-                  background: '#2e7d32',
-                  borderRadius: '50%',
-                  display: 'flex',
+              </span>
+              {aantal > 0 && (
+                <span style={{
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: '11px',
+                  fontWeight: '600',
+                  color: 'white',
+                  background: 'var(--accent)',
+                  borderRadius: '999px',
+                  minWidth: '18px',
+                  height: '18px',
+                  display: 'inline-flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '10px',
-                  fontWeight: 'bold',
+                  padding: '0 5px',
                 }}>
-                  ✓
-                </div>
+                  {aantal}
+                </span>
               )}
             </button>
           )
         })}
       </div>
+
+      {/* Vandaag gelogd, met ongedaan maken */}
+      {vandaagChips.length > 0 && (
+        <div style={{ marginTop: 'var(--space-lg)' }}>
+          <p style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: '600',
+            letterSpacing: '0.08em',
+            textTransform: 'uppercase',
+            color: 'var(--ink-3)',
+            margin: '0 0 8px 0',
+          }}>
+            Vandaag gelogd
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {vandaagChips.map(s => (
+              <span key={s.id} style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: '6px 10px',
+                background: 'var(--surface)',
+                border: '1px solid var(--border)',
+                borderRadius: '999px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '12px',
+                color: 'var(--ink-2)',
+              }}>
+                {s.label}{vandaag[s.id] > 1 ? ` ×${vandaag[s.id]}` : ''}
+                <button
+                  onClick={() => handleOngedaan(s.id)}
+                  title={`Verwijder laatste log van ${s.label.toLowerCase()}`}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    padding: 0,
+                    cursor: 'pointer',
+                    color: 'var(--ink-3)',
+                    display: 'inline-flex',
+                  }}
+                >
+                  <X size={13} strokeWidth={2} />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* 7-dagenstrip */}
+      <div style={{ marginTop: 'var(--space-lg)' }}>
+        <p style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '11px',
+          fontWeight: '600',
+          letterSpacing: '0.08em',
+          textTransform: 'uppercase',
+          color: 'var(--ink-3)',
+          margin: '0 0 8px 0',
+        }}>
+          Afgelopen 7 dagen
+        </p>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          {week.map((dag, i) => (
+            <div key={i} style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{
+                height: '34px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: dag.aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
+                border: `1px solid ${dag.vandaag ? 'var(--accent)' : 'var(--border)'}`,
+                borderRadius: '8px',
+                fontFamily: 'var(--font-sans)',
+                fontSize: '13px',
+                fontWeight: '600',
+                color: dag.aantal > 0 ? 'var(--ink)' : 'var(--ink-3)',
+              }}>
+                {dag.aantal > 0 ? dag.aantal : '·'}
+              </div>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '10px',
+                color: dag.vandaag ? 'var(--ink)' : 'var(--ink-3)',
+                fontWeight: dag.vandaag ? '600' : '400',
+                margin: '4px 0 0 0',
+              }}>
+                {dag.letter}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <p style={{
+        fontFamily: 'var(--font-sans)',
+        fontSize: '12px',
+        color: 'var(--ink-3)',
+        lineHeight: 1.5,
+        margin: 'var(--space-lg) 0 0 0',
+      }}>
+        Symptomen blijven op dit apparaat en tellen mee in je huisartsrapport.
+        Meerdere keren per dag loggen kan — tik gewoon nog een keer.
+      </p>
     </div>
   )
 }
