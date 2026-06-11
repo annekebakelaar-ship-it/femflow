@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/YouCapsLogo.png.png'
 import SupplementsSection from '../../components/SupplementsSection'
 import { getWearableReadings } from '../../api/client'
 
@@ -53,14 +52,12 @@ export default function WearableDashboard() {
             alignItems: 'center',
           }}
         >
-          <img
-            src={logo}
-            alt="YouCaps"
-            style={{
-              height: '40px',
-              width: 'auto',
-            }}
-          />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         </button>
 
         <button

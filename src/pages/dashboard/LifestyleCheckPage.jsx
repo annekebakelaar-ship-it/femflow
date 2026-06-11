@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import LifestyleTriggers from '../../components/LifestyleTriggers'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function LifestyleCheckPage() {
   const navigate = useNavigate()
@@ -33,14 +32,12 @@ export default function LifestyleCheckPage() {
             alignItems: 'center',
           }}
         >
-          <img
-            src={logo}
-            alt="YouCaps"
-            style={{
-              height: '40px',
-              width: 'auto',
-            }}
-          />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         </button>
 
         <button

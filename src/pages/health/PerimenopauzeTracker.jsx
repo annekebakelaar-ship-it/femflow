@@ -4,7 +4,6 @@ import { BarChart2, Target, TrendingUp, AlertCircle, Zap } from 'react-feather'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import { getMockCycleLengths } from '../../utils/cycleHelper'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 const mockRegularCycles = () => {
   const today = new Date()
@@ -85,7 +84,12 @@ export default function PerimenopauzeTracker() {
         >
           ←
         </button>
-        <img src={logo} alt="YouCaps" style={{ height: '32px', width: 'auto' }} />
+        <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
 

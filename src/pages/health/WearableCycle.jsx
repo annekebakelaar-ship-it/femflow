@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import WearableOverlay from '../../components/WearableOverlay'
 import { getMockWearableData } from '../../utils/wearableCycleHelper'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function WearableCycle() {
   const navigate = useNavigate()
@@ -59,7 +58,12 @@ export default function WearableCycle() {
           >
             ←
           </button>
-          <img src={logo} alt="YouCaps" style={{ height: '32px', width: 'auto' }} />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
           <div style={{ width: '20px' }} />
         </div>
 

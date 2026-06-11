@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function SupplementsPage() {
   const navigate = useNavigate()
@@ -29,7 +28,12 @@ export default function SupplementsPage() {
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
         <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
-          <img src={logo} alt="YouCaps" style={{ height: '40px' }} />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         </button>
         <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>←</button>
       </div>

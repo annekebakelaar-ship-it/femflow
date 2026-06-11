@@ -1,7 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Activity, AlertCircle, Book, Heart, Zap } from 'react-feather'
 import QuizChatBot from '../../components/QuizChatBot'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function QuizResultsPage() {
   const navigate = useNavigate()
@@ -140,7 +139,12 @@ export default function QuizResultsPage() {
         >
           ←
         </button>
-        <img src={logo} alt="YouCaps" style={{ height: '32px', width: 'auto' }} />
+        <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
 

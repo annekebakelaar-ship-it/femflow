@@ -1,6 +1,5 @@
 import { useNavigate } from 'react-router-dom'
 import SymptomQuicklog from '../../components/SymptomQuicklog'
-import logo from '../../assets/YouCapsLogo.png.png'
 
 export default function SymptomLoggerPage() {
   const navigate = useNavigate()
@@ -33,14 +32,12 @@ export default function SymptomLoggerPage() {
             alignItems: 'center',
           }}
         >
-          <img
-            src={logo}
-            alt="YouCaps"
-            style={{
-              height: '40px',
-              width: 'auto',
-            }}
-          />
+          <span style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: '18px',
+            fontWeight: '500',
+            color: 'var(--ink)',
+          }}>FemFlow</span>
         </button>
 
         <button
