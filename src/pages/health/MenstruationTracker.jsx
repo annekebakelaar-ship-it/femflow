@@ -58,13 +58,13 @@ export default function MenstruationTracker() {
       <div style={{
         minHeight: '100vh',
         padding: 'var(--space-lg)',
-        background: 'var(--bg)',
+        background: 'var(--d-page)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
       }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-lg)' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-lg)', color: 'var(--d-ink)' }}>
           Menstruatie Instellingen
         </h1>
 
@@ -89,38 +89,40 @@ export default function MenstruationTracker() {
     <div style={{
       minHeight: '100vh',
       padding: 'var(--space-lg)',
-      background: 'var(--bg)',
+      background: 'var(--d-page)',
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-sm)' }}>
+        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '26px', marginBottom: 'var(--space-sm)', color: 'var(--d-ink)' }}>
           Mijn Cyclus
         </h1>
 
-        <p style={{ color: 'var(--ink-2)', fontSize: '15px', marginBottom: 'var(--space-lg)' }}>
+        <p style={{ color: 'var(--d-ink-2)', fontSize: '15px', marginBottom: 'var(--space-lg)' }}>
           Dag {currentDay} van {menstrualData.cycleLength}
         </p>
 
         <div style={{
-          background: 'var(--surface)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           padding: 'var(--space-lg)',
-          borderRadius: '16px',
+          borderRadius: '22px',
           marginBottom: 'var(--space-lg)',
-          boxShadow: 'var(--shadow-sm)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         }}>
           <div style={{ marginBottom: 'var(--space-md)' }}>
-            <label style={{ fontSize: '12px', color: 'var(--ink-3)', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '12px', color: 'var(--d-ink-3)', textTransform: 'uppercase' }}>
               Huidge Fase
             </label>
-            <p style={{ fontSize: '20px', fontWeight: '600', color: 'var(--ink)', margin: 'var(--space-sm) 0 0 0' }}>
+            <p style={{ fontSize: '20px', fontWeight: '600', color: 'var(--d-ink)', margin: 'var(--space-sm) 0 0 0' }}>
               {getPhase(currentDay)}
             </p>
           </div>
 
           <div style={{ marginBottom: 'var(--space-md)' }}>
-            <label style={{ fontSize: '12px', color: 'var(--ink-3)', textTransform: 'uppercase' }}>
+            <label style={{ fontSize: '12px', color: 'var(--d-ink-3)', textTransform: 'uppercase' }}>
               Volgende Menstruatie
             </label>
-            <p style={{ fontSize: '15px', fontWeight: '500', color: 'var(--ink)', margin: 'var(--space-sm) 0 0 0' }}>
+            <p style={{ fontSize: '15px', fontWeight: '500', color: 'var(--d-ink)', margin: 'var(--space-sm) 0 0 0' }}>
               {new Date(start.getTime() + (menstrualData.cycleLength - currentDay + 1) * 24 * 60 * 60 * 1000).toLocaleDateString('nl-NL')}
             </p>
           </div>
@@ -131,10 +133,10 @@ export default function MenstruationTracker() {
           style={{
             width: '100%',
             padding: 'var(--space-md)',
-            background: 'var(--ink)',
-            color: 'var(--surface)',
+            background: 'var(--d-accent)',
+            color: '#1B0F07',
             border: 'none',
-            borderRadius: '8px',
+            borderRadius: '999px',
             fontWeight: '600',
             cursor: 'pointer',
             marginTop: 'var(--space-lg)',
@@ -189,13 +191,16 @@ function SetupForm({ onComplete }) {
     <form onSubmit={handleSubmit} style={{
       maxWidth: '400px',
       width: '100%',
-      background: 'var(--surface)',
+      background: 'var(--d-card)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
       padding: 'var(--space-lg)',
-      borderRadius: '16px',
+      borderRadius: '22px',
     }}>
       {error && (
         <div style={{
-          background: '#FCE4EC',
+          background: 'rgba(192, 73, 45, 0.18)',
           color: 'var(--error)',
           padding: 'var(--space-md)',
           borderRadius: '8px',
@@ -207,7 +212,7 @@ function SetupForm({ onComplete }) {
       )}
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: 'var(--d-ink-2)' }}>
           Naam
         </label>
         <input
@@ -217,15 +222,18 @@ function SetupForm({ onComplete }) {
           style={{
             width: '100%',
             padding: '12px',
-            border: '1px solid var(--border)',
-            borderRadius: '8px',
+            border: 'none',
+            background: 'var(--d-card)',
+            color: 'var(--d-ink)',
+            borderRadius: '12px',
             fontFamily: 'inherit',
+            colorScheme: 'dark',
           }}
         />
       </div>
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: 'var(--d-ink-2)' }}>
           Geboortedatum
         </label>
         <input
@@ -235,15 +243,18 @@ function SetupForm({ onComplete }) {
           style={{
             width: '100%',
             padding: '12px',
-            border: '1px solid var(--border)',
-            borderRadius: '8px',
+            border: 'none',
+            background: 'var(--d-card)',
+            color: 'var(--d-ink)',
+            borderRadius: '12px',
             fontFamily: 'inherit',
+            colorScheme: 'dark',
           }}
         />
       </div>
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: 'var(--d-ink-2)' }}>
           Startdatum Huidge Cyclus
         </label>
         <input
@@ -253,15 +264,18 @@ function SetupForm({ onComplete }) {
           style={{
             width: '100%',
             padding: '12px',
-            border: '1px solid var(--border)',
-            borderRadius: '8px',
+            border: 'none',
+            background: 'var(--d-card)',
+            color: 'var(--d-ink)',
+            borderRadius: '12px',
             fontFamily: 'inherit',
+            colorScheme: 'dark',
           }}
         />
       </div>
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: 'var(--d-ink-2)' }}>
           Cyclus Lengte (dagen): {cycleLength}
         </label>
         <input
@@ -272,7 +286,7 @@ function SetupForm({ onComplete }) {
           onChange={(e) => setCycleLength(e.target.value)}
           style={{
             width: '100%',
-            accentColor: 'var(--accent)',
+            accentColor: 'var(--d-accent)',
             height: '6px',
             cursor: 'pointer',
           }}
@@ -280,7 +294,7 @@ function SetupForm({ onComplete }) {
       </div>
 
       <div style={{ marginBottom: 'var(--space-lg)' }}>
-        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px' }}>
+        <label style={{ display: 'block', fontSize: '12px', fontWeight: '500', marginBottom: '4px', color: 'var(--d-ink-2)' }}>
           Periode Dagen: {bleedingDays}
         </label>
         <input
@@ -291,7 +305,7 @@ function SetupForm({ onComplete }) {
           onChange={(e) => setBleedingDays(e.target.value)}
           style={{
             width: '100%',
-            accentColor: 'var(--accent)',
+            accentColor: 'var(--d-accent)',
             height: '6px',
             cursor: 'pointer',
           }}
@@ -303,10 +317,10 @@ function SetupForm({ onComplete }) {
         style={{
           width: '100%',
           padding: 'var(--space-md)',
-          background: 'var(--ink)',
-          color: 'var(--surface)',
+          background: 'var(--d-accent)',
+          color: '#1B0F07',
           border: 'none',
-          borderRadius: '8px',
+          borderRadius: '999px',
           fontWeight: '600',
           cursor: 'pointer',
         }}
