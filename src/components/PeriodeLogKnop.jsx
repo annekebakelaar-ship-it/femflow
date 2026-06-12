@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { createPortal } from 'react-dom'
 import { useNavigate } from 'react-router-dom'
 import { Droplet, Check } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
@@ -31,7 +32,10 @@ export default function PeriodeLogKnop({ onGelogd }) {
     setTimeout(() => setToast(null), 2500)
   }
 
-  return (
+  // Portal naar document.body: de dashboard-container heeft een
+  // transform-animatie, waarbinnen position:fixed niet aan het scherm
+  // plakt maar aan de pagina meescrollt.
+  return createPortal(
     <>
       {/* Zwevende druppelknop, boven de feedback-knop (bottom 120px) */}
       <button
@@ -207,6 +211,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
           </div>
         </div>
       )}
-    </>
+    </>,
+    document.body
   )
 }
