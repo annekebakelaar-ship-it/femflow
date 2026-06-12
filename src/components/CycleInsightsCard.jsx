@@ -12,7 +12,7 @@ export default function CycleInsightsCard({ menstrualPhase }) {
       onClick={() => navigate('/health/menstruation')}
       style={{
         width: '100%',
-        maxWidth: 'calc(100vw - 16px)',
+        
         padding: 'var(--space-md) var(--space-lg)',
         margin: '0 0 var(--space-lg) 0',
         minHeight: '100px',

@@ -195,7 +195,7 @@ export default function DashboardHome() {
       {menstrualPhase && menstrualData && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-sm) var(--space-lg)',
+          padding: 'var(--space-sm) 0',
           boxSizing: 'border-box',
           overflow: 'hidden',
         }}>
@@ -244,7 +244,7 @@ export default function DashboardHome() {
       {hrvScore != null && (
         <div style={{
           width: '100%',
-          padding: 'var(--space-sm) var(--space-lg)',
+          padding: 'var(--space-sm) 0',
           boxSizing: 'border-box',
           overflow: 'hidden',
           marginTop: 'var(--space-xl)',

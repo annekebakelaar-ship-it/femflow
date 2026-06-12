@@ -103,7 +103,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
         onClick={() => navigate('/health/perimenopause')}
         style={{
           width: '100%',
-          padding: '0 var(--space-lg) var(--space-lg) var(--space-lg)',
+          padding: '0 0 var(--space-lg) 0',
           marginTop: 'var(--space-xl)',
           cursor: 'pointer',
         }}>
@@ -172,7 +172,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
       onClick={() => navigate('/health/perimenopause')}
       style={{
         width: '100%',
-        padding: '0 var(--space-lg) var(--space-lg) var(--space-lg)',
+        padding: '0 0 var(--space-lg) 0',
         marginTop: 'var(--space-xl)',
         cursor: 'pointer',
         opacity: 0.4,

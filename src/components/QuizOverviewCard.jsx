@@ -13,7 +13,7 @@ export default function QuizOverviewCard() {
   return (
     <div style={{
       width: '100%',
-      padding: '0 var(--space-lg) var(--space-lg) var(--space-lg)',
+      padding: '0 0 var(--space-lg) 0',
       marginTop: 'var(--space-xl)',
       opacity: 0.4,
     }}>
