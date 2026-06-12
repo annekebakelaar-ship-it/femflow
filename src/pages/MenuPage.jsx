@@ -157,12 +157,8 @@ export default function MenuPage() {
         Perimenopauze Tracker
       </button>
 
-      <button onClick={() => handleNavigation('/health/goals')} style={menuItemStyle}>
-        Mijn doelen
-      </button>
-
-      <button onClick={() => handleNavigation('/health/workouts')} style={menuItemStyle}>
-        Mijn trainingen
+      <button onClick={() => handleNavigation('/dashboard/learning')} style={menuItemStyle}>
+        Kennisbank
       </button>
 
       {/* Algemeen Section */}
@@ -189,7 +185,7 @@ export default function MenuPage() {
         Privacybeleid
       </button>
 
-      <button onClick={() => handleNavigation('/account/consent')} style={menuItemStyle}>
+      <button onClick={() => handleNavigation('/consent')} style={menuItemStyle}>
         Toestemmingen
       </button>
 
