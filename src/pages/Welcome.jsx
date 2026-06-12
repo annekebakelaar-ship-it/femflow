@@ -1,27 +1,12 @@
-import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { saveWelcomeSignup } from '../api/client'
 import hero from '../assets/hero4.png'
 
+// Landing: waarde eerst, drempels weg. Geen e-mailveld meer — het adres
+// komt vanzelf bij accountaanmaak, ná de quiz-uitslag. Elke privacyclaim
+// hieronder is herleidbaar naar de code (dagboek/symptomen: secureStorage,
+// nooit naar de server; wearable: consent-modal; verwijderen: GDPR-delete).
 export default function Welcome() {
   const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [, setSaving] = useState(false)
-
-  async function handleStartQuiz() {
-    // Save email if provided
-    if (email && email.includes('@')) {
-      setSaving(true)
-      try {
-        await saveWelcomeSignup(email)
-      } catch (err) {
-        console.error('Failed to save email:', err)
-      } finally {
-        setSaving(false)
-      }
-    }
-    navigate('/quiz', { state: { email: email || null } })
-  }
 
   return (
     <div style={{
@@ -48,11 +33,11 @@ export default function Welcome() {
           fontWeight: '500',
           letterSpacing: '-0.5px',
           lineHeight: 1.2,
-          marginBottom: 'var(--space-lg)',
+          marginBottom: 'var(--space-md)',
           color: 'white',
           textShadow: '0 2px 8px rgba(0,0,0,0.4)',
         }}>
-          FemFlow, de perimenopauze app.
+          Is het de perimenopauze? Breng het in kaart.
         </h1>
 
         <p style={{
@@ -62,29 +47,13 @@ export default function Welcome() {
           lineHeight: 1.6,
           marginBottom: 'var(--space-xl)',
         }}>
-          5 vragen. 2 minuten. Gratis. Geen betaling.
+          Volg je cyclus en symptomen, zie je patroon, en neem een objectief
+          rapport mee naar je huisarts. Gratis.
         </p>
 
-        <div style={{ marginBottom: 'var(--space-xl)' }}>
-          <input
-            type="email"
-            placeholder="Email (optioneel)"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-            style={{
-              width: '100%',
-              padding: 'var(--space-xs) var(--space-sm)',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: 'var(--font-size-body)',
-              marginBottom: 'var(--space-md)',
-              fontFamily: 'inherit',
-              boxSizing: 'border-box',
-            }}
-          />
-
+        <div style={{ marginBottom: 'var(--space-lg)' }}>
           <button
-            onClick={handleStartQuiz}
+            onClick={() => navigate('/quiz', { state: { email: null } })}
             style={{
               width: '100%',
               padding: 'var(--space-sm) var(--space-lg)',
@@ -101,13 +70,46 @@ export default function Welcome() {
             onMouseEnter={(e) => e.target.style.opacity = '0.9'}
             onMouseLeave={(e) => e.target.style.opacity = '1'}
           >
-            Start Quiz →
+            Doe de check (2 minuten)
+          </button>
+
+          <button
+            onClick={() => navigate('/dashboard/learning')}
+            style={{
+              width: '100%',
+              marginTop: 'var(--space-sm)',
+              padding: 'var(--space-sm) var(--space-lg)',
+              background: 'rgba(255, 255, 255, 0.92)',
+              color: 'var(--ink)',
+              border: 'none',
+              borderRadius: 'var(--radius-sm)',
+              fontSize: 'var(--font-size-body)',
+              fontWeight: '500',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => e.target.style.background = 'white'}
+            onMouseLeave={(e) => e.target.style.background = 'rgba(255, 255, 255, 0.92)'}
+          >
+            Of lees eerst de kennisbank
           </button>
         </div>
 
         <p style={{
           fontSize: 'var(--font-size-small)',
-          color: 'var(--ink-3)',
+          color: 'rgba(255, 255, 255, 0.85)',
+          textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+          lineHeight: 1.6,
+          marginBottom: 'var(--space-lg)',
+        }}>
+          Je dagboek en symptomen verlaten je telefoon niet · wearable-data
+          alleen met jouw toestemming · alles in één klik te verwijderen
+        </p>
+
+        <p style={{
+          fontSize: 'var(--font-size-small)',
+          color: 'rgba(255, 255, 255, 0.85)',
+          textShadow: '0 1px 4px rgba(0,0,0,0.3)',
         }}>
           Al een account?{' '}
           <button
@@ -115,12 +117,13 @@ export default function Welcome() {
             style={{
               background: 'none',
               border: 'none',
-              color: 'var(--ink)',
+              color: 'white',
               cursor: 'pointer',
               textDecoration: 'underline',
               textUnderlineOffset: 3,
               fontSize: 'inherit',
-              fontWeight: 'inherit',
+              fontWeight: '600',
+              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
             }}
           >
             Log in
