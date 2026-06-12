@@ -54,7 +54,7 @@ export default function TrendsSection() {
         fontFamily: 'var(--font-display)',
         fontSize: '18px',
         fontWeight: '500',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 4px 0',
       }}>
         Trends
@@ -62,7 +62,7 @@ export default function TrendsSection() {
       <p style={{
         fontFamily: 'var(--font-sans)',
         fontSize: '12px',
-        color: 'var(--ink-3)',
+        color: 'var(--d-ink-3)',
         margin: '0 0 var(--space-md) 0',
       }}>
         Laatste 90 dagen, tweede helft vergeleken met de eerste
@@ -77,9 +77,12 @@ export default function TrendsSection() {
           <div
             key={t.veld}
             style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '12px',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+              border: 'none',
+              borderRadius: '22px',
               padding: 'var(--space-md)',
             }}
           >
@@ -89,7 +92,7 @@ export default function TrendsSection() {
               fontWeight: '600',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              color: 'var(--ink-3)',
+              color: 'var(--d-ink-3)',
               margin: '0 0 6px 0',
             }}>
               {t.label}
@@ -98,11 +101,11 @@ export default function TrendsSection() {
               fontFamily: 'var(--font-sans)',
               fontSize: '20px',
               fontWeight: '600',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
               margin: '0 0 6px 0',
               fontVariantNumeric: 'tabular-nums',
             }}>
-              {t.gemiddelde} <span style={{ fontSize: '12px', fontWeight: '400', color: 'var(--ink-2)' }}>{t.eenheid}</span>
+              {t.gemiddelde} <span style={{ fontSize: '12px', fontWeight: '400', color: 'var(--d-ink-2)' }}>{t.eenheid}</span>
             </p>
             <div style={{
               display: 'inline-flex',
@@ -110,8 +113,8 @@ export default function TrendsSection() {
               gap: '4px',
               padding: '3px 8px',
               borderRadius: '999px',
-              background: 'var(--accent-soft)',
-              color: 'var(--ink-2)',
+              background: 'rgba(199, 154, 110, 0.15)',
+              color: 'var(--d-ink-2)',
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: '500',

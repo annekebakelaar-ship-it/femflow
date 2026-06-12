@@ -324,7 +324,11 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
       <div style={{
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
-        border: `1px solid var(--border-subtle)`,
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        border: 'none',
         borderRadius: '22px',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -353,14 +357,14 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               disabled={pulling}
               style={{
                 padding: '10px 20px',
-                border: `1px solid var(--d-border)`,
-                background: 'transparent',
+                background: 'rgba(199, 154, 110, 0.15)',
+                border: 'none',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '11px',
                 fontWeight: 500,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: 'var(--d-ink)',
+                color: 'var(--d-accent)',
                 borderRadius: '22px',
                 cursor: pulling ? 'not-allowed' : 'pointer',
                 opacity: pulling ? 0.5 : 1,
@@ -395,7 +399,11 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
       <div style={{
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
-        border: `1px solid var(--border-subtle)`,
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        border: 'none',
         borderRadius: '22px',
       }}>
         <p style={{
@@ -421,8 +429,8 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             onChange={e => setScenario(e.target.value)}
             style={{
               flex: 1,
-              padding: '10px 8px',
-              border: `1px solid var(--d-border)`,
+              padding: '10px 12px',
+              border: 'none',
               background: 'var(--d-card)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
@@ -433,7 +441,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               color: 'var(--d-ink)',
               letterSpacing: '0.08em',
               outline: 'none',
-              borderRadius: 'var(--radius-sm)',
+              borderRadius: '22px',
             }}
           >
             <option value="stable">Stable</option>
