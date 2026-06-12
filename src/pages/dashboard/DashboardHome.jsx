@@ -131,6 +131,9 @@ export default function DashboardHome() {
         </span>
       </div>
 
+      {/* Mobiele kolom: alle kaarten op telefoonbreedte, ook op desktop */}
+      <div style={{ width: '100%', maxWidth: '480px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
+
       {/* Menstruatiestart loggen — de kernhandeling, dus bovenaan */}
       <div style={{ marginTop: '56px' }}>
         <PeriodeLogKnop onGelogd={() => setMenstrualData(getSecure('menstruation_data'))} />
@@ -301,6 +304,8 @@ export default function DashboardHome() {
 
       {/* YouCaps funnel: verschijnt alleen met onderbouwende eigen data */}
       <SupplementSuggestie cyclusFase={menstrualPhase?.phase || null} />
+
+      </div>
     </div>
   )
 }

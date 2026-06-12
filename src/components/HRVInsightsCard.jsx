@@ -21,7 +21,7 @@ export default function HRVInsightsCard({ hrvScore }) {
         width: '100%',
         maxWidth: 'calc(100vw - 16px)',
         padding: 'var(--space-md) var(--space-lg)',
-        margin: '0 var(--space-lg) var(--space-lg) 0',
+        margin: '0 0 var(--space-lg) 0',
         minHeight: '150px',
         backgroundImage: `linear-gradient(rgba(27, 15, 7, 0.45), rgba(27, 15, 7, 0.65)), url(${hero})`,
         backgroundSize: 'cover',
