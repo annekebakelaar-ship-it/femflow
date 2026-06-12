@@ -22,9 +22,17 @@ function shortDate(iso) {
 function MiniChart({ data, metricKey, label, unit, color }) {
   const rawValues = data.map(d => d[metricKey])
   const values = rawValues.filter(v => v != null && v !== undefined && !isNaN(v))
-  console.log(`MiniChart ${metricKey}: data.length=${data.length}, rawValues=[${rawValues.slice(0,3)}...], filtered=${values.length}`)
   if (!values.length) return (
-    <div style={{ marginBottom: 'var(--space-lg)' }}>
+    <div style={{
+      marginBottom: 'var(--space-lg)',
+      padding: 'var(--space-md)',
+      background: 'var(--d-card)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+      border: 'none',
+      borderRadius: '22px',
+    }}>
       <p style={{
         fontFamily: 'var(--font-sans)',
         fontSize: '11px',
@@ -49,7 +57,16 @@ function MiniChart({ data, metricKey, label, unit, color }) {
   const last = values[values.length - 1]
 
   return (
-    <div style={{ marginBottom: 'var(--space-xl)' }}>
+    <div style={{
+      marginBottom: 'var(--space-lg)',
+      padding: 'var(--space-md)',
+      background: 'var(--d-card)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+      border: 'none',
+      borderRadius: '22px',
+    }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 12 }}>
         <p style={{
           fontFamily: 'var(--font-sans)',
