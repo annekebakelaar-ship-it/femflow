@@ -139,7 +139,7 @@ export default function WearableCycle() {
         >
           ←
         </button>
-        <img src={logo} alt="YouCaps" style={{ height: '32px', width: 'auto' }} />
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--ink)' }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
 
