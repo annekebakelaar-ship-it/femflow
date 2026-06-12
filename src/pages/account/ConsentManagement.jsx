@@ -229,7 +229,7 @@ export default function ConsentManagement() {
                 style={{
                   width: '50px',
                   height: '28px',
-                  background: consent.enabled ? 'var(--color-accent)' : 'var(--color-border)',
+                  background: consent.enabled ? 'var(--accent)' : 'var(--border)',
                   border: 'none',
                   borderRadius: '14px',
                   cursor: saving ? 'not-allowed' : 'pointer',

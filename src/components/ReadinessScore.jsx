@@ -78,12 +78,12 @@ export default function ReadinessScore({ wearableData, cycleData }) {
           { label: 'HRV', value: breakdown.hrv_score, type: 'hrv' },
           { label: 'RHR', value: breakdown.rhr_score, type: 'rhr' },
         ].map((item, i) => (
-          <div key={i} style={{ flex: 1, background: 'white', padding: 'var(--space-sm)', borderRadius: '2px', textAlign: 'center', border: '1px solid var(--color-border)' }}>
-            <div style={{ fontSize: 'var(--font-size-micro)', color: 'var(--color-label)', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+          <div key={i} style={{ flex: 1, background: 'white', padding: 'var(--space-sm)', borderRadius: '2px', textAlign: 'center', border: '1px solid var(--border)' }}>
+            <div style={{ fontSize: 'var(--font-size-micro)', color: 'var(--ink-3)', margin: '0 0 4px 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               {getReadinessIcon(item.type)}
               <span>{item.label}</span>
             </div>
-            <p style={{ fontSize: '18px', fontWeight: 'var(--font-weight-medium)', color: 'var(--color-text)', margin: 0, textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p style={{ fontSize: '18px', fontWeight: 'var(--font-weight-medium)', color: 'var(--ink)', margin: 0, textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               {item.value}
             </p>
           </div>

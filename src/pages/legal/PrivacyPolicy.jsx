@@ -106,17 +106,17 @@ export default function PrivacyPolicy() {
               <td style={{ padding: '8px' }}>Contract</td>
               <td style={{ padding: '8px' }}>Inloggen, account beheer</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gezondheidsgegevens</td>
               <td style={{ padding: '8px' }}>Expliciete toestemming</td>
               <td style={{ padding: '8px' }}>Cyclus berekening, readiness-score, AI-aanbevelingen</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Lifestyle triggers</td>
               <td style={{ padding: '8px' }}>Impliciete toestemming</td>
               <td style={{ padding: '8px' }}>Readiness berekening, gepersonaliseerde tips</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Oura-data</td>
               <td style={{ padding: '8px' }}>Gebruikerstoestemming</td>
               <td style={{ padding: '8px' }}>Slaap/HRV tracking, readiness scoring</td>
@@ -144,29 +144,29 @@ export default function PrivacyPolicy() {
 
         <table style={{ width: '100%', marginBottom: 'var(--space-md)', borderCollapse: 'collapse' }}>
           <thead>
-            <tr style={{ borderBottom: '2px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '2px solid var(--border)' }}>
               <th style={{ textAlign: 'left', padding: '8px', fontWeight: 'bold' }}>Gegevenstype</th>
               <th style={{ textAlign: 'left', padding: '8px', fontWeight: 'bold' }}>Bewaartermijn</th>
             </tr>
           </thead>
           <tbody>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gebruikersaccount</td>
               <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gezondheidsgegevens (menstruatie, symptomen)</td>
               <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Wearable data (Oura)</td>
               <td style={{ padding: '8px' }}>90 dagen (rollerend venster)</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Toestemmingslogs</td>
               <td style={{ padding: '8px' }}>3 jaar (wettelijk vereist)</td>
             </tr>
-            <tr style={{ borderBottom: '1px solid var(--color-border)' }}>
+            <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Foutlogs, systeemlogboeken</td>
               <td style={{ padding: '8px' }}>14-30 dagen</td>
             </tr>

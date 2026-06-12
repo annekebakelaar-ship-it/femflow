@@ -55,7 +55,7 @@ export default function QuizResultsOverview() {
       >
         <p style={{
           fontSize: 'var(--font-size-body)',
-          color: 'var(--color-text)',
+          color: 'var(--ink)',
           fontWeight: 'var(--font-weight-semibold)',
           margin: '0 0 var(--space-md) 0',
           textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -94,7 +94,7 @@ export default function QuizResultsOverview() {
               )
             })
           ) : (
-            <p style={{ color: 'var(--color-label)', fontSize: 'var(--font-size-small)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p style={{ color: 'var(--ink-3)', fontSize: 'var(--font-size-small)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               Geen gegevens beschikbaar
             </p>
           )}
@@ -108,7 +108,7 @@ export default function QuizResultsOverview() {
           style={{
             padding: '8px 16px',
             background: '#F5F5F5',
-            color: 'var(--color-text)',
+            color: 'var(--ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: 'var(--font-size-small)',
