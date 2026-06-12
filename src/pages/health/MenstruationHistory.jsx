@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Trash2 } from 'react-feather'
 import { getSecure, saveSecure } from '../../utils/secureStorage'
-import { alleStarts, verwijderPeriodeStart } from '../../utils/periodeLog'
+import { alleStarts, verwijderPeriodeStart, symptomenTussen } from '../../utils/periodeLog'
 
 // Echte cyclushistorie: de gelogde menstruatiestarts, met de berekende
 // cycluslengtes ertussen en de mogelijkheid een foutje te verwijderen.
@@ -31,6 +31,7 @@ export default function MenstruationHistory() {
   }
 
   const starts = alleStarts(data)
+  const symptomLog = getSecure('symptom_log') || []
 
   // Nieuwste eerst; lengte = dagen tot de vólgende start
   const rijen = starts.map((start, i) => {
@@ -44,6 +45,7 @@ export default function MenstruationHistory() {
       lengte,
       sprongMarker: lengte != null && vorigeLengte != null && Math.abs(lengte - vorigeLengte) >= 7,
       langeCyclusMarker: lengte != null && lengte >= 60,
+      symptomen: symptomenTussen(symptomLog, start, volgende),
     }
   }).reverse()
 
@@ -119,6 +121,12 @@ export default function MenstruationHistory() {
                     {rij.sprongMarker && ' · ±7 dagen t.o.v. vorige'}
                     {rij.langeCyclusMarker && ' · 60+ dagen'}
                   </p>
+                  {rij.symptomen.length > 0 && (
+                    <p style={{ margin: '6px 0 0 0', fontSize: '12px', color: 'var(--ink-2)', fontFamily: 'var(--font-sans)', lineHeight: 1.5 }}>
+                      {rij.symptomen.slice(0, 3).map(s => `${s.label} ×${s.aantal}`).join(' · ')}
+                      {rij.symptomen.length > 3 && ` · +${rij.symptomen.length - 3} meer`}
+                    </p>
+                  )}
                 </div>
 
                 {bevestigDatum === rij.iso ? (

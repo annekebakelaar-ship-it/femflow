@@ -120,3 +120,32 @@ describe('verwijderPeriodeStart', () => {
     expect(verwijderPeriodeStart(basis, '2026-12-25').status).toBe('niet-gevonden')
   })
 })
+
+import { symptomenTussen } from './periodeLog'
+
+describe('symptomenTussen', () => {
+  const log = [
+    { symptom: 'hot_flash', label: 'Opvlieger', date: '2026-04-05T10:00:00Z' },
+    { symptom: 'hot_flash', label: 'Opvlieger', date: '2026-04-12T10:00:00Z' },
+    { symptom: 'headache', label: 'Hoofdpijn', date: '2026-04-20T10:00:00Z' },
+    { symptom: 'hot_flash', label: 'Opvlieger', date: '2026-05-02T10:00:00Z' },
+  ]
+
+  it('telt alleen binnen het venster, aflopend gesorteerd', () => {
+    const r = symptomenTussen(log, new Date('2026-04-01'), new Date('2026-04-29'))
+    expect(r).toEqual([
+      { label: 'Opvlieger', aantal: 2 },
+      { label: 'Hoofdpijn', aantal: 1 },
+    ])
+  })
+
+  it('open einde telt tot nu', () => {
+    const r = symptomenTussen(log, new Date('2026-04-29'), null)
+    expect(r).toEqual([{ label: 'Opvlieger', aantal: 1 }])
+  })
+
+  it('leeg log geeft lege lijst', () => {
+    expect(symptomenTussen([], new Date('2026-01-01'), null)).toEqual([])
+    expect(symptomenTussen(null, new Date('2026-01-01'), null)).toEqual([])
+  })
+})

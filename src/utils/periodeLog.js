@@ -111,3 +111,19 @@ export function verwijderPeriodeStart(menstrualData, datum) {
 
   return { status: 'niet-gevonden', data: menstrualData }
 }
+
+// Symptoomtelling binnen een datumvenster (voor de cyclushistorie):
+// geeft [{ label, aantal }] terug, aflopend gesorteerd
+export function symptomenTussen(symptomLog, vanaf, tot) {
+  const telling = new Map()
+  for (const entry of symptomLog || []) {
+    if (!entry.date) continue
+    const d = new Date(entry.date)
+    if (d < vanaf || (tot && d >= tot)) continue
+    const label = entry.label || entry.symptom
+    telling.set(label, (telling.get(label) || 0) + 1)
+  }
+  return [...telling.entries()]
+    .map(([label, aantal]) => ({ label, aantal }))
+    .sort((a, b) => b.aantal - a.aantal)
+}

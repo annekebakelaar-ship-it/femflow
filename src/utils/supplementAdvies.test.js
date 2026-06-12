@@ -58,3 +58,28 @@ describe('bouwSupplementSuggesties', () => {
     for (const x of s) expect(x.claim).toMatch(/^draagt bij tot/)
   })
 })
+
+describe('nieuwe symptoomregels', () => {
+  it('slecht geslapen (>=3) -> melatonine, ook zonder wearable', () => {
+    const s = bouwSupplementSuggesties({ symptomen: { sleep_problem: 4 } })
+    expect(s[0].id).toBe('melatonine')
+    expect(s[0].reden).toContain('4x slecht geslapen')
+  })
+
+  it('korte nachten uit wearable winnen van de slaaplog als reden', () => {
+    const s = bouwSupplementSuggesties({ slaapGemUur: 6.2, symptomen: { sleep_problem: 5 } })
+    expect(s.filter(x => x.id === 'melatonine' || x.naam === 'Melatonine')).toHaveLength(1)
+    expect(s[0].reden).toContain('6,2 uur')
+  })
+
+  it('krampen (>=3) -> magnesium met spierwerking-claim', () => {
+    const s = bouwSupplementSuggesties({ symptomen: { cramps: 3 } })
+    expect(s[0].naam).toBe('Magnesium')
+    expect(s[0].claim).toContain('spierwerking')
+  })
+
+  it('magnesium verschijnt nooit dubbel bij vermoeidheid plus krampen', () => {
+    const s = bouwSupplementSuggesties({ symptomen: { extreme_fatigue: 5, cramps: 5 } })
+    expect(s.filter(x => x.naam === 'Magnesium')).toHaveLength(1)
+  })
+})

@@ -12,6 +12,10 @@ const SUPPLEMENTEN = {
     naam: 'Magnesium',
     claim: 'draagt bij tot de vermindering van vermoeidheid en moeheid',
   },
+  magnesium_spier: {
+    naam: 'Magnesium',
+    claim: 'draagt bij tot een normale spierwerking',
+  },
   melatonine: {
     naam: 'Melatonine',
     claim: 'draagt bij tot verkorting van de tijd die nodig is om in slaap te vallen',
@@ -34,13 +38,22 @@ export function bouwSupplementSuggesties(observaties = {}) {
   const { slaapGemUur, hrvRichting, fase, symptomen = {} } = observaties
   const suggesties = []
   const voegToe = (id, reden) => {
-    if (suggesties.some(s => s.id === id)) return
+    // Dedupliceer op naam: magnesium mag niet twee keer verschijnen
+    // (vermoeidheid- en krampen-trigger delen het ingrediënt)
+    if (suggesties.some(s => s.naam === SUPPLEMENTEN[id].naam)) return
     suggesties.push({ id, ...SUPPLEMENTEN[id], reden })
   }
 
-  // Slaap: korte nachten -> melatonine; ook magnesium bij vermoeidheidsklachten
+  // Slaap: korte nachten of gelogde slaapklachten -> melatonine
   if (slaapGemUur != null && slaapGemUur < 7) {
     voegToe('melatonine', `Je sliep gemiddeld ${String(slaapGemUur).replace('.', ',')} uur per nacht in de afgelopen periode`)
+  } else if ((symptomen.sleep_problem || 0) >= 3) {
+    voegToe('melatonine', `Je logde ${symptomen.sleep_problem}x slecht geslapen in de afgelopen maanden`)
+  }
+
+  // Krampen -> magnesium met de spierwerking-claim
+  if ((symptomen.cramps || 0) >= 3) {
+    voegToe('magnesium_spier', `Je logde ${symptomen.cramps}x krampen in de afgelopen maanden`)
   }
 
   // Vermoeidheid gelogd
