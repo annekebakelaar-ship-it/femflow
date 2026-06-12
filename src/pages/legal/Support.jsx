@@ -16,7 +16,7 @@ export default function Support() {
         margin: '0 auto',
       }}>
         <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-          Support & Contact
+          FemFlow Support & Contact
         </h1>
 
         <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -40,12 +40,25 @@ export default function Support() {
 
         <section style={{ marginBottom: 'var(--space-lg)' }}>
           <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>
+            Bedrijfsgegevens
+          </h2>
+          <p>
+            YouCaps (eenmanszaak van Anneke Bakelaar)<br />
+            Pietersonstraat 30<br />
+            2684 XS Ter Heijde<br />
+            KvK-nummer: 95822623<br />
+            Btw-identificatienummer: NL005175416B50
+          </p>
+        </section>
+
+        <section style={{ marginBottom: 'var(--space-lg)' }}>
+          <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>
             Veelgestelde vragen
           </h2>
           <ul style={{ marginBottom: 'var(--space-md)' }}>
             <li><strong>Hoe verwijder ik mijn account?</strong> Ga naar je instellingen en selecteer "Account verwijderen". Dit verwijdert al je gegevens permanent.</li>
             <li><strong>Kan ik mijn gegevens exporteren?</strong> Ja, je kunt je volledige dataset als JSON exporteren via je account instellingen.</li>
-            <li><strong>Hoe verbind ik mijn Oura-ring?</strong> In de app, ga naar Instellingen → Wearables en volg de verbindingsstappen.</li>
+            <li><strong>Hoe koppel ik mijn wearable?</strong> In de app, ga naar Instellingen → Wearables, kies je apparaat en volg de verbindingsstappen.</li>
             <li><strong>Wat is de readiness-score?</strong> Een dagelijkse score gebaseerd op je slaap, HRV, hartslag en cyclus-fase.</li>
           </ul>
         </section>
@@ -60,7 +73,7 @@ export default function Support() {
         </section>
 
         <p style={{ marginTop: 'var(--space-xxl)', borderTop: '1px solid var(--border)', paddingTop: 'var(--space-lg)', color: 'var(--ink-3)', fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400' }}>
-          YouCaps Support Team
+          FemFlow Support Team
         </p>
       </div>
     </div>

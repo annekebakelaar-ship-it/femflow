@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
         margin: '0 auto',
       }}>
       <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-        Privacybeleid YouCaps
+        Privacybeleid FemFlow
       </h1>
 
       <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', marginBottom: 'var(--space-lg)' }}>
@@ -26,11 +26,19 @@ export default function PrivacyPolicy() {
       <section style={{ marginBottom: 'var(--space-lg)' }}>
         <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>1. Inleiding</h2>
         <p>
-          YouCaps ("wij", "ons" of "onze") is verplicht te voldoen aan de Algemene Verordening Gegevensbescherming (AVG/GDPR).
+          FemFlow is een app van YouCaps ("wij", "ons" of "onze"). Wij zijn verplicht te voldoen aan de Algemene Verordening Gegevensbescherming (AVG/GDPR).
           Dit privacybeleid legt uit hoe wij uw persoonlijke gegevens verzamelen, gebruiken, beschermen en verwijderen.
         </p>
         <p>
-          YouCaps is de <strong>verwerkingsverantwoordelijke</strong> (data controller) voor alle gegevens die via deze app worden verzameld.
+          YouCaps is de <strong>verwerkingsverantwoordelijke</strong> (data controller) voor alle gegevens die via deze app worden verzameld:
+        </p>
+        <p style={{ marginTop: 'var(--space-sm)' }}>
+          YouCaps (eenmanszaak van Anneke Bakelaar)<br />
+          Pietersonstraat 30<br />
+          2684 XS Ter Heijde<br />
+          KvK-nummer: 95822623<br />
+          Btw-identificatienummer: NL005175416B50<br />
+          E-mail: info@youcaps.app
         </p>
       </section>
 
@@ -41,9 +49,8 @@ export default function PrivacyPolicy() {
           2.1 Account & Authenticatie
         </h3>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
-          <li><strong>E-mailadres:</strong> Gebruikt voor inloggen via magic link</li>
+          <li><strong>E-mailadres:</strong> Gebruikt voor inloggen via een eenmalige code per e-mail of via Google aanmelden. Er is geen wachtwoord. Logt u in met Google, dan ontvangen wij uw e-mailadres van Google.</li>
           <li><strong>Gebruikers-ID:</strong> Gegenereerde unieke identifier</li>
-          <li><strong>Wachtwoord hash:</strong> Veilig opgeslagen (niet leesbaar)</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -53,7 +60,7 @@ export default function PrivacyPolicy() {
           <li><strong>Menstruatiecyclus:</strong> startdatum, cyclusduur (21-40 dagen)</li>
           <li><strong>Dagelijkse symptomen:</strong> wat u logt in de tracker (bloeding, krampen, buikpijn, etc.)</li>
           <li><strong>Notities:</strong> Vrij in te vullen opmerkingen per dag</li>
-          <li><strong>Wearable data:</strong> Slaap, hartslag variabiliteit (HRV), rusthartslagfrequentie (RHR), lichaamstemperatuur (indien u een Oura-ring verbindt)</li>
+          <li><strong>Wearable data:</strong> Slaap, hartslag variabiliteit (HRV), rusthartslagfrequentie (RHR), lichaamstemperatuur (indien u een wearable koppelt, bijvoorbeeld een Oura-ring)</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -102,9 +109,9 @@ export default function PrivacyPolicy() {
           </thead>
           <tbody>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Email, wachtwoord</td>
+              <td style={{ padding: '8px' }}>E-mailadres</td>
               <td style={{ padding: '8px' }}>Contract</td>
-              <td style={{ padding: '8px' }}>Inloggen, account beheer</td>
+              <td style={{ padding: '8px' }}>Inloggen, accountbeheer</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gezondheidsgegevens</td>
@@ -113,12 +120,12 @@ export default function PrivacyPolicy() {
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Lifestyle triggers</td>
-              <td style={{ padding: '8px' }}>Impliciete toestemming</td>
+              <td style={{ padding: '8px' }}>Toestemming</td>
               <td style={{ padding: '8px' }}>Readiness berekening, gepersonaliseerde tips</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Oura-data</td>
-              <td style={{ padding: '8px' }}>Gebruikerstoestemming</td>
+              <td style={{ padding: '8px' }}>Wearable-data</td>
+              <td style={{ padding: '8px' }}>Expliciete toestemming</td>
               <td style={{ padding: '8px' }}>Slaap/HRV tracking, readiness scoring</td>
             </tr>
             <tr>
@@ -133,9 +140,9 @@ export default function PrivacyPolicy() {
           Specifieke toepassingen:
         </h3>
         <ul>
-          <li><strong>Gepersonaliseerde aanbevelingen:</strong> Wij gebruiken uw cyclus, symptomen en readiness-status om relevante artikelen aan te bevelen (geen dwangbeslissing).</li>
-          <li><strong>Belastbaarheidsscore:</strong> Dagelijks berekend op basis van slaap, HRV, hartslag en cyclus-fase. Dit is alleen ter informatie.</li>
-          <li><strong>Digitale tweeling (toekomst):</strong> We zullen uw gegevens gebruiken om persoonlijke AI-modellen te trainen — hiervoor zullen we u uitdrukkelijk vragen om toestemming.</li>
+          <li><strong>Gepersonaliseerde aanbevelingen:</strong> Wij gebruiken uw cyclus, symptomen en readiness-status om relevante artikelen aan te bevelen. Dit heeft geen bindende gevolgen voor u.</li>
+          <li><strong>Readiness-score:</strong> Dagelijks berekend op basis van slaap, HRV, hartslag en cyclus-fase. Dit is alleen ter informatie.</li>
+          <li><strong>Digitale tweeling (toekomst):</strong> We zullen uw gegevens gebruiken om persoonlijke AI-modellen te trainen. Hiervoor vragen wij u vooraf uitdrukkelijk om afzonderlijke toestemming.</li>
         </ul>
       </section>
 
@@ -159,7 +166,7 @@ export default function PrivacyPolicy() {
               <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Wearable data (Oura)</td>
+              <td style={{ padding: '8px' }}>Wearable-data</td>
               <td style={{ padding: '8px' }}>90 dagen (rollerend venster)</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
@@ -192,8 +199,11 @@ export default function PrivacyPolicy() {
             <strong>PostgreSQL (database):</strong> Eu-gebaseerd, gebruikt HTTPS en interne netwerken.
           </li>
           <li>
-            <strong>Oura Inc. (USA):</strong> Wanneer u een Oura-ring verbindt, delen wij deze gegevens met hun API. Rechtsbasis: uw expliciete toestemming.
-            <strong>⚠️ Let op:</strong> Dit betreft een gegevensoverdracht naar de VS (onderworpen aan adequaatheidsbesluit).
+            <strong>Google (aanmelden, optioneel):</strong> Kiest u voor "Aanmelden met Google", dan verloopt het inloggen via Google en ontvangen wij uw e-mailadres van Google. Google verwerkt uw inloggegevens onder hun eigen privacybeleid.
+          </li>
+          <li>
+            <strong>Wearable-aanbieders (bijv. Oura Inc.):</strong> Wanneer u een wearable koppelt, halen wij uw gegevens op via de API van de aanbieder. Rechtsbasis: uw expliciete toestemming.
+            <strong>⚠️ Let op:</strong> Afhankelijk van de aanbieder kan dit een gegevensoverdracht buiten de EU betekenen, bijvoorbeeld naar de VS (onderworpen aan een adequaatheidsbesluit of passende waarborgen).
           </li>
         </ul>
 
@@ -223,7 +233,7 @@ export default function PrivacyPolicy() {
           6.1 Recht op toegang (artikel 15)
         </h3>
         <p>
-          U kunt een kopie van al uw persoonlijke gegevens aanvragen. Stuur een e-mail naar privacy@youcaps.app.
+          U kunt een kopie van al uw persoonlijke gegevens aanvragen. Stuur een e-mail naar info@youcaps.app.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -255,7 +265,7 @@ export default function PrivacyPolicy() {
           6.5 Recht om bezwaar in te dienen (artikel 21)
         </h3>
         <p>
-          U kunt weigeren dat wij uw gegevens voor bepaalde doeleinden verwerken (bijv. AI-aanbevelingen, Oura-sync).
+          U kunt weigeren dat wij uw gegevens voor bepaalde doeleinden verwerken (bijv. AI-aanbevelingen, wearable-synchronisatie).
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -267,8 +277,7 @@ export default function PrivacyPolicy() {
         </p>
         <p style={{ marginTop: 'var(--space-sm)' }}>
           <strong>Autoriteit Persoonsgegevens</strong><br />
-          www.autoriteitpersoonsgegevens.nl<br />
-          Bezwaarschriften@ap.nl
+          www.autoriteitpersoonsgegevens.nl
         </p>
       </section>
 
@@ -280,8 +289,8 @@ export default function PrivacyPolicy() {
         </h3>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li><strong>HTTPS/TLS:</strong> Alle communicatie is versleuteld in transit</li>
-          <li><strong>Wachtwoord hashing:</strong> Wachtwoorden worden veilig opgeslagen (bcrypt)</li>
-          <li><strong>JWT tokens:</strong> Verloopt na 30 dagen, ondertekend met geheim sleutel</li>
+          <li><strong>Inloggen zonder wachtwoord:</strong> Eenmalige inlogcodes per e-mail die kort geldig zijn, of aanmelden via Google (OAuth). Wij slaan geen wachtwoorden op</li>
+          <li><strong>JWT tokens:</strong> Verlopen na 30 dagen, ondertekend met een geheime sleutel</li>
           <li><strong>Databasebeveiliging:</strong> PostgreSQL met interne netwerkisolatie</li>
         </ul>
 
@@ -303,7 +312,7 @@ export default function PrivacyPolicy() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>8. Personeelsgegevens & Toestemming</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>8. Bijzondere Persoonsgegevens & Toestemming</h2>
 
         <p>
           Veel van uw gezondheidsgegevens vallen onder de "gevoelige categorie" van de AVG.
@@ -316,7 +325,7 @@ export default function PrivacyPolicy() {
         <ul>
           <li>De quiz te voltooien en het privacybeleid te accepteren</li>
           <li>De menstruatietracker in te stellen</li>
-          <li>Zich aan te melden voor Oura-synchronisatie (optioneel)</li>
+          <li>Een wearable te koppelen (optioneel)</li>
         </ul>
 
         <p style={{ marginTop: 'var(--space-md)' }}>
@@ -328,7 +337,7 @@ export default function PrivacyPolicy() {
         <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>9. AI & Geautomatiseerde Besluitvorming</h2>
 
         <p>
-          De YouCaps-app gebruikt AI voor:
+          De FemFlow-app gebruikt AI voor:
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li><strong>Artikel aanbevelingen:</strong> Gebaseerd op uw cyclus, symptomen en readiness. Transparant (u ziet waarom).</li>
@@ -345,17 +354,20 @@ export default function PrivacyPolicy() {
         <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>10. Contact & Gegevensbeschermer</h2>
 
         <p>
-          <strong>Voor vragen over privacybeleid:</strong>
+          <strong>Voor vragen over dit privacybeleid:</strong>
         </p>
         <p style={{ marginTop: 'var(--space-sm)' }}>
-          YouCaps BV<br />
-          E-mail: privacy@youcaps.app<br />
+          YouCaps (eenmanszaak van Anneke Bakelaar)<br />
+          Pietersonstraat 30<br />
+          2684 XS Ter Heijde<br />
+          KvK-nummer: 95822623<br />
+          E-mail: info@youcaps.app<br />
           WhatsApp: +31 6 17 26 14 63
         </p>
 
         <p style={{ marginTop: 'var(--space-lg)' }}>
-          <strong>Contactpersoon Gegevensbescherming:</strong><br />
-          E-mail: privacy@youcaps.app
+          <strong>Contactpersoon gegevensbescherming:</strong><br />
+          Anneke Bakelaar, info@youcaps.app
         </p>
       </section>
 

@@ -3,14 +3,13 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google'
 import { requestMagicLink, verifyMagicLink, getMe, saveToken, saveQuizResults } from '../../api/client'
 import { handleGoogleSignIn } from '../../utils/oauthHandler'
-import hero from '../../assets/hero4.png'
 
 export default function SigninPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const { constellation = null, email: welcomeEmail = null } = location.state || {}
 
-  const [step, setStep] = useState('email') // 'email' or 'verify'
+  const [step, setStep] = useState('email')
   const [email, setEmail] = useState(welcomeEmail || '')
   const [token, setToken] = useState('')
   const [error, setError] = useState('')
@@ -57,13 +56,9 @@ export default function SigninPage() {
 
     setLoading(true)
     try {
-      // Verify OTP code
       await verifyMagicLink(token, email)
-
-      // Get user info
       await getMe()
 
-      // Save pending quiz results if they exist
       const pendingQuiz = localStorage.getItem('pending_quiz_results')
       if (pendingQuiz) {
         try {
@@ -94,15 +89,13 @@ export default function SigninPage() {
   return (
     <div style={{
       minHeight: '100vh',
-      padding: 'var(--space-lg) var(--space-sm) var(--space-xxl)',
+      background: 'var(--d-page)',
+      padding: '20px 16px 80px 16px',
       display: 'flex',
+      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       animation: 'fade-slide-up 240ms ease both',
-      backgroundImage: `url(${hero})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
     }}>
 
       <div style={{ maxWidth: '500px', width: '100%' }}>
@@ -113,16 +106,14 @@ export default function SigninPage() {
               fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, letterSpacing: '-0.5px',
               marginBottom: 'var(--space-lg)',
               textAlign: 'center',
-              color: 'white',
-              textShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              color: 'var(--d-ink)',
             }}>
               Inloggen
             </h1>
 
             <p style={{
               fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5,
-              color: 'white',
-              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+              color: 'var(--d-ink-2)',
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
@@ -171,20 +162,20 @@ export default function SigninPage() {
               gap: '12px',
               margin: 'var(--space-lg) 0',
             }}>
-              <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+              <div style={{ flex: 1, height: '1px', background: 'var(--d-border)' }} />
               <span style={{
                 fontSize: '12px',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 fontFamily: 'var(--font-sans)',
               }}>
                 of login met email
               </span>
-              <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+              <div style={{ flex: 1, height: '1px', background: 'var(--d-border)' }} />
             </div>
 
             {error && (
               <div style={{
-                background: '#FCE4EC',
+                background: 'rgba(192, 73, 45, 0.18)',
                 border: '1px solid var(--error)',
                 padding: 'var(--space-md)',
                 borderRadius: '8px',
@@ -201,7 +192,7 @@ export default function SigninPage() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
                   <label style={{
                     fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                    color: 'var(--ink-3)',
+                    color: 'var(--d-ink-3)',
                     textTransform: 'uppercase',
                     letterSpacing: '.08em',
                   }}>
@@ -211,8 +202,8 @@ export default function SigninPage() {
                     <span style={{
                       fontSize: '9px',
                       fontWeight: '600',
-                      color: 'var(--accent)',
-                      background: 'rgba(199, 154, 110, 0.1)',
+                      color: 'var(--d-accent)',
+                      background: 'var(--d-accent-soft)',
                       padding: '2px 6px',
                       borderRadius: '4px',
                       textTransform: 'uppercase',
@@ -229,10 +220,12 @@ export default function SigninPage() {
                   style={{
                     width: '100%',
                     padding: '12px 16px',
-                    border: '1px solid var(--border)',
-                    borderRadius: '8px',
+                    background: 'var(--d-card)',
+                    border: 'none',
+                    borderRadius: '12px',
                     fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400',
                     boxSizing: 'border-box',
+                    color: 'var(--d-ink)',
                   }}
                   placeholder="je@email.com"
                 />
@@ -243,10 +236,10 @@ export default function SigninPage() {
                 disabled={loading}
                 style={{
                   padding: '14px 24px',
-                  background: loading ? 'var(--border)' : 'var(--ink)',
-                  color: loading ? 'var(--ink-2)' : 'var(--surface)',
+                  background: loading ? 'var(--d-border)' : 'var(--d-accent)',
+                  color: loading ? 'var(--d-ink-2)' : '#1B0F07',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '999px',
                   fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   letterSpacing: '.04em',
@@ -259,7 +252,7 @@ export default function SigninPage() {
 
             <p style={{
               fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
-              color: 'var(--ink-3)',
+              color: 'var(--d-ink-2)',
               textAlign: 'center',
               marginTop: 'var(--space-xl)',
             }}>
@@ -269,7 +262,7 @@ export default function SigninPage() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--ink)',
+                  color: 'var(--d-accent)',
                   cursor: 'pointer',
                   textDecoration: 'underline',
                   textUnderlineOffset: 3,
@@ -287,16 +280,14 @@ export default function SigninPage() {
               fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, letterSpacing: '-0.5px',
               marginBottom: 'var(--space-lg)',
               textAlign: 'center',
-              color: 'white',
-              textShadow: '0 2px 8px rgba(0,0,0,0.4)',
+              color: 'var(--d-ink)',
             }}>
               Verifieer je email
             </h1>
 
             <p style={{
               fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5,
-              color: 'white',
-              textShadow: '0 1px 4px rgba(0,0,0,0.3)',
+              color: 'var(--d-ink-2)',
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
@@ -305,7 +296,7 @@ export default function SigninPage() {
 
             {error && (
               <div style={{
-                background: '#FCE4EC',
+                background: 'rgba(192, 73, 45, 0.18)',
                 border: '1px solid var(--error)',
                 padding: 'var(--space-md)',
                 borderRadius: '8px',
@@ -323,8 +314,7 @@ export default function SigninPage() {
                   display: 'block',
                   fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
                   marginBottom: '4px',
-                  color: 'white',
-                  textShadow: '0 1px 3px rgba(0,0,0,0.3)',
+                  color: 'var(--d-ink-3)',
                   textTransform: 'uppercase',
                   letterSpacing: '.08em',
                 }}>
@@ -338,14 +328,14 @@ export default function SigninPage() {
                   style={{
                     width: '100%',
                     padding: '12px 16px',
-                    border: '2px solid rgba(255, 255, 255, 0.8)',
-                    borderRadius: '8px',
+                    background: 'var(--d-card)',
+                    border: 'none',
+                    borderRadius: '12px',
                     fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400',
                     boxSizing: 'border-box',
                     letterSpacing: '2px',
                     textAlign: 'center',
-                    background: 'rgba(255, 255, 255, 0.95)',
-                    color: 'var(--ink)',
+                    color: 'var(--d-ink)',
                   }}
                   placeholder="000000"
                 />
@@ -356,10 +346,10 @@ export default function SigninPage() {
                 disabled={loading || token.length !== 6}
                 style={{
                   padding: '14px 24px',
-                  background: (loading || token.length !== 6) ? 'var(--border)' : 'var(--ink)',
-                  color: (loading || token.length !== 6) ? 'var(--ink-2)' : 'var(--surface)',
+                  background: (loading || token.length !== 6) ? 'var(--d-border)' : 'var(--d-accent)',
+                  color: (loading || token.length !== 6) ? 'var(--d-ink-2)' : '#1B0F07',
                   border: 'none',
-                  borderRadius: '8px',
+                  borderRadius: '999px',
                   fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600',
                   cursor: (loading || token.length !== 6) ? 'not-allowed' : 'pointer',
                   letterSpacing: '.04em',
@@ -372,7 +362,7 @@ export default function SigninPage() {
 
             <p style={{
               fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
-              color: 'var(--ink-3)',
+              color: 'var(--d-ink-2)',
               textAlign: 'center',
               marginTop: 'var(--space-xl)',
             }}>
@@ -381,7 +371,7 @@ export default function SigninPage() {
                 style={{
                   background: 'none',
                   border: 'none',
-                  color: 'var(--ink)',
+                  color: 'var(--d-accent)',
                   cursor: 'pointer',
                   textDecoration: 'underline',
                   textUnderlineOffset: 3,
@@ -395,6 +385,31 @@ export default function SigninPage() {
           </>
         )}
 
+      </div>
+
+      {/* Legal footer */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'linear-gradient(180deg, transparent 0%, var(--d-bg) 60%)',
+        padding: '40px 16px 16px',
+        textAlign: 'center',
+        fontSize: '11px',
+        fontFamily: 'var(--font-sans)',
+        color: 'var(--d-ink-3)',
+      }}>
+        <p style={{ margin: 0, marginBottom: '8px' }}>
+          Door in te loggen ga je akkoord met onze{' '}
+          <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+            voorwaarden
+          </a>
+          {' '}en{' '}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+            privacybeleid
+          </a>
+        </p>
       </div>
 
     </div>

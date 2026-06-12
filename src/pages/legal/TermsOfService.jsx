@@ -9,7 +9,7 @@ export default function TermsOfService() {
       color: 'var(--ink)',
     }}>
       <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-        Gebruikersvoorwaarden YouCaps
+        Gebruikersvoorwaarden FemFlow
       </h1>
 
       <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', marginBottom: 'var(--space-lg)' }}>
@@ -19,7 +19,7 @@ export default function TermsOfService() {
       <section style={{ marginBottom: 'var(--space-lg)' }}>
         <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>1. Acceptatie van Voorwaarden</h2>
         <p>
-          Door YouCaps te gebruiken, gaat u ermee akkoord dat u deze Gebruikersvoorwaarden, ons Privacybeleid en alle toepasselijke wetten hebt gelezen en aanvaard.
+          Door FemFlow te gebruiken, gaat u ermee akkoord dat u deze Gebruikersvoorwaarden, ons Privacybeleid en alle toepasselijke wetten hebt gelezen en aanvaard.
         </p>
         <p>
           Als u niet akkoord bent, mag u de app niet gebruiken.
@@ -30,20 +30,20 @@ export default function TermsOfService() {
         <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>2. Dienstbeschrijving</h2>
 
         <p>
-          YouCaps is een gezondheids- en welzijnsapp gericht op:
+          FemFlow is een gezondheids- en welzijnsapp van YouCaps, gericht op:
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>Menstruatiecyclus volgen en analyseren</li>
           <li>Symptomen en gezondheidsgegevens registreren</li>
           <li>Dagelijkse readiness-scores berekenen (op basis van slaap, HRV, hartslag en cyclus)</li>
           <li>Gepersonaliseerde gezondheidsadviezen en artikelen aanbevelen</li>
-          <li>Optioneel: Oura-wearable-gegevens synchroniseren</li>
+          <li>Optioneel: wearable-gegevens synchroniseren (bijvoorbeeld Oura)</li>
           <li>Optioneel: Supplementenabonnementen beheren</li>
         </ul>
 
         <p>
-          <strong>DUIDELIJK:</strong> YouCaps is <strong>GEEN medische dienst</strong>.
-          Raadpleeg altijd uw huisarts voor medische adviezen, diagnoses of behandeling.
+          <strong>Belangrijk:</strong> FemFlow is <strong>geen medische dienst</strong>.
+          Raadpleeg altijd uw huisarts voor medisch advies, diagnoses of behandeling.
         </p>
       </section>
 
@@ -56,7 +56,7 @@ export default function TermsOfService() {
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>U moet minstens 18 jaar oud zijn</li>
           <li>U moet een geldig e-mailadres hebben</li>
-          <li>U bent verantwoordelijk voor uw login-gegevens (magic link)</li>
+          <li>U bent verantwoordelijk voor uw inloggegevens (inlogcode per e-mail of uw Google-account)</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -67,13 +67,14 @@ export default function TermsOfService() {
         </p>
         <ul>
           <li>Uw e-mailadres veilig houden (het is uw login)</li>
-          <li>Magic-links niet delen met anderen</li>
+          <li>Inlogcodes niet delen met anderen</li>
+          <li>Uw Google-account beveiligen als u daarmee inlogt</li>
           <li>Uw browser-sessie veilig houden</li>
           <li>Ongeautoriseerde toegang onmiddellijk rapporteren</li>
         </ul>
 
         <p style={{ marginTop: 'var(--space-md)' }}>
-          We zijn niet aansprakelijk voor ongeautoriseerde toegang als dit u schuld is.
+          We zijn niet aansprakelijk voor ongeautoriseerde toegang die aan u te wijten is.
         </p>
       </section>
 
@@ -88,10 +89,14 @@ export default function TermsOfService() {
           <li>Hacken, phishing of cyberaanvallen</li>
           <li>Andermans accounts of gegevens aanvallen</li>
           <li>Spammen, virussen of malware</li>
-          <li>Onwettige opslagof verspreiding van andermans gezondheidsgegevens</li>
-          <li>Zelfmoordgevaar of ernstige mentale crises (gebruik in plaats daarvan huisarts of 112)</li>
+          <li>Onwettige opslag of verspreiding van andermans gezondheidsgegevens</li>
           <li>Misleidende medische informatie verspreiden</li>
         </ul>
+
+        <p style={{ marginTop: 'var(--space-md)' }}>
+          De app is niet geschikt voor acute medische of mentale crisissituaties.
+          Neem in die gevallen contact op met uw huisarts, de huisartsenpost of bel 112.
+        </p>
 
         <p style={{ marginTop: 'var(--space-md)' }}>
           Schendingen zullen resulteren in accountbeëindiging.
@@ -105,7 +110,7 @@ export default function TermsOfService() {
           5.1 Geen Medisch Advies
         </h3>
         <p>
-          <strong>YouCaps verleent GEEN medisch advies.</strong> De app is:
+          <strong>FemFlow verleent GEEN medisch advies.</strong> De app is:
         </p>
         <ul>
           <li>Een trackinghulpmiddel (voor educatie en zelfkennis)</li>
@@ -119,7 +124,7 @@ export default function TermsOfService() {
         <ul>
           <li>Medische diagnoses</li>
           <li>Behandelingsadviezen</li>
-          <li>Hormoonale of medicijnvragen</li>
+          <li>Hormonale vragen of medicijnvragen</li>
           <li>Acute medische nood (bel 112)</li>
         </ul>
 
@@ -136,15 +141,15 @@ export default function TermsOfService() {
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          5.3 Wearable-gegevens (Oura)
+          5.3 Wearable-gegevens
         </h3>
         <p>
-          Als u een Oura-ring verbindt:
+          Als u een wearable koppelt (bijvoorbeeld een Oura-ring):
         </p>
         <ul>
-          <li>Oura's voorwaarden zijn ook van toepassing</li>
-          <li>YouCaps is niet verantwoordelijk voor Oura-gegevensverlies of fouten</li>
-          <li>U geeft YouCaps toestemming om Oura-gegevens te benaderen en op te slaan</li>
+          <li>De voorwaarden van de wearable-aanbieder zijn ook van toepassing</li>
+          <li>YouCaps is niet verantwoordelijk voor gegevensverlies of fouten bij de wearable-aanbieder</li>
+          <li>U geeft YouCaps toestemming om uw wearable-gegevens te benaderen en op te slaan</li>
         </ul>
       </section>
 
@@ -156,9 +161,9 @@ export default function TermsOfService() {
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>App-code, ontwerp, algoritmen</li>
-          <li>Merkennamen, logo's, handelsnamen</li>
-          <li>Artikel inhoud in de kennisbank</li>
-          <li>All compute readiness scores</li>
+          <li>Merknamen, logo's, handelsnamen</li>
+          <li>Artikelinhoud in de kennisbank</li>
+          <li>De berekende readiness-scores en onderliggende rekenmodellen</li>
         </ul>
 
         <p style={{ marginTop: 'var(--space-md)' }}>
@@ -182,10 +187,10 @@ export default function TermsOfService() {
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          7.1 "WIJ LEVEREN DE APP 'WIE ZE ZIJN'"
+          7.1 De app wordt geleverd zoals hij is ("as-is")
         </h3>
         <p>
-          YouCaps wordt aangeboden op "as-is"-basis. We garanderen <strong>NIET</strong>:
+          FemFlow wordt aangeboden op "as-is"-basis. We garanderen <strong>NIET</strong>:
         </p>
         <ul>
           <li>Voortdurende beschikbaarheid (onderhoudsvensters kunnen nodig zijn)</li>
@@ -200,9 +205,9 @@ export default function TermsOfService() {
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>Gezondheidsresultaten of medische complicaties</li>
           <li>Financieel verlies of zakelijke schade</li>
-          <li>Gegevens verlies (ondanks onze beveiligingsinspanningen)</li>
+          <li>Gegevensverlies (ondanks onze beveiligingsinspanningen)</li>
           <li>Derde-partijapps of wearables (Oura, enz.)</li>
-          <li>Indireckt verlies of gevolgschade</li>
+          <li>Indirecte schade of gevolgschade</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -227,7 +232,7 @@ export default function TermsOfService() {
           8.1 Gratis App
         </h3>
         <p>
-          De volledige YouCaps-app is <strong>GRATIS</strong>. Geen paywall, geen verborgen kosten.
+          De volledige FemFlow-app is <strong>GRATIS</strong>. Geen paywall, geen verborgen kosten.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -238,8 +243,8 @@ export default function TermsOfService() {
         </p>
         <ul>
           <li>U hebt <strong>GEEN</strong> abonnement nodig om de app te gebruiken</li>
-          <li>U kunt abonnement op elk moment annuleren</li>
-          <li>Volledige refundPolicy (30 dagen)</li>
+          <li>U kunt het abonnement op elk moment annuleren</li>
+          <li>30 dagen volledige geld-terug-garantie</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -267,7 +272,7 @@ export default function TermsOfService() {
           We kunnen uw account beëindigen als:
         </p>
         <ul>
-          <li>U tegen deze Voorwaarden schendt (bijv. illegale activiteiten)</li>
+          <li>U deze Voorwaarden schendt (bijv. illegale activiteiten)</li>
           <li>U aanhoudend misbruik maakt van de service</li>
           <li>Juridische verplichting (rechterlijk bevel)</li>
         </ul>
@@ -297,10 +302,14 @@ export default function TermsOfService() {
           <strong>Geschillenbeslechting:</strong>
         </p>
         <ol>
-          <li>Probeer eerst contact met ons op (privacy@youcaps.ai)</li>
-          <li>Als niet opgelost: mediation</li>
-          <li>Rechtszaak: Amsterdam District Court</li>
+          <li>Neem eerst contact met ons op via info@youcaps.app, de meeste klachten lossen we onderling op</li>
+          <li>Komen we er samen niet uit, dan kan het geschil worden voorgelegd aan de bevoegde Nederlandse rechter</li>
         </ol>
+        <p style={{ marginTop: 'var(--space-md)', color: 'var(--ink-2)' }}>
+          <em>
+            Als consument behoudt u altijd de bescherming van het dwingende consumentenrecht van uw woonland.
+          </em>
+        </p>
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -310,9 +319,12 @@ export default function TermsOfService() {
           <strong>Voor vragen of klachten:</strong>
         </p>
         <p style={{ marginTop: 'var(--space-sm)' }}>
-          YouCaps BV<br />
-          E-mail: support@youcaps.ai<br />
-          [Adres TBD]
+          YouCaps (eenmanszaak van Anneke Bakelaar)<br />
+          Pietersonstraat 30<br />
+          2684 XS Ter Heijde<br />
+          KvK-nummer: 95822623<br />
+          Btw-identificatienummer: NL005175416B50<br />
+          E-mail: info@youcaps.app
         </p>
       </section>
 

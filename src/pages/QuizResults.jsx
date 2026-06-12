@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Smile, AlertCircle, Zap, RotateCw, CheckCircle } from 'react-feather'
 import { saveWelcomeSignup } from '../api/client'
-import hero from '../assets/hero1.png'
 
 export default function QuizResults() {
   const navigate = useNavigate()
@@ -56,16 +55,16 @@ export default function QuizResults() {
 
   return (
     <div style={{
-      minHeight: '100vh',
+      minHeight: '100vh', position: 'relative',
       padding: 'var(--space-lg) var(--space-sm) var(--space-xxl)',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       animation: 'fade-slide-up 240ms ease both',
-      backgroundImage: `url(${hero})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--d-page)',
+      
+      
+      
     }}>
 
       <div style={{ maxWidth: '650px', width: '100%' }}>
@@ -85,7 +84,7 @@ export default function QuizResults() {
           {/* Subtitle */}
           <p style={{
             fontSize: '16px',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             lineHeight: 1.6,
             fontFamily: 'var(--font-sans)',
             maxWidth: '500px',
@@ -134,14 +133,14 @@ export default function QuizResults() {
                 marginBottom: '12px',
                 opacity: isActive ? 1 : 0.3,
                 transition: 'opacity 200ms ease',
-                color: isActive ? 'var(--accent)' : 'var(--ink-3)',
+                color: isActive ? 'var(--d-accent)' : 'var(--d-ink-3)',
               }}>
                 {signalIcons[signal]}
               </div>
               <p style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                color: isActive ? 'var(--ink)' : 'var(--ink-3)',
+                color: isActive ? 'var(--ink)' : 'var(--d-ink-3)',
                 margin: 0,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
@@ -153,7 +152,7 @@ export default function QuizResults() {
                 <div style={{
                   fontSize: '16px',
                   marginTop: '8px',
-                  color: 'var(--accent)',
+                  color: 'var(--d-accent)',
                 }}>
                   ✓
                 </div>
@@ -258,7 +257,7 @@ export default function QuizResults() {
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '12px',
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
                 margin: '0 0 12px 0',
                 lineHeight: 1.5,
               }}>
@@ -274,7 +273,7 @@ export default function QuizResults() {
                   style={{
                     flex: '1 1 180px',
                     padding: '10px 12px',
-                    border: '1px solid var(--border)',
+                    border: '1px solid var(--d-border)',
                     borderRadius: '8px',
                     fontSize: '14px',
                     fontFamily: 'var(--font-sans)',
@@ -307,6 +306,31 @@ export default function QuizResults() {
             </>
           )}
         </div>
+      </div>
+
+      {/* Legal footer */}
+      <div style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'linear-gradient(180deg, transparent 0%, var(--d-bg) 60%)',
+        padding: '40px 16px 16px',
+        textAlign: 'center',
+        fontSize: '11px',
+        fontFamily: 'var(--font-sans)',
+        color: 'var(--d-ink-3)',
+      }}>
+        <p style={{ margin: 0, marginBottom: '8px' }}>
+          Door in te loggen ga je akkoord met onze{' '}
+          <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+            voorwaarden
+          </a>
+          {' '}en{' '}
+          <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+            privacybeleid
+          </a>
+        </p>
       </div>
 
     </div>
