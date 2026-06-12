@@ -48,9 +48,11 @@ export default function PeriodeLogKnop({ onGelogd }) {
           width: '56px',
           height: '56px',
           borderRadius: '50%',
-          background: 'var(--phase-menstrual, #D96A7A)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
           border: 'none',
-          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+          boxShadow: '0 6px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.12)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
@@ -58,7 +60,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
           zIndex: 90,
         }}
       >
-        <Droplet size={24} color="white" strokeWidth={1.8} />
+        <Droplet size={24} color="var(--phase-menstrual, #D96A7A)" strokeWidth={1.8} />
       </button>
 
       {/* Toast na loggen */}
