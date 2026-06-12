@@ -25,7 +25,7 @@ export default function CycleAnalytics() {
         maxWidth: 'var(--container-max)',
         margin: '0 auto',
         padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-        background: 'var(--bg)',
+        background: 'var(--d-page)',
         animation: 'fade-slide-up 240ms ease both',
       }}>
         {/* Header */}
@@ -73,7 +73,7 @@ export default function CycleAnalytics() {
           fontFamily: 'var(--font-sans)',
           fontSize: '15px',
           fontWeight: '400',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           margin: '0 0 var(--space-xl) 0',
           lineHeight: '1.5',
         }}>
@@ -106,7 +106,7 @@ export default function CycleAnalytics() {
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
       padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-      background: 'var(--bg)',
+      background: 'var(--d-page)',
       animation: 'fade-slide-up 240ms ease both',
     }}>
       {/* Header */}
@@ -150,7 +150,7 @@ export default function CycleAnalytics() {
         fontFamily: 'var(--font-sans)',
         fontSize: '15px',
         fontWeight: '400',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         margin: '0 0 var(--space-xl) 0',
         lineHeight: '1.5',
       }}>
@@ -162,8 +162,8 @@ export default function CycleAnalytics() {
 
       {/* Info Card */}
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card)',
+        border: '1px solid var(--d-border)',
         borderRadius: 'var(--radius-lg)',
         padding: 'var(--space-lg)',
       }}>
@@ -185,7 +185,7 @@ export default function CycleAnalytics() {
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: '400',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           lineHeight: 1.6,
         }}>
           <div>

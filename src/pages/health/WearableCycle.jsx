@@ -34,7 +34,7 @@ export default function WearableCycle() {
         maxWidth: 'var(--container-max)',
         margin: '0 auto',
         padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-        background: 'var(--bg)',
+        background: 'var(--d-page)',
         animation: 'fade-slide-up 240ms ease both',
       }}>
         {/* Header */}
@@ -82,7 +82,7 @@ export default function WearableCycle() {
           fontFamily: 'var(--font-sans)',
           fontSize: '15px',
           fontWeight: '400',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           margin: '0 0 var(--space-xl) 0',
           lineHeight: '1.5',
         }}>
@@ -115,7 +115,7 @@ export default function WearableCycle() {
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
       padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-      background: 'var(--bg)',
+      background: 'var(--d-page)',
       animation: 'fade-slide-up 240ms ease both',
     }}>
       {/* Header */}
@@ -159,7 +159,7 @@ export default function WearableCycle() {
         fontFamily: 'var(--font-sans)',
         fontSize: '15px',
         fontWeight: '400',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         margin: '0 0 var(--space-xl) 0',
         lineHeight: '1.5',
       }}>
@@ -168,8 +168,8 @@ export default function WearableCycle() {
 
       {/* Test Mode */}
       <div style={{
-        background: 'var(--surface-warm)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card-solid)',
+        border: '1px solid var(--d-border)',
         borderRadius: 'var(--radius-md)',
         padding: 'var(--space-md)',
         marginBottom: 'var(--space-lg)',
@@ -177,7 +177,7 @@ export default function WearableCycle() {
         gap: 'var(--space-sm)',
         flexWrap: 'wrap',
       }}>
-        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--ink-3)', flex: '1 1 100%' }}>
+        <span style={{ fontFamily: 'var(--font-sans)', fontSize: '11px', fontWeight: '500', textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--d-ink-3)', flex: '1 1 100%' }}>
           Testmodus Wearable Data
         </span>
         <button
@@ -185,7 +185,7 @@ export default function WearableCycle() {
           style={{
             flex: 1,
             padding: '8px 12px',
-            background: grafiekMode === 'regular' ? 'var(--accent)' : 'var(--surface)',
+            background: grafiekMode === 'regular' ? 'var(--d-accent)' : 'var(--d-card)',
             color: grafiekMode === 'regular' ? 'white' : 'var(--ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
@@ -202,7 +202,7 @@ export default function WearableCycle() {
           style={{
             flex: 1,
             padding: '8px 12px',
-            background: grafiekMode === 'irregular' ? 'var(--accent)' : 'var(--surface)',
+            background: grafiekMode === 'irregular' ? 'var(--d-accent)' : 'var(--d-card)',
             color: grafiekMode === 'irregular' ? 'white' : 'var(--ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
@@ -219,7 +219,7 @@ export default function WearableCycle() {
           style={{
             flex: 1,
             padding: '8px 12px',
-            background: grafiekMode === 'gaps' ? 'var(--accent)' : 'var(--surface)',
+            background: grafiekMode === 'gaps' ? 'var(--d-accent)' : 'var(--d-card)',
             color: grafiekMode === 'gaps' ? 'white' : 'var(--ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
@@ -240,8 +240,8 @@ export default function WearableCycle() {
 
       {/* Info Card */}
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card)',
+        border: '1px solid var(--d-border)',
         borderRadius: 'var(--radius-lg)',
         padding: 'var(--space-lg)',
       }}>
@@ -263,7 +263,7 @@ export default function WearableCycle() {
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: '400',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           lineHeight: 1.6,
         }}>
           <div>
