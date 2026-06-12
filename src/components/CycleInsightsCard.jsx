@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import hero from '../assets/hero1.png'
+import hero from '../assets/hero6.webp'
 
 export default function CycleInsightsCard({ menstrualPhase }) {
   const navigate = useNavigate()

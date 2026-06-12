@@ -3,17 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import { ArrowLeft } from 'react-feather'
 import { FEATURED, RECOMMENDED, BY_CATEGORY } from '../../content/artikelen'
 import hero1 from '../../assets/hero1.png'
+import hero3 from '../../assets/hero3.webp'
 import hero4 from '../../assets/hero4.png'
+import hero5 from '../../assets/hero5.webp'
+import hero6 from '../../assets/hero6.webp'
 
 // Categoriefoto's: tijdelijk de bestaande hero-beelden. Eigen foto's?
 // Drop ze in src/assets/kennisbank/ en wijs ze hier per categorie toe.
 const CATEGORIES = [
-  { id: 'sleep', label: 'Slaap', foto: hero1 },
+  { id: 'sleep', label: 'Slaap', foto: hero3 },
   { id: 'stress', label: 'Stress', foto: hero4 },
-  { id: 'cycle', label: 'Cyclus', foto: hero4 },
+  { id: 'cycle', label: 'Cyclus', foto: hero6 },
   { id: 'nutrition', label: 'Voeding', foto: hero1 },
-  { id: 'exercise', label: 'Beweging', foto: hero1 },
-  { id: 'mood', label: 'Stemming', foto: hero4 },
+  { id: 'exercise', label: 'Beweging', foto: hero5 },
+  { id: 'mood', label: 'Stemming', foto: hero3 },
 ]
 
 

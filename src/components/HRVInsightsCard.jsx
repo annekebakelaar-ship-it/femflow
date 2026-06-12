@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
-import hero from '../assets/hero4.png'
+import hero from '../assets/hero5.webp'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
