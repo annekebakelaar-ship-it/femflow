@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Cloud, Zap, Moon, Heart, Thermometer, Sunset, Frown, Activity, RotateCw, Move, X } from 'react-feather'
+import { Cloud, Zap, Moon, Heart, Thermometer, Sunset, Frown, Activity, RotateCw, Move, X, TrendingUp, Circle, AlertCircle, HelpCircle, Sun, Wind, Disc, Droplet, MinusCircle, Volume2, Repeat, ChevronDown, ChevronUp } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
 
 // Symptoomset: de vier oorspronkelijke ids blijven ongewijzigd zodat
@@ -19,6 +19,25 @@ const SYMPTOMS = [
   { id: 'joint_pain', label: 'Gewrichtspijn', icon: Move },
 ]
 
+// Tweede laag: minder frequent gelogd maar klinisch relevant — ingeklapt
+// zodat de dagelijkse handeling licht blijft. Telt overal gewoon mee
+// (vandaag-chips, weekstrip, historie, huisartsrapport).
+const MEER_SYMPTOMS = [
+  { id: 'palpitations', label: 'Hartkloppingen', icon: TrendingUp },
+  { id: 'breast_tenderness', label: 'Gevoelige borsten', icon: Circle },
+  { id: 'anxiety', label: 'Angst / paniek', icon: AlertCircle },
+  { id: 'forgetfulness', label: 'Vergeetachtigheid', icon: HelpCircle },
+  { id: 'dry_skin', label: 'Droge huid / ogen', icon: Sun },
+  { id: 'itching', label: 'Jeuk', icon: Wind },
+  { id: 'bloating', label: 'Opgeblazen gevoel', icon: Disc },
+  { id: 'vaginal_dryness', label: 'Vaginale droogheid', icon: Droplet },
+  { id: 'low_libido', label: 'Verminderd libido', icon: MinusCircle },
+  { id: 'tinnitus', label: 'Tinnitus', icon: Volume2 },
+  { id: 'restless_legs', label: 'Rusteloze benen', icon: Repeat },
+]
+
+const ALLE_SYMPTOMEN = [...SYMPTOMS, ...MEER_SYMPTOMS]
+
 const DAG_LETTERS = ['zo', 'ma', 'di', 'wo', 'do', 'vr', 'za']
 
 function isVandaag(isoDate) {
@@ -28,6 +47,7 @@ function isVandaag(isoDate) {
 export default function SymptomQuicklog() {
   const [log, setLog] = useState(() => getSecure('symptom_log') || [])
   const [zojuist, setZojuist] = useState(null)
+  const [toonMeer, setToonMeer] = useState(false)
 
   function bewaar(nieuw) {
     saveSecure('symptom_log', nieuw)
@@ -55,7 +75,7 @@ export default function SymptomQuicklog() {
   for (const entry of log) {
     if (isVandaag(entry.date)) vandaag[entry.symptom] = (vandaag[entry.symptom] || 0) + 1
   }
-  const vandaagChips = SYMPTOMS.filter(s => vandaag[s.id])
+  const vandaagChips = ALLE_SYMPTOMEN.filter(s => vandaag[s.id])
 
   // Totalen per dag voor de laatste 7 dagen (oud -> nieuw)
   const week = []
@@ -66,6 +86,68 @@ export default function SymptomQuicklog() {
     week.push({ letter: DAG_LETTERS[d.getDay()], aantal, vandaag: i === 0 })
   }
 
+  const renderTegel = (symptom) => {
+    const Icoon = symptom.icon
+    const aantal = vandaag[symptom.id] || 0
+    const isZojuist = zojuist === symptom.id
+
+    return (
+      <button
+        key={symptom.id}
+        onClick={() => handleLog(symptom)}
+        style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '10px',
+          padding: '14px 12px',
+          background: aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
+          border: `1px solid ${isZojuist ? 'var(--success)' : aantal > 0 ? 'var(--accent)' : 'var(--border)'}`,
+          borderRadius: '12px',
+          cursor: 'pointer',
+          transition: 'all 150ms ease',
+          textAlign: 'left',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
+        onMouseLeave={e => {
+          e.currentTarget.style.borderColor = aantal > 0 ? 'var(--accent)' : 'var(--border)'
+        }}
+      >
+        <Icoon size={18} strokeWidth={1.5} color={aantal > 0 ? 'var(--accent)' : 'var(--ink-3)'} />
+        <span style={{
+          fontFamily: 'var(--font-sans)',
+          fontSize: '13px',
+          fontWeight: '500',
+          color: 'var(--ink)',
+          flex: 1,
+        }}>
+          {symptom.label}
+        </span>
+        {aantal > 0 && (
+          <span style={{
+            fontFamily: 'var(--font-sans)',
+            fontSize: '11px',
+            fontWeight: '600',
+            color: 'white',
+            background: 'var(--accent)',
+            borderRadius: '999px',
+            minWidth: '18px',
+            height: '18px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 5px',
+          }}>
+            {aantal}
+          </span>
+        )}
+      </button>
+    )
+  }
+
+  // Hoeveel tweede-laag-symptomen vandaag al gelogd zijn (hint op de knop)
+  const meerVandaag = MEER_SYMPTOMS.reduce((n, s) => n + (vandaag[s.id] || 0), 0)
+
   return (
     <div>
       {/* Symptoomtegels */}
@@ -74,65 +156,57 @@ export default function SymptomQuicklog() {
         gridTemplateColumns: 'repeat(2, 1fr)',
         gap: '10px',
       }}>
-        {SYMPTOMS.map(symptom => {
-          const Icoon = symptom.icon
-          const aantal = vandaag[symptom.id] || 0
-          const isZojuist = zojuist === symptom.id
-
-          return (
-            <button
-              key={symptom.id}
-              onClick={() => handleLog(symptom)}
-              style={{
-                position: 'relative',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                padding: '14px 12px',
-                background: aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
-                border: `1px solid ${isZojuist ? 'var(--success)' : aantal > 0 ? 'var(--accent)' : 'var(--border)'}`,
-                borderRadius: '12px',
-                cursor: 'pointer',
-                transition: 'all 150ms ease',
-                textAlign: 'left',
-              }}
-              onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = aantal > 0 ? 'var(--accent)' : 'var(--border)'
-              }}
-            >
-              <Icoon size={18} strokeWidth={1.5} color={aantal > 0 ? 'var(--accent)' : 'var(--ink-3)'} />
-              <span style={{
-                fontFamily: 'var(--font-sans)',
-                fontSize: '13px',
-                fontWeight: '500',
-                color: 'var(--ink)',
-                flex: 1,
-              }}>
-                {symptom.label}
-              </span>
-              {aantal > 0 && (
-                <span style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  color: 'white',
-                  background: 'var(--accent)',
-                  borderRadius: '999px',
-                  minWidth: '18px',
-                  height: '18px',
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  padding: '0 5px',
-                }}>
-                  {aantal}
-                </span>
-              )}
-            </button>
-          )
-        })}
+        {SYMPTOMS.map(renderTegel)}
       </div>
+
+      {/* Tweede laag: minder frequente symptomen, ingeklapt */}
+      <button
+        onClick={() => setToonMeer(!toonMeer)}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '6px',
+          marginTop: '12px',
+          padding: '8px 12px',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          fontFamily: 'var(--font-sans)',
+          fontSize: '13px',
+          fontWeight: '500',
+          color: 'var(--ink-2)',
+        }}
+      >
+        {toonMeer ? <ChevronUp size={14} strokeWidth={2} /> : <ChevronDown size={14} strokeWidth={2} />}
+        {toonMeer ? 'Minder symptomen' : 'Meer symptomen'}
+        {!toonMeer && meerVandaag > 0 && (
+          <span style={{
+            fontSize: '11px',
+            fontWeight: '600',
+            color: 'white',
+            background: 'var(--accent)',
+            borderRadius: '999px',
+            minWidth: '18px',
+            height: '18px',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '0 5px',
+          }}>
+            {meerVandaag}
+          </span>
+        )}
+      </button>
+      {toonMeer && (
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '10px',
+          marginTop: '4px',
+        }}>
+          {MEER_SYMPTOMS.map(renderTegel)}
+        </div>
+      )}
 
       {/* Vandaag gelogd, met ongedaan maken */}
       {vandaagChips.length > 0 && (

@@ -73,6 +73,42 @@ export const ARTIKELEN = [
     ],
   },
   {
+    id: 'perimenopauze-breedte',
+    title: 'Hoe breed perimenopauze kan zijn',
+    subtitle: 'Van opvliegers tot tinnitus — en waarom dat biologisch logisch is',
+    category: 'cycle',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'Uitgebreide symptoomlijsten tellen 60 tot 100+ klachten. Wat daarvan klopt, wat framing is, en hoe je er zelf wijs uit wordt.',
+    source: 'FemFlow Redactie',
+    body: [
+      {
+        kop: 'Eerst de nuance: er bestaat geen officiële lijst',
+        tekst: 'Online circuleren lijsten met "de 34 symptomen" of "70 klachten van de overgang". Die exacte aantallen zijn marketing — er is geen wetenschappelijk vastgestelde telling. Maar de strekking klopt wél: uitgebreide klinische overzichten van perimenopauze-klachten komen ruim boven de zestig uit. De overgang is veel breder dan opvliegers.',
+      },
+      {
+        kop: 'Waarom zo breed: oestrogeen werkt overal',
+        tekst: 'Oestrogeenreceptoren zitten niet alleen in je voortplantingsorganen maar door je hele lichaam: hersenen, hart en vaten, huid, slijmvliezen, botten, gewrichten, blaas. Als de oestrogeenspiegels in de perimenopauze gaan schommelen, kan elk van die systemen meedoen. Eén hormoon, veel orgaansystemen — dus veel mogelijke klachten.',
+      },
+      {
+        kop: 'De grote categorieën',
+        tekst: 'Cyclus en hormonaal: onregelmatige of veranderende menstruaties, heviger of juist lichter bloedverlies, verergerde PMS, gevoelige borsten. Vasomotorisch: opvliegers, nachtzweten, koude rillingen, hartkloppingen. Slaap en energie: slecht inslapen, vroeg wakker, aanhoudende vermoeidheid. Mentaal: brain fog, vergeetachtigheid, prikkelbaarheid, angst, stemmingswisselingen, somberheid. Fysiek: gewrichts- en spierpijn, hoofdpijn, duizeligheid, droge huid en ogen, jeuk, dunner haar. Urogenitaal: vaginale droogheid, pijn bij seks, verminderd libido, vaker plassen, blaasontstekingen. En verder: opgeblazen gevoel, tinnitus, rusteloze benen.',
+      },
+      {
+        kop: 'Bloedwaarden kunnen normaal zijn terwijl jij klachten hebt',
+        tekst: 'Hormoonspiegels schommelen in de perimenopauze van week tot week, soms van dag tot dag. Eén bloedtest is een momentopname en kan keurig "normaal" uitvallen midden in een fase vol klachten. Daarom is perimenopauze een klinische diagnose: leeftijd plus cycluspatroon plus klachten wegen zwaarder dan een enkele labwaarde. Jouw gelogde cyclusdata is dus geen bijzaak — het is het diagnostische anker.',
+      },
+      {
+        kop: 'De valkuil: niet álles is de overgang',
+        tekst: 'Een lijst waar bijna elke klacht op past, heeft ook een risico: echte andere oorzaken missen. Vermoeidheid kan ook ijzertekort of een schildklierprobleem zijn; hartkloppingen verdienen sowieso aandacht. En bloedverlies na seks, tussen menstruaties door, of opnieuw bloedverlies nadat je menstruatie al een jaar weg was — dat zijn rode vlaggen die altijd een huisartsbezoek waard zijn, los van de overgang.',
+      },
+      {
+        kop: 'Wat je er praktisch mee kunt',
+        tekst: 'Log wat jij herkent — de logger heeft naast de tien snelle tegels een uitklapbare laag met minder frequente klachten. Na twee, drie cycli zie je in je cyclushistorie of klachten met je cyclus meebewegen, en bevat je huisartsrapport een objectief overzicht. Daarmee voer je een ander gesprek bij de huisarts dan met "het voelt allemaal anders".',
+      },
+    ],
+  },
+  {
     id: 'slaap-en-cyclus',
     title: 'Slaap en je cyclus',
     subtitle: 'Waarom dezelfde nacht niet elke week hetzelfde voelt',
@@ -246,6 +282,7 @@ export const ARTIKELEN = [
 export const FEATURED_IDS = ['perimenopauze-herkennen', 'cyclus-vier-fasen', 'slaap-en-cyclus']
 
 export const AANBEVOLEN = [
+  { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
   { id: 'pms-en-stemming', reason: 'Gebaseerd op veelgelogde symptomen' },
