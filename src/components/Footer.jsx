@@ -8,7 +8,7 @@ export default function Footer() {
   const [menuOpen, setMenuOpen] = useState(false)
 
   const isActive = (path) => location.pathname === path || location.pathname.startsWith(path + '/')
-  const iconColor = (path) => isActive(path) ? 'var(--ink)' : 'var(--ink-2)'
+  const iconColor = (path) => isActive(path) ? 'var(--d-accent)' : 'var(--d-ink-2)'
 
   useEffect(() => {
     const stored = localStorage.getItem('dashboardMenuOpen')
@@ -56,11 +56,11 @@ export default function Footer() {
       bottom: '20px',
       left: 'var(--space-lg)',
       right: 'var(--space-lg)',
-      background: 'rgba(255, 255, 255, 0.85)',
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      border: '1px solid rgba(255, 255, 255, 0.3)',
-      borderRadius: '18px',
+      background: 'rgba(36, 19, 7, 0.55)',
+      backdropFilter: 'blur(20px)',
+      WebkitBackdropFilter: 'blur(20px)',
+      border: 'none',
+      borderRadius: '22px',
       display: 'flex',
       justifyContent: 'space-around',
       alignItems: 'center',
@@ -70,7 +70,7 @@ export default function Footer() {
       opacity: menuOpen ? 0 : 1,
       pointerEvents: menuOpen ? 'none' : 'auto',
       transition: 'opacity 150ms ease',
-      boxShadow: '0 12px 32px rgba(42, 33, 28, 0.12), 0 4px 12px rgba(199, 154, 110, 0.08)',
+      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
       maxWidth: 'calc(100% - var(--space-lg) * 2)',
     }}>
       {/* Home */}
