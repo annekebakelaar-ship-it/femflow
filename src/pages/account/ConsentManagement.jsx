@@ -193,8 +193,8 @@ export default function ConsentManagement() {
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
-              border: '1px solid var(--d-border)',
-              borderRadius: 'var(--radius-md)',
+              border: 'none',
+              borderRadius: '22px',
               padding: 'var(--space-md)',
               marginBottom: 'var(--space-md)',
               display: 'flex',
@@ -296,8 +296,8 @@ export default function ConsentManagement() {
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
-            border: '1px solid var(--d-border)',
-            borderRadius: 'var(--radius-md)',
+            border: 'none',
+            borderRadius: '22px',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
             fontSize: '15px',
@@ -333,7 +333,7 @@ export default function ConsentManagement() {
       <div style={{
         background: 'var(--d-card-solid)',
         border: `1px solid var(--d-border)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
         padding: 'var(--space-md)',
       }}>
         <p style={{
@@ -355,7 +355,7 @@ export default function ConsentManagement() {
             padding: 'var(--space-md)',
             background: 'var(--d-card-solid)',
             border: '1px solid var(--error)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: '22px',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
             fontSize: '15px',
@@ -388,7 +388,7 @@ export default function ConsentManagement() {
       <div style={{
         background: 'rgba(79, 140, 90, 0.08)',
         border: `1px solid var(--success)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
         padding: 'var(--space-md)',
         marginTop: 'var(--space-lg)',
       }}>

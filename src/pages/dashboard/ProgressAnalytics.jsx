@@ -171,8 +171,11 @@ export default function ProgressAnalytics() {
         }}>Slaap</h2>
         <div style={{
           background: "var(--d-card)",
-          border: "1px solid var(--d-border)",
-          borderRadius: "var(--radius-md)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+          border: "none",
+          borderRadius: "22px",
           padding: "var(--space-md)",
         }}>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "var(--space-md)" }}>
@@ -232,8 +235,11 @@ export default function ProgressAnalytics() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
           <div style={{
             background: "var(--d-card)",
-            border: "1px solid var(--d-border)",
-            borderRadius: "var(--radius-md)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+            border: "none",
+            borderRadius: "22px",
             padding: "var(--space-md)",
           }}>
             <p style={{
@@ -262,8 +268,11 @@ export default function ProgressAnalytics() {
           </div>
           <div style={{
             background: "var(--d-card)",
-            border: "1px solid var(--d-border)",
-            borderRadius: "var(--radius-md)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+            border: "none",
+            borderRadius: "22px",
             padding: "var(--space-md)",
           }}>
             <p style={{
@@ -303,8 +312,11 @@ export default function ProgressAnalytics() {
         }}>Symptomen</h2>
         <div style={{
           background: "var(--d-card)",
-          border: "1px solid var(--d-border)",
-          borderRadius: "var(--radius-md)",
+          backdropFilter: "blur(20px)",
+          WebkitBackdropFilter: "blur(20px)",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)",
+          border: "none",
+          borderRadius: "22px",
           padding: "var(--space-md)",
         }}>
           <p style={{
@@ -319,7 +331,7 @@ export default function ProgressAnalytics() {
               <div key={s} style={{
                 background: "var(--d-card-solid)",
                 padding: "var(--space-sm)",
-                borderRadius: "var(--radius-md)",
+                borderRadius: "22px",
               }}>
                 <p style={{
                   fontFamily: 'var(--font-sans)',
@@ -357,7 +369,7 @@ export default function ProgressAnalytics() {
           <div key={idx} style={{
             background: "rgba(79, 140, 90, 0.08)",
             border: "1px solid var(--success)",
-            borderRadius: "var(--radius-md)",
+            borderRadius: "22px",
             padding: "var(--space-md)",
             marginBottom: "var(--space-sm)",
           }}>
@@ -384,7 +396,7 @@ export default function ProgressAnalytics() {
           <div key={idx} style={{
             background: "rgba(91, 124, 153, 0.08)",
             border: "1px solid var(--info)",
-            borderRadius: "var(--radius-md)",
+            borderRadius: "22px",
             padding: "var(--space-md)",
             marginBottom: "var(--space-sm)",
           }}>

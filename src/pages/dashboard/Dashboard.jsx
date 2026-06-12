@@ -104,6 +104,9 @@ function MiniChart({ data, metricKey, label, unit, color }) {
               border: `1px solid var(--d-border)`,
               borderRadius: 'var(--radius-sm)',
               background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
               color: 'var(--d-ink)',
             }}
             labelFormatter={shortDate}
@@ -322,7 +325,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
         border: `1px solid var(--border-subtle)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
@@ -358,7 +361,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
                 color: 'var(--d-ink)',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: '22px',
                 cursor: pulling ? 'not-allowed' : 'pointer',
                 opacity: pulling ? 0.5 : 1,
               }}
@@ -378,7 +381,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
                 fontWeight: 600,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: '22px',
                 cursor: 'pointer',
               }}
             >
@@ -393,7 +396,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
         border: `1px solid var(--border-subtle)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
       }}>
         <p style={{
           fontFamily: 'var(--font-sans)',
@@ -421,6 +424,9 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               padding: '10px 8px',
               border: `1px solid var(--d-border)`,
               background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: 400,
@@ -448,7 +454,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              borderRadius: 'var(--radius-md)',
+              borderRadius: '22px',
               cursor: seeding ? 'not-allowed' : 'pointer',
               opacity: seeding ? 0.5 : 1,
               whiteSpace: 'nowrap',

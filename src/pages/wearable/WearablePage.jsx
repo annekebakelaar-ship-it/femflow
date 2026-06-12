@@ -243,7 +243,7 @@ export default function WearablePage() {
             WebkitBackdropFilter: 'blur(20px)',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
             padding: 'var(--space-lg)',
-            borderRadius: '12px',
+            borderRadius: '22px',
             boxShadow: 'var(--shadow-sm)',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-md)' }}>

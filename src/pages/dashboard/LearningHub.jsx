@@ -144,7 +144,7 @@ export default function LearningHub() {
                         position: 'relative',
                         height: '110px',
                         border: 'none',
-                        borderRadius: '18px',
+                        borderRadius: '22px',
                         overflow: 'hidden',
                         cursor: 'pointer',
                         padding: 0,
@@ -230,9 +230,9 @@ function ArticleCard({ article, isFeatured, withReason, onLees }) {
   return (
     <div onClick={onLees} style={{
       cursor: 'pointer',
-      background: isFeatured ? 'var(--d-accent-soft)' : 'var(--d-card)',
+      background: 'var(--d-card)',
       border: 'none',
-      borderRadius: '18px',
+      borderRadius: '22px',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
       boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',

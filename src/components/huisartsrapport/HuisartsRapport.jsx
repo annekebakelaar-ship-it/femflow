@@ -60,8 +60,8 @@ export default function HuisartsRapport() {
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
             boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
-      border: '1px solid var(--d-border)',
-      borderRadius: '12px',
+      border: 'none',
+      borderRadius: '22px',
       padding: '20px',
       marginTop: '16px',
     }}>
