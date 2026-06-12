@@ -2,7 +2,11 @@ import { useNavigate } from 'react-router-dom'
 import { ChevronLeft } from 'react-feather'
 import { getSecure } from '../utils/secureStorage'
 import { useState, useEffect } from 'react'
+import { pagina, kolom } from '../styles/donker'
+import hero from '../assets/hero4.png'
 
+// Menu in de donkere huisstijl: knoppen in de achtergrondkleur (alleen
+// tekst, subtiele scheidingslijn), het gebruikersvak met foto erachter.
 export default function MenuPage() {
   const navigate = useNavigate()
   const [userName, setUserName] = useState('Gebruiker')
@@ -24,186 +28,210 @@ export default function MenuPage() {
 
   const menuItemStyle = {
     width: '100%',
-    padding: 'var(--space-md)',
+    padding: '16px 4px',
     background: 'none',
     border: 'none',
     textAlign: 'left',
     fontSize: 'var(--font-size-body)',
-    color: 'var(--ink)',
+    fontFamily: 'var(--font-sans)',
+    color: 'var(--d-ink)',
     cursor: 'pointer',
-    borderBottom: '1px solid rgba(232, 224, 216, 0.4)',
+    borderBottom: '1px solid var(--d-border)',
     transition: 'all 150ms ease',
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      padding: 'var(--space-xl) var(--space-lg)',
-      background: 'var(--bg)',
-    }}>
-      {/* Back button */}
-      <button
-        onClick={() => navigate(-1)}
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: '8px',
-          background: 'none',
-          border: 'none',
-          padding: 0,
-          marginBottom: 'var(--space-xl)',
-          color: 'var(--ink)',
-          cursor: 'pointer',
-          fontSize: 'var(--font-size-body)',
-          fontWeight: '500',
-        }}
-      >
-        <ChevronLeft size={20} />
-        Terug
-      </button>
+    <div style={pagina}>
+      <div style={kolom}>
+        {/* Back button */}
+        <button
+          onClick={() => navigate(-1)}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            marginBottom: '24px',
+            color: 'var(--d-ink-2)',
+            cursor: 'pointer',
+            fontSize: 'var(--font-size-small)',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: '500',
+          }}
+        >
+          <ChevronLeft size={18} />
+          Terug
+        </button>
 
-      {/* Profile Card */}
-      <div style={{
-        background: 'rgba(199, 154, 110, 0.1)',
-        padding: 'var(--space-lg)',
-        borderRadius: '12px',
-        marginBottom: 'var(--space-lg)',
-      }}>
-        <p style={{
-          margin: 0,
-          fontSize: 'var(--font-size-small)',
-          color: 'var(--ink-3)',
-          marginBottom: '4px',
+        {/* Profile Card — foto erachter, donkere overlay voor leesbaarheid */}
+        <div style={{
+          position: 'relative',
+          overflow: 'hidden',
+          borderRadius: '22px',
+          marginBottom: '24px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
         }}>
-          Welkom
-        </p>
-        <p style={{
-          margin: 0,
-          fontSize: 'var(--font-size-body)',
-          fontWeight: '600',
-          color: 'var(--ink)',
-          marginBottom: 'var(--space-md)',
-        }}>
-          {userName}
-        </p>
-        <div style={{ display: 'flex', gap: '8px' }}>
-          <button
-            onClick={() => handleNavigation('/account')}
+          <img
+            src={hero}
+            alt=""
+            aria-hidden="true"
             style={{
-              flex: 1,
-              padding: '8px 12px',
-              background: 'transparent',
-              color: 'var(--accent)',
-              border: '1px solid var(--accent)',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: 'var(--font-size-small)',
-              fontWeight: '600',
-              transition: 'all 150ms ease',
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 30%',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(199, 154, 110, 0.1)'}
-            onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-          >
-            Instellingen
-          </button>
-          <button
-            onClick={() => { window.location.href = 'https://youcaps.app' }}
-            style={{
-              flex: 1,
-              padding: '8px 12px',
-              background: 'var(--accent)',
-              color: 'white',
-              border: 'none',
-              borderRadius: '8px',
-              cursor: 'pointer',
-              fontSize: 'var(--font-size-small)',
+          />
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(27, 15, 7, 0.25) 0%, rgba(27, 15, 7, 0.78) 100%)',
+          }} />
+          <div style={{ position: 'relative', padding: '24px 20px 20px' }}>
+            <p style={{
+              margin: 0,
+              fontSize: '11px',
               fontWeight: '600',
-              transition: 'all 150ms ease',
-            }}
-            onMouseEnter={(e) => e.currentTarget.style.opacity = '0.9'}
-            onMouseLeave={(e) => e.currentTarget.style.opacity = '1'}
-          >
-            Word nu lid
-          </button>
+              letterSpacing: '0.1em',
+              textTransform: 'uppercase',
+              color: 'rgba(244, 236, 227, 0.75)',
+              fontFamily: 'var(--font-sans)',
+            }}>
+              Welkom
+            </p>
+            <p style={{
+              margin: '4px 0 16px 0',
+              fontSize: '20px',
+              fontWeight: '600',
+              color: 'var(--d-ink)',
+              fontFamily: 'var(--font-display)',
+            }}>
+              {userName}
+            </p>
+            <div style={{ display: 'flex', gap: '8px' }}>
+              <button
+                onClick={() => handleNavigation('/account')}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  background: 'rgba(244, 236, 227, 0.12)',
+                  backdropFilter: 'blur(12px)',
+                  WebkitBackdropFilter: 'blur(12px)',
+                  color: 'var(--d-ink)',
+                  border: 'none',
+                  borderRadius: '999px',
+                  cursor: 'pointer',
+                  fontSize: 'var(--font-size-small)',
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: '600',
+                }}
+              >
+                Instellingen
+              </button>
+              <button
+                onClick={() => { window.location.href = 'https://youcaps.app' }}
+                style={{
+                  flex: 1,
+                  padding: '10px 12px',
+                  background: 'var(--d-accent)',
+                  color: '#1B0F07',
+                  border: 'none',
+                  borderRadius: '999px',
+                  cursor: 'pointer',
+                  fontSize: 'var(--font-size-small)',
+                  fontFamily: 'var(--font-sans)',
+                  fontWeight: '600',
+                }}
+              >
+                Word nu lid
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
 
-      {/* Main Menu Items */}
-      <button onClick={() => handleNavigation('/health/menstruation')} style={menuItemStyle}>
-        Menstruatietracker
-      </button>
+        {/* Main Menu Items */}
+        <button onClick={() => handleNavigation('/health/menstruation')} style={menuItemStyle}>
+          Menstruatietracker
+        </button>
 
-      <button onClick={() => handleNavigation('/health/menstruation/history')} style={menuItemStyle}>
-        Geschiedenis
-      </button>
+        <button onClick={() => handleNavigation('/health/menstruation/history')} style={menuItemStyle}>
+          Geschiedenis
+        </button>
 
-      <button onClick={() => handleNavigation('/wearable')} style={menuItemStyle}>
-        Wearable
-      </button>
+        <button onClick={() => handleNavigation('/wearable')} style={menuItemStyle}>
+          Wearable
+        </button>
 
-      <button onClick={() => handleNavigation('/health/symptoms')} style={menuItemStyle}>
-        Symptoomlogger
-      </button>
+        <button onClick={() => handleNavigation('/health/symptoms')} style={menuItemStyle}>
+          Symptoomlogger
+        </button>
 
-      <button onClick={() => handleNavigation('/health/cycle-analytics')} style={menuItemStyle}>
-        Cyclus Analyse
-      </button>
+        <button onClick={() => handleNavigation('/health/cycle-analytics')} style={menuItemStyle}>
+          Cyclus Analyse
+        </button>
 
-      <button onClick={() => handleNavigation('/health/wearable-cycle')} style={menuItemStyle}>
-        Wearable & Cyclus
-      </button>
+        <button onClick={() => handleNavigation('/health/wearable-cycle')} style={menuItemStyle}>
+          Wearable & Cyclus
+        </button>
 
-      <button onClick={() => handleNavigation('/health/perimenopause')} style={menuItemStyle}>
-        Perimenopauze Tracker
-      </button>
+        <button onClick={() => handleNavigation('/health/perimenopause')} style={menuItemStyle}>
+          Perimenopauze Tracker
+        </button>
 
-      <button onClick={() => handleNavigation('/dashboard/learning')} style={menuItemStyle}>
-        Kennisbank
-      </button>
+        <button onClick={() => handleNavigation('/dashboard/learning')} style={menuItemStyle}>
+          Kennisbank
+        </button>
 
-      {/* Algemeen Section */}
-      <div style={{
-        padding: 'var(--space-lg) var(--space-md)',
-        fontWeight: '600',
-        fontSize: 'var(--font-size-small)',
-        color: 'var(--ink-3)',
-        marginTop: 'var(--space-lg)',
-        borderBottom: '1px solid rgba(232, 224, 216, 0.4)',
-      }}>
-        Algemeen
-      </div>
-
-      <button onClick={() => handleNavigation('/support')} style={menuItemStyle}>
-        Steun
-      </button>
-
-      <button onClick={() => handleNavigation('/legal/terms')} style={menuItemStyle}>
-        Gebruikersvoorwaarden
-      </button>
-
-      <button onClick={() => handleNavigation('/legal/privacy')} style={menuItemStyle}>
-        Privacybeleid
-      </button>
-
-      <button onClick={() => handleNavigation('/consent')} style={menuItemStyle}>
-        Toestemmingen
-      </button>
-
-      <button
-        onClick={() => {
-          localStorage.removeItem('femflow_jwt')
-          navigate('/')
-        }}
-        style={{
-          ...menuItemStyle,
-          color: '#c62828',
+        {/* Algemeen Section */}
+        <div style={{
+          padding: '24px 4px 12px',
           fontWeight: '600',
-        }}
-        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'rgba(198, 40, 40, 0.08)'}
-        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-      >
-        Uitloggen
-      </button>
+          fontSize: '11px',
+          letterSpacing: '0.1em',
+          textTransform: 'uppercase',
+          fontFamily: 'var(--font-sans)',
+          color: 'var(--d-ink-3)',
+          marginTop: '16px',
+          borderBottom: '1px solid var(--d-border)',
+        }}>
+          Algemeen
+        </div>
+
+        <button onClick={() => handleNavigation('/support')} style={menuItemStyle}>
+          Steun
+        </button>
+
+        <button onClick={() => handleNavigation('/legal/terms')} style={menuItemStyle}>
+          Gebruikersvoorwaarden
+        </button>
+
+        <button onClick={() => handleNavigation('/legal/privacy')} style={menuItemStyle}>
+          Privacybeleid
+        </button>
+
+        <button onClick={() => handleNavigation('/consent')} style={menuItemStyle}>
+          Toestemmingen
+        </button>
+
+        <button
+          onClick={() => {
+            localStorage.removeItem('femflow_jwt')
+            navigate('/')
+          }}
+          style={{
+            ...menuItemStyle,
+            color: '#E08A8A',
+            fontWeight: '600',
+            borderBottom: 'none',
+          }}
+        >
+          Uitloggen
+        </button>
+      </div>
     </div>
   )
 }

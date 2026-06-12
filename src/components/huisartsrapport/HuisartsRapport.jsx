@@ -56,19 +56,22 @@ export default function HuisartsRapport() {
 
   return (
     <div style={{
-      background: 'var(--surface)',
-      border: '1px solid var(--border)',
+      background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+      border: '1px solid var(--d-border)',
       borderRadius: '12px',
       padding: '20px',
       marginTop: '16px',
     }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-        <FileText size={18} color="var(--accent)" strokeWidth={1.5} />
+        <FileText size={18} color="var(--d-accent)" strokeWidth={1.5} />
         <h3 style={{
           fontFamily: 'var(--font-display)',
           fontSize: '16px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: 0,
         }}>
           Huisartsrapport
@@ -78,7 +81,7 @@ export default function HuisartsRapport() {
       <p style={{
         fontFamily: 'var(--font-sans)',
         fontSize: '13px',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         lineHeight: 1.5,
         margin: '0 0 16px 0',
       }}>
@@ -93,7 +96,7 @@ export default function HuisartsRapport() {
           disabled={bezig}
           style={{
             padding: '12px 20px',
-            background: 'var(--ink)',
+            background: 'var(--d-ink)',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
@@ -108,13 +111,13 @@ export default function HuisartsRapport() {
         </button>
       ) : (
         <div style={{
-          background: 'var(--surface-warm)',
-          border: '1px solid var(--border)',
+          background: 'var(--d-card-solid)',
+          border: '1px solid var(--d-border)',
           borderRadius: '8px',
           padding: '12px 16px',
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           lineHeight: 1.5,
         }}>
           Het rapport is beschikbaar zodra er minstens twee volledige cycli zijn gelogd

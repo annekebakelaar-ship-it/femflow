@@ -93,7 +93,7 @@ export default function ProgressAnalytics() {
     textAlign: "center",
     fontFamily: 'var(--font-sans)',
     fontSize: '13px',
-    color: 'var(--ink)',
+    color: 'var(--d-ink)',
   }}>Laden...</div>
 
   if (error) return <div style={{
@@ -108,7 +108,7 @@ export default function ProgressAnalytics() {
     <button
       onClick={() => navigate('/dashboard')}
       style={{
-        background: 'var(--accent)',
+        background: 'var(--d-accent)',
         color: 'white',
         border: 'none',
         padding: '8px 16px',
@@ -126,7 +126,7 @@ export default function ProgressAnalytics() {
     textAlign: "center",
     fontFamily: 'var(--font-sans)',
     fontSize: '13px',
-    color: 'var(--ink-2)',
+    color: 'var(--d-ink-2)',
   }}>Nog geen gegevens</div>
 
   return (
@@ -137,7 +137,7 @@ export default function ProgressAnalytics() {
         fontFamily: 'var(--font-sans)',
         fontSize: '13px',
         fontWeight: 400,
-        color: "var(--ink-2)",
+        color: "var(--d-ink-2)",
         cursor: "pointer",
         marginBottom: "var(--space-lg)",
         marginLeft: "var(--space-lg)",
@@ -150,13 +150,13 @@ export default function ProgressAnalytics() {
         lineHeight: 1.25,
         padding: "0 var(--space-lg)",
         marginBottom: "var(--space-md)",
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
       }}>90-Dagen Voortgang</h1>
       <p style={{
         fontFamily: 'var(--font-sans)',
         fontSize: "15px",
         fontWeight: 400,
-        color: "var(--ink-2)",
+        color: "var(--d-ink-2)",
         padding: "0 var(--space-lg)",
         marginBottom: "var(--space-lg)",
       }}>Jouw gezondheidspatronen en inzichten</p>
@@ -167,11 +167,11 @@ export default function ProgressAnalytics() {
           fontSize: "20px",
           fontWeight: 500,
           marginBottom: "var(--space-md)",
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Slaap</h2>
         <div style={{
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
+          background: "var(--d-card)",
+          border: "1px solid var(--d-border)",
           borderRadius: "var(--radius-md)",
           padding: "var(--space-md)",
         }}>
@@ -180,28 +180,28 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "20px",
               fontWeight: 600,
-              color: "var(--accent)",
+              color: "var(--d-accent)",
               margin: "0 0 4px 0",
               fontFeatureSettings: "'tnum'",
             }}>{data.sleep.average_hours}h</p><p style={{
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 400,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
               margin: 0,
             }}>Gemiddeld</p></div>
             <div style={{ textAlign: "center" }}><p style={{
               fontFamily: 'var(--font-sans)',
               fontSize: "20px",
               fontWeight: 600,
-              color: "var(--accent)",
+              color: "var(--d-accent)",
               margin: "0 0 4px 0",
               fontFeatureSettings: "'tnum'",
             }}>{data.sleep.entries}</p><p style={{
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 400,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
               margin: 0,
             }}>Loggingen</p></div>
             <div style={{ textAlign: "center" }}><p style={{
@@ -214,7 +214,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 400,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
               margin: 0,
             }}>Stabiel</p></div>
           </div>
@@ -227,12 +227,12 @@ export default function ProgressAnalytics() {
           fontSize: "20px",
           fontWeight: 500,
           marginBottom: "var(--space-md)",
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Hartslag</h2>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-md)" }}>
           <div style={{
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
+            background: "var(--d-card)",
+            border: "1px solid var(--d-border)",
             borderRadius: "var(--radius-md)",
             padding: "var(--space-md)",
           }}>
@@ -240,7 +240,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 500,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
               marginBottom: "8px",
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -249,7 +249,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "20px",
               fontWeight: 600,
-              color: "var(--accent)",
+              color: "var(--d-accent)",
               margin: "0 0 4px 0",
               fontFeatureSettings: "'tnum'",
             }}>{data.hrv.average}ms</p>
@@ -257,12 +257,12 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 400,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
             }}>Trend: {data.hrv.trend}</p>
           </div>
           <div style={{
-            background: "var(--surface)",
-            border: "1px solid var(--border)",
+            background: "var(--d-card)",
+            border: "1px solid var(--d-border)",
             borderRadius: "var(--radius-md)",
             padding: "var(--space-md)",
           }}>
@@ -270,7 +270,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 500,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
               marginBottom: "8px",
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
@@ -279,7 +279,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "20px",
               fontWeight: 600,
-              color: "var(--accent)",
+              color: "var(--d-accent)",
               margin: "0 0 4px 0",
               fontFeatureSettings: "'tnum'",
             }}>{data.rhr.average_bpm} bpm</p>
@@ -287,7 +287,7 @@ export default function ProgressAnalytics() {
               fontFamily: 'var(--font-sans)',
               fontSize: "11px",
               fontWeight: 400,
-              color: "var(--ink-3)",
+              color: "var(--d-ink-3)",
             }}>Trend: {data.rhr.trend}</p>
           </div>
         </div>
@@ -299,11 +299,11 @@ export default function ProgressAnalytics() {
           fontSize: "20px",
           fontWeight: 500,
           marginBottom: "var(--space-md)",
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Symptomen</h2>
         <div style={{
-          background: "var(--surface)",
-          border: "1px solid var(--border)",
+          background: "var(--d-card)",
+          border: "1px solid var(--d-border)",
           borderRadius: "var(--radius-md)",
           padding: "var(--space-md)",
         }}>
@@ -311,13 +311,13 @@ export default function ProgressAnalytics() {
             fontFamily: 'var(--font-sans)',
             fontSize: "13px",
             fontWeight: 400,
-            color: "var(--ink-3)",
+            color: "var(--d-ink-3)",
             marginBottom: "var(--space-md)",
           }}>{data.symptoms.total_logged} symptomen gelogd</p>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "var(--space-sm)" }}>
             {Object.entries(data.symptoms.frequency).map(([s, c]) => (
               <div key={s} style={{
-                background: "var(--surface-warm)",
+                background: "var(--d-card-solid)",
                 padding: "var(--space-sm)",
                 borderRadius: "var(--radius-md)",
               }}>
@@ -326,7 +326,7 @@ export default function ProgressAnalytics() {
                   margin: "0 0 4px 0",
                   fontSize: "13px",
                   fontWeight: 500,
-                  color: 'var(--ink)',
+                  color: 'var(--d-ink)',
                   textTransform: "capitalize",
                 }}>
                   {s.replace(/_/g, " ")}
@@ -336,7 +336,7 @@ export default function ProgressAnalytics() {
                   margin: 0,
                   fontSize: "20px",
                   fontWeight: 600,
-                  color: "var(--accent)",
+                  color: "var(--d-accent)",
                   fontFeatureSettings: "'tnum'",
                 }}>{c}x</p>
               </div>
@@ -351,7 +351,7 @@ export default function ProgressAnalytics() {
           fontSize: "20px",
           fontWeight: 500,
           marginBottom: "var(--space-md)",
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Inzichten</h2>
         {data.insights.map((i, idx) => (
           <div key={idx} style={{
@@ -378,7 +378,7 @@ export default function ProgressAnalytics() {
           fontSize: "20px",
           fontWeight: 500,
           marginBottom: "var(--space-md)",
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Aanbevelingen</h2>
         {data.recommendations.map((r, idx) => (
           <div key={idx} style={{

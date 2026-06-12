@@ -4,7 +4,6 @@ import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pul
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
 import Footer from '../../components/Footer'
-import hero from '../../assets/hero1.png'
 
 const SCENARIOS = ['stable', 'declining', 'recovering', 'dip']
 
@@ -210,11 +209,7 @@ export default function WearablePage() {
     <div style={{
       minHeight: '100vh',
       padding: 'var(--space-lg)',
-      background: '#F5EFEB',
-      backgroundImage: `url(${hero})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--d-page)',
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         <button
@@ -225,7 +220,7 @@ export default function WearablePage() {
             cursor: 'pointer',
             fontSize: '20px',
             marginBottom: 'var(--space-lg)',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}
         >
           ←
@@ -236,14 +231,17 @@ export default function WearablePage() {
           fontSize: '28px',
           fontWeight: '500',
           marginBottom: 'var(--space-lg)',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>
           Wearable
         </h1>
 
         {consentType === 'real' && (
           <div style={{
-            background: 'white',
+            background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
             padding: 'var(--space-lg)',
             borderRadius: '12px',
             boxShadow: 'var(--shadow-sm)',
@@ -252,7 +250,7 @@ export default function WearablePage() {
               <h2 style={{
                 fontSize: '18px',
                 fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
               }}>
                 Wearable verbinden
               </h2>
@@ -279,11 +277,11 @@ export default function WearablePage() {
                   borderRadius: '8px',
                   marginBottom: 'var(--space-lg)',
                   fontSize: '14px',
-                  color: 'var(--ink)',
+                  color: 'var(--d-ink)',
                 }}>
                   <p style={{ margin: '0 0 8px 0' }}>Je Oura Ring is verbonden.</p>
                   {wearableStatus.last_sync_at && (
-                    <p style={{ margin: 0, fontSize: '13px', color: 'var(--ink-2)' }}>
+                    <p style={{ margin: 0, fontSize: '13px', color: 'var(--d-ink-2)' }}>
                       Laatste synchronisatie: {new Date(wearableStatus.last_sync_at).toLocaleDateString('nl-NL')}
                     </p>
                   )}
@@ -291,7 +289,7 @@ export default function WearablePage() {
               ) : (
                 <p style={{
                   fontSize: '15px',
-                  color: 'var(--ink-2)',
+                  color: 'var(--d-ink-2)',
                   lineHeight: 1.6,
                   marginBottom: 'var(--space-lg)',
                 }}>
@@ -301,7 +299,7 @@ export default function WearablePage() {
             ) : (
               <p style={{
                 fontSize: '15px',
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
                 lineHeight: 1.6,
                 marginBottom: 'var(--space-lg)',
               }}>
@@ -340,7 +338,7 @@ export default function WearablePage() {
                   onClick={handleConnectOura}
                   style={{
                     padding: '12px 24px',
-                    background: 'var(--ink)',
+                    background: 'var(--d-ink)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -359,7 +357,7 @@ export default function WearablePage() {
                   onClick={handleConnectFitbit}
                   style={{
                     padding: '12px 24px',
-                    background: 'var(--ink)',
+                    background: 'var(--d-ink)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -379,7 +377,7 @@ export default function WearablePage() {
                   disabled={loading}
                   style={{
                     padding: '12px 24px',
-                    background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
+                    background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--d-accent)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',
@@ -409,13 +407,13 @@ export default function WearablePage() {
               fontSize: '18px',
               fontWeight: '600',
               marginBottom: 'var(--space-md)',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
             }}>
               Testdata Mode
             </h2>
             <p style={{
               fontSize: '15px',
-              color: 'var(--ink-2)',
+              color: 'var(--d-ink-2)',
               lineHeight: 1.6,
               marginBottom: 'var(--space-lg)',
             }}>
@@ -427,7 +425,7 @@ export default function WearablePage() {
               <label style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 display: 'block',
@@ -446,7 +444,10 @@ export default function WearablePage() {
                   borderRadius: '8px',
                   fontSize: '14px',
                   fontFamily: 'var(--font-sans)',
-                  background: 'white',
+                  background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
                   cursor: loading ? 'not-allowed' : 'pointer',
                   opacity: loading ? 0.6 : 1,
                 }}
@@ -463,7 +464,7 @@ export default function WearablePage() {
               <label style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
                 display: 'block',
@@ -486,7 +487,7 @@ export default function WearablePage() {
               />
               <div style={{
                 fontSize: '12px',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 marginTop: '4px',
               }}>
                 {days} dagen data genereren
@@ -530,7 +531,7 @@ export default function WearablePage() {
               style={{
                 width: '100%',
                 padding: '12px 24px',
-                background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--accent)',
+                background: loading ? 'rgba(199, 154, 110, 0.5)' : 'var(--d-accent)',
                 color: 'white',
                 border: 'none',
                 borderRadius: '8px',
@@ -548,7 +549,7 @@ export default function WearablePage() {
 
             <p style={{
               fontSize: '12px',
-              color: 'var(--ink-3)',
+              color: 'var(--d-ink-3)',
               marginTop: 'var(--space-md)',
             }}>
               Later kun je naar Oura Ring overschakelen in Instellingen.
@@ -565,7 +566,7 @@ export default function WearablePage() {
             marginTop: 'var(--space-xl)',
             padding: '10px 16px',
             background: 'transparent',
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             border: 'none',
             cursor: 'pointer',
             fontSize: '13px',
@@ -584,7 +585,7 @@ export default function WearablePage() {
             fontSize: '22px',
             fontWeight: '500',
             marginBottom: 'var(--space-lg)',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Jouw data
           </h2>
@@ -596,7 +597,7 @@ export default function WearablePage() {
         <div style={{
           padding: 'var(--space-lg)',
           textAlign: 'center',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
         }}>
           Data laden...
         </div>

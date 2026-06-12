@@ -32,7 +32,7 @@ export default function BiometricChart({ data }) {
       <div style={{
         padding: 'var(--space-lg)',
         textAlign: 'center',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         fontSize: '14px',
       }}>
         Geen data beschikbaar
@@ -59,7 +59,7 @@ export default function BiometricChart({ data }) {
           alignSelf: 'flex-start',
           padding: '10px 16px',
           background: 'rgba(199, 154, 110, 0.1)',
-          color: 'var(--accent)',
+          color: 'var(--d-accent)',
           border: '1px solid rgba(199, 154, 110, 0.3)',
           borderRadius: '8px',
           cursor: 'pointer',
@@ -80,7 +80,8 @@ export default function BiometricChart({ data }) {
       </button>
       {/* HRV & Recovery Trend */}
       <div style={{
-        background: 'white',
+        background: '#2A1A0E',
+                color: 'var(--d-ink)',
         padding: 'var(--space-lg)',
         borderRadius: '12px',
         boxShadow: 'var(--shadow-sm)',
@@ -88,34 +89,35 @@ export default function BiometricChart({ data }) {
         <h3 style={{
           fontSize: '15px',
           fontWeight: '600',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           marginBottom: 'var(--space-md)',
         }}>
           HRV & Herstelscore
         </h3>
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--d-border)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }}
               interval={Math.floor(chartData.length / 7)}
             />
-            <YAxis yAxisId="left" tick={{ fontSize: 12 }} />
-            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} />
+            <YAxis yAxisId="left" tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }} />
+            <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }} />
             <Tooltip
               contentStyle={{
-                background: 'white',
-                border: '1px solid var(--border)',
+                background: '#2A1A0E',
+                color: 'var(--d-ink)',
+                border: '1px solid var(--d-border)',
                 borderRadius: '8px',
               }}
             />
-            <Legend />
+            <Legend wrapperStyle={{ color: 'var(--d-ink-2)' }} />
             <Line
               yAxisId="left"
               type="monotone"
               dataKey="hrv"
-              stroke="var(--accent)"
+              stroke="var(--d-accent)"
               dot={false}
               name="HRV (ms)"
               strokeWidth={2}
@@ -135,7 +137,8 @@ export default function BiometricChart({ data }) {
 
       {/* Sleep Duration */}
       <div style={{
-        background: 'white',
+        background: '#2A1A0E',
+                color: 'var(--d-ink)',
         padding: 'var(--space-lg)',
         borderRadius: '12px',
         boxShadow: 'var(--shadow-sm)',
@@ -143,37 +146,39 @@ export default function BiometricChart({ data }) {
         <h3 style={{
           fontSize: '15px',
           fontWeight: '600',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           marginBottom: 'var(--space-md)',
         }}>
           Slaappatroon
         </h3>
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--d-border)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }}
               interval={Math.floor(chartData.length / 7)}
             />
-            <YAxis tick={{ fontSize: 12 }} label={{ value: 'Uren', angle: -90, position: 'insideLeft' }} />
+            <YAxis tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }} label={{ value: 'Uren', angle: -90, position: 'insideLeft' }} />
             <Tooltip
               contentStyle={{
-                background: 'white',
-                border: '1px solid var(--border)',
+                background: '#2A1A0E',
+                color: 'var(--d-ink)',
+                border: '1px solid var(--d-border)',
                 borderRadius: '8px',
               }}
             />
-            <Legend />
-            <Bar dataKey="deepSleep" stackId="a" fill="var(--accent)" name="Diepe slaap" />
-            <Bar dataKey="sleep" stackId="a" fill="var(--accent-soft)" name="Totaal slaap" />
+            <Legend wrapperStyle={{ color: 'var(--d-ink-2)' }} />
+            <Bar dataKey="deepSleep" stackId="a" fill="var(--d-accent)" name="Diepe slaap" />
+            <Bar dataKey="sleep" stackId="a" fill="var(--d-accent-soft)" name="Totaal slaap" />
           </BarChart>
         </ResponsiveContainer>
       </div>
 
       {/* RHR Trend */}
       <div style={{
-        background: 'white',
+        background: '#2A1A0E',
+                color: 'var(--d-ink)',
         padding: 'var(--space-lg)',
         borderRadius: '12px',
         boxShadow: 'var(--shadow-sm)',
@@ -181,24 +186,25 @@ export default function BiometricChart({ data }) {
         <h3 style={{
           fontSize: '15px',
           fontWeight: '600',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           marginBottom: 'var(--space-md)',
         }}>
           Rusthartsslag (RHR)
         </h3>
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={chartData}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--d-border)" />
             <XAxis
               dataKey="date"
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }}
               interval={Math.floor(chartData.length / 7)}
             />
-            <YAxis tick={{ fontSize: 12 }} />
+            <YAxis tick={{ fontSize: 12, fill: 'var(--d-ink-3)' }} />
             <Tooltip
               contentStyle={{
-                background: 'white',
-                border: '1px solid var(--border)',
+                background: '#2A1A0E',
+                color: 'var(--d-ink)',
+                border: '1px solid var(--d-border)',
                 borderRadius: '8px',
               }}
             />
