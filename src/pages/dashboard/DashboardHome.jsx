@@ -134,10 +134,9 @@ export default function DashboardHome() {
       {/* Mobiele kolom: alle kaarten op telefoonbreedte, ook op desktop */}
       <div style={{ width: '100%', maxWidth: '480px', margin: '0 auto', display: 'flex', flexDirection: 'column' }}>
 
-      {/* Menstruatiestart loggen — de kernhandeling, dus bovenaan */}
-      <div style={{ marginTop: '56px' }}>
-        <PeriodeLogKnop onGelogd={() => setMenstrualData(getSecure('menstruation_data'))} />
-      </div>
+      {/* Menstruatiestart loggen — zwevende druppelknop met bottom sheet */}
+      <PeriodeLogKnop onGelogd={() => setMenstrualData(getSecure('menstruation_data'))} />
+      <div style={{ marginTop: '40px' }} />
 
       {/* Quiz Results Overview */}
       <QuizResultsOverview />
