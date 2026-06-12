@@ -20,9 +20,11 @@ export default function QuizOverviewCard() {
       <div
         style={{
           position: 'relative',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: 'none',
+          borderRadius: '22px',
           padding: 'var(--space-lg)',
           minHeight: '140px',
           display: 'flex',
@@ -30,7 +32,7 @@ export default function QuizOverviewCard() {
           alignItems: 'center',
           justifyContent: 'center',
           gap: 'var(--space-md)',
-          boxShadow: 'var(--shadow-sm)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           transition: 'all 200ms ease',
           textAlign: 'center',
         }}
@@ -42,7 +44,7 @@ export default function QuizOverviewCard() {
             fontWeight: '500',
             textTransform: 'uppercase',
             margin: '0 0 8px 0',
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             letterSpacing: '0.08em',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
@@ -53,7 +55,7 @@ export default function QuizOverviewCard() {
             fontFamily: 'var(--font-sans)',
             fontWeight: '600',
             margin: '0 0 4px 0',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Personaliseerde Insights
@@ -62,7 +64,7 @@ export default function QuizOverviewCard() {
             fontSize: '15px',
             fontFamily: 'var(--font-sans)',
             margin: 0,
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Zie je voortgang en aanbevelingen
@@ -74,10 +76,10 @@ export default function QuizOverviewCard() {
           style={{
             marginTop: 'var(--space-sm)',
             padding: 'var(--space-sm) var(--space-md)',
-            background: 'var(--ink)',
-            color: 'var(--surface)',
+            background: 'var(--d-accent)',
+            color: '#1B0F07',
             border: 'none',
-            borderRadius: '6px',
+            borderRadius: '999px',
             fontSize: '11px',
             fontFamily: 'var(--font-sans)',
             fontWeight: '500',

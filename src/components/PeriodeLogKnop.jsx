@@ -34,9 +34,12 @@ export default function PeriodeLogKnop({ onGelogd }) {
   return (
     <div style={{ width: '100%', padding: '0 var(--space-lg)', boxSizing: 'border-box', marginBottom: 'var(--space-md)' }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: '14px',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         padding: '16px',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
@@ -47,7 +50,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
                 fontFamily: 'var(--font-sans)',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
               }}>
                 Menstruatie gestart?
@@ -56,7 +59,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
                 <p style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '12px',
-                  color: 'var(--ink-3)',
+                  color: 'var(--d-ink-3)',
                   margin: '2px 0 0 0',
                 }}>
                   Laatste start: {laatste.toLocaleDateString('nl-NL', { day: 'numeric', month: 'long' })}
@@ -68,7 +71,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
                       border: 'none',
                       padding: 0,
                       cursor: 'pointer',
-                      color: 'var(--accent)',
+                      color: 'var(--d-accent)',
                       fontFamily: 'var(--font-sans)',
                       fontSize: '12px',
                       textDecoration: 'underline',
@@ -85,7 +88,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
                   gap: '4px',
                   fontFamily: 'var(--font-sans)',
                   fontSize: '12px',
-                  color: melding.type === 'ok' ? 'var(--success)' : 'var(--ink-2)',
+                  color: melding.type === 'ok' ? 'var(--success)' : 'var(--d-ink-2)',
                   margin: '2px 0 0 0',
                 }}>
                   {melding.type === 'ok' && <Check size={12} strokeWidth={2} />}
@@ -100,8 +103,8 @@ export default function PeriodeLogKnop({ onGelogd }) {
               onClick={() => setOpen(true)}
               style={{
                 padding: '10px 16px',
-                background: 'var(--ink)',
-                color: 'white',
+                background: 'var(--d-accent)',
+                color: '#1B0F07',
                 border: 'none',
                 borderRadius: '999px',
                 cursor: 'pointer',
@@ -126,10 +129,10 @@ export default function PeriodeLogKnop({ onGelogd }) {
                 style={{
                   flex: '1 1 auto',
                   padding: '10px 12px',
-                  background: 'var(--accent-soft)',
-                  color: 'var(--ink)',
-                  border: '1px solid var(--border)',
-                  borderRadius: '8px',
+                  background: 'var(--d-accent-soft)',
+                  color: 'var(--d-ink)',
+                  border: 'none',
+                  borderRadius: '999px',
                   cursor: 'pointer',
                   fontFamily: 'var(--font-sans)',
                   fontSize: '13px',
@@ -144,7 +147,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
               style={{
                 padding: '10px 12px',
                 background: 'transparent',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 border: 'none',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-sans)',

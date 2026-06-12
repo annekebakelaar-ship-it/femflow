@@ -59,9 +59,12 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
   return (
     <div style={{ width: '100%', padding: '0 var(--space-lg)', boxSizing: 'border-box', marginTop: 'var(--space-xl)' }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: '14px',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         padding: '20px',
       }}>
         <p style={{
@@ -70,7 +73,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
           fontWeight: '600',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           margin: '0 0 4px 0',
         }}>
           Op basis van jouw gegevens
@@ -79,7 +82,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
           fontFamily: 'var(--font-display)',
           fontSize: '18px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 14px 0',
         }}>
           Suggestie voor deze maand
@@ -88,14 +91,14 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '16px' }}>
           {suggesties.map(s => (
             <div key={s.id} style={{
-              borderLeft: '2px solid var(--accent)',
+              borderLeft: '2px solid var(--d-accent)',
               paddingLeft: '12px',
             }}>
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
               }}>
                 {s.naam}
@@ -103,7 +106,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '12px',
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
                 margin: '2px 0 0 0',
                 lineHeight: 1.5,
               }}>
@@ -120,8 +123,8 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
             alignItems: 'center',
             gap: '8px',
             padding: '12px 20px',
-            background: 'var(--ink)',
-            color: 'white',
+            background: 'var(--d-accent)',
+            color: '#1B0F07',
             border: 'none',
             borderRadius: '999px',
             cursor: 'pointer',
@@ -137,7 +140,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           margin: '12px 0 0 0',
           lineHeight: 1.5,
         }}>

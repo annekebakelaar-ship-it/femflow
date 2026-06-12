@@ -108,9 +108,12 @@ export default function VariabiliteitsBand({ menstrualData }) {
           cursor: 'pointer',
         }}>
         <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: 'none',
+          borderRadius: '22px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           padding: 'var(--space-lg)',
           transition: 'all 150ms ease',
         }}>
@@ -119,7 +122,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
             fontFamily: 'var(--font-sans)',
             fontWeight: '600',
             margin: '0 0 var(--space-md) 0',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Onzekerheidsvenster
@@ -127,7 +130,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
           <p style={{
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             margin: 0,
             lineHeight: 1.5,
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -175,9 +178,12 @@ export default function VariabiliteitsBand({ menstrualData }) {
         opacity: 0.4,
       }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius-md)',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         padding: 'var(--space-lg)',
         transition: 'all 150ms ease',
       }}>
@@ -187,7 +193,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
           <div style={{
             display: 'inline-block',
             background: 'var(--info)',
-            color: 'var(--surface)',
+            color: '#1B0F07',
             padding: '4px 8px',
             borderRadius: 'var(--radius-sm)',
             fontSize: '11px',
@@ -239,8 +245,8 @@ export default function VariabiliteitsBand({ menstrualData }) {
             />
 
             {/* Today marker */}
-            <circle cx={0} cy={40} r={4} fill="var(--ink)" />
-            <text x={0} y={60} fontSize={10} textAnchor="middle" fill="var(--ink-3)">
+            <circle cx={0} cy={40} r={4} fill="var(--d-ink)" />
+            <text x={0} y={60} fontSize={10} textAnchor="middle" fill="var(--d-ink-3)">
               Vandaag
             </text>
 
@@ -250,7 +256,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
               y={22}
               fontSize={11}
               textAnchor="middle"
-              fill="var(--ink-2)"
+              fill="var(--d-ink-2)"
               fontWeight="bold"
               style={{ textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}
             >
@@ -269,14 +275,14 @@ export default function VariabiliteitsBand({ menstrualData }) {
           fontFamily: 'var(--font-sans)',
         }}>
           <div>
-            <span style={{ color: 'var(--ink-2)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Gemiddelde cyclus</span>
+            <span style={{ color: 'var(--d-ink-2)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Gemiddelde cyclus</span>
             <br />
-            <strong style={{ color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>{bandData.mean} dagen</strong>
+            <strong style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>{bandData.mean} dagen</strong>
           </div>
           <div>
-            <span style={{ color: 'var(--ink-2)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Variabiliteit (σ)</span>
+            <span style={{ color: 'var(--d-ink-2)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Variabiliteit (σ)</span>
             <br />
-            <strong style={{ color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>{bandData.stdDev} dagen</strong>
+            <strong style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>{bandData.stdDev} dagen</strong>
           </div>
         </div>
 
@@ -284,7 +290,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
         <p style={{
           fontSize: '13px',
           fontFamily: 'var(--font-sans)',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: 0,
           lineHeight: 1.6,
           textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -294,7 +300,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
           <strong>{formatDate(bandData.nextPeriodWindow.latestInner)}</strong>.
           <br />
           <br />
-          <span style={{ color: 'var(--ink-2)', fontSize: '11px' }}>
+          <span style={{ color: 'var(--d-ink-2)', fontSize: '11px' }}>
             (Mogelijk tussen {formatDate(bandData.nextPeriodWindow.earliestOuter)} en {formatDate(bandData.nextPeriodWindow.latestOuter)})
           </span>
         </p>

@@ -18,9 +18,12 @@ export default function CycluslengteGrafiek({ menstrualData }) {
         opacity: 0.4,
       }}>
         <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: 'none',
+          borderRadius: '22px',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           padding: 'var(--space-lg)',
         }}>
           <h3 style={{
@@ -28,7 +31,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
             fontFamily: 'var(--font-sans)',
             fontWeight: '600',
             margin: '0 0 var(--space-md) 0',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Cycluslengtepatroon
@@ -36,7 +39,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
           <p style={{
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             margin: 0,
             lineHeight: 1.5,
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -71,18 +74,21 @@ export default function CycluslengteGrafiek({ menstrualData }) {
 
     return (
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         borderRadius: 'var(--radius-sm)',
         padding: '12px',
         fontSize: '13px',
         fontFamily: 'var(--font-sans)',
         boxShadow: 'var(--shadow-sm)',
       }}>
-        <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: 'var(--ink)' }}>Cyclus {data.index + 1}</p>
-        <p style={{ margin: '0 0 4px 0', color: 'var(--ink)' }}>{data.length} dagen</p>
+        <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: 'var(--d-ink)' }}>Cyclus {data.index + 1}</p>
+        <p style={{ margin: '0 0 4px 0', color: 'var(--d-ink)' }}>{data.length} dagen</p>
         {diff !== null && (
-          <p style={{ margin: 0, color: data.early ? 'var(--info)' : 'var(--ink-3)' }}>
+          <p style={{ margin: 0, color: data.early ? 'var(--info)' : 'var(--d-ink-3)' }}>
             {diff > 0 ? '+' : ''}{diff} t.o.v. vorige
             {data.early && ' ⚠️'}
           </p>
@@ -99,9 +105,12 @@ export default function CycluslengteGrafiek({ menstrualData }) {
       opacity: 0.4,
     }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderRadius: 'var(--radius-md)',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
         padding: 'var(--space-lg)',
       }}>
         {/* Title added for improved structure */}
@@ -110,7 +119,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
           fontFamily: 'var(--font-sans)',
           fontWeight: '600',
           margin: '0 0 var(--space-md) 0',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
         }}>
           Cycluslengtepatroon
@@ -166,15 +175,15 @@ export default function CycluslengteGrafiek({ menstrualData }) {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <div style={{ width: '16px', height: '16px', background: 'var(--accent)', borderRadius: '2px' }} />
-            <span style={{ color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Normaal</span>
+            <span style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Normaal</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <div style={{ width: '16px', height: '16px', background: 'var(--info)', borderRadius: '2px' }} />
-            <span style={{ color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>±7 dagen verschil</span>
+            <span style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>±7 dagen verschil</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <div style={{ width: '16px', height: '16px', background: 'var(--error)', borderRadius: '2px' }} />
-            <span style={{ color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>≥60 dagen</span>
+            <span style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>≥60 dagen</span>
           </div>
         </div>
 
@@ -188,10 +197,10 @@ export default function CycluslengteGrafiek({ menstrualData }) {
             marginTop: 'var(--space-md)',
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             lineHeight: 1.6,
           }}>
-            <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: 'var(--ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p style={{ margin: '0 0 8px 0', fontWeight: 'bold', color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               ℹ️ Dit patroon tonen we alleen ter observatie.
             </p>
             <p style={{ margin: '0 0 8px 0', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
@@ -203,7 +212,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
             <p style={{ margin: 0, color: 'var(--error)', fontStyle: 'italic', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               ⚠️ <strong>Dit is geen medische diagnose.</strong> Deze observaties zijn alleen voor je persoonlijke tracking. Bespreek aanhoudende veranderingen altijd met je huisarts.
             </p>
-            <p style={{ margin: '8px 0 0 0', fontSize: '11px', color: 'var(--ink-3)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p style={{ margin: '8px 0 0 0', fontSize: '11px', color: 'var(--d-ink-3)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               🔒 Deze gegevens zijn alleen voor jou zichtbaar en worden niet gedeeld.
             </p>
           </div>

@@ -44,18 +44,20 @@ export default function QuizResultsOverview() {
       <div
         onClick={() => navigate('/quiz-results', { state: { result: quizResult } })}
         style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 'var(--radius-md)',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: 'none',
+          borderRadius: '22px',
           padding: 'var(--space-lg)',
-          boxShadow: 'var(--shadow-sm)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           cursor: 'pointer',
           transition: 'all 200ms ease',
         }}
       >
         <p style={{
           fontSize: 'var(--font-size-body)',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           fontWeight: 'var(--font-weight-semibold)',
           margin: '0 0 var(--space-md) 0',
           textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -94,7 +96,7 @@ export default function QuizResultsOverview() {
               )
             })
           ) : (
-            <p style={{ color: 'var(--ink-3)', fontSize: 'var(--font-size-small)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
+            <p style={{ color: 'var(--d-ink-3)', fontSize: 'var(--font-size-small)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>
               Geen gegevens beschikbaar
             </p>
           )}
@@ -107,10 +109,10 @@ export default function QuizResultsOverview() {
           }}
           style={{
             padding: '8px 16px',
-            background: '#F5F5F5',
-            color: 'var(--ink)',
+            background: 'var(--d-accent-soft)',
+            color: 'var(--d-accent)',
             border: 'none',
-            borderRadius: '6px',
+            borderRadius: '999px',
             fontSize: 'var(--font-size-small)',
             fontWeight: 'var(--font-weight-semibold)',
             cursor: 'pointer',

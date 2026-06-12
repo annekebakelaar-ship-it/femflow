@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronRight } from 'react-feather'
+import hero from '../assets/hero4.png'
 
 export default function HRVInsightsCard({ hrvScore }) {
   const navigate = useNavigate()
@@ -22,12 +23,12 @@ export default function HRVInsightsCard({ hrvScore }) {
         padding: 'var(--space-md) var(--space-lg)',
         margin: '0 var(--space-lg) var(--space-lg) 0',
         minHeight: '100px',
-        background: 'rgba(61, 40, 23, 0.8)',
-        backgroundImage: 'url(/src/assets/hero4.png)',
-        backgroundSize: '120%',
+        backgroundImage: `linear-gradient(rgba(27, 15, 7, 0.45), rgba(27, 15, 7, 0.65)), url(${hero})`,
+        backgroundSize: 'cover',
         backgroundPosition: 'center',
-        border: '1px solid rgba(199, 154, 110, 0.2)',
-        borderRadius: '12px',
+        border: 'none',
+        borderRadius: '22px',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
         cursor: 'pointer',
         transition: 'all 200ms ease',
         boxSizing: 'border-box',
@@ -35,13 +36,9 @@ export default function HRVInsightsCard({ hrvScore }) {
         alignItems: 'center',
       }}
       onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(61, 40, 23, 0.9)'
-        e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.4)'
         e.currentTarget.style.transform = 'translateY(-2px)'
       }}
       onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(61, 40, 23, 0.8)'
-        e.currentTarget.style.borderColor = 'rgba(199, 154, 110, 0.2)'
         e.currentTarget.style.transform = 'translateY(0)'
       }}
     >

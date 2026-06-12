@@ -100,7 +100,7 @@ export default function DashboardHome() {
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
-      backgroundColor: '#1f130a',
+      background: 'var(--d-page)',
       position: 'relative',
       paddingTop: 'var(--space-lg)',
       paddingBottom: '140px',
@@ -147,7 +147,7 @@ export default function DashboardHome() {
             fontSize: '18px',
             fontWeight: '500',
             marginBottom: 'var(--space-md)',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Je patroon
           </h3>
@@ -178,7 +178,7 @@ export default function DashboardHome() {
                   }}
                 >
                   <div>{info.emoji}</div>
-                  <div style={{ fontSize: '12px', color: 'var(--ink-2)', marginTop: '4px' }}>
+                  <div style={{ fontSize: '12px', color: 'var(--d-ink-2)', marginTop: '4px' }}>
                     {info.label}
                   </div>
                 </div>
@@ -204,16 +204,29 @@ export default function DashboardHome() {
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
             <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <CycleBloom
-                size={320}
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: '-40px',
+                  background: 'radial-gradient(circle, rgba(214, 160, 106, 0.30) 0%, rgba(217, 106, 122, 0.12) 45%, transparent 70%)',
+                  filter: 'blur(30px)',
+                  pointerEvents: 'none',
+                }} />
+                <CycleBloom
+                  size={320}
                 day={menstrualPhase.daysInCycle}
-                phases={[
-                  { poetic: "Herstel", clinical: "Menstruatie", days: 5 },
-                  { poetic: "Opbouw", clinical: "Folliculair", days: 8 },
-                  { poetic: "Verbind", clinical: "Ovulatie", days: 3 },
-                  { poetic: "Verhelder", clinical: "Luteaal", days: 12 },
-                ]}
-              />
+                  phases={[
+                    { poetic: "Herstel", clinical: "Menstruatie", days: 5 },
+                    { poetic: "Opbouw", clinical: "Folliculair", days: 8 },
+                    { poetic: "Verbind", clinical: "Ovulatie", days: 3 },
+                    { poetic: "Verhelder", clinical: "Luteaal", days: 12 },
+                  ]}
+                />
+              </div>
             </SwiperSlide>
           </Swiper>
           {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
@@ -236,11 +249,24 @@ export default function DashboardHome() {
             style={{ maxWidth: '100%', overflow: 'visible' }}
           >
             <SwiperSlide style={{ width: 'auto', display: 'flex', justifyContent: 'center' }}>
-              <WearableBloom
-                size={320}
-                score={hrvScore}
-                label="Hartritme Variabiliteit"
-              />
+              <div style={{
+                position: 'relative',
+                display: 'flex',
+                justifyContent: 'center',
+              }}>
+                <div style={{
+                  position: 'absolute',
+                  inset: '-40px',
+                  background: 'radial-gradient(circle, rgba(214, 160, 106, 0.30) 0%, rgba(217, 106, 122, 0.12) 45%, transparent 70%)',
+                  filter: 'blur(30px)',
+                  pointerEvents: 'none',
+                }} />
+                <WearableBloom
+                  size={320}
+                  score={hrvScore}
+                  label="Hartritme Variabiliteit"
+                />
+              </div>
             </SwiperSlide>
           </Swiper>
           {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
