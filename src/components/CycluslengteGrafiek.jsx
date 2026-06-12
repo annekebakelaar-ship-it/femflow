@@ -13,8 +13,8 @@ export default function CycluslengteGrafiek({ menstrualData }) {
     return (
       <div style={{
         width: '100%',
-        padding: '0 0 var(--space-lg) 0',
-        marginTop: 'var(--space-xl)',
+        padding: '0 0 var(--space-sm) 0',
+        marginTop: '0',
         opacity: 0.4,
       }}>
         <div style={{
@@ -100,8 +100,8 @@ export default function CycluslengteGrafiek({ menstrualData }) {
   return (
     <div style={{
       width: '100%',
-      padding: '0 0 var(--space-lg) 0',
-      marginTop: 'var(--space-xl)',
+      padding: '0 0 var(--space-sm) 0',
+      marginTop: '0',
       opacity: 0.4,
     }}>
       <div style={{

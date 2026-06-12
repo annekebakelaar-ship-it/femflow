@@ -57,7 +57,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
   }
 
   return (
-    <div style={{ width: '100%', padding: '0', boxSizing: 'border-box', marginTop: 'var(--space-xl)' }}>
+    <div style={{ width: '100%', padding: '0', boxSizing: 'border-box', marginTop: '0' }}>
       <div style={{
         background: 'var(--d-card)',
         backdropFilter: 'blur(20px)',
