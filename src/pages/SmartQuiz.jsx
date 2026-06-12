@@ -1,25 +1,5 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Moon, Frown, Circle, Zap, HelpCircle, AlertCircle, Heart, TrendingDown, CheckCircle, Clock, Plus, Save } from 'react-feather'
-import hero from '../assets/hero1.png'
-
-const getIcon = (iconName) => {
-  const icons = {
-    moon: <Moon size={20} strokeWidth={1.5} />,
-    frown: <Frown size={20} strokeWidth={1.5} />,
-    circle: <Circle size={20} strokeWidth={1.5} />,
-    zap: <Zap size={20} strokeWidth={1.5} />,
-    help: <HelpCircle size={20} strokeWidth={1.5} />,
-    alert: <AlertCircle size={20} strokeWidth={1.5} />,
-    heart: <Heart size={20} strokeWidth={1.5} />,
-    trend: <TrendingDown size={20} strokeWidth={1.5} />,
-    check: <CheckCircle size={20} strokeWidth={1.5} />,
-    clock: <Clock size={20} strokeWidth={1.5} />,
-    plus: <Plus size={20} strokeWidth={1.5} />,
-    save: <Save size={20} strokeWidth={1.5} />,
-  }
-  return icons[iconName] || null
-}
 
 const QUESTIONS = {
   q1: {
@@ -175,18 +155,13 @@ export default function SmartQuiz() {
   return (
     <div style={{
       minHeight: '100vh',
-      maxWidth: 'var(--container-max)',
-      margin: '0 auto',
-      padding: 'var(--space-lg) var(--container-padding) var(--space-xxl)',
+      padding: '20px 16px 120px 16px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
       animation: 'fade-slide-up 240ms ease both',
-      backgroundImage: `url(${hero})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--d-page)',
     }}>
 
       <div style={{ maxWidth: '600px', width: '100%' }}>
@@ -194,20 +169,28 @@ export default function SmartQuiz() {
         {/* Progress bar */}
         <div style={{ marginBottom: 'var(--space-xl)' }}>
           <div style={{
-            height: '4px',
-            background: 'var(--border)',
-            borderRadius: 'var(--radius-pill)',
+            height: '3px',
+            background: 'var(--d-border)',
+            borderRadius: '999px',
             overflow: 'hidden',
             marginBottom: 'var(--space-sm)',
           }}>
             <div style={{
               height: '100%',
-              background: 'var(--accent)',
+              background: 'var(--d-accent)',
               width: `${((step + 1) / 4) * 100}%`,
               transition: 'width 0.3s ease',
             }} />
           </div>
-          <p style={{ fontSize: '11px', color: 'var(--ink-3)', margin: 0 }}>
+          <p style={{
+            fontSize: '11px',
+            fontFamily: 'var(--font-sans)',
+            fontWeight: '600',
+            letterSpacing: '0.1em',
+            textTransform: 'uppercase',
+            color: 'var(--d-ink-3)',
+            margin: 0,
+          }}>
             Vraag {step + 1} van 4
           </p>
         </div>
@@ -217,46 +200,39 @@ export default function SmartQuiz() {
           fontFamily: 'var(--font-display)',
           fontSize: '26px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           marginBottom: 'var(--space-xl)',
           lineHeight: 1.25,
         }}>
           {currentQuestion.text}
         </h1>
 
-        {/* Options */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
+        {/* Antwoorden: doorlopende kale lijst — geen vakken, geen randen,
+            alleen tekst; bij aanraken licht de regel iets op */}
+        <div style={{ display: 'flex', flexDirection: 'column', marginBottom: 'var(--space-lg)' }}>
           {currentQuestion.options.map(option => (
             <button
               key={option.value}
               onClick={() => handleAnswer(option.value)}
               style={{
-                padding: '12px 16px',
-                border: '2px solid var(--border)',
-                background: 'var(--surface)',
-                borderRadius: 'var(--radius-md)',
-                fontSize: 'var(--font-size-body)',
+                padding: '16px 12px',
+                border: 'none',
+                background: 'transparent',
+                borderRadius: '12px',
+                fontSize: '16px',
                 fontFamily: 'var(--font-sans)',
                 fontWeight: '500',
                 textAlign: 'left',
                 cursor: 'pointer',
-                transition: 'all 150ms ease',
-                display: 'flex',
-                gap: 'var(--space-md)',
-                alignItems: 'flex-start',
-                color: 'var(--ink)',
+                transition: 'background 150ms ease',
+                color: 'var(--d-ink)',
               }}
-              onMouseEnter={e => {
-                e.target.style.borderColor = 'var(--accent)'
-                e.target.style.background = 'var(--surface-warm)'
-              }}
-              onMouseLeave={e => {
-                e.target.style.borderColor = 'var(--border)'
-                e.target.style.background = 'var(--surface)'
-              }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255, 248, 240, 0.07)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'transparent' }}
+              onTouchStart={e => { e.currentTarget.style.background = 'rgba(255, 248, 240, 0.07)' }}
+              onTouchEnd={e => { e.currentTarget.style.background = 'transparent' }}
             >
-              <span style={{ flexShrink: 0, color: 'var(--ink-2)' }}>{getIcon(option.icon)}</span>
-              <span>{option.label}</span>
+              {option.label}
             </button>
           ))}
         </div>

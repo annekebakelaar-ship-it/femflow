@@ -7,10 +7,9 @@ import { getReadings, pullOuraData, getOuraStatus, requestOuraConnect, clearToke
 import TrendsSection from '../../components/TrendsSection'
 import SupplementsSection from '../../components/SupplementsSection'
 import ConsentModal from '../../components/ConsentModal'
-import hero from '../../assets/hero1.png'
 
 const METRICS = [
-  { metricKey: 'hrv_ms',         label: 'HRV',        unit: 'ms',  color: 'var(--ink)', goodHigh: true  },
+  { metricKey: 'hrv_ms',         label: 'HRV',        unit: 'ms',  color: 'var(--d-ink)', goodHigh: true  },
   { metricKey: 'rhr_bpm',        label: 'Resting HR',  unit: 'bpm', color: 'var(--error)', goodHigh: false },
   { metricKey: 'deep_sleep_min', label: 'Deep Sleep',  unit: 'min', color: 'var(--success)', goodHigh: true  },
 ]
@@ -30,7 +29,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
         fontFamily: 'var(--font-sans)',
         fontSize: '11px',
         fontWeight: 500,
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
         marginBottom: 8,
@@ -39,7 +38,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
         fontFamily: 'var(--font-sans)',
         fontSize: '13px',
         fontWeight: 400,
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
       }}>
         No data yet {data.length > 0 ? `(${data.length} readings, filtered=${values.length})` : '(0 readings)'}
       </p>
@@ -56,7 +55,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
         }}>
@@ -75,7 +74,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
           <span style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '11px',
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             fontWeight: 500,
             textTransform: 'uppercase',
             letterSpacing: '0.08em',
@@ -88,24 +87,27 @@ function MiniChart({ data, metricKey, label, unit, color }) {
           <XAxis dataKey="date" tickFormatter={shortDate} tick={{
             fontFamily: 'var(--font-sans)',
             fontSize: 11,
-            fill: 'var(--ink-3)',
+            fill: 'var(--d-ink-3)',
             fontWeight: 500,
             letterSpacing: '0.08em',
           }} interval="preserveStartEnd" axisLine={false} tickLine={false} />
           <YAxis domain={['auto', 'auto']} tick={{
             fontFamily: 'var(--font-sans)',
             fontSize: 11,
-            fill: 'var(--ink-3)',
+            fill: 'var(--d-ink-3)',
             fontWeight: 500,
           }} width={40} />
           <Tooltip
             contentStyle={{
               fontFamily: 'var(--font-sans)',
               fontSize: '13px',
-              border: `1px solid var(--border)`,
+              border: `1px solid var(--d-border)`,
               borderRadius: 'var(--radius-sm)',
-              background: 'var(--surface)',
-              color: 'var(--ink)',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+              color: 'var(--d-ink)',
             }}
             labelFormatter={shortDate}
             formatter={v => [`${Math.round(v)} ${unit}`, label]}
@@ -124,7 +126,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
         fontFamily: 'var(--font-sans)',
         fontSize: '11px',
         fontWeight: 500,
-        color: 'var(--ink-3)',
+        color: 'var(--d-ink-3)',
         marginTop: 6,
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
@@ -219,10 +221,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
       margin: '0 auto',
       padding: 'var(--space-lg) var(--container-padding) var(--space-xxl)',
       animation: 'fade-slide-up 240ms ease both',
-      backgroundImage: `url(${hero})`,
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundAttachment: 'fixed',
+      background: 'var(--d-page)',
     }}>
 
       {/* Consent Modal */}
@@ -242,7 +241,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           cursor: 'pointer',
@@ -255,7 +254,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
           fontSize: '15px',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>YOUCAPS</span>
         <div style={{ display: 'flex', gap: 'var(--space-md)', alignItems: 'center' }}>
           <button onClick={onAccount} style={{
@@ -265,7 +264,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             fontFamily: 'var(--font-sans)',
             fontSize: '11px',
             fontWeight: 500,
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             cursor: 'pointer',
@@ -279,7 +278,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             fontFamily: 'var(--font-sans)',
             fontSize: '11px',
             fontWeight: 500,
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
             cursor: 'pointer',
@@ -293,7 +292,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         fontFamily: 'var(--font-sans)',
         fontSize: '11px',
         fontWeight: 500,
-        color: 'var(--ink-3)',
+        color: 'var(--d-ink-3)',
         letterSpacing: '0.08em',
         textTransform: 'uppercase',
         marginBottom: 'var(--space-sm)',
@@ -307,7 +306,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         lineHeight: 1.25,
         letterSpacing: '-0.5px',
         marginBottom: 'var(--space-xs)',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
       }}>
         {user?.email || 'Your data'}
       </h2>
@@ -315,7 +314,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         fontFamily: 'var(--font-sans)',
         fontSize: '13px',
         fontWeight: 400,
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         marginBottom: 'var(--space-xl)',
       }}>
         Last 90 days · {readings.length} readings stored
@@ -326,7 +325,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
         border: `1px solid var(--border-subtle)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <div>
@@ -335,13 +334,13 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               fontSize: '13px',
               fontWeight: 500,
               marginBottom: 2,
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
             }}>Oura Ring</p>
             <p style={{
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: 500,
-              color: ouraConnected ? 'var(--success)' : 'var(--ink-3)',
+              color: ouraConnected ? 'var(--success)' : 'var(--d-ink-3)',
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
             }}>
@@ -354,15 +353,15 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               disabled={pulling}
               style={{
                 padding: '10px 20px',
-                border: `1px solid var(--border)`,
+                border: `1px solid var(--d-border)`,
                 background: 'transparent',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '11px',
                 fontWeight: 500,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                color: 'var(--ink)',
-                borderRadius: 'var(--radius-md)',
+                color: 'var(--d-ink)',
+                borderRadius: '22px',
                 cursor: pulling ? 'not-allowed' : 'pointer',
                 opacity: pulling ? 0.5 : 1,
               }}
@@ -375,14 +374,14 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               style={{
                 padding: '10px 20px',
                 border: 'none',
-                background: 'var(--ink)',
-                color: 'var(--surface)',
+                background: 'var(--d-ink)',
+                color: 'var(--d-card)',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '11px',
                 fontWeight: 600,
                 letterSpacing: '0.08em',
                 textTransform: 'uppercase',
-                borderRadius: 'var(--radius-md)',
+                borderRadius: '22px',
                 cursor: 'pointer',
               }}
             >
@@ -397,20 +396,20 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         marginBottom: 'var(--space-xl)',
         padding: 'var(--space-md)',
         border: `1px solid var(--border-subtle)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
       }}>
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: 500,
           marginBottom: 4,
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>Demo data</p>
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 400,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           marginBottom: 'var(--space-sm)',
           lineHeight: 1.5,
         }}>
@@ -423,12 +422,15 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             style={{
               flex: 1,
               padding: '10px 8px',
-              border: `1px solid var(--border)`,
-              background: 'var(--surface)',
+              border: `1px solid var(--d-border)`,
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: 400,
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
               letterSpacing: '0.08em',
               outline: 'none',
               borderRadius: 'var(--radius-sm)',
@@ -445,14 +447,14 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             style={{
               padding: '10px 20px',
               border: 'none',
-              background: 'var(--ink)',
-              color: 'var(--surface)',
+              background: 'var(--d-ink)',
+              color: 'var(--d-card)',
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: 600,
               letterSpacing: '0.08em',
               textTransform: 'uppercase',
-              borderRadius: 'var(--radius-md)',
+              borderRadius: '22px',
               cursor: seeding ? 'not-allowed' : 'pointer',
               opacity: seeding ? 0.5 : 1,
               whiteSpace: 'nowrap',
@@ -478,7 +480,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 400,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
         }}>Loading…</p>
@@ -488,14 +490,14 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
             fontFamily: 'var(--font-sans)',
             fontSize: '15px',
             fontWeight: 400,
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             marginBottom: 'var(--space-sm)',
           }}>No readings yet.</p>
           <p style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13px',
             fontWeight: 400,
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             lineHeight: 1.5,
           }}>
             Connect your Oura Ring or use the calculator to generate your first reading.

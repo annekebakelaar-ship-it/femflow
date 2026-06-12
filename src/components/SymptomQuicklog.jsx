@@ -101,24 +101,27 @@ export default function SymptomQuicklog() {
           alignItems: 'center',
           gap: '10px',
           padding: '14px 12px',
-          background: aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
-          border: `1px solid ${isZojuist ? 'var(--success)' : aantal > 0 ? 'var(--accent)' : 'var(--border)'}`,
-          borderRadius: '12px',
+          background: 'var(--d-card)',
+          border: `1px solid ${isZojuist ? 'var(--success)' : aantal > 0 ? 'var(--d-accent)' : 'transparent'}`,
+          borderRadius: '22px',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          boxShadow: '0 4px 16px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.07)',
           cursor: 'pointer',
           transition: 'all 150ms ease',
           textAlign: 'left',
         }}
-        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--accent)' }}
+        onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--d-accent)' }}
         onMouseLeave={e => {
-          e.currentTarget.style.borderColor = aantal > 0 ? 'var(--accent)' : 'var(--border)'
+          e.currentTarget.style.borderColor = aantal > 0 ? 'var(--d-accent)' : 'transparent'
         }}
       >
-        <Icoon size={18} strokeWidth={1.5} color={aantal > 0 ? 'var(--accent)' : 'var(--ink-3)'} />
+        <Icoon size={18} strokeWidth={1.5} color={aantal > 0 ? 'var(--d-accent)' : 'var(--d-ink-3)'} />
         <span style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           flex: 1,
         }}>
           {symptom.label}
@@ -129,7 +132,7 @@ export default function SymptomQuicklog() {
             fontSize: '11px',
             fontWeight: '600',
             color: 'white',
-            background: 'var(--accent)',
+            background: 'var(--d-accent)',
             borderRadius: '999px',
             minWidth: '18px',
             height: '18px',
@@ -174,7 +177,7 @@ export default function SymptomQuicklog() {
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: '500',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
         }}
       >
         {toonMeer ? <ChevronUp size={14} strokeWidth={2} /> : <ChevronDown size={14} strokeWidth={2} />}
@@ -184,7 +187,7 @@ export default function SymptomQuicklog() {
             fontSize: '11px',
             fontWeight: '600',
             color: 'white',
-            background: 'var(--accent)',
+            background: 'var(--d-accent)',
             borderRadius: '999px',
             minWidth: '18px',
             height: '18px',
@@ -217,7 +220,7 @@ export default function SymptomQuicklog() {
             fontWeight: '600',
             letterSpacing: '0.08em',
             textTransform: 'uppercase',
-            color: 'var(--ink-3)',
+            color: 'var(--d-ink-3)',
             margin: '0 0 8px 0',
           }}>
             Vandaag gelogd
@@ -229,12 +232,12 @@ export default function SymptomQuicklog() {
                 alignItems: 'center',
                 gap: '6px',
                 padding: '6px 10px',
-                background: 'var(--surface)',
-                border: '1px solid var(--border)',
+                background: 'var(--d-card)',
+                border: '1px solid var(--d-border)',
                 borderRadius: '999px',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '12px',
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
               }}>
                 {s.label}{vandaag[s.id] > 1 ? ` ×${vandaag[s.id]}` : ''}
                 <button
@@ -245,7 +248,7 @@ export default function SymptomQuicklog() {
                     border: 'none',
                     padding: 0,
                     cursor: 'pointer',
-                    color: 'var(--ink-3)',
+                    color: 'var(--d-ink-3)',
                     display: 'inline-flex',
                   }}
                 >
@@ -265,7 +268,7 @@ export default function SymptomQuicklog() {
           fontWeight: '600',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           margin: '0 0 8px 0',
         }}>
           Afgelopen 7 dagen
@@ -278,20 +281,20 @@ export default function SymptomQuicklog() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                background: dag.aantal > 0 ? 'var(--accent-soft)' : 'var(--surface)',
-                border: `1px solid ${dag.vandaag ? 'var(--accent)' : 'var(--border)'}`,
+                background: 'var(--d-card-solid)',
+                border: `1px solid ${dag.vandaag ? 'var(--d-accent)' : 'var(--d-border)'}`,
                 borderRadius: '8px',
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
                 fontWeight: '600',
-                color: dag.aantal > 0 ? 'var(--ink)' : 'var(--ink-3)',
+                color: dag.aantal > 0 ? 'var(--d-ink)' : 'var(--d-ink-3)',
               }}>
                 {dag.aantal > 0 ? dag.aantal : '·'}
               </div>
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '10px',
-                color: dag.vandaag ? 'var(--ink)' : 'var(--ink-3)',
+                color: dag.vandaag ? 'var(--d-ink)' : 'var(--d-ink-3)',
                 fontWeight: dag.vandaag ? '600' : '400',
                 margin: '4px 0 0 0',
               }}>
@@ -305,7 +308,7 @@ export default function SymptomQuicklog() {
       <p style={{
         fontFamily: 'var(--font-sans)',
         fontSize: '12px',
-        color: 'var(--ink-3)',
+        color: 'var(--d-ink-3)',
         lineHeight: 1.5,
         margin: 'var(--space-lg) 0 0 0',
       }}>

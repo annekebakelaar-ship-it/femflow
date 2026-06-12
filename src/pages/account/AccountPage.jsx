@@ -133,7 +133,7 @@ export default function AccountPage() {
       fontFamily: 'var(--font-sans)',
       boxSizing: 'border-box',
       minHeight: '100vh',
-      background: 'var(--bg)',
+      background: 'var(--d-page)',
     }}>
       <div style={{ maxWidth: '600px', margin: '0 auto' }}>
         {/* Back Button */}
@@ -142,7 +142,7 @@ export default function AccountPage() {
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             cursor: 'pointer',
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
@@ -161,7 +161,7 @@ export default function AccountPage() {
           fontWeight: 500,
           lineHeight: 1.25,
           marginBottom: '32px',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>
           Mijn Gegevens
         </h1>
@@ -173,7 +173,7 @@ export default function AccountPage() {
             fontSize: '14px',
             fontWeight: '500',
             marginBottom: '8px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Naam
           </label>
@@ -186,7 +186,9 @@ export default function AccountPage() {
               width: '100%',
               padding: '12px 16px',
               fontSize: '15px',
-              border: '1px solid #E0E0E0',
+              border: '1px solid var(--d-border)',
+              background: 'var(--d-card-solid)',
+              color: 'var(--d-ink)',
               borderRadius: '8px',
               fontFamily: 'var(--font-sans)',
               boxSizing: 'border-box',
@@ -201,7 +203,7 @@ export default function AccountPage() {
           fontWeight: '500',
           marginTop: '40px',
           marginBottom: '16px',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>
           Menstruatie
         </h2>
@@ -213,7 +215,7 @@ export default function AccountPage() {
             fontSize: '14px',
             fontWeight: '500',
             marginBottom: '8px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Startdatum
           </label>
@@ -225,7 +227,9 @@ export default function AccountPage() {
               width: '100%',
               padding: '12px 16px',
               fontSize: '15px',
-              border: '1px solid #E0E0E0',
+              border: '1px solid var(--d-border)',
+              background: 'var(--d-card-solid)',
+              color: 'var(--d-ink)',
               borderRadius: '8px',
               fontFamily: 'var(--font-sans)',
               boxSizing: 'border-box',
@@ -240,7 +244,7 @@ export default function AccountPage() {
             fontSize: '14px',
             fontWeight: '500',
             marginBottom: '8px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Cyclus lengte (dagen)
           </label>
@@ -254,7 +258,9 @@ export default function AccountPage() {
               width: '100%',
               padding: '12px 16px',
               fontSize: '15px',
-              border: '1px solid #E0E0E0',
+              border: '1px solid var(--d-border)',
+              background: 'var(--d-card-solid)',
+              color: 'var(--d-ink)',
               borderRadius: '8px',
               fontFamily: 'var(--font-sans)',
               boxSizing: 'border-box',
@@ -269,7 +275,7 @@ export default function AccountPage() {
             fontSize: '14px',
             fontWeight: '500',
             marginBottom: '8px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Periode dagen
           </label>
@@ -284,7 +290,9 @@ export default function AccountPage() {
               width: '100%',
               padding: '12px 16px',
               fontSize: '15px',
-              border: '1px solid #E0E0E0',
+              border: '1px solid var(--d-border)',
+              background: 'var(--d-card-solid)',
+              color: 'var(--d-ink)',
               borderRadius: '8px',
               fontFamily: 'var(--font-sans)',
               boxSizing: 'border-box',
@@ -297,8 +305,8 @@ export default function AccountPage() {
           <div style={{
             marginBottom: '16px',
             padding: '12px',
-            background: saveStatus.startsWith('✓') ? '#E8F5E9' : '#FFEBEE',
-            color: saveStatus.startsWith('✓') ? '#2E7D32' : '#C62828',
+            background: saveStatus.startsWith('✓') ? 'rgba(79, 140, 90, 0.18)' : 'rgba(192, 73, 45, 0.18)',
+            color: saveStatus.startsWith('✓') ? '#8FBF98' : '#E08A8A',
             borderRadius: '8px',
             fontSize: '13px',
             fontWeight: '500',
@@ -314,7 +322,7 @@ export default function AccountPage() {
           style={{
             width: '100%',
             padding: '12px 16px',
-            background: 'var(--accent)',
+            background: 'var(--d-accent)',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
@@ -337,8 +345,8 @@ export default function AccountPage() {
             width: '100%',
             padding: '12px 16px',
             background: 'transparent',
-            color: 'var(--accent)',
-            border: '1px solid var(--accent)',
+            color: 'var(--d-accent)',
+            border: '1px solid var(--d-accent)',
             borderRadius: '8px',
             cursor: 'pointer',
             fontWeight: '500',
@@ -355,9 +363,12 @@ export default function AccountPage() {
         {/* Nieuwsbrief (alleen zichtbaar voor ingelogde gebruikers) */}
         {nieuwsbrief !== null && (
           <div style={{
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: '12px',
+            background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+            border: 'none',
+            borderRadius: '22px',
             padding: '20px',
             marginBottom: '24px',
             display: 'flex',
@@ -370,7 +381,7 @@ export default function AccountPage() {
                 fontFamily: 'var(--font-display)',
                 fontSize: '16px',
                 fontWeight: '500',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: '0 0 4px 0',
               }}>
                 Nieuwsbrief
@@ -378,7 +389,7 @@ export default function AccountPage() {
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
                 margin: 0,
                 lineHeight: 1.5,
               }}>
@@ -395,7 +406,7 @@ export default function AccountPage() {
                 borderRadius: '999px',
                 border: 'none',
                 cursor: nieuwsbriefBezig ? 'wait' : 'pointer',
-                background: nieuwsbrief ? 'var(--accent)' : 'var(--border)',
+                background: nieuwsbrief ? 'var(--d-accent)' : 'var(--d-border)',
                 position: 'relative',
                 transition: 'background 200ms ease',
                 flexShrink: 0,
@@ -424,13 +435,13 @@ export default function AccountPage() {
         {/* Delete Section */}
         <div style={{
           paddingTop: '24px',
-          borderTop: '1px solid #E0E0E0',
+          borderTop: '1px solid var(--d-border)',
         }}>
           <h3 style={{
             fontFamily: 'var(--font-display)',
             fontSize: '16px',
             fontWeight: '500',
-            color: '#C62828',
+            color: '#E08A8A',
             marginBottom: '12px',
           }}>
             Gevaarlijk gebied
@@ -441,8 +452,8 @@ export default function AccountPage() {
               style={{
                 width: '100%',
                 padding: '12px 16px',
-                background: '#FFEBEE',
-                color: '#C62828',
+                background: 'rgba(192, 73, 45, 0.18)',
+                color: '#E08A8A',
                 border: '1px solid #FFCDD2',
                 borderRadius: '8px',
                 cursor: 'pointer',
@@ -450,14 +461,14 @@ export default function AccountPage() {
                 fontSize: '14px',
                 transition: 'all 150ms ease',
               }}
-              onMouseEnter={(e) => e.currentTarget.style.background = '#FFCDD2'}
-              onMouseLeave={(e) => e.currentTarget.style.background = '#FFEBEE'}
+              onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(192, 73, 45, 0.3)'}
+              onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(192, 73, 45, 0.18)'}
             >
               Verwijder mijn account en gegevens
             </button>
           ) : (
             <div style={{
-              background: '#FFEBEE',
+              background: 'rgba(192, 73, 45, 0.18)',
               border: '1px solid #FFCDD2',
               borderRadius: '8px',
               padding: '16px',
@@ -465,7 +476,7 @@ export default function AccountPage() {
               <p style={{
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
-                color: '#C62828',
+                color: '#E08A8A',
                 marginBottom: '16px',
                 lineHeight: '1.6',
               }}>
@@ -478,7 +489,7 @@ export default function AccountPage() {
                     flex: 1,
                     padding: '10px 12px',
                     background: 'white',
-                    color: '#C62828',
+                    color: '#E08A8A',
                     border: '1px solid #FFCDD2',
                     borderRadius: '6px',
                     cursor: 'pointer',

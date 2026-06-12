@@ -138,7 +138,7 @@ export default function ConsentManagement() {
         style={{
           background: 'none',
           border: 'none',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           cursor: 'pointer',
           fontSize: '13px',
           fontFamily: 'var(--font-sans)',
@@ -155,7 +155,7 @@ export default function ConsentManagement() {
         fontWeight: 500,
         lineHeight: 1.25,
         marginBottom: 'var(--space-md)',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
       }}>
         Privacy & Toestemmingen
       </h1>
@@ -165,7 +165,7 @@ export default function ConsentManagement() {
         fontSize: '15px',
         fontWeight: 400,
         lineHeight: 1.5,
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         marginBottom: 'var(--space-lg)',
       }}>
         Beheer hoe wij je gegevens gebruiken
@@ -177,7 +177,7 @@ export default function ConsentManagement() {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 'var(--space-md)',
@@ -189,9 +189,12 @@ export default function ConsentManagement() {
           <div
             key={key}
             style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: 'var(--radius-md)',
+              background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+              border: 'none',
+              borderRadius: '22px',
               padding: 'var(--space-md)',
               marginBottom: 'var(--space-md)',
               display: 'flex',
@@ -206,7 +209,7 @@ export default function ConsentManagement() {
                 fontSize: '15px',
                 fontWeight: 500,
                 margin: '0 0 4px 0',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 textTransform: 'capitalize',
               }}>
                 {key.replace(/_/g, ' ')}
@@ -215,7 +218,7 @@ export default function ConsentManagement() {
                 fontFamily: 'var(--font-sans)',
                 fontSize: '13px',
                 fontWeight: 400,
-                color: 'var(--ink-2)',
+                color: 'var(--d-ink-2)',
                 margin: 0,
               }}>
                 {consent.description}
@@ -229,7 +232,7 @@ export default function ConsentManagement() {
                 style={{
                   width: '50px',
                   height: '28px',
-                  background: consent.enabled ? 'var(--accent)' : 'var(--border)',
+                  background: consent.enabled ? 'var(--d-accent)' : 'var(--d-border)',
                   border: 'none',
                   borderRadius: '14px',
                   cursor: saving ? 'not-allowed' : 'pointer',
@@ -276,7 +279,7 @@ export default function ConsentManagement() {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 'var(--space-md)',
@@ -289,24 +292,27 @@ export default function ConsentManagement() {
           style={{
             width: '100%',
             padding: 'var(--space-md)',
-            background: 'var(--surface)',
-            border: '1px solid var(--border)',
-            borderRadius: 'var(--radius-md)',
+            background: 'var(--d-card)',
+            backdropFilter: 'blur(20px)',
+            WebkitBackdropFilter: 'blur(20px)',
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+            border: 'none',
+            borderRadius: '22px',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
             fontSize: '15px',
             fontWeight: 600,
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             transition: 'all 150ms ease',
             marginBottom: 'var(--space-md)',
           }}
           onMouseEnter={e => {
-            e.target.style.borderColor = 'var(--accent)'
-            e.target.style.background = 'var(--bg)'
+            e.target.style.borderColor = 'var(--d-accent)'
+            e.target.style.background = 'var(--d-page)'
           }}
           onMouseLeave={e => {
-            e.target.style.borderColor = 'var(--border)'
-            e.target.style.background = 'var(--surface)'
+            e.target.style.borderColor = 'var(--d-border)'
+            e.target.style.background = 'var(--d-card)'
           }}
         >
           📥 Download Mijn Gegevens (JSON)
@@ -316,7 +322,7 @@ export default function ConsentManagement() {
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: 400,
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           margin: '0 0 var(--space-md) 0',
         }}>
           Download alle je persoonlijke gegevens in JSON-formaat. Je kunt dit gebruiken om je data naar een ander bedrijf te verplaatsen (GDPR artikel 20).
@@ -325,16 +331,16 @@ export default function ConsentManagement() {
 
       {/* Danger Zone */}
       <div style={{
-        background: 'var(--surface-warm)',
-        border: `1px solid var(--border)`,
-        borderRadius: 'var(--radius-md)',
+        background: 'var(--d-card-solid)',
+        border: `1px solid var(--d-border)`,
+        borderRadius: '22px',
         padding: 'var(--space-md)',
       }}>
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.08em',
           textTransform: 'uppercase',
           marginBottom: 'var(--space-md)',
@@ -347,9 +353,9 @@ export default function ConsentManagement() {
           style={{
             width: '100%',
             padding: 'var(--space-md)',
-            background: 'var(--surface-warm)',
+            background: 'var(--d-card-solid)',
             border: '1px solid var(--error)',
-            borderRadius: 'var(--radius-md)',
+            borderRadius: '22px',
             cursor: 'pointer',
             fontFamily: 'var(--font-sans)',
             fontSize: '15px',
@@ -361,7 +367,7 @@ export default function ConsentManagement() {
             e.target.style.background = 'rgba(192, 73, 45, 0.05)'
           }}
           onMouseLeave={e => {
-            e.target.style.background = 'var(--surface-warm)'
+            e.target.style.background = 'var(--d-card-solid)'
           }}
         >
           🗑️ Account Verwijderen
@@ -382,7 +388,7 @@ export default function ConsentManagement() {
       <div style={{
         background: 'rgba(79, 140, 90, 0.08)',
         border: `1px solid var(--success)`,
-        borderRadius: 'var(--radius-md)',
+        borderRadius: '22px',
         padding: 'var(--space-md)',
         marginTop: 'var(--space-lg)',
       }}>
