@@ -245,3 +245,14 @@ export async function pullFitbitData() {
     method: 'POST',
   })
 }
+
+export async function getNewsletterStatus() {
+  return request('/api/v1/users/me/newsletter')
+}
+
+export async function setNewsletterStatus(subscribed) {
+  return request('/api/v1/users/me/newsletter', {
+    method: 'PUT',
+    body: JSON.stringify({ subscribed }),
+  })
+}

@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import { saveSecure, getSecure, deleteAllSecure, exportSecureData } from '../../utils/secureStorage'
-import { deleteAccount, clearToken } from '../../api/client'
+import { deleteAccount, clearToken, getNewsletterStatus, setNewsletterStatus } from '../../api/client'
 import HuisartsRapport from '../../components/huisartsrapport/HuisartsRapport'
 
 export default function AccountPage() {
@@ -15,6 +15,9 @@ export default function AccountPage() {
   const [saveStatus, setSaveStatus] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const [deleteLoading, setDeleteLoading] = useState(false)
+  // null = niet ingelogd of nog onbekend -> sectie verborgen
+  const [nieuwsbrief, setNieuwsbrief] = useState(null)
+  const [nieuwsbriefBezig, setNieuwsbriefBezig] = useState(false)
 
   useEffect(() => {
     const stored = getSecure('menstruation_data')
@@ -26,7 +29,23 @@ export default function AccountPage() {
         bleedingDays: stored.bleedingDays || '',
       })
     }
+
+    getNewsletterStatus()
+      .then(res => setNieuwsbrief(res.subscribed))
+      .catch(() => setNieuwsbrief(null))
   }, [])
+
+  async function handleNieuwsbriefToggle() {
+    setNieuwsbriefBezig(true)
+    try {
+      const res = await setNewsletterStatus(!nieuwsbrief)
+      setNieuwsbrief(res.subscribed)
+    } catch (err) {
+      console.error('Nieuwsbrief wijzigen mislukt:', err)
+    } finally {
+      setNieuwsbriefBezig(false)
+    }
+  }
 
   const handleSave = () => {
     // Validate
@@ -332,6 +351,70 @@ export default function AccountPage() {
         >
           Download mijn gegevens (JSON)
         </button>
+
+        {/* Nieuwsbrief (alleen zichtbaar voor ingelogde gebruikers) */}
+        {nieuwsbrief !== null && (
+          <div style={{
+            background: 'var(--surface)',
+            border: '1px solid var(--border)',
+            borderRadius: '12px',
+            padding: '20px',
+            marginBottom: '24px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '16px',
+          }}>
+            <div>
+              <h3 style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: '16px',
+                fontWeight: '500',
+                color: 'var(--ink)',
+                margin: '0 0 4px 0',
+              }}>
+                Nieuwsbrief
+              </h3>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '13px',
+                color: 'var(--ink-2)',
+                margin: 0,
+                lineHeight: 1.5,
+              }}>
+                Maximaal één mail per week over perimenopauze en FemFlow.
+              </p>
+            </div>
+            <button
+              onClick={handleNieuwsbriefToggle}
+              disabled={nieuwsbriefBezig}
+              aria-label={nieuwsbrief ? 'Nieuwsbrief uitzetten' : 'Nieuwsbrief aanzetten'}
+              style={{
+                width: '48px',
+                height: '28px',
+                borderRadius: '999px',
+                border: 'none',
+                cursor: nieuwsbriefBezig ? 'wait' : 'pointer',
+                background: nieuwsbrief ? 'var(--accent)' : 'var(--border)',
+                position: 'relative',
+                transition: 'background 200ms ease',
+                flexShrink: 0,
+              }}
+            >
+              <span style={{
+                position: 'absolute',
+                top: '3px',
+                left: nieuwsbrief ? '23px' : '3px',
+                width: '22px',
+                height: '22px',
+                borderRadius: '50%',
+                background: 'white',
+                transition: 'left 200ms ease',
+                boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
+              }} />
+            </button>
+          </div>
+        )}
 
         {/* Huisartsrapport */}
         <div style={{ marginBottom: '24px' }}>

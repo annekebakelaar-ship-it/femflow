@@ -1,11 +1,27 @@
+import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Smile, AlertCircle, Zap, RotateCw, CheckCircle } from 'react-feather'
+import { saveWelcomeSignup } from '../api/client'
 import hero from '../assets/hero1.png'
 
 export default function QuizResults() {
   const navigate = useNavigate()
   const location = useLocation()
   const { constellation, email } = location.state || {}
+  const [nieuwsbriefEmail, setNieuwsbriefEmail] = useState('')
+  const [nieuwsbriefStatus, setNieuwsbriefStatus] = useState(null) // null | 'bezig' | 'gelukt' | 'fout'
+
+  async function handleNieuwsbrief() {
+    if (!nieuwsbriefEmail.includes('@')) return
+    setNieuwsbriefStatus('bezig')
+    try {
+      // Expliciete opt-in: adres invullen + klikken is de toestemming
+      await saveWelcomeSignup(nieuwsbriefEmail)
+      setNieuwsbriefStatus('gelukt')
+    } catch {
+      setNieuwsbriefStatus('fout')
+    }
+  }
 
   if (!constellation) {
     navigate('/quiz')
@@ -208,6 +224,88 @@ export default function QuizResults() {
           >
             Later
           </button>
+        </div>
+
+        {/* Nieuwsbrief opt-in: expliciet en los van het account (AVG) */}
+        <div style={{
+          marginTop: 'var(--space-xl)',
+          background: 'rgba(255, 255, 255, 0.92)',
+          borderRadius: '12px',
+          padding: 'var(--space-lg)',
+          textAlign: 'left',
+        }}>
+          {nieuwsbriefStatus === 'gelukt' ? (
+            <p style={{
+              fontFamily: 'var(--font-sans)',
+              fontSize: '14px',
+              color: 'var(--success)',
+              margin: 0,
+              fontWeight: '500',
+            }}>
+              Je staat op de lijst — er ligt een bevestiging in je inbox.
+            </p>
+          ) : (
+            <>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '14px',
+                fontWeight: '600',
+                color: 'var(--ink)',
+                margin: '0 0 4px 0',
+              }}>
+                Op de hoogte blijven?
+              </p>
+              <p style={{
+                fontFamily: 'var(--font-sans)',
+                fontSize: '12px',
+                color: 'var(--ink-2)',
+                margin: '0 0 12px 0',
+                lineHeight: 1.5,
+              }}>
+                Maximaal één mail per week over perimenopauze en FemFlow.
+                Uitschrijven kan altijd met één klik.
+              </p>
+              <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                <input
+                  type="email"
+                  placeholder="Je e-mailadres"
+                  value={nieuwsbriefEmail}
+                  onChange={e => setNieuwsbriefEmail(e.target.value)}
+                  style={{
+                    flex: '1 1 180px',
+                    padding: '10px 12px',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    fontSize: '14px',
+                    fontFamily: 'var(--font-sans)',
+                  }}
+                />
+                <button
+                  onClick={handleNieuwsbrief}
+                  disabled={nieuwsbriefStatus === 'bezig' || !nieuwsbriefEmail.includes('@')}
+                  style={{
+                    padding: '10px 16px',
+                    background: 'var(--ink)',
+                    color: 'white',
+                    border: 'none',
+                    borderRadius: '8px',
+                    fontSize: '13px',
+                    fontFamily: 'var(--font-sans)',
+                    fontWeight: '600',
+                    cursor: nieuwsbriefEmail.includes('@') ? 'pointer' : 'not-allowed',
+                    opacity: nieuwsbriefStatus === 'bezig' ? 0.7 : 1,
+                  }}
+                >
+                  {nieuwsbriefStatus === 'bezig' ? 'Even...' : 'Houd me op de hoogte'}
+                </button>
+              </div>
+              {nieuwsbriefStatus === 'fout' && (
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--error)', margin: '8px 0 0 0' }}>
+                  Aanmelden lukte niet — probeer het later opnieuw.
+                </p>
+              )}
+            </>
+          )}
         </div>
       </div>
 

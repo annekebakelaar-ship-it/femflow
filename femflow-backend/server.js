@@ -321,6 +321,57 @@ app.post('/api/v1/welcome/unsubscribe', publicWriteLimiter, async (req, res) => 
   }
 })
 
+// Nieuwsbriefvoorkeur van de ingelogde gebruiker (accountinstellingen).
+// Bewust geen publieke status-lookup op e-mailadres: dat zou het bestaan
+// van inschrijvingen lekken. Identiteit komt uit het JWT.
+app.get('/api/v1/users/me/newsletter', authenticateToken, async (req, res) => {
+  try {
+    const result = await pool.query(
+      `SELECT s.subscribed FROM femflow_welcome_signups s
+       JOIN femflow_users u ON u.email = s.email
+       WHERE u.id = $1`,
+      [req.userId]
+    )
+    res.json({ subscribed: result.rows.length > 0 && result.rows[0].subscribed === true })
+  } catch (err) {
+    console.error('Newsletter status error:', err)
+    res.status(500).json({ error: 'Failed to fetch newsletter status' })
+  }
+})
+
+app.put('/api/v1/users/me/newsletter', authenticateToken, async (req, res) => {
+  try {
+    const { subscribed } = req.body
+    if (typeof subscribed !== 'boolean') {
+      return res.status(400).json({ error: 'subscribed (boolean) required' })
+    }
+
+    const userResult = await pool.query('SELECT email FROM femflow_users WHERE id = $1', [req.userId])
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' })
+    }
+    const email = userResult.rows[0].email
+
+    if (subscribed) {
+      await pool.query(
+        `INSERT INTO femflow_welcome_signups (email, subscribed) VALUES ($1, true)
+         ON CONFLICT (email) DO UPDATE SET subscribed = true, unsubscribed_at = NULL`,
+        [email]
+      )
+    } else {
+      await pool.query(
+        'UPDATE femflow_welcome_signups SET subscribed = false, unsubscribed_at = NOW() WHERE email = $1',
+        [email]
+      )
+    }
+
+    res.json({ success: true, subscribed })
+  } catch (err) {
+    console.error('Newsletter toggle error:', err)
+    res.status(500).json({ error: 'Failed to update newsletter preference' })
+  }
+})
+
 // ============================================================================
 // FEEDBACK
 // ============================================================================
