@@ -32,7 +32,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
   }
 
   return (
-    <div style={{ width: '100%', padding: '0 var(--space-lg)', boxSizing: 'border-box', marginBottom: 'var(--space-md)' }}>
+    <div style={{ padding: '0 var(--space-lg)', boxSizing: 'border-box', marginBottom: 'var(--space-md)', display: 'flex', justifyContent: 'flex-start' }}>
       <div style={{
         background: 'var(--d-card)',
         backdropFilter: 'blur(20px)',
@@ -40,18 +40,21 @@ export default function PeriodeLogKnop({ onGelogd }) {
         border: 'none',
         borderRadius: '22px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
-        padding: '16px',
+        padding: '10px 14px',
+        display: 'inline-block',
+        maxWidth: '100%',
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '12px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }}>
-            <Droplet size={18} color="var(--phase-menstrual, #D96A7A)" strokeWidth={1.5} />
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', minWidth: 0 }}>
+            <Droplet size={16} color="var(--phase-menstrual, #D96A7A)" strokeWidth={1.5} />
             <div style={{ minWidth: 0 }}>
               <p style={{
                 fontFamily: 'var(--font-sans)',
-                fontSize: '14px',
+                fontSize: '13px',
                 fontWeight: '600',
                 color: 'var(--d-ink)',
                 margin: 0,
+                whiteSpace: 'nowrap',
               }}>
                 Menstruatie gestart?
               </p>
@@ -102,14 +105,14 @@ export default function PeriodeLogKnop({ onGelogd }) {
             <button
               onClick={() => setOpen(true)}
               style={{
-                padding: '10px 16px',
+                padding: '7px 13px',
                 background: 'var(--d-accent)',
                 color: '#1B0F07',
                 border: 'none',
                 borderRadius: '999px',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-sans)',
-                fontSize: '13px',
+                fontSize: '12px',
                 fontWeight: '600',
                 whiteSpace: 'nowrap',
                 flexShrink: 0,

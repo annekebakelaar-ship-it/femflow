@@ -229,7 +229,11 @@ export default function DashboardHome() {
               </div>
             </SwiperSlide>
           </Swiper>
-          {menstrualPhase && <CycleInsightsCard menstrualPhase={menstrualPhase} />}
+          {menstrualPhase && (
+            <div style={{ marginTop: '-20px' }}>
+              <CycleInsightsCard menstrualPhase={menstrualPhase} />
+            </div>
+          )}
         </div>
       )}
 
@@ -240,6 +244,7 @@ export default function DashboardHome() {
           padding: 'var(--space-sm) var(--space-lg)',
           boxSizing: 'border-box',
           overflow: 'hidden',
+          marginTop: 'var(--space-xl)',
         }}>
           <Swiper
             spaceBetween={0}
@@ -269,7 +274,11 @@ export default function DashboardHome() {
               </div>
             </SwiperSlide>
           </Swiper>
-          {hrvScore != null && <HRVInsightsCard hrvScore={hrvScore} />}
+          {hrvScore != null && (
+            <div style={{ marginTop: '-20px' }}>
+              <HRVInsightsCard hrvScore={hrvScore} />
+            </div>
+          )}
         </div>
       )}
 
