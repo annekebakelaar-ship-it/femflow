@@ -46,7 +46,7 @@ export default function Unsubscribe() {
         background: 'white',
         padding: 'var(--space-xl)',
         borderRadius: '12px',
-        boxShadow: 'var(--shadow-sm)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
       }}>
         {status === 'loading' && (
           <>
@@ -61,12 +61,12 @@ export default function Unsubscribe() {
               fontSize: '24px',
               fontWeight: '500',
               marginBottom: 'var(--space-md)',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
             }}>
               Uitgeschreven ✓
             </h2>
             <p style={{
-              color: 'var(--ink-2)',
+              color: 'var(--d-ink-2)',
               fontSize: '15px',
               lineHeight: 1.6,
               marginBottom: 'var(--space-lg)',
@@ -83,12 +83,12 @@ export default function Unsubscribe() {
               fontSize: '24px',
               fontWeight: '500',
               marginBottom: 'var(--space-md)',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
             }}>
               Oops
             </h2>
             <p style={{
-              color: 'var(--ink-2)',
+              color: 'var(--d-ink-2)',
               fontSize: '15px',
               lineHeight: 1.6,
               marginBottom: 'var(--space-lg)',
@@ -102,7 +102,7 @@ export default function Unsubscribe() {
           onClick={() => navigate('/')}
           style={{
             padding: 'var(--space-sm) var(--space-lg)',
-            background: 'var(--ink)',
+            background: 'var(--d-ink)',
             color: 'white',
             border: 'none',
             borderRadius: '8px',

@@ -47,7 +47,7 @@ export default function QuizResultsPage() {
     mood: {
       label: 'Stemming',
       emoji: '🎭',
-      color: 'var(--accent)',
+      color: 'var(--d-accent)',
       icon: Heart,
       description: 'Je emotioneel welzijn verandert door verschillende factoren',
       benefits: [
@@ -77,7 +77,7 @@ export default function QuizResultsPage() {
     energy: {
       label: 'Energie',
       emoji: '⚡',
-      color: 'var(--accent)',
+      color: 'var(--d-accent)',
       icon: Zap,
       description: 'Je energieniveaus fluctueren door voeding en activiteit',
       benefits: [
@@ -117,7 +117,7 @@ export default function QuizResultsPage() {
       maxWidth: 'var(--container-max)',
       margin: '0 auto',
       padding: 'var(--space-lg) var(--space-lg) 140px var(--space-lg)',
-      background: 'var(--bg)',
+      background: 'var(--d-page)',
       animation: 'fade-slide-up 240ms ease both',
     }}>
       {/* Header */}
@@ -143,7 +143,7 @@ export default function QuizResultsPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
@@ -154,7 +154,7 @@ export default function QuizResultsPage() {
         fontSize: '26px',
         fontWeight: 500,
         lineHeight: 1.25,
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-sm) 0',
       }}>
         Je Quiz Resultaten
@@ -164,7 +164,7 @@ export default function QuizResultsPage() {
         fontFamily: 'var(--font-sans)',
         fontSize: '15px',
         fontWeight: 400,
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         margin: '0 0 var(--space-xl) 0',
       }}>
         Dit zijn de gebieden waar je aandacht op richt
@@ -172,17 +172,20 @@ export default function QuizResultsPage() {
 
       {/* Active Signals Overview */}
       <div style={{
-        background: 'var(--surface)',
-        borderRadius: 'var(--radius-lg)',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
         padding: 'var(--space-lg)',
         marginBottom: 'var(--space-xl)',
-        boxShadow: 'var(--shadow-sm)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
       }}>
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
           margin: '0 0 var(--space-md) 0',
@@ -207,12 +210,12 @@ export default function QuizResultsPage() {
                     gap: '8px',
                     padding: 'var(--space-sm) var(--space-md)',
                     background: `rgba(199, 154, 110, 0.08)`,
-                    border: `1px solid var(--border)`,
+                    border: `1px solid var(--d-border)`,
                     borderRadius: 'var(--radius-pill)',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '13px',
                     fontWeight: 500,
-                    color: 'var(--ink)',
+                    color: 'var(--d-ink)',
                   }}
                 >
                   <span>{info.emoji}</span>
@@ -225,7 +228,7 @@ export default function QuizResultsPage() {
               fontFamily: 'var(--font-sans)',
               fontSize: '13px',
               fontWeight: 400,
-              color: 'var(--ink-3)',
+              color: 'var(--d-ink-3)',
             }}>Geen gegevens</p>
           )}
         </div>
@@ -246,18 +249,21 @@ export default function QuizResultsPage() {
             <div
               key={signal}
               style={{
-                background: 'var(--surface)',
-                borderRadius: 'var(--radius-lg)',
+                background: 'var(--d-card)',
+                backdropFilter: 'blur(20px)',
+                WebkitBackdropFilter: 'blur(20px)',
+                border: 'none',
+                borderRadius: '22px',
                 overflow: 'hidden',
-                boxShadow: 'var(--shadow-sm)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
               }}
             >
               {/* Header */}
               <div
                 style={{
-                  background: 'var(--accent)',
+                  background: 'var(--d-accent)',
                   padding: 'var(--space-lg)',
-                  color: 'var(--surface)',
+                  color: 'var(--d-card)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: 'var(--space-md)',
@@ -270,7 +276,7 @@ export default function QuizResultsPage() {
                     fontSize: '20px',
                     fontWeight: 500,
                     margin: 0,
-                    color: 'var(--ink)',
+                    color: 'var(--d-ink)',
                   }}>
                     {info.label}
                   </h2>
@@ -283,7 +289,7 @@ export default function QuizResultsPage() {
                   fontFamily: 'var(--font-sans)',
                   fontSize: '15px',
                   fontWeight: 400,
-                  color: 'var(--ink)',
+                  color: 'var(--d-ink)',
                   lineHeight: '1.6',
                   margin: '0 0 var(--space-md) 0',
                 }}>
@@ -291,7 +297,7 @@ export default function QuizResultsPage() {
                 </p>
 
                 <div style={{
-                  background: 'var(--surface-warm)',
+                  background: 'var(--d-card-solid)',
                   padding: 'var(--space-md)',
                   borderRadius: 'var(--radius-md)',
                   marginBottom: 'var(--space-md)',
@@ -300,7 +306,7 @@ export default function QuizResultsPage() {
                     fontFamily: 'var(--font-sans)',
                     fontSize: '11px',
                     fontWeight: 500,
-                    color: 'var(--ink-3)',
+                    color: 'var(--d-ink-3)',
                     textTransform: 'uppercase',
                     letterSpacing: '0.08em',
                     margin: '0 0 var(--space-sm) 0',
@@ -318,7 +324,7 @@ export default function QuizResultsPage() {
                       <li
                         key={idx}
                         style={{
-                          color: 'var(--ink)',
+                          color: 'var(--d-ink)',
                           margin: '4px 0',
                         }}
                       >
@@ -333,8 +339,8 @@ export default function QuizResultsPage() {
                   style={{
                     width: '100%',
                     padding: 'var(--space-md)',
-                    background: 'var(--ink)',
-                    color: 'var(--surface)',
+                    background: 'var(--d-ink)',
+                    color: 'var(--d-card)',
                     border: 'none',
                     borderRadius: 'var(--radius-md)',
                     fontFamily: 'var(--font-sans)',
@@ -364,7 +370,7 @@ export default function QuizResultsPage() {
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
           fontWeight: 500,
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           textTransform: 'uppercase',
           letterSpacing: '0.08em',
           margin: '0 0 var(--space-md) 0',
@@ -376,17 +382,20 @@ export default function QuizResultsPage() {
 
       {/* CTA */}
       <div style={{
-        background: 'var(--surface)',
-        borderRadius: 'var(--radius-lg)',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
         padding: 'var(--space-lg)',
         textAlign: 'center',
-        boxShadow: 'var(--shadow-sm)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
       }}>
         <h3 style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '15px',
           fontWeight: 600,
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 var(--space-sm) 0',
         }}>
           Klaar om je patroon te volgen?
@@ -395,7 +404,7 @@ export default function QuizResultsPage() {
           fontFamily: 'var(--font-sans)',
           fontSize: '13px',
           fontWeight: 400,
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           margin: '0 0 var(--space-md) 0',
         }}>
           Alle tools zijn gratis beschikbaar op je dashboard
@@ -404,8 +413,8 @@ export default function QuizResultsPage() {
           onClick={() => navigate('/dashboard')}
           style={{
             padding: 'var(--space-md) var(--space-lg)',
-            background: 'var(--ink)',
-            color: 'var(--surface)',
+            background: 'var(--d-ink)',
+            color: 'var(--d-card)',
             border: 'none',
             borderRadius: 'var(--radius-md)',
             fontFamily: 'var(--font-sans)',

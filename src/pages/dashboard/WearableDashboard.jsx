@@ -33,6 +33,7 @@ export default function WearableDashboard() {
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
+      background: 'var(--d-page)',
     }}>
       {/* Header */}
       <div style={{
@@ -56,7 +57,7 @@ export default function WearableDashboard() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
         </button>
 
@@ -78,7 +79,7 @@ export default function WearableDashboard() {
       {/* Page Title */}
       <h1 style={{
         fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25,
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-lg) 0',
       }}>
         Mijn Wearable
@@ -95,15 +96,18 @@ export default function WearableDashboard() {
           {/* Sleep */}
           {wearableData.sleep_duration_min && (
             <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '16px',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: 'none',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+              borderRadius: '22px',
               padding: 'var(--space-lg)',
               textAlign: 'center',
             }}>
               <p style={{
                 fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 margin: '0 0 var(--space-sm) 0',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -112,7 +116,7 @@ export default function WearableDashboard() {
               </p>
               <p style={{
                 fontSize: '20px', fontFamily: 'var(--font-sans)', fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
                 fontFeatureSettings: "'tnum'",
               }}>
@@ -124,15 +128,18 @@ export default function WearableDashboard() {
           {/* Deep Sleep */}
           {wearableData.deep_sleep_min && (
             <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '16px',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: 'none',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+              borderRadius: '22px',
               padding: 'var(--space-lg)',
               textAlign: 'center',
             }}>
               <p style={{
                 fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 margin: '0 0 var(--space-sm) 0',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -141,7 +148,7 @@ export default function WearableDashboard() {
               </p>
               <p style={{
                 fontSize: '20px', fontFamily: 'var(--font-sans)', fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
                 fontFeatureSettings: "'tnum'",
               }}>
@@ -153,15 +160,18 @@ export default function WearableDashboard() {
           {/* RHR */}
           {wearableData.rhr_bpm && (
             <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '16px',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: 'none',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+              borderRadius: '22px',
               padding: 'var(--space-lg)',
               textAlign: 'center',
             }}>
               <p style={{
                 fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 margin: '0 0 var(--space-sm) 0',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -170,7 +180,7 @@ export default function WearableDashboard() {
               </p>
               <p style={{
                 fontSize: '20px', fontFamily: 'var(--font-sans)', fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
                 fontFeatureSettings: "'tnum'",
               }}>
@@ -182,15 +192,18 @@ export default function WearableDashboard() {
           {/* HRV */}
           {wearableData.hrv_ms && (
             <div style={{
-              background: 'var(--surface)',
-              border: '1px solid var(--border)',
-              borderRadius: '16px',
+              background: 'var(--d-card)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              border: 'none',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+              borderRadius: '22px',
               padding: 'var(--space-lg)',
               textAlign: 'center',
             }}>
               <p style={{
                 fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-                color: 'var(--ink-3)',
+                color: 'var(--d-ink-3)',
                 margin: '0 0 var(--space-sm) 0',
                 textTransform: 'uppercase',
                 letterSpacing: '0.08em',
@@ -199,7 +212,7 @@ export default function WearableDashboard() {
               </p>
               <p style={{
                 fontSize: '20px', fontFamily: 'var(--font-sans)', fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
                 fontFeatureSettings: "'tnum'",
               }}>
@@ -210,12 +223,15 @@ export default function WearableDashboard() {
         </div>
       ) : (
         <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: '16px',
+          background: 'var(--d-card)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          border: 'none',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+          borderRadius: '22px',
           padding: 'var(--space-xl)',
           textAlign: 'center',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400',
         }}>
           <p>Geen wearable gegevens beschikbaar</p>
@@ -224,8 +240,8 @@ export default function WearableDashboard() {
             style={{
               marginTop: 'var(--space-md)',
               padding: 'var(--space-md) var(--space-lg)',
-              background: 'var(--ink)',
-              color: 'var(--surface)',
+              background: 'var(--d-ink)',
+              color: 'var(--d-card)',
               border: 'none',
               borderRadius: '8px',
               cursor: 'pointer',

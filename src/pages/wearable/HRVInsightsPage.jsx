@@ -51,7 +51,7 @@ export default function HRVInsightsPage() {
           style={{
             marginTop: '20px',
             padding: '10px 20px',
-            background: 'var(--accent)',
+            background: 'var(--d-accent)',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
@@ -68,8 +68,8 @@ export default function HRVInsightsPage() {
     <div style={{
       minHeight: '100vh',
       padding: 'var(--space-lg)',
-      background: '#F5EFEB',
-      backgroundImage: `url(${hero})`,
+      backgroundColor: 'var(--d-bg)',
+      backgroundImage: `linear-gradient(rgba(27, 15, 7, 0.82), rgba(27, 15, 7, 0.92)), url(${hero})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundAttachment: 'fixed',
@@ -84,7 +84,7 @@ export default function HRVInsightsPage() {
             cursor: 'pointer',
             fontSize: '20px',
             marginBottom: 'var(--space-lg)',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}
         >
           ←
@@ -95,7 +95,7 @@ export default function HRVInsightsPage() {
           fontSize: '28px',
           fontWeight: '500',
           marginBottom: 'var(--space-lg)',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
         }}>
           Hartritme Variabiliteit
         </h1>
@@ -104,7 +104,7 @@ export default function HRVInsightsPage() {
           background: 'white',
           padding: 'var(--space-lg)',
           borderRadius: '12px',
-          boxShadow: 'var(--shadow-sm)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           marginBottom: 'var(--space-lg)',
         }}>
           <HRVInsights score={hrvScore} />
@@ -114,14 +114,14 @@ export default function HRVInsightsPage() {
           background: 'white',
           padding: 'var(--space-lg)',
           borderRadius: '12px',
-          boxShadow: 'var(--shadow-sm)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
           marginBottom: 'var(--space-lg)',
         }}>
           <h2 style={{
             fontSize: '18px',
             fontWeight: '600',
             marginBottom: 'var(--space-md)',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>
             Jouw vragen
           </h2>
@@ -197,13 +197,13 @@ function HRVInsights({ score }) {
         borderRadius: '8px',
         marginBottom: 'var(--space-md)',
       }}>
-        <p style={{ margin: '0 0 8px 0', fontSize: '14px', color: 'var(--ink-2)' }}>
+        <p style={{ margin: '0 0 8px 0', fontSize: '14px', color: 'var(--d-ink-2)' }}>
           Je score vandaag
         </p>
-        <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: 'var(--ink)' }}>
+        <p style={{ margin: 0, fontSize: '32px', fontWeight: '700', color: 'var(--d-ink)' }}>
           {score}
         </p>
-        <p style={{ margin: '4px 0 0 0', fontSize: '14px', fontWeight: '600', color: 'var(--ink)' }}>
+        <p style={{ margin: '4px 0 0 0', fontSize: '14px', fontWeight: '600', color: 'var(--d-ink)' }}>
           {insights.status}
         </p>
       </div>
@@ -211,7 +211,7 @@ function HRVInsights({ score }) {
       <p style={{
         margin: '0 0 var(--space-md) 0',
         fontSize: '15px',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         lineHeight: 1.6,
       }}>
         {insights.description}
@@ -220,7 +220,7 @@ function HRVInsights({ score }) {
       <h3 style={{
         fontSize: '14px',
         fontWeight: '600',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         marginBottom: 'var(--space-md)',
         textTransform: 'uppercase',
         letterSpacing: '0.08em',
@@ -231,7 +231,7 @@ function HRVInsights({ score }) {
       <ul style={{
         margin: 0,
         paddingLeft: '20px',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
         fontSize: '14px',
         lineHeight: 1.8,
       }}>

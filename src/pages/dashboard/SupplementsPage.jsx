@@ -25,6 +25,7 @@ export default function SupplementsPage() {
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
+      background: 'var(--d-page)',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-xl)' }}>
         <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
@@ -32,28 +33,28 @@ export default function SupplementsPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
         </button>
         <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>←</button>
       </div>
 
-      <h1 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, color: 'var(--ink)', margin: '0 0 var(--space-lg) 0' }}>
+      <h1 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, color: 'var(--d-ink)', margin: '0 0 var(--space-lg) 0' }}>
         Jouw Supplementen Plan
       </h1>
 
       {!subscribed ? (
         <>
-          <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--ink-2)', margin: '0 0 var(--space-xl) 0' }}>
+          <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--d-ink-2)', margin: '0 0 var(--space-xl) 0' }}>
             Gebaseerd op jouw gegevens hebben we een gepersonaliseerd plan samengesteld.
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-lg)', marginBottom: 'var(--space-xl)' }}>
             {supplements.map((supp, idx) => (
-              <div key={idx} style={{ background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: '16px', padding: 'var(--space-lg)' }}>
+              <div key={idx} style={{ background: 'var(--d-card)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)', borderRadius: '22px', padding: 'var(--space-lg)' }}>
                 <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', margin: '0 0 var(--space-sm) 0' }}>{supp.name}</h3>
-                <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-2)', margin: '0 0 var(--space-md) 0' }}>{supp.benefit}</p>
-                <div style={{ fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', lineHeight: '1.6' }}>
+                <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--d-ink-2)', margin: '0 0 var(--space-md) 0' }}>{supp.benefit}</p>
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--d-ink-3)', lineHeight: '1.6' }}>
                   <p style={{ margin: '4px 0' }}><strong>Dosage:</strong> {supp.dosage}</p>
                   <p style={{ margin: '4px 0' }}><strong>Timing:</strong> {supp.timing}</p>
                 </div>
@@ -61,19 +62,19 @@ export default function SupplementsPage() {
             ))}
           </div>
 
-          <div style={{ background: 'var(--accent-soft)', border: '1px solid var(--accent)', borderRadius: '16px', padding: 'var(--space-lg)', marginBottom: 'var(--space-xl)', textAlign: 'center' }}>
+          <div style={{ background: 'var(--d-accent-soft)', border: '1px solid var(--d-accent)', borderRadius: '16px', padding: 'var(--space-lg)', marginBottom: 'var(--space-xl)', textAlign: 'center' }}>
             <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', margin: '0 0 var(--space-sm) 0' }}>€29 per maand</h3>
-            <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--ink)', margin: '0 0 var(--space-md) 0' }}>Maandelijkse aanpassingen op basis van je voortgang</p>
-            <button onClick={handleSubscribe} style={{ padding: 'var(--space-md) var(--space-lg)', background: 'var(--ink)', color: 'var(--surface)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontFamily: 'var(--font-sans)', fontSize: '15px' }}>
+            <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--d-ink)', margin: '0 0 var(--space-md) 0' }}>Maandelijkse aanpassingen op basis van je voortgang</p>
+            <button onClick={handleSubscribe} style={{ padding: 'var(--space-md) var(--space-lg)', background: 'var(--d-ink)', color: 'var(--d-card)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontFamily: 'var(--font-sans)', fontSize: '15px' }}>
               Start abonnement (eerste maand gratis)
             </button>
           </div>
         </>
       ) : (
-        <div style={{ background: 'var(--surface-warm)', border: '1px solid var(--border)', borderRadius: '16px', padding: 'var(--space-xl)', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, color: 'var(--ink)', margin: '0 0 var(--space-sm) 0' }}>✓ Abonnement Actief!</h2>
-          <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--ink-2)', margin: '0 0 var(--space-lg) 0' }}>Je hebt je supplements plan geactiveerd.</p>
-          <button onClick={() => navigate('/dashboard')} style={{ padding: 'var(--space-md) var(--space-lg)', background: 'var(--ink)', color: 'var(--surface)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontFamily: 'var(--font-sans)', fontSize: '15px' }}>
+        <div style={{ background: 'var(--d-card-solid)', border: '1px solid var(--d-border)', borderRadius: '16px', padding: 'var(--space-xl)', textAlign: 'center' }}>
+          <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, color: 'var(--d-ink)', margin: '0 0 var(--space-sm) 0' }}>✓ Abonnement Actief!</h2>
+          <p style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '400', lineHeight: 1.5, color: 'var(--d-ink-2)', margin: '0 0 var(--space-lg) 0' }}>Je hebt je supplements plan geactiveerd.</p>
+          <button onClick={() => navigate('/dashboard')} style={{ padding: 'var(--space-md) var(--space-lg)', background: 'var(--d-ink)', color: 'var(--d-card)', border: 'none', borderRadius: '8px', cursor: 'pointer', fontWeight: '600', fontFamily: 'var(--font-sans)', fontSize: '15px' }}>
             Terug naar dashboard
           </button>
         </div>
