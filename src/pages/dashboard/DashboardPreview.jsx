@@ -81,7 +81,7 @@ function PhaseCard({ faseInfo, onClick }) {
 
 function HRVCard({ hrv, weeklyHRV, onCard, onLog, onLearn }) {
   return (
-    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(30,14,8,0.82)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)' }}>
+    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
         <div onClick={onCard} style={{ cursor: 'pointer' }}>
           <p style={{ fontSize: 12, marginBottom: 4, color: '#a08070', letterSpacing: '0.14em', fontFamily: sans }}>HARTRITME VARIABILITEIT</p>
@@ -121,7 +121,7 @@ function StatsRow({ stats }) {
   return (
     <div style={{ margin: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
       {stats.map(({ icon: Icon, label, value, unit }) => (
-        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', borderRadius: 12, background: 'rgba(30,14,8,0.75)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', borderRadius: 12, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
           <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(196,137,106,0.18)' }}>
             <Icon size={14} color="#c4896a" />
           </div>
@@ -144,7 +144,7 @@ function CycleOverview({ faseInfo, cycleData }) {
   ]
   const actief = faseInfo?.fase
   return (
-    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(30,14,8,0.88)' }}>
+    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
         <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#f5ede8', fontFamily: serif }}>Cyclus overzicht</p>
         <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 999, background: 'rgba(196,137,106,0.15)', color: '#c4896a', fontFamily: sans }}>
@@ -180,7 +180,7 @@ function CycleOverview({ faseInfo, cycleData }) {
 
 function InsightCard({ icon: Icon, title, desc, badge, onClick }) {
   return (
-    <div onClick={onClick} style={{ borderRadius: 16, padding: 16, flexShrink: 0, background: 'rgba(30,14,8,0.88)', width: 210, cursor: 'pointer' }}>
+    <div onClick={onClick} style={{ borderRadius: 16, padding: 16, flexShrink: 0, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', width: 210, cursor: 'pointer' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
         <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(196,137,106,0.15)' }}>
           <Icon size={14} color="#c4896a" />
