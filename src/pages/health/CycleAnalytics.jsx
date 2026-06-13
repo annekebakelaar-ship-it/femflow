@@ -53,7 +53,7 @@ export default function CycleAnalytics() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
           <div style={{ width: '20px' }} />
         </div>
@@ -62,7 +62,7 @@ export default function CycleAnalytics() {
           fontFamily: 'var(--font-display)',
           fontSize: '26px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 var(--space-md) 0',
           lineHeight: '1.25',
         }}>
@@ -84,7 +84,7 @@ export default function CycleAnalytics() {
           onClick={() => navigate('/health/menstruation')}
           style={{
             padding: 'var(--space-md) var(--space-lg)',
-            background: 'var(--ink)',
+            background: 'var(--d-ink)',
             color: 'white',
             border: 'none',
             borderRadius: 'var(--radius-md)',
@@ -130,7 +130,7 @@ export default function CycleAnalytics() {
         >
           ←
         </button>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--ink)' }}>FemFlow</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--d-ink)' }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
 
@@ -139,7 +139,7 @@ export default function CycleAnalytics() {
         fontFamily: 'var(--font-display)',
         fontSize: '26px',
         fontWeight: '500',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-md) 0',
         lineHeight: '1.25',
       }}>
@@ -171,7 +171,7 @@ export default function CycleAnalytics() {
           fontFamily: 'var(--font-display)',
           fontSize: '20px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 var(--space-md) 0',
           lineHeight: '1.25',
         }}>
@@ -189,14 +189,14 @@ export default function CycleAnalytics() {
           lineHeight: 1.6,
         }}>
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Cycluslengte</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Cycluslengte</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               De grafiek toont hoe lang elke volledige cyclus was (van start tot start van je menstruatie).
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Markeringen</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Markeringen</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               <strong>Geel:</strong> Cyclussen die ≥7 dagen verschillen van de vorige (waarneembare verandering).
               <br />
@@ -205,14 +205,14 @@ export default function CycleAnalytics() {
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Alleen observatie</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Alleen observatie</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Dit patroon helpt je je eigen cyclus beter te begrijpen. Het is geen medische beoordeling. Bij vragen over veranderingen kun je altijd je huisarts raadplegen.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Privacy</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Privacy</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Deze gegevens zijn alleen voor jou zichtbaar en worden niet gedeeld of gebruikt voor tracking.
             </p>

@@ -145,7 +145,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
         {/* Chart */}
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={chartData} margin={{ top: 20, right: 30, left: 0, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--d-border)" />
             <XAxis
               dataKey="name"
               tick={{ fontSize: 12 }}
@@ -156,7 +156,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
               tick={{ fontSize: 12 }}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Bar dataKey="length" fill="var(--accent)">
+            <Bar dataKey="length" fill="var(--d-accent)">
               {chartData.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={getBarColor(entry)} />
               ))}
@@ -174,7 +174,7 @@ export default function CycluslengteGrafiek({ menstrualData }) {
           flexWrap: 'wrap',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <div style={{ width: '16px', height: '16px', background: 'var(--accent)', borderRadius: '2px' }} />
+            <div style={{ width: '16px', height: '16px', background: 'var(--d-accent)', borderRadius: '2px' }} />
             <span style={{ color: 'var(--d-ink)', textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)' }}>Normaal</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>

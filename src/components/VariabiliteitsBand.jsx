@@ -220,7 +220,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
               y={28}
               width={Math.max(0, Math.min(timelineWidth, outerMaxPos) - Math.max(0, outerMinPos))}
               height={24}
-              fill="var(--accent)"
+              fill="var(--d-accent)"
               opacity={0.2}
             />
 
@@ -230,7 +230,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
               y={28}
               width={Math.max(0, Math.min(timelineWidth, innerMaxPos) - Math.max(0, innerMinPos))}
               height={24}
-              fill="var(--accent)"
+              fill="var(--d-accent)"
               opacity={0.5}
             />
 
@@ -240,7 +240,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
               y1={40}
               x2={timelineWidth}
               y2={40}
-              stroke="var(--border)"
+              stroke="var(--d-border)"
               strokeWidth={1}
             />
 

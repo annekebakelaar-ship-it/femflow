@@ -13,6 +13,7 @@ export default function LifestyleCheckPage() {
       display: 'flex',
       flexDirection: 'column',
       animation: 'fade-slide-up 240ms ease both',
+      background: 'var(--d-page)',
     }}>
       {/* Header */}
       <div style={{
@@ -36,7 +37,7 @@ export default function LifestyleCheckPage() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
         </button>
 
@@ -60,7 +61,7 @@ export default function LifestyleCheckPage() {
         fontFamily: 'var(--font-display)',
         fontSize: '26px',
         fontWeight: '500',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-lg) 0',
         lineHeight: '1.25',
       }}>

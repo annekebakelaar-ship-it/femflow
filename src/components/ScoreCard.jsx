@@ -53,9 +53,9 @@ export default function ScoreCard({
     position: 'relative',
     background: `
       linear-gradient(0deg,
-        color-mix(in srgb, ${color} 7%, var(--surface-warm)),
-        color-mix(in srgb, ${color} 7%, var(--surface-warm)))`,
-    border: '1px solid var(--border)',
+        color-mix(in srgb, ${color} 7%, var(--d-card-solid)),
+        color-mix(in srgb, ${color} 7%, var(--d-card-solid)))`,
+    border: '1px solid var(--d-border)',
     borderRadius: 'var(--radius-lg)',
     padding: 'var(--space-md)',
     width: '100%',
@@ -77,7 +77,7 @@ export default function ScoreCard({
     fontFamily: 'var(--font-display)',
     fontSize: 20,
     fontWeight: 500,
-    color: 'var(--ink)',
+    color: 'var(--d-ink)',
     lineHeight: 1.25,
   };
 
@@ -103,7 +103,7 @@ export default function ScoreCard({
     fontSize: 48,
     fontWeight: 600,
     fontFeatureSettings: "'tnum'",
-    color: 'var(--ink)',
+    color: 'var(--d-ink)',
     lineHeight: 1,
   };
 
@@ -111,7 +111,7 @@ export default function ScoreCard({
     fontFamily: 'var(--font-sans)',
     fontSize: 13,
     fontWeight: 500,
-    color: 'var(--ink-3)',
+    color: 'var(--d-ink-3)',
   };
 
   const Content = onPress ? 'button' : 'div';
@@ -128,10 +128,10 @@ export default function ScoreCard({
     <Content style={cardStyle} {...press}>
       <div style={topRow}>
         <div style={titleWrap}>
-          {Icon && <Icon size={18} strokeWidth={1.5} color="var(--ink-2)" />}
+          {Icon && <Icon size={18} strokeWidth={1.5} color="var(--d-ink-2)" />}
           <span style={titleText}>{title}</span>
         </div>
-        {onPress && <ChevronRight size={20} strokeWidth={1.5} color="var(--ink-3)" />}
+        {onPress && <ChevronRight size={20} strokeWidth={1.5} color="var(--d-ink-3)" />}
       </div>
 
       {status && state === 'ready' && <div style={statusText}>{status}</div>}
@@ -186,7 +186,7 @@ function BaselineRange({ value, min, max, color }) {
   const track = {
     position: 'relative',
     height: 1.5,
-    background: 'var(--border)',
+    background: 'var(--d-border)',
     borderRadius: 'var(--radius-pill)',
   };
   const dot = {
@@ -198,7 +198,7 @@ function BaselineRange({ value, min, max, color }) {
     borderRadius: 'var(--radius-pill)',
     background: color,
     transform: 'translate(-50%, -50%)',
-    boxShadow: '0 0 0 3px var(--surface-warm)',
+    boxShadow: '0 0 0 3px var(--d-card-solid)',
   };
   const labels = {
     display: 'flex',
@@ -210,7 +210,7 @@ function BaselineRange({ value, min, max, color }) {
     fontSize: 13,
     fontWeight: 500,
     fontFeatureSettings: "'tnum'",
-    color: 'var(--ink-3)',
+    color: 'var(--d-ink-3)',
   };
 
   return (
@@ -234,14 +234,14 @@ function Skeleton() {
           width: 96,
           height: 40,
           borderRadius: 'var(--radius-sm)',
-          background: 'var(--border-subtle)',
+          background: 'var(--d-border)',
         }}
       />
       <div
         style={{
           marginTop: 'var(--space-md)',
           height: 1.5,
-          background: 'var(--border)',
+          background: 'var(--d-border)',
           borderRadius: 'var(--radius-pill)',
         }}
       />

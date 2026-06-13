@@ -74,7 +74,7 @@ export default function QuizResults() {
             fontFamily: 'var(--font-display)',
             fontSize: 'clamp(28px, 8vw, 36px)',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             marginBottom: 'var(--space-lg)',
             lineHeight: 1.2,
           }}>
@@ -140,7 +140,7 @@ export default function QuizResults() {
               <p style={{
                 fontSize: '12px',
                 fontWeight: '600',
-                color: isActive ? 'var(--ink)' : 'var(--d-ink-3)',
+                color: isActive ? 'var(--d-ink)' : 'var(--d-ink-3)',
                 margin: 0,
                 textTransform: 'uppercase',
                 letterSpacing: '0.06em',
@@ -172,7 +172,7 @@ export default function QuizResults() {
             onClick={() => navigate('/login', { state: { email, constellation } })}
             style={{
               padding: '14px 32px',
-              background: 'var(--ink)',
+              background: 'var(--d-ink)',
               color: 'white',
               border: 'none',
               borderRadius: '10px',
@@ -200,7 +200,7 @@ export default function QuizResults() {
             style={{
               padding: '14px 32px',
               background: 'rgba(199, 154, 110, 0.1)',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
               border: '2px solid rgba(199, 154, 110, 0.3)',
               borderRadius: '10px',
               fontSize: '16px',
@@ -249,7 +249,7 @@ export default function QuizResults() {
                 fontFamily: 'var(--font-sans)',
                 fontSize: '14px',
                 fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: '0 0 4px 0',
               }}>
                 Op de hoogte blijven?
@@ -284,7 +284,7 @@ export default function QuizResults() {
                   disabled={nieuwsbriefStatus === 'bezig' || !nieuwsbriefEmail.includes('@')}
                   style={{
                     padding: '10px 16px',
-                    background: 'var(--ink)',
+                    background: 'var(--d-ink)',
                     color: 'white',
                     border: 'none',
                     borderRadius: '8px',

@@ -54,7 +54,7 @@ export default function LifestyleTriggers() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 'var(--space-md)' }}>
         <p style={{
           fontSize: 'var(--font-size-micro)',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           fontWeight: 'var(--font-weight-semibold)',
@@ -87,8 +87,8 @@ export default function LifestyleTriggers() {
                 flex: '1 1 auto',
                 minWidth: '120px',
                 padding: 'var(--space-md)',
-                background: isActive ? 'var(--accent)' : 'transparent',
-                border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                background: isActive ? 'var(--d-accent)' : 'transparent',
+                border: `1px solid ${isActive ? 'var(--d-accent)' : 'var(--d-border)'}`,
                 borderRadius: '2px',
                 cursor: saving ? 'not-allowed' : 'pointer',
                 transition: 'all 150ms ease',
@@ -96,12 +96,12 @@ export default function LifestyleTriggers() {
               }}
               onMouseEnter={e => {
                 if (!saving && !isActive) {
-                  e.currentTarget.style.borderColor = 'var(--accent)'
+                  e.currentTarget.style.borderColor = 'var(--d-accent)'
                 }
               }}
               onMouseLeave={e => {
                 if (!isActive) {
-                  e.currentTarget.style.borderColor = 'var(--border)'
+                  e.currentTarget.style.borderColor = 'var(--d-border)'
                 }
               }}
             >
@@ -109,7 +109,7 @@ export default function LifestyleTriggers() {
               <p style={{
                 fontSize: 'var(--font-size-small)',
                 fontWeight: isActive ? 'var(--font-weight-medium)' : 'var(--font-weight-regular)',
-                color: isActive ? '#FFFFFF' : 'var(--ink)',
+                color: isActive ? '#FFFFFF' : 'var(--d-ink)',
                 margin: 0,
               }}>
                 {trigger.label}

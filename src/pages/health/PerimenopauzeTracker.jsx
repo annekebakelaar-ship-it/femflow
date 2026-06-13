@@ -88,7 +88,7 @@ export default function PerimenopauzeTracker() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
@@ -96,7 +96,7 @@ export default function PerimenopauzeTracker() {
       {/* Title */}
       <h1 style={{
         fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, letterSpacing: '-0.5px',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-sm) 0',
       }}>
         Perimenopauze Tracker
@@ -124,7 +124,7 @@ export default function PerimenopauzeTracker() {
         boxShadow: '0 12px 40px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(42, 33, 28, 0.08)',
       }}>
         <span style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600', flex: '1 1 100%', display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <Zap size={16} style={{ color: 'var(--ink)' }} />
+          <Zap size={16} style={{ color: 'var(--d-ink)' }} />
           Testmodus
         </span>
         <button
@@ -132,8 +132,8 @@ export default function PerimenopauzeTracker() {
           style={{
             flex: 1,
             padding: '8px 12px',
-            background: mockMode === 'regular' ? 'var(--ink)' : 'var(--d-border)',
-            color: mockMode === 'regular' ? 'var(--d-card)' : 'var(--ink)',
+            background: mockMode === 'regular' ? 'var(--d-ink)' : 'var(--d-border)',
+            color: mockMode === 'regular' ? 'var(--d-card)' : 'var(--d-ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -147,8 +147,8 @@ export default function PerimenopauzeTracker() {
           style={{
             flex: 1,
             padding: '8px 12px',
-            background: mockMode === 'irregular' ? 'var(--ink)' : 'var(--d-border)',
-            color: mockMode === 'irregular' ? 'var(--d-card)' : 'var(--ink)',
+            background: mockMode === 'irregular' ? 'var(--d-ink)' : 'var(--d-border)',
+            color: mockMode === 'irregular' ? 'var(--d-card)' : 'var(--d-ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -164,7 +164,7 @@ export default function PerimenopauzeTracker() {
 
       {/* Cyclus Grafiek Test Mode */}
       <div style={{
-        background: 'var(--accent-soft)',
+        background: 'var(--d-accent-soft)',
         border: '1px solid var(--d-accent)',
         borderRadius: '8px',
         padding: 'var(--space-md)',
@@ -185,7 +185,7 @@ export default function PerimenopauzeTracker() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'regular' ? 'var(--d-accent)' : 'var(--d-border)',
-            color: grafiekMode === 'regular' ? 'var(--d-card)' : 'var(--ink)',
+            color: grafiekMode === 'regular' ? 'var(--d-card)' : 'var(--d-ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -200,7 +200,7 @@ export default function PerimenopauzeTracker() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'early_transition' ? 'var(--d-accent)' : 'var(--d-border)',
-            color: grafiekMode === 'early_transition' ? 'var(--d-card)' : 'var(--ink)',
+            color: grafiekMode === 'early_transition' ? 'var(--d-card)' : 'var(--d-ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -215,7 +215,7 @@ export default function PerimenopauzeTracker() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'late_transition' ? 'var(--d-accent)' : 'var(--d-border)',
-            color: grafiekMode === 'late_transition' ? 'var(--d-card)' : 'var(--ink)',
+            color: grafiekMode === 'late_transition' ? 'var(--d-card)' : 'var(--d-ink)',
             border: 'none',
             borderRadius: '6px',
             fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -263,8 +263,8 @@ export default function PerimenopauzeTracker() {
           lineHeight: 1.6,
         }}>
           <div>
-            <strong style={{ color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <BarChart2 size={16} style={{ color: 'var(--ink)' }} />
+            <strong style={{ color: 'var(--d-ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <BarChart2 size={16} style={{ color: 'var(--d-ink)' }} />
               Basis: werkelijke data
             </strong>
             <p style={{ margin: '4px 0 0 0' }}>
@@ -273,8 +273,8 @@ export default function PerimenopauzeTracker() {
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <Target size={16} style={{ color: 'var(--ink)' }} />
+            <strong style={{ color: 'var(--d-ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Target size={16} style={{ color: 'var(--d-ink)' }} />
               Waarschijnlijk (68%)
             </strong>
             <p style={{ margin: '4px 0 0 0' }}>
@@ -283,15 +283,15 @@ export default function PerimenopauzeTracker() {
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)' }}>Mogelijk (95%)</strong>
+            <strong style={{ color: 'var(--d-ink)' }}>Mogelijk (95%)</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Lichtere beige band. Uitzonderin, maar niet onmogelijk.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <TrendingUp size={16} style={{ color: 'var(--ink)' }} />
+            <strong style={{ color: 'var(--d-ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TrendingUp size={16} style={{ color: 'var(--d-ink)' }} />
               Band wordt breder bij variabiliteit
             </strong>
             <p style={{ margin: '4px 0 0 0' }}>
@@ -300,8 +300,8 @@ export default function PerimenopauzeTracker() {
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <AlertCircle size={16} style={{ color: 'var(--ink)' }} />
+            <strong style={{ color: 'var(--d-ink)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <AlertCircle size={16} style={{ color: 'var(--d-ink)' }} />
               Voorlopig label
             </strong>
             <p style={{ margin: '4px 0 0 0' }}>

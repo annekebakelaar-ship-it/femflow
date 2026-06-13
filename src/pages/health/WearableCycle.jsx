@@ -62,7 +62,7 @@ export default function WearableCycle() {
             fontFamily: 'var(--font-display)',
             fontSize: '18px',
             fontWeight: '500',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
           }}>FemFlow</span>
           <div style={{ width: '20px' }} />
         </div>
@@ -71,7 +71,7 @@ export default function WearableCycle() {
           fontFamily: 'var(--font-display)',
           fontSize: '26px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 var(--space-md) 0',
           lineHeight: '1.25',
         }}>
@@ -93,7 +93,7 @@ export default function WearableCycle() {
           onClick={() => navigate('/health/menstruation')}
           style={{
             padding: 'var(--space-md) var(--space-lg)',
-            background: 'var(--ink)',
+            background: 'var(--d-ink)',
             color: 'white',
             border: 'none',
             borderRadius: 'var(--radius-md)',
@@ -139,7 +139,7 @@ export default function WearableCycle() {
         >
           ←
         </button>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--ink)' }}>FemFlow</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--d-ink)' }}>FemFlow</span>
         <div style={{ width: '20px' }} />
       </div>
 
@@ -148,7 +148,7 @@ export default function WearableCycle() {
         fontFamily: 'var(--font-display)',
         fontSize: '26px',
         fontWeight: '500',
-        color: 'var(--ink)',
+        color: 'var(--d-ink)',
         margin: '0 0 var(--space-md) 0',
         lineHeight: '1.25',
       }}>
@@ -186,7 +186,7 @@ export default function WearableCycle() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'regular' ? 'var(--d-accent)' : 'var(--d-card)',
-            color: grafiekMode === 'regular' ? 'white' : 'var(--ink)',
+            color: grafiekMode === 'regular' ? 'white' : 'var(--d-ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
             fontFamily: 'var(--font-sans)',
@@ -203,7 +203,7 @@ export default function WearableCycle() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'irregular' ? 'var(--d-accent)' : 'var(--d-card)',
-            color: grafiekMode === 'irregular' ? 'white' : 'var(--ink)',
+            color: grafiekMode === 'irregular' ? 'white' : 'var(--d-ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
             fontFamily: 'var(--font-sans)',
@@ -220,7 +220,7 @@ export default function WearableCycle() {
             flex: 1,
             padding: '8px 12px',
             background: grafiekMode === 'gaps' ? 'var(--d-accent)' : 'var(--d-card)',
-            color: grafiekMode === 'gaps' ? 'white' : 'var(--ink)',
+            color: grafiekMode === 'gaps' ? 'white' : 'var(--d-ink)',
             border: 'none',
             borderRadius: 'var(--radius-sm)',
             fontFamily: 'var(--font-sans)',
@@ -249,7 +249,7 @@ export default function WearableCycle() {
           fontFamily: 'var(--font-display)',
           fontSize: '20px',
           fontWeight: '500',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 var(--space-md) 0',
           lineHeight: '1.25',
         }}>
@@ -267,35 +267,35 @@ export default function WearableCycle() {
           lineHeight: 1.6,
         }}>
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Signalen over je cyclus</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Signalen over je cyclus</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Je wearable meet basale temperatuur, HRV, rust-hartslag en slaap. Deze pagina toont hoe die signalen zich gedragen gedurende je cyclus.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Temperatuurpatroon</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Temperatuurpatroon</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Bij regelmatige cycli zie je typisch een stijging na ovulatie. Dit wordt veroorzaakt door het hormoon progestoron. Dit patroon helpt je eigen fysiologie beter te begrijpen.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Andere signalen</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Andere signalen</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               HRV, rust-hartslag en slaap kunnen ook met hormoonfluctuaties samenhangen. Dit zijn waarnemingen, niet diagnoses.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Geen voorspellingen</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Geen voorspellingen</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Deze grafieken tonen wat al is gebeurd, niet wat gaat gebeuren. De temperatuurstijging bevestigt ovulatie achteraf, voorspelt die niet.
             </p>
           </div>
 
           <div>
-            <strong style={{ color: 'var(--ink)', fontWeight: '600' }}>Privacy</strong>
+            <strong style={{ color: 'var(--d-ink)', fontWeight: '600' }}>Privacy</strong>
             <p style={{ margin: '4px 0 0 0' }}>
               Wearable + cyclus-data samen zijn gevoelig. Deze gegevens zijn alleen voor jou zichtbaar, niet gedeeld, en verwijderd als jij dat vraagt.
             </p>
