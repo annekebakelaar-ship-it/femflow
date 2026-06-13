@@ -19,6 +19,7 @@ import PerimenopauzeTracker from './pages/health/PerimenopauzeTracker'
 import CycleAnalytics from './pages/health/CycleAnalytics'
 import WearableCycle from './pages/health/WearableCycle'
 import DashboardHome from './pages/dashboard/DashboardHome'
+import DashboardPreview from './pages/dashboard/DashboardPreview'
 import QuizResultsPage from './pages/dashboard/QuizResultsPage'
 import LearningHub from './pages/dashboard/LearningHub'
 import ProgressAnalytics from './pages/dashboard/ProgressAnalytics'
@@ -117,11 +118,12 @@ function AppContent() {
 
   return (
     <div style={{
-      background: location.pathname === '/' ? 'transparent' : '#F5EFEB',
+      background: (location.pathname === '/' || location.pathname === '/preview') ? 'transparent' : '#F5EFEB',
       minHeight: '100vh',
     }}>
     <Routes>
       {/* New quiz funnel */}
+      <Route path="/preview" element={<DashboardPreview />} />
       <Route path="/" element={<Welcome />} />
       <Route path="/quiz" element={<SmartQuiz />} />
       <Route path="/quiz/results" element={<QuizResults />} />
@@ -238,7 +240,7 @@ function AppContent() {
       } />
     </Routes>
     {user && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
-    {location.pathname !== '/' && <FeedbackWidget />}
+    {location.pathname !== '/' && location.pathname !== '/preview' && <FeedbackWidget />}
     <AnalyticsConsentBanner />
     </div>
   )
