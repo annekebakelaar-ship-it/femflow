@@ -118,7 +118,7 @@ function AppContent() {
 
   return (
     <div style={{
-      background: (location.pathname === '/' || location.pathname === '/preview') ? 'transparent' : '#F5EFEB',
+      background: (location.pathname === '/' || location.pathname === '/preview' || location.pathname === '/dashboard') ? 'transparent' : '#F5EFEB',
       minHeight: '100vh',
     }}>
     <Routes>
@@ -133,8 +133,12 @@ function AppContent() {
       <Route path="/login" element={<SigninPage />} />
       <Route path="/signup" element={<SigninPage />} />
 
-      {/* Dashboard home (protected) */}
+      {/* Dashboard home (protected) — nieuw Figma-ontwerp */}
       <Route path="/dashboard" element={
+        user ? <DashboardPreview /> : <Navigate to="/login" replace />
+      } />
+      {/* Oude dashboard-home, tijdelijke terugval tijdens de overgang */}
+      <Route path="/dashboard/classic" element={
         user ? <DashboardHome /> : <Navigate to="/login" replace />
       } />
 
@@ -239,8 +243,8 @@ function AppContent() {
         </div>
       } />
     </Routes>
-    {user && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
-    {location.pathname !== '/' && location.pathname !== '/preview' && <FeedbackWidget />}
+    {user && location.pathname !== '/dashboard' && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
+    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/dashboard' && <FeedbackWidget />}
     <AnalyticsConsentBanner />
     </div>
   )
