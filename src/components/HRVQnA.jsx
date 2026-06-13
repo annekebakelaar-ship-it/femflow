@@ -34,7 +34,7 @@ export default function HRVQnA({ score }) {
       <p style={{
         margin: '0 0 var(--space-md) 0',
         fontSize: '13px',
-        color: 'var(--ink-2)',
+        color: 'var(--d-ink-2)',
       }}>
         Stel vragen over je HRV score of wat je eraan kunt doen.
       </p>
@@ -50,7 +50,7 @@ export default function HRVQnA({ score }) {
         overflowY: 'auto',
       }}>
         {messages.length === 0 ? (
-          <p style={{ margin: 0, fontSize: '13px', color: 'var(--ink-3)' }}>
+          <p style={{ margin: 0, fontSize: '13px', color: 'var(--d-ink-3)' }}>
             Geen vragen nog. Typ iets hieronder om te beginnen.
           </p>
         ) : (
@@ -62,8 +62,8 @@ export default function HRVQnA({ score }) {
               <div style={{
                 display: 'inline-block',
                 maxWidth: '80%',
-                background: msg.role === 'user' ? 'var(--accent)' : 'white',
-                color: msg.role === 'user' ? 'white' : 'var(--ink)',
+                background: msg.role === 'user' ? 'var(--d-accent)' : 'white',
+                color: msg.role === 'user' ? 'white' : 'var(--d-ink)',
                 padding: '10px 12px',
                 borderRadius: '8px',
                 fontSize: '13px',
@@ -79,11 +79,11 @@ export default function HRVQnA({ score }) {
           <div style={{
             display: 'inline-block',
             padding: '10px 12px',
-            background: 'white',
+            background: 'var(--d-card)',
             borderRadius: '8px',
             fontSize: '13px',
             border: '1px solid rgba(199, 154, 110, 0.2)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
           }}>
             Denken...
           </div>
@@ -117,7 +117,7 @@ export default function HRVQnA({ score }) {
           disabled={loading || !input.trim()}
           style={{
             padding: '10px 12px',
-            background: input.trim() && !loading ? 'var(--accent)' : 'rgba(199, 154, 110, 0.3)',
+            background: input.trim() && !loading ? 'var(--d-accent)' : 'rgba(199, 154, 110, 0.3)',
             color: 'white',
             border: 'none',
             borderRadius: '8px',
@@ -131,13 +131,13 @@ export default function HRVQnA({ score }) {
           }}
           onMouseEnter={(e) => {
             if (input.trim() && !loading) {
-              e.currentTarget.style.background = 'var(--accent)'
+              e.currentTarget.style.background = 'var(--d-accent)'
               e.currentTarget.style.opacity = '0.9'
             }
           }}
           onMouseLeave={(e) => {
             if (input.trim() && !loading) {
-              e.currentTarget.style.background = 'var(--accent)'
+              e.currentTarget.style.background = 'var(--d-accent)'
               e.currentTarget.style.opacity = '1'
             }
           }}

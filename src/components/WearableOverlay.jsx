@@ -17,8 +17,8 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
         opacity: 0.4,
       }}>
         <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
+          background: 'var(--d-card)',
+          border: '1px solid var(--d-border)',
           borderRadius: 'var(--radius-md)',
           padding: 'var(--space-lg)',
         }}>
@@ -27,7 +27,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
             fontFamily: 'var(--font-sans)',
             fontWeight: '600',
             margin: '0 0 var(--space-md) 0',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Fysiologische Signalen
@@ -35,7 +35,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
           <p style={{
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             margin: 0,
             lineHeight: 1.5,
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -59,8 +59,8 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
         opacity: 0.4,
       }}>
         <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
+          background: 'var(--d-card)',
+          border: '1px solid var(--d-border)',
           borderRadius: 'var(--radius-md)',
           padding: 'var(--space-lg)',
         }}>
@@ -69,7 +69,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
             fontFamily: 'var(--font-sans)',
             fontWeight: '600',
             margin: '0 0 var(--space-md) 0',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
           }}>
             Fysiologische Signalen
@@ -77,7 +77,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
           <p style={{
             fontSize: '13px',
             fontFamily: 'var(--font-sans)',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             margin: 0,
             lineHeight: 1.5,
             textShadow: '0 1px 3px rgba(0, 0, 0, 0.3)',
@@ -97,7 +97,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
     temperature: { label: 'Basale Temperatuur', key: 'temperature', unit: '°C', color: 'var(--error)' },
     hrv: { label: 'HRV', key: 'hrv', unit: 'ms', color: 'var(--success)' },
     restingHR: { label: 'Rust-hartslag', key: 'restingHR', unit: 'bpm', color: 'var(--info)' },
-    sleep: { label: 'Slaap', key: 'sleep', unit: 'uur', color: 'var(--accent)' },
+    sleep: { label: 'Slaap', key: 'sleep', unit: 'uur', color: 'var(--d-accent)' },
   }
 
   const config = signalConfig[selectedSignal]
@@ -131,16 +131,16 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
 
     return (
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card)',
+        border: '1px solid var(--d-border)',
         borderRadius: 'var(--radius-sm)',
         padding: '12px',
         fontSize: '13px',
         fontFamily: 'var(--font-sans)',
         boxShadow: 'var(--shadow-sm)',
       }}>
-        <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: 'var(--ink)' }}>Dag {data.day}</p>
-        <p style={{ margin: 0, color: 'var(--ink-2)' }}>
+        <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: 'var(--d-ink)' }}>Dag {data.day}</p>
+        <p style={{ margin: 0, color: 'var(--d-ink-2)' }}>
           {config.label}: {data[config.key] || '—'} {config.unit}
         </p>
         {data.isPeriodDay && <p style={{ margin: '4px 0 0 0', color: 'var(--error)' }}>🩸 Menstruatie</p>}
@@ -156,8 +156,8 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
       opacity: 0.4,
     }}>
       <div style={{
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
+        background: 'var(--d-card)',
+        border: '1px solid var(--d-border)',
         borderRadius: 'var(--radius-md)',
         padding: 'var(--space-lg)',
       }}>
@@ -175,9 +175,9 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
               onClick={() => setSelectedSignal(key)}
               style={{
                 padding: '8px 16px',
-                background: selectedSignal === key ? 'var(--accent)' : 'var(--bg)',
-                color: selectedSignal === key ? 'var(--surface)' : 'var(--ink)',
-                border: '1px solid var(--border)',
+                background: selectedSignal === key ? 'var(--d-accent)' : 'var(--d-page)',
+                color: selectedSignal === key ? 'var(--d-card)' : 'var(--d-ink)',
+                border: '1px solid var(--d-border)',
                 borderRadius: 'var(--radius-pill)',
                 fontSize: '13px',
                 fontFamily: 'var(--font-sans)',
@@ -195,7 +195,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
         {/* Chart */}
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={aggregated} margin={{ top: 20, right: 30, left: 0, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
+            <CartesianGrid strokeDasharray="3 3" stroke="var(--d-border)" />
             <XAxis
               dataKey="day"
               label={{ value: 'Cyclus-dag', position: 'insideBottomRight', offset: -10 }}
@@ -224,7 +224,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
         <p style={{
           fontSize: '13px',
           fontFamily: 'var(--font-sans)',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           marginTop: 'var(--space-md)',
           marginBottom: 0,
           lineHeight: 1.6,

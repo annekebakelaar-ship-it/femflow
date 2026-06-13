@@ -47,7 +47,7 @@ export default function FeedbackWidget() {
             width: '56px',
             height: '56px',
             borderRadius: '50%',
-            background: 'var(--accent)',
+            background: 'var(--d-accent)',
             border: 'none',
             cursor: 'pointer',
             display: 'flex',
@@ -86,8 +86,10 @@ export default function FeedbackWidget() {
           <div style={{
             width: '100%',
             maxWidth: '500px',
-            background: 'white',
-            borderRadius: '16px 16px 0 0',
+            background: 'rgba(36, 19, 7, 0.97)',
+            backdropFilter: 'blur(24px)',
+            WebkitBackdropFilter: 'blur(24px)',
+            borderRadius: '22px 22px 0 0',
             padding: '24px',
             boxSizing: 'border-box',
             boxShadow: '0 -12px 32px rgba(42, 33, 28, 0.2)',
@@ -115,7 +117,7 @@ export default function FeedbackWidget() {
                 fontFamily: 'var(--font-display)',
                 fontSize: '20px',
                 fontWeight: '600',
-                color: 'var(--ink)',
+                color: 'var(--d-ink)',
                 margin: 0,
               }}>
                 Geef feedback
@@ -126,7 +128,7 @@ export default function FeedbackWidget() {
                   background: 'none',
                   border: 'none',
                   cursor: 'pointer',
-                  color: 'var(--ink-2)',
+                  color: 'var(--d-ink-2)',
                   padding: 0,
                 }}
               >
@@ -136,9 +138,9 @@ export default function FeedbackWidget() {
 
             {submitted ? (
               <div style={{
-                background: '#E8F5E9',
+                background: 'rgba(79, 140, 90, 0.18)',
                 border: '1px solid var(--success)',
-                borderRadius: '8px',
+                borderRadius: '12px',
                 padding: '16px',
                 textAlign: 'center',
                 color: 'var(--success)',
@@ -152,9 +154,9 @@ export default function FeedbackWidget() {
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 {error && (
                   <div style={{
-                    background: '#FCE4EC',
+                    background: 'rgba(192, 73, 45, 0.18)',
                     border: '1px solid var(--error)',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     padding: '10px 12px',
                     color: 'var(--error)',
                     fontFamily: 'var(--font-sans)',
@@ -166,7 +168,7 @@ export default function FeedbackWidget() {
                 <p style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '13px',
-                  color: 'var(--ink-2)',
+                  color: 'var(--d-ink-2)',
                   margin: '0 0 8px 0',
                 }}>
                   Help ons FemFlow beter te maken. Wat vind je goed? Wat kan beter?
@@ -182,8 +184,8 @@ export default function FeedbackWidget() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    borderRadius: '8px',
-                    border: '1px solid var(--border)',
+                    borderRadius: '12px',
+                    border: 'none', background: 'var(--d-card)', color: 'var(--d-ink)', colorScheme: 'dark',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '13px',
                     minHeight: '100px',
@@ -201,8 +203,8 @@ export default function FeedbackWidget() {
                   style={{
                     width: '100%',
                     padding: '10px 12px',
-                    borderRadius: '8px',
-                    border: '1px solid var(--border)',
+                    borderRadius: '12px',
+                    border: 'none', background: 'var(--d-card)', color: 'var(--d-ink)', colorScheme: 'dark',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '13px',
                     boxSizing: 'border-box',
@@ -216,10 +218,10 @@ export default function FeedbackWidget() {
                   style={{
                     width: '100%',
                     padding: '12px',
-                    background: feedback.trim().length >= 10 ? 'var(--accent)' : '#E0E0E0',
-                    color: 'white',
+                    background: feedback.trim().length >= 10 ? 'var(--d-accent)' : 'var(--d-border)',
+                    color: '#1B0F07',
                     border: 'none',
-                    borderRadius: '8px',
+                    borderRadius: '12px',
                     cursor: feedback.trim().length >= 10 ? 'pointer' : 'not-allowed',
                     fontFamily: 'var(--font-sans)',
                     fontSize: '14px',
@@ -243,12 +245,12 @@ export default function FeedbackWidget() {
                 <p style={{
                   fontFamily: 'var(--font-sans)',
                   fontSize: '11px',
-                  color: 'var(--ink-3)',
+                  color: 'var(--d-ink-3)',
                   margin: 0,
                   textAlign: 'center',
                 }}>
                   Je feedback helpt ons direct {' '}
-                  <a href="mailto:info@youcaps.app" style={{ color: 'var(--accent)', textDecoration: 'none' }}>
+                  <a href="mailto:info@youcaps.app" style={{ color: 'var(--d-accent)', textDecoration: 'none' }}>
                     info@youcaps.app
                   </a>
                 </p>

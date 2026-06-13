@@ -24,8 +24,8 @@ export default function ConsentModal({ onAccept, onReject }) {
       <div style={{
         width: '100%',
         maxHeight: '90vh',
-        background: 'white',
-        borderRadius: '16px 16px 0 0',
+        background: 'rgba(36, 19, 7, 0.97)', backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+        borderRadius: '22px 22px 0 0',
         padding: '24px',
         boxSizing: 'border-box',
         overflow: 'auto',
@@ -43,7 +43,7 @@ export default function ConsentModal({ onAccept, onReject }) {
           fontFamily: 'var(--font-display)',
           fontSize: '22px',
           fontWeight: '600',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           margin: '0 0 16px 0',
         }}>
           Jouw privacy en gegevens
@@ -52,7 +52,7 @@ export default function ConsentModal({ onAccept, onReject }) {
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '14px',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           margin: '0 0 20px 0',
           lineHeight: '1.6',
         }}>
@@ -70,7 +70,7 @@ export default function ConsentModal({ onAccept, onReject }) {
           <p style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             margin: '0 0 8px 0',
             fontWeight: '500',
           }}>
@@ -80,7 +80,7 @@ export default function ConsentModal({ onAccept, onReject }) {
             margin: '0',
             paddingLeft: '20px',
             fontSize: '13px',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
           }}>
             <li>Menstruatiecyclus gegevens (startdatum, cyclusduur, symptomen)</li>
             <li>Je voornaam en geboortedatum</li>
@@ -94,7 +94,7 @@ export default function ConsentModal({ onAccept, onReject }) {
           style={{
             background: 'none',
             border: 'none',
-            color: 'var(--accent)',
+            color: 'var(--d-accent)',
             cursor: 'pointer',
             fontSize: '13px',
             fontWeight: '500',
@@ -108,12 +108,12 @@ export default function ConsentModal({ onAccept, onReject }) {
 
         {expanded && (
           <div style={{
-            background: '#F5EFEB',
-            borderRadius: '8px',
+            background: 'var(--d-card-solid)',
+            borderRadius: '12px',
             padding: '16px',
             marginBottom: '20px',
             fontSize: '12px',
-            color: 'var(--ink-2)',
+            color: 'var(--d-ink-2)',
             lineHeight: '1.6',
           }}>
             <strong>Rechtsbasis:</strong> Expliciete toestemming (artikel 6.1.a AVG)
@@ -130,7 +130,7 @@ export default function ConsentModal({ onAccept, onReject }) {
               <li>Toestemming op elk moment intrekken</li>
             </ul>
             <br />
-            Lees het volledige <a href="/privacy" style={{ color: 'var(--accent)', textDecoration: 'underline' }}>privacybeleid</a> voor meer info.
+            Lees het volledige <a href="/privacy" style={{ color: 'var(--d-accent)', textDecoration: 'underline' }}>privacybeleid</a> voor meer info.
           </div>
         )}
 
@@ -149,7 +149,7 @@ export default function ConsentModal({ onAccept, onReject }) {
             style={{
               marginTop: '4px',
               cursor: 'pointer',
-              accentColor: 'var(--accent)',
+              accentColor: 'var(--d-accent)',
               width: '20px',
               height: '20px',
             }}
@@ -157,7 +157,7 @@ export default function ConsentModal({ onAccept, onReject }) {
           <span style={{
             fontFamily: 'var(--font-sans)',
             fontSize: '13px',
-            color: 'var(--ink)',
+            color: 'var(--d-ink)',
             lineHeight: '1.5',
           }}>
             Ik ga akkoord met het verwerken van mijn gezondheidsgegevens en heb het privacybeleid gelezen
@@ -175,16 +175,16 @@ export default function ConsentModal({ onAccept, onReject }) {
               flex: 1,
               padding: '12px 16px',
               background: 'transparent',
-              border: '1px solid #E0E0E0',
-              borderRadius: '8px',
+              border: '1px solid var(--d-border)',
+              borderRadius: '12px',
               cursor: 'pointer',
               fontFamily: 'var(--font-sans)',
               fontSize: '14px',
               fontWeight: '500',
-              color: 'var(--ink-2)',
+              color: 'var(--d-ink-2)',
               transition: 'all 150ms ease',
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = '#F5EFEB'}
+            onMouseEnter={(e) => e.currentTarget.style.background = 'var(--d-card)'}
             onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
           >
             Afslaan
@@ -195,14 +195,14 @@ export default function ConsentModal({ onAccept, onReject }) {
             style={{
               flex: 1,
               padding: '12px 16px',
-              background: agreed ? 'var(--accent)' : '#E0E0E0',
+              background: agreed ? 'var(--d-accent)' : 'var(--d-border)',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '12px',
               cursor: agreed ? 'pointer' : 'not-allowed',
               fontFamily: 'var(--font-sans)',
               fontSize: '14px',
               fontWeight: '600',
-              color: 'white',
+              color: '#1B0F07',
               transition: 'all 150ms ease',
             }}
             onMouseEnter={(e) => {
@@ -219,12 +219,12 @@ export default function ConsentModal({ onAccept, onReject }) {
         <p style={{
           fontFamily: 'var(--font-sans)',
           fontSize: '11px',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           margin: '16px 0 0 0',
           textAlign: 'center',
           lineHeight: '1.6',
         }}>
-          Vragen? Neem contact op: <a href="mailto:privacy@youcaps.app" style={{ color: 'var(--accent)', textDecoration: 'none' }}>privacy@youcaps.app</a>
+          Vragen? Neem contact op: <a href="mailto:privacy@youcaps.app" style={{ color: 'var(--d-accent)', textDecoration: 'none' }}>privacy@youcaps.app</a>
         </p>
       </div>
     </div>

@@ -29,12 +29,15 @@ export default function WearableConsentModal({ onConsent }) {
       padding: 'var(--space-lg)',
     }}>
       <div style={{
-        background: 'white',
-        borderRadius: '12px',
+        background: 'rgba(36, 19, 7, 0.97)',
+        backdropFilter: 'blur(24px)',
+        WebkitBackdropFilter: 'blur(24px)',
+        border: 'none',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        borderRadius: '22px',
         padding: 'var(--space-xl)',
         maxWidth: '500px',
         width: '100%',
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.15)',
         animation: 'fade-slide-up 240ms ease both',
       }}>
         <h2 style={{
@@ -42,7 +45,7 @@ export default function WearableConsentModal({ onConsent }) {
           fontSize: '24px',
           fontWeight: '500',
           marginBottom: 'var(--space-lg)',
-          color: 'var(--ink)',
+          color: 'var(--d-ink)',
           lineHeight: 1.3,
         }}>
           Wearable Data
@@ -50,7 +53,7 @@ export default function WearableConsentModal({ onConsent }) {
 
         <p style={{
           fontSize: '15px',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           lineHeight: 1.6,
           marginBottom: 'var(--space-md)',
           fontFamily: 'var(--font-sans)',
@@ -61,10 +64,10 @@ export default function WearableConsentModal({ onConsent }) {
         <div style={{
           background: 'rgba(199, 154, 110, 0.08)',
           padding: 'var(--space-md)',
-          borderRadius: '8px',
+          borderRadius: '12px',
           marginBottom: 'var(--space-xl)',
           fontSize: '13px',
-          color: 'var(--ink-2)',
+          color: 'var(--d-ink-2)',
           lineHeight: 1.6,
         }}>
           <strong>Je data:</strong>
@@ -86,10 +89,10 @@ export default function WearableConsentModal({ onConsent }) {
             disabled={loading}
             style={{
               padding: '14px 24px',
-              background: 'var(--ink)',
-              color: 'white',
+              background: 'var(--d-accent)',
+              color: '#1B0F07',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '12px',
               fontSize: '15px',
               fontWeight: '600',
               cursor: loading ? 'not-allowed' : 'pointer',
@@ -108,9 +111,9 @@ export default function WearableConsentModal({ onConsent }) {
             style={{
               padding: '14px 24px',
               background: 'rgba(199, 154, 110, 0.1)',
-              color: 'var(--ink)',
+              color: 'var(--d-ink)',
               border: '2px solid rgba(199, 154, 110, 0.3)',
-              borderRadius: '8px',
+              borderRadius: '12px',
               fontSize: '15px',
               fontWeight: '500',
               cursor: loading ? 'not-allowed' : 'pointer',
@@ -126,7 +129,7 @@ export default function WearableConsentModal({ onConsent }) {
 
         <p style={{
           fontSize: '12px',
-          color: 'var(--ink-3)',
+          color: 'var(--d-ink-3)',
           marginTop: 'var(--space-lg)',
           textAlign: 'center',
           fontFamily: 'var(--font-sans)',

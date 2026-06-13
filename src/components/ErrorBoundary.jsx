@@ -25,16 +25,16 @@ class ErrorBoundary extends React.Component {
           justifyContent: 'center',
           minHeight: '100vh',
           padding: '20px',
-          background: 'var(--bg)',
+          background: 'var(--d-page)',
           fontFamily: 'var(--font-sans)',
         }}>
           <h1 style={{ color: '#C62828', marginBottom: '16px' }}>⚠️ Er ging iets fout</h1>
-          <p style={{ color: 'var(--ink-2)', marginBottom: '24px', textAlign: 'center', maxWidth: '400px' }}>
+          <p style={{ color: 'var(--d-ink-2)', marginBottom: '24px', textAlign: 'center', maxWidth: '400px' }}>
             We hebben een fout gevonden. Dit is niet jouw schuld! Probeer de pagina opnieuw te laden.
           </p>
           {import.meta.env.DEV && (
             <details style={{
-              background: '#F5EFEB',
+              background: 'var(--d-card-solid)',
               padding: '12px',
               borderRadius: '8px',
               marginBottom: '24px',
@@ -52,10 +52,10 @@ class ErrorBoundary extends React.Component {
             onClick={() => window.location.href = '/'}
             style={{
               padding: '12px 24px',
-              background: 'var(--accent)',
-              color: 'white',
+              background: 'var(--d-accent)',
+              color: '#1B0F07',
               border: 'none',
-              borderRadius: '8px',
+              borderRadius: '999px',
               cursor: 'pointer',
               fontWeight: '600',
               fontSize: '14px',

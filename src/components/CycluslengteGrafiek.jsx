@@ -190,8 +190,8 @@ export default function CycluslengteGrafiek({ menstrualData }) {
         {/* Info section */}
         {showInfo && (
           <div style={{
-            background: 'var(--bg)',
-            border: '1px solid var(--border)',
+            background: 'var(--d-card-solid)',
+            border: 'none',
             borderRadius: 'var(--radius-sm)',
             padding: 'var(--space-md)',
             marginTop: 'var(--space-md)',

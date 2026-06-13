@@ -38,14 +38,17 @@ export default function Unsubscribe() {
       alignItems: 'center',
       justifyContent: 'center',
       padding: 'var(--space-lg)',
-      background: '#F5EFEB',
+      background: 'var(--d-page)',
     }}>
       <div style={{
         maxWidth: '500px',
         textAlign: 'center',
-        background: 'white',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
         padding: 'var(--space-xl)',
-        borderRadius: '12px',
+        borderRadius: '22px',
         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
       }}>
         {status === 'loading' && (

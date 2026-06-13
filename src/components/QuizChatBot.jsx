@@ -115,10 +115,13 @@ export default function QuizChatBot({ activeSignals = [] }) {
   return (
     <div
       style={{
-        background: 'white',
-        borderRadius: '16px',
+        background: 'var(--d-card)',
+        backdropFilter: 'blur(20px)',
+        WebkitBackdropFilter: 'blur(20px)',
+        border: 'none',
+        borderRadius: '22px',
         overflow: 'hidden',
-        boxShadow: '0 2px 8px rgba(0,0,0,0.06)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
         display: 'flex',
         flexDirection: 'column',
         height: '500px',
@@ -127,7 +130,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
       {/* Header */}
       <div
         style={{
-          background: 'linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%)',
+          background: 'linear-gradient(135deg, rgba(199, 154, 110, 0.35) 0%, rgba(199, 154, 110, 0.12) 100%)',
           padding: 'var(--space-lg)',
           color: 'white',
           display: 'flex',
@@ -169,8 +172,8 @@ export default function QuizChatBot({ activeSignals = [] }) {
                 maxWidth: '80%',
                 padding: 'var(--space-sm) var(--space-md)',
                 borderRadius: '12px',
-                background: msg.type === 'user' ? '#4F46E5' : '#F5F5F5',
-                color: msg.type === 'user' ? 'white' : 'var(--ink)',
+                background: msg.type === 'user' ? 'var(--d-accent)' : 'var(--d-card-solid)',
+                color: msg.type === 'user' ? '#1B0F07' : 'var(--d-ink)',
                 fontSize: 'var(--font-size-small)',
                 lineHeight: '1.5',
               }}
@@ -187,7 +190,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                background: '#999',
+                background: 'var(--d-ink-3)',
                 animation: 'bounce 1.4s infinite',
               }}
             />
@@ -196,7 +199,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                background: '#999',
+                background: 'var(--d-ink-3)',
                 animation: 'bounce 1.4s infinite 0.2s',
               }}
             />
@@ -205,7 +208,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
                 width: '8px',
                 height: '8px',
                 borderRadius: '50%',
-                background: '#999',
+                background: 'var(--d-ink-3)',
                 animation: 'bounce 1.4s infinite 0.4s',
               }}
             />
@@ -219,7 +222,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
       <div
         style={{
           padding: 'var(--space-md)',
-          borderTop: '1px solid #E0E0E0',
+          borderTop: '1px solid var(--d-border)',
           display: 'flex',
           gap: 'var(--space-sm)',
         }}
@@ -238,7 +241,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
           style={{
             flex: 1,
             padding: 'var(--space-sm)',
-            border: '1px solid var(--border)',
+            border: 'none', background: 'var(--d-card-solid)', color: 'var(--d-ink)',
             borderRadius: '8px',
             fontSize: 'var(--font-size-small)',
             fontFamily: 'inherit',
@@ -250,8 +253,8 @@ export default function QuizChatBot({ activeSignals = [] }) {
           disabled={isLoading || !input.trim()}
           style={{
             padding: 'var(--space-sm) var(--space-md)',
-            background: '#4F46E5',
-            color: 'white',
+            background: 'var(--d-accent)',
+            color: '#1B0F07',
             border: 'none',
             borderRadius: '8px',
             cursor: isLoading || !input.trim() ? 'not-allowed' : 'pointer',
