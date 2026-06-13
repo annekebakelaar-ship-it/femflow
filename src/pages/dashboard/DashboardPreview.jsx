@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   Home, BarChart2, BookOpen, Menu, Bell, ChevronRight, Droplet,
-  Moon, Heart, Wind, Zap, TrendingUp, User, Settings, LogOut, ChevronDown,
+  Moon, Heart, Thermometer, Zap, TrendingUp, User, Settings, LogOut, ChevronDown,
 } from 'react-feather'
 import {
   AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip,
@@ -19,6 +19,29 @@ const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 // Klinische fase -> poëtische naam (zelfde mapping als de CycleBloom)
 const POETIC = { Menstruatie: 'Herstel', Folliculair: 'Opbouw', Ovulatie: 'Verbind', Luteaal: 'Verhelder' }
+
+// Alle gelogde menstruatiestarts (startDate + bleeding-entries), oplopend
+function alleStarts(md) {
+  if (!md?.startDate) return []
+  return [
+    new Date(md.startDate),
+    ...(md.entries || []).filter(e => e.bleeding && e.date).map(e => new Date(e.date)),
+  ].sort((a, b) => a - b)
+}
+
+// Vorige cycluslengte = dagen tussen de laatste twee gelogde starts
+function vorigeCycluslengte(md) {
+  const s = alleStarts(md)
+  if (s.length < 2) return null
+  return Math.round((s[s.length - 1] - s[s.length - 2]) / (1000 * 60 * 60 * 24))
+}
+
+// Dagen sinds de laatste symptoomlog (null = nog nooit gelogd)
+function dagenSindsLog(log) {
+  if (!log?.length) return null
+  const laatste = Math.max(...log.map(e => new Date(e.date).getTime()))
+  return Math.floor((Date.now() - laatste) / (1000 * 60 * 60 * 24))
+}
 
 function berekenFase(menstrualData) {
   if (!menstrualData?.startDate) return null
@@ -197,12 +220,15 @@ export default function DashboardPreview() {
   const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState(0)
   const [avatarOpen, setAvatarOpen] = useState(false)
+  const [bellOpen, setBellOpen] = useState(false)
   const [menstrualData, setMenstrualData] = useState(null)
+  const [symptomLog, setSymptomLog] = useState([])
   const [readings, setReadings] = useState([])
 
   useEffect(() => {
     setMenstrualData(getSecure('menstruation_data'))
-    getWearableReadings(7)
+    setSymptomLog(getSecure('symptom_log') || [])
+    getWearableReadings(30)
       .then(r => setReadings(r.data || []))
       .catch(() => {})
   }, [])
@@ -221,22 +247,42 @@ export default function DashboardPreview() {
 
   const rhr = laatste.resting_heart_rate
   const slaapU = laatste.sleep_duration_min != null ? (laatste.sleep_duration_min / 60).toFixed(1) : null
+  const temp = laatste.temperature != null ? Number(laatste.temperature).toFixed(1) : null
   const readiness = laatste.readiness
   const energie = readiness == null ? '—' : readiness >= 70 ? 'Hoog' : readiness >= 40 ? 'Goed' : 'Laag'
 
   const stats = [
     { icon: Heart, label: 'Hartslag', value: rhr ?? '—', unit: rhr ? 'bpm' : '' },
     { icon: Moon, label: 'Slaap', value: slaapU ?? '—', unit: slaapU ? 'uur' : '' },
-    { icon: Wind, label: 'Adem', value: '—', unit: '' },
+    { icon: Thermometer, label: 'Temp.', value: temp ?? '—', unit: temp ? '°C' : '' },
     { icon: Zap, label: 'Energie', value: energie, unit: '' },
   ]
 
-  // Illustratieve cyclus-curve (geen dagelijkse hormoonwaarden opgeslagen);
-  // de fase-stip eronder volgt wel je echte huidige fase.
-  const cycleData = [
+  // Echte cyclus-curve uit je HRV-verloop (laatste ~30 dagen); de fase-stip
+  // eronder volgt je huidige fase. Geen data -> zachte illustratieve curve.
+  const hrvReeks = readings.filter(r => r.hrv_ms != null).map((r, i) => ({ day: i, v: Math.round(r.hrv_ms) }))
+  const cycleData = hrvReeks.length >= 3 ? hrvReeks : [
     { day: 1, v: 42 }, { day: 5, v: 35 }, { day: 10, v: 55 },
     { day: 14, v: 72 }, { day: 18, v: 60 }, { day: 24, v: 50 }, { day: 28, v: 44 },
   ]
+
+  // Persoonlijk: voorletter + vorige cycluslengte
+  const initiaal = (menstrualData?.name || '').trim().charAt(0).toUpperCase() || '•'
+  const vorigeLengte = vorigeCycluslengte(menstrualData)
+  const vorigeDesc = vorigeLengte
+    ? `Je vorige cyclus was ${vorigeLengte} dagen. Vergelijk nu.`
+    : 'Bekijk je cyclus-analyse en vergelijk.'
+
+  // Meldingen voor de bel — afgeleid uit echte data, geen backend nodig
+  const meldingen = []
+  if (faseInfo) {
+    const over = faseInfo.cycleLength - faseInfo.dag + 1
+    meldingen.push({ icon: Droplet, tekst: over <= 0 ? 'Je menstruatie wordt nu verwacht' : `Volgende menstruatie over ${over} dag${over === 1 ? '' : 'en'}` })
+  }
+  const dSinds = dagenSindsLog(symptomLog)
+  if (dSinds == null) meldingen.push({ icon: BookOpen, tekst: 'Nog geen symptomen gelogd' })
+  else if (dSinds >= 2) meldingen.push({ icon: BookOpen, tekst: `${dSinds} dagen niet gelogd` })
+  if (hrv != null) meldingen.push({ icon: Heart, tekst: `Je HRV vandaag: ${hrv} ms` })
 
   function logout() { clearToken(); navigate('/') }
 
@@ -261,13 +307,28 @@ export default function DashboardPreview() {
             <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>FemFlow</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <button style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
-              <Bell size={14} color="#a08070" />
-              <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#c4896a' }} />
-            </button>
             <div style={{ position: 'relative' }}>
-              <button onClick={() => setAvatarOpen(!avatarOpen)} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
-                <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #c4896a, #6b3a25)', color: '#f5ede8' }}>S</div>
+              <button onClick={() => { setBellOpen(!bellOpen); setAvatarOpen(false) }} style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
+                <Bell size={14} color="#a08070" />
+                {meldingen.length > 0 && <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#c4896a' }} />}
+              </button>
+              {bellOpen && (
+                <div style={{ position: 'absolute', right: 0, top: 40, borderRadius: 16, padding: '8px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2a1610', width: 240 }}>
+                  <p style={{ fontSize: 11, letterSpacing: '0.1em', color: '#a08070', margin: '4px 16px 8px', fontFamily: sans }}>MELDINGEN</p>
+                  {meldingen.length === 0 ? (
+                    <p style={{ fontSize: 13, color: '#a08070', margin: '0 16px 6px', fontFamily: sans }}>Niets nieuws.</p>
+                  ) : meldingen.map(({ icon: Icon, tekst }, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px' }}>
+                      <Icon size={14} color="#c4896a" />
+                      <span style={{ fontSize: 13, color: '#f5ede8', fontFamily: sans }}>{tekst}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            <div style={{ position: 'relative' }}>
+              <button onClick={() => { setAvatarOpen(!avatarOpen); setBellOpen(false) }} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
+                <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #c4896a, #6b3a25)', color: '#f5ede8' }}>{initiaal}</div>
                 <ChevronDown size={10} color="#a08070" />
               </button>
               {avatarOpen && (
@@ -314,7 +375,7 @@ export default function DashboardPreview() {
               <div className="fp-noscroll" style={{ display: 'flex', gap: 12, padding: '0 16px', overflowX: 'auto' }}>
                 <InsightCard icon={Droplet} title="Hydratatie" desc="Drink meer water tijdens je menstruatie." badge="Tip" onClick={() => navigate('/dashboard/learning')} />
                 <InsightCard icon={BookOpen} title="Dagboek" desc="3 dagen niet gelogd. Voeg symptomen toe." badge="Reminder" onClick={() => navigate('/health/symptoms')} />
-                <InsightCard icon={TrendingUp} title="Vorige cyclus" desc="Bekijk je cyclus-analyse en vergelijk." badge="Inzicht" onClick={() => navigate('/health/cycle-analytics')} />
+                <InsightCard icon={TrendingUp} title="Vorige cyclus" desc={vorigeDesc} badge="Inzicht" onClick={() => navigate('/health/cycle-analytics')} />
               </div>
             </div>
           </div>
