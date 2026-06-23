@@ -30,7 +30,6 @@ export default function LearningHub() {
   const featured = FEATURED
   const recommended = RECOMMENDED
   const articles = selectedCategory ? (BY_CATEGORY[selectedCategory] || []) : []
-  const loading = false
 
   if (leesArtikel) {
     return <ArtikelLezer artikel={leesArtikel} onTerug={() => setLeesArtikel(null)} />

@@ -239,10 +239,13 @@ export default function DashboardPreview() {
   const laatste = [...readings].reverse().find(r => r.hrv_ms != null) || readings[readings.length - 1] || {}
   const hrv = laatste.hrv_ms != null ? Math.round(laatste.hrv_ms) : null
 
-  const weeklyHRV = readings.slice(-7).map(r => ({
-    dag: DAGEN[new Date(r.date || r.reading_date || Date.now()).getDay()] || '',
-    hrv: r.hrv_ms != null ? Math.round(r.hrv_ms) : null,
-  }))
+  const weeklyHRV = readings.slice(-7).map(r => {
+    const raw = r.date || r.reading_date
+    return {
+      dag: raw ? (DAGEN[new Date(raw).getDay()] || '') : '',
+      hrv: r.hrv_ms != null ? Math.round(r.hrv_ms) : null,
+    }
+  })
   const weeklyData = weeklyHRV.length ? weeklyHRV : [{ dag: '', hrv: null }]
 
   const rhr = laatste.resting_heart_rate

@@ -83,7 +83,6 @@ export default function CycluslengteGrafiek({ menstrualData }) {
         padding: '12px',
         fontSize: '13px',
         fontFamily: 'var(--font-sans)',
-        boxShadow: 'var(--shadow-sm)',
       }}>
         <p style={{ margin: '0 0 4px 0', fontWeight: 'bold', color: 'var(--d-ink)' }}>Cyclus {data.index + 1}</p>
         <p style={{ margin: '0 0 4px 0', color: 'var(--d-ink)' }}>{data.length} dagen</p>
