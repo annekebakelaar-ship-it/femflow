@@ -5,7 +5,8 @@ import { getWearableReadings } from '../api/client'
 import { berekenTrend } from '../utils/trendHelper'
 import { bouwSupplementSuggesties } from '../utils/supplementAdvies'
 
-const YOUCAPS_URL = 'https://youcaps.app'
+// UTM zodat YouCaps-GA4 dit FemFlow-verkeer netjes kan toeschrijven (cross-domain).
+const YOUCAPS_URL = 'https://youcaps.app/?utm_source=femflow&utm_medium=referral&utm_campaign=supplement_suggestie'
 
 // FemFlow -> YouCaps funnel (fase 1). Verschijnt alleen wanneer eigen data
 // een suggestie onderbouwt; observaties worden client-side berekend en

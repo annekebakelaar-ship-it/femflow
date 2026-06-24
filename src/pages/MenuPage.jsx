@@ -133,7 +133,7 @@ export default function MenuPage() {
                 Instellingen
               </button>
               <button
-                onClick={() => { window.location.href = 'https://youcaps.app' }}
+                onClick={() => { window.location.href = 'https://youcaps.app/?utm_source=femflow&utm_medium=referral&utm_campaign=menu' }}
                 style={{
                   flex: 1,
                   padding: '10px 12px',
