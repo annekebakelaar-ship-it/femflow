@@ -15,6 +15,8 @@ export default function SigninPage() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const [emailFromWelcome, setEmailFromWelcome] = useState(false)
+  const [resendCooldown, setResendCooldown] = useState(0)
+  const [resendMsg, setResendMsg] = useState('')
 
   useEffect(() => {
     if (welcomeEmail) {
@@ -23,6 +25,26 @@ export default function SigninPage() {
       localStorage.setItem('welcome_email', welcomeEmail)
     }
   }, [welcomeEmail])
+
+  // Net een code verstuurd? Start een korte cooldown op "opnieuw versturen".
+  useEffect(() => { if (step === 'verify') setResendCooldown(30) }, [step])
+  useEffect(() => {
+    if (resendCooldown <= 0) return
+    const t = setTimeout(() => setResendCooldown(c => c - 1), 1000)
+    return () => clearTimeout(t)
+  }, [resendCooldown])
+
+  async function handleResend() {
+    if (resendCooldown > 0 || loading) return
+    setError(''); setResendMsg('')
+    try {
+      await requestMagicLink(email)
+      setResendMsg('Nieuwe code verstuurd — check ook je spam.')
+      setResendCooldown(30)
+    } catch (err) {
+      setError(err.message || 'Kon geen nieuwe code versturen. Probeer later opnieuw.')
+    }
+  }
 
   async function handleRequestLink(e) {
     e.preventDefault()
@@ -291,7 +313,8 @@ export default function SigninPage() {
               marginBottom: 'var(--space-xl)',
               textAlign: 'center',
             }}>
-              Controleer je email voor je 6-cijferige code.
+              We hebben een 6-cijferige code gestuurd naar{' '}
+              <strong style={{ color: 'var(--d-ink)' }}>{email}</strong>. Check ook je spam-map.
             </p>
 
             {error && (
@@ -322,8 +345,12 @@ export default function SigninPage() {
                 </label>
                 <input
                   type="text"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  pattern="[0-9]*"
+                  autoFocus
                   value={token}
-                  onChange={e => setToken(e.target.value.slice(0, 6))}
+                  onChange={e => setToken(e.target.value.replace(/\D/g, '').slice(0, 6))}
                   maxLength="6"
                   style={{
                     width: '100%',
@@ -360,26 +387,43 @@ export default function SigninPage() {
               </button>
             </form>
 
+            {resendMsg && (
+              <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', color: 'var(--d-accent)', textAlign: 'center', marginTop: 'var(--space-lg)' }}>
+                {resendMsg}
+              </p>
+            )}
+
             <p style={{
               fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
               color: 'var(--d-ink-2)',
               textAlign: 'center',
-              marginTop: 'var(--space-xl)',
+              marginTop: resendMsg ? 'var(--space-sm)' : 'var(--space-xl)',
             }}>
+              Geen code ontvangen?{' '}
               <button
-                onClick={() => { setStep('email'); setError(''); setToken(''); }}
+                onClick={handleResend}
+                disabled={resendCooldown > 0}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  color: 'var(--d-accent)',
-                  cursor: 'pointer',
-                  textDecoration: 'underline',
-                  textUnderlineOffset: 3,
-                  fontSize: 'inherit',
-                  fontWeight: 'inherit',
+                  background: 'none', border: 'none',
+                  color: resendCooldown > 0 ? 'var(--d-ink-3)' : 'var(--d-accent)',
+                  cursor: resendCooldown > 0 ? 'default' : 'pointer',
+                  textDecoration: 'underline', textUnderlineOffset: 3,
+                  fontSize: 'inherit', fontWeight: 'inherit',
                 }}
               >
-                Terug
+                {resendCooldown > 0 ? `Opnieuw versturen (${resendCooldown}s)` : 'Opnieuw versturen'}
+              </button>
+            </p>
+
+            <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', color: 'var(--d-ink-2)', textAlign: 'center', marginTop: 'var(--space-sm)' }}>
+              <button
+                onClick={() => { setStep('email'); setError(''); setToken(''); setResendMsg('') }}
+                style={{
+                  background: 'none', border: 'none', color: 'var(--d-accent)', cursor: 'pointer',
+                  textDecoration: 'underline', textUnderlineOffset: 3, fontSize: 'inherit', fontWeight: 'inherit',
+                }}
+              >
+                Ander e-mailadres
               </button>
             </p>
           </>
