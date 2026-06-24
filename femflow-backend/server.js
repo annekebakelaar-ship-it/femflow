@@ -160,9 +160,17 @@ app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
     // Send email via SendGrid
     await sgMail.send({
       to: email,
-      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app',
-      subject: 'FemFlow Login Code',
-      html: `<h2>Your FemFlow Login Code</h2><p style="font-size: 24px; font-weight: bold;">${code}</p><p>Valid for 10 minutes</p>`,
+      from: { email: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app', name: 'FemFlow' },
+      subject: 'Je FemFlow inlogcode',
+      // Plain-text alternatief naast HTML = multipart, lagere spam-score.
+      text: `Je FemFlow inlogcode is ${code}\n\nDe code is 10 minuten geldig.\n\nHeb je dit niet aangevraagd? Dan kun je deze e-mail negeren.`,
+      html: `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:420px;margin:0 auto;padding:24px;color:#2A211C">
+        <p style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#A89E95;margin:0 0 8px">FemFlow</p>
+        <h2 style="font-size:18px;font-weight:600;margin:0 0 14px">Je inlogcode</h2>
+        <p style="font-size:34px;font-weight:700;letter-spacing:6px;margin:8px 0;color:#2A211C">${code}</p>
+        <p style="font-size:14px;color:#6E635B;margin:10px 0 0">De code is 10 minuten geldig.</p>
+        <p style="font-size:12px;color:#A89E95;margin:18px 0 0;line-height:1.5">Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren.</p>
+      </div>`,
     })
 
     res.json({ success: true, message: 'Code sent to email' })
@@ -271,7 +279,7 @@ app.post('/api/v1/welcome/signup', publicWriteLimiter, async (req, res) => {
     const unsubscribeLink = `${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}`
     await sgMail.send({
       to: email,
-      from: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app',
+      from: { email: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app', name: 'FemFlow' },
       subject: 'Welkom bij FemFlow 🌿',
       html: `
         <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6;">
