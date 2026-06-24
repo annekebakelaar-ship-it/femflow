@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { BarChart2, Target, TrendingUp, AlertCircle, Zap } from 'react-feather'
+import { BarChart2, Target, TrendingUp, AlertCircle, Zap, ArrowRight } from 'react-feather'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import { getMockCycleLengths } from '../../utils/cycleHelper'
@@ -310,6 +310,52 @@ export default function PerimenopauzeTracker() {
           </div>
         </div>
       </div>
+
+      {/* Verdieping: educatieve link naar de YouCaps HRV-post (cross-domein, UTM voor toeschrijving) */}
+      <a
+        href="https://youcaps.app/blog/nl/hrv-autonome-balans/?utm_source=femflow&utm_medium=referral&utm_campaign=hrv_perimenopauze"
+        target="_blank"
+        rel="noopener noreferrer"
+        onClick={() => { if (typeof window.gtag === 'function') window.gtag('event', 'youcaps_cta_click', { source: 'femflow_perimenopauze_hrv' }) }}
+        style={{
+          display: 'block',
+          textDecoration: 'none',
+          background: 'var(--d-card)',
+          border: '1px solid var(--d-border)',
+          borderLeft: '2px solid var(--d-accent)',
+          borderRadius: '16px',
+          padding: 'var(--space-lg)',
+          marginBottom: 'var(--space-lg)',
+          boxShadow: '0 12px 40px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(42, 33, 28, 0.08)',
+        }}
+      >
+        <span style={{
+          fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '600',
+          letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--d-ink-3)',
+        }}>
+          Verdieping
+        </span>
+        <h2 style={{
+          fontSize: '16px', fontFamily: 'var(--font-display)', fontWeight: '500',
+          color: 'var(--d-ink)', margin: '6px 0 6px 0', lineHeight: 1.3,
+        }}>
+          HRV en je autonome balans in de overgang
+        </h2>
+        <p style={{
+          fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
+          color: 'var(--d-ink-2)', lineHeight: 1.6, margin: 0,
+        }}>
+          Je HRV verschuift mee met je hormonen. Lees hoe je zenuwstelsel reageert in de (peri)menopauze, en wat er echt onderbouwd is.
+        </p>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
+          color: 'var(--d-accent)', marginTop: '12px',
+        }}>
+          Lees op YouCaps
+          <ArrowRight size={14} strokeWidth={2} />
+        </span>
+      </a>
 
       <style>{`
         @keyframes fade-slide-up {
