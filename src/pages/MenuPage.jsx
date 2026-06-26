@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { ChevronLeft } from 'react-feather'
 import { getSecure } from '../utils/secureStorage'
+import { openExternal } from '../utils/openExternal'
 import { useState, useEffect } from 'react'
 import { pagina, kolom } from '../styles/donker'
 import hero from '../assets/hero4.png'
@@ -133,7 +134,7 @@ export default function MenuPage() {
                 Instellingen
               </button>
               <button
-                onClick={() => { window.location.href = 'https://youcaps.app/?utm_source=femflow&utm_medium=referral&utm_campaign=menu' }}
+                onClick={() => openExternal('https://youcaps.app/?utm_source=femflow&utm_medium=referral&utm_campaign=menu')}
                 style={{
                   flex: 1,
                   padding: '10px 12px',

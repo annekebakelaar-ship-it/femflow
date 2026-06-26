@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { GoogleLogin } from '@react-oauth/google'
 import { requestMagicLink, verifyMagicLink, getMe, saveToken, saveQuizResults } from '../../api/client'
 import { handleGoogleSignIn } from '../../utils/oauthHandler'
+import { openExternal } from '../../utils/openExternal'
 
 export default function SigninPage() {
   const navigate = useNavigate()
@@ -446,11 +447,11 @@ export default function SigninPage() {
       }}>
         <p style={{ margin: 0, marginBottom: '8px' }}>
           Door in te loggen ga je akkoord met onze{' '}
-          <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://femflow.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             voorwaarden
           </a>
           {' '}en{' '}
-          <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://femflow.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             privacybeleid
           </a>
         </p>

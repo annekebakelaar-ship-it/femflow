@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ArrowRight } from 'react-feather'
 import { getSecure } from '../utils/secureStorage'
+import { openExternal } from '../utils/openExternal'
 import { getWearableReadings } from '../api/client'
 import { berekenTrend } from '../utils/trendHelper'
 import { bouwSupplementSuggesties } from '../utils/supplementAdvies'
@@ -54,7 +55,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'youcaps_cta_click', { source: 'femflow_supplement_suggestie' })
     }
-    window.open(YOUCAPS_URL, '_blank', 'noopener')
+    openExternal(YOUCAPS_URL)
   }
 
   return (

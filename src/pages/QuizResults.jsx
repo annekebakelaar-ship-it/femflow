@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Moon, Smile, AlertCircle, Zap, RotateCw, CheckCircle } from 'react-feather'
 import { saveWelcomeSignup } from '../api/client'
+import { openExternal } from '../utils/openExternal'
 
 export default function QuizResults() {
   const navigate = useNavigate()
@@ -323,11 +324,11 @@ export default function QuizResults() {
       }}>
         <p style={{ margin: 0, marginBottom: '8px' }}>
           Door in te loggen ga je akkoord met onze{' '}
-          <a href="/terms" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://femflow.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             voorwaarden
           </a>
           {' '}en{' '}
-          <a href="/privacy" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://femflow.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             privacybeleid
           </a>
         </p>

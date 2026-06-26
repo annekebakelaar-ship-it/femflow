@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { BarChart2, Target, TrendingUp, AlertCircle, Zap, ArrowRight } from 'react-feather'
+import { openExternal } from '../../utils/openExternal'
 import VariabiliteitsBand from '../../components/VariabiliteitsBand'
 import CycluslengteGrafiek from '../../components/CycluslengteGrafiek'
 import { getMockCycleLengths } from '../../utils/cycleHelper'
@@ -314,9 +315,11 @@ export default function PerimenopauzeTracker() {
       {/* Verdieping: educatieve link naar de YouCaps HRV-post (cross-domein, UTM voor toeschrijving) */}
       <a
         href="https://youcaps.app/blog/nl/hrv-autonome-balans/?utm_source=femflow&utm_medium=referral&utm_campaign=hrv_perimenopauze"
-        target="_blank"
-        rel="noopener noreferrer"
-        onClick={() => { if (typeof window.gtag === 'function') window.gtag('event', 'youcaps_cta_click', { source: 'femflow_perimenopauze_hrv' }) }}
+        onClick={(e) => {
+          e.preventDefault()
+          if (typeof window.gtag === 'function') window.gtag('event', 'youcaps_cta_click', { source: 'femflow_perimenopauze_hrv' })
+          openExternal('https://youcaps.app/blog/nl/hrv-autonome-balans/?utm_source=femflow&utm_medium=referral&utm_campaign=hrv_perimenopauze')
+        }}
         style={{
           display: 'block',
           textDecoration: 'none',

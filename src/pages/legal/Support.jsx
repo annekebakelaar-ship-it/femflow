@@ -1,3 +1,5 @@
+import { openExternal } from '../../utils/openExternal'
+
 export default function Support() {
   return (
     <div style={{
@@ -34,7 +36,7 @@ export default function Support() {
           </h2>
           <p>
             <strong>Email:</strong> info@youcaps.app<br />
-            <strong>WhatsApp:</strong> <a href="https://wa.me/31617261463" style={{ color: 'var(--accent)', textDecoration: 'none' }}>+31 6 17 26 14 63</a>
+            <strong>WhatsApp:</strong> <a href="https://wa.me/31617261463" onClick={(e) => { e.preventDefault(); openExternal('https://wa.me/31617261463') }} style={{ color: 'var(--accent)', textDecoration: 'none' }}>+31 6 17 26 14 63</a>
           </p>
         </section>
 
