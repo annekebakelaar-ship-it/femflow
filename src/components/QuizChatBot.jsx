@@ -121,7 +121,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
         border: 'none',
         borderRadius: '22px',
         overflow: 'hidden',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
         display: 'flex',
         flexDirection: 'column',
         height: '500px',

@@ -80,7 +80,7 @@ export default function TrendsSection() {
               background: 'var(--d-card)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 25px rgba(199, 154, 110, 0.06)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
               border: 'none',
               borderRadius: '22px',
               padding: 'var(--space-md)',

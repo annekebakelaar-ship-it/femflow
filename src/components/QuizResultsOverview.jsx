@@ -50,7 +50,7 @@ export default function QuizResultsOverview() {
           border: 'none',
           borderRadius: '22px',
           padding: 'var(--space-lg)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
           cursor: 'pointer',
           transition: 'all 200ms ease',
         }}

@@ -70,7 +70,7 @@ export default function Footer() {
       opacity: menuOpen ? 0 : 1,
       pointerEvents: menuOpen ? 'none' : 'auto',
       transition: 'opacity 150ms ease',
-      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+      boxShadow: '0 12px 32px rgba(0, 0, 0, 0.35)',
       maxWidth: 'calc(100% - var(--space-lg) * 2)',
     }}>
       {/* Home */}

@@ -33,7 +33,7 @@ export default function WearableConsentModal({ onConsent }) {
         backdropFilter: 'blur(24px)',
         WebkitBackdropFilter: 'blur(24px)',
         border: 'none',
-        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+        boxShadow: '0 20px 40px rgba(0, 0, 0, 0.5)',
         borderRadius: '22px',
         padding: 'var(--space-xl)',
         maxWidth: '500px',

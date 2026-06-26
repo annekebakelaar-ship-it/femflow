@@ -51,7 +51,7 @@ export default function SupplementsPage() {
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 'var(--space-lg)', marginBottom: 'var(--space-xl)' }}>
             {supplements.map((supp, idx) => (
-              <div key={idx} style={{ background: 'var(--d-card)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)', borderRadius: '22px', padding: 'var(--space-lg)' }}>
+              <div key={idx} style={{ background: 'var(--d-card)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)', border: 'none', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)', borderRadius: '22px', padding: 'var(--space-lg)' }}>
                 <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', margin: '0 0 var(--space-sm) 0' }}>{supp.name}</h3>
                 <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--d-ink-2)', margin: '0 0 var(--space-md) 0' }}>{supp.benefit}</p>
                 <div style={{ fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--d-ink-3)', lineHeight: '1.6' }}>

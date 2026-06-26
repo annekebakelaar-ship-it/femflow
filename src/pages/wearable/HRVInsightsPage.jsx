@@ -106,7 +106,7 @@ export default function HRVInsightsPage() {
           WebkitBackdropFilter: 'blur(20px)',
           padding: 'var(--space-lg)',
           borderRadius: '22px',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
           marginBottom: 'var(--space-lg)',
         }}>
           <HRVInsights score={hrvScore} />
@@ -118,7 +118,7 @@ export default function HRVInsightsPage() {
           WebkitBackdropFilter: 'blur(20px)',
           padding: 'var(--space-lg)',
           borderRadius: '22px',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
           marginBottom: 'var(--space-lg)',
         }}>
           <h2 style={{

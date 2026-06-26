@@ -29,7 +29,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
       background: 'var(--d-card)',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
       border: 'none',
       borderRadius: '22px',
     }}>
@@ -63,7 +63,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
       background: 'var(--d-card)',
       backdropFilter: 'blur(20px)',
       WebkitBackdropFilter: 'blur(20px)',
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
       border: 'none',
       borderRadius: '22px',
     }}>
@@ -123,7 +123,7 @@ function MiniChart({ data, metricKey, label, unit, color }) {
               background: 'var(--d-card)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 20px rgba(199, 154, 110, 0.08)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
               color: 'var(--d-ink)',
             }}
             labelFormatter={shortDate}
@@ -344,7 +344,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         background: 'var(--d-card)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
         border: 'none',
         borderRadius: '22px',
       }}>
@@ -419,7 +419,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
         background: 'var(--d-card)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
-        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09), inset 0 0 30px rgba(199, 154, 110, 0.08)',
+        boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
         border: 'none',
         borderRadius: '22px',
       }}>
@@ -451,7 +451,7 @@ export default function Dashboard({ user, onBack, onLogout, onAccount }) {
               background: 'var(--d-card)',
               backdropFilter: 'blur(20px)',
               WebkitBackdropFilter: 'blur(20px)',
-              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.09)',
+              boxShadow: '0 4px 20px rgba(0, 0, 0, 0.18)',
               fontFamily: 'var(--font-sans)',
               fontSize: '11px',
               fontWeight: 400,
