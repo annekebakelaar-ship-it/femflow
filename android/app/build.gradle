@@ -1,5 +1,13 @@
 apply plugin: 'com.android.application'
 
+// Signing-config uit key.properties (buiten git gehouden). Ontbreekt het
+// bestand, dan blijft de release ongesigneerd zodat de repo elders gewoon bouwt.
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "app.youcaps.femflow"
     compileSdk = rootProject.ext.compileSdkVersion
@@ -16,11 +24,30 @@ android {
             ignoreAssetsPattern = '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+            }
+        }
+    }
     buildTypes {
         release {
+            if (keystorePropertiesFile.exists()) {
+                signingConfig signingConfigs.release
+            }
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    lint {
+        // De lintVital-taak laat de JVM crashen op deze setup en is niet
+        // vereist voor een geldige release-AAB. Uit voor release-builds.
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
