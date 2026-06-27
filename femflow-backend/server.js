@@ -143,6 +143,15 @@ app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
       return res.status(400).json({ error: 'Valid email required' })
     }
 
+    // Review-login: het vaste review-adres (env REVIEW_EMAIL) krijgt geen echte
+    // code gemaild. We geven gewoon success terug zodat de app door naar het
+    // code-invoerscherm gaat, waar de vaste REVIEW_CODE werkt. Zo komen
+    // app-reviewers (en wij, voor screenshots) voorbij het inloggen.
+    const reviewEmail = process.env.REVIEW_EMAIL
+    if (reviewEmail && email.trim().toLowerCase() === reviewEmail.trim().toLowerCase()) {
+      return res.json({ success: true, message: 'Code sent to email' })
+    }
+
     // Generate 6-digit code
     const code = String(randomInt(100000, 999999))
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000) // 10 min
@@ -187,6 +196,19 @@ app.post('/api/v1/auth/verify-code', otpVerifyLimiter, async (req, res) => {
 
     if (!email || !code) {
       return res.status(400).json({ error: 'Email and code required' })
+    }
+
+    // Review-login: vast review-adres + vaste code (env REVIEW_EMAIL/REVIEW_CODE)
+    // worden geaccepteerd zonder DB-OTP, alleen voor exact dat adres.
+    const reviewEmail = process.env.REVIEW_EMAIL
+    const reviewCode = process.env.REVIEW_CODE
+    if (reviewEmail && reviewCode &&
+        email.trim().toLowerCase() === reviewEmail.trim().toLowerCase() &&
+        String(code) === String(reviewCode)) {
+      const reviewUserEmail = email.trim().toLowerCase()
+      const userId = await findOrCreateUser(reviewUserEmail)
+      const token = sign({ userId, email: reviewUserEmail }, JWT_SECRET, { expiresIn: '30d' })
+      return res.json({ success: true, token, userId })
     }
 
     // Check code (vergelijk op hash)
