@@ -43,6 +43,12 @@ const allowedOrigins = [
     'https://femflow-two.vercel.app',
     'http://localhost:5175',
     'http://localhost:5173',
+    // Capacitor native webview-origins: Android gebruikt het https-scheme,
+    // iOS het capacitor-scheme. Zonder deze kan de native app de API niet
+    // bereiken (CORS-blok -> geen login, geen data).
+    'https://localhost',
+    'http://localhost',
+    'capacitor://localhost',
   ].filter(Boolean)),
 ]
 app.use(cors({ origin: allowedOrigins }))
