@@ -1,0 +1,61 @@
+# Codemagic cloud-build voor FemFlow iOS (Capacitor + Swift Package Manager).
+# Hiermee bouw en publiceer je de iOS-app zonder zelf een Mac te bezitten.
+#
+# Eenmalig instellen in de Codemagic-UI (codemagic.io), nadat je Apple
+# Developer-account is goedgekeurd:
+#   1. App Store Connect API-key aanmaken (Apple) en in Codemagic toevoegen
+#      onder Team settings > Integrations > App Store Connect. Vul de naam
+#      hieronder in bij integrations.app_store_connect.
+#   2. De bundle-id app.youcaps.femflow registreren (Apple Developer > Identifiers)
+#      en een app aanmaken in App Store Connect.
+#   3. APP_STORE_APPLE_ID invullen (de numerieke App-ID uit App Store Connect).
+#   4. Optioneel: VITE_GOOGLE_CLIENT_ID als env-var zetten als je Google-login
+#      in de native app wilt. OTP-login (e-mailcode) werkt sowieso.
+#
+# De web-build valt zonder .env terug op de productie-API
+# (https://femflow-api.onrender.com), dus dat komt automatisch goed.
+
+workflows:
+  ios-femflow:
+    name: FemFlow iOS
+    instance_type: mac_mini_m2
+    max_build_duration: 60
+    integrations:
+      app_store_connect: CodemagicASCKey   # <-- naam van je ASC API-key in Codemagic
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: app.youcaps.femflow
+      vars:
+        XCODE_PROJECT: "ios/App/App.xcodeproj"
+        XCODE_SCHEME: "App"
+        APP_STORE_APPLE_ID: 0000000000      # <-- vul je App Store Connect App-ID in
+      node: 22
+      xcode: latest
+    scripts:
+      - name: Install npm dependencies
+        script: npm ci
+      - name: Build web assets (Vite)
+        script: npm run build
+      - name: Capacitor sync iOS
+        script: npx cap sync ios
+      - name: Set build number
+        script: |
+          cd ios/App
+          agvtool new-version -all $(($(($BUILD_NUMBER)) + 1))
+      - name: Set up code signing
+        script: xcode-project use-profiles
+      - name: Build ipa
+        script: |
+          xcode-project build-ipa \
+            --project "$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        # Zet op true zodra je naar productie-review wilt i.p.v. alleen TestFlight:
+        # submit_to_app_store: false
