@@ -99,17 +99,23 @@ gezondheids-/menstruatietracker gaat.
 
 ---
 
-## 7. App-toegang voor de review (LET OP)
+## 7. App-toegang voor de review (review-login is gebouwd)
 
-FemFlow logt in met een e-mailcode (OTP). Google-reviewers kunnen die code
-niet ontvangen. Bij "App-toegang" moet je daarom een testaccount of
-instructies opgeven, anders wordt de app afgekeurd omdat de reviewer niet
-voorbij het inloggen komt.
+FemFlow logt in met een e-mailcode (OTP) die reviewers niet kunnen ontvangen.
+Opgelost: de backend accepteert een vast review-adres plus een vaste code via
+twee env-vars. Te doen:
 
-Op te lossen (kies een van beide, ik help je ermee):
-- Een demo-account met een vaste, bekende inlogcode die alleen voor de
-  review werkt, of
-- Een review-bypass-route. Dit moet ik nog in de backend toevoegen.
+1. Zet op Render (femflow-api > Environment) twee variabelen en sla op
+   (Render redeployt automatisch):
+   - REVIEW_EMAIL = review@youcaps.app
+   - REVIEW_CODE  = 204816   (kies zelf 6 cijfers)
+2. Vul in de Play Console bij "App-toegang > Inloggegevens vereist":
+   - E-mail: review@youcaps.app
+   - Code: 204816
+   - Notitie: "Vul het e-mailadres in, druk op code aanvragen, voer 204816 in."
+3. Alleen exact dit adres werkt met deze vaste code. Alle andere gebruikers
+   houden de gewone e-mailcode. Wil je de review-toegang dichtzetten na
+   publicatie, verwijder dan de twee env-vars.
 
 ---
 
