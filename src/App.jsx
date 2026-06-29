@@ -28,6 +28,7 @@ import AccountPage from './pages/account/AccountPage'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import TermsOfService from './pages/legal/TermsOfService'
 import Support from './pages/legal/Support'
+import AccountDeletion from './pages/legal/AccountDeletion'
 import ConsentManagement from './pages/account/ConsentManagement'
 import SymptomLoggerPage from './pages/dashboard/SymptomLoggerPage'
 import LifestyleCheckPage from './pages/dashboard/LifestyleCheckPage'
@@ -208,6 +209,8 @@ function AppContent() {
       <Route path="/terms" element={<TermsOfService />} />
       <Route path="/legal/terms" element={<TermsOfService />} />
       <Route path="/support" element={<Support />} />
+      <Route path="/account-deletion" element={<AccountDeletion />} />
+      <Route path="/legal/account-deletion" element={<AccountDeletion />} />
       <Route path="/consent" element={user ? <ConsentManagement /> : <Navigate to="/login" replace />} />
 
       {/* 404 fallback */}
