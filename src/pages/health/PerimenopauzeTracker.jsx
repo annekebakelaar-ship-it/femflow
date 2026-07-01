@@ -312,6 +312,52 @@ export default function PerimenopauzeTracker() {
         </div>
       </div>
 
+      {/* Educatief inzicht: brain fog hangt vaak samen met slaap. Verwijst naar de kennisbank. */}
+      <button
+        onClick={() => navigate('/dashboard/learning')}
+        style={{
+          display: 'block',
+          width: '100%',
+          textAlign: 'left',
+          background: 'var(--d-card)',
+          border: '1px solid var(--d-border)',
+          borderLeft: '2px solid var(--d-accent)',
+          borderRadius: '16px',
+          padding: 'var(--space-lg)',
+          marginBottom: 'var(--space-lg)',
+          cursor: 'pointer',
+          boxShadow: '0 12px 40px rgba(42, 33, 28, 0.15), 0 4px 12px rgba(42, 33, 28, 0.08)',
+        }}
+      >
+        <span style={{
+          fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '600',
+          letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--d-ink-3)',
+        }}>
+          Uit de kennisbank
+        </span>
+        <h2 style={{
+          fontSize: '16px', fontFamily: 'var(--font-display)', fontWeight: '500',
+          color: 'var(--d-ink)', margin: '6px 0 6px 0', lineHeight: 1.3,
+        }}>
+          Brain fog? Kijk eerst naar je slaap
+        </h2>
+        <p style={{
+          fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400',
+          color: 'var(--d-ink-2)', lineHeight: 1.6, margin: 0,
+        }}>
+          Concentratieklachten in de overgang hangen vaak samen met verstoorde slaap door
+          opvliegers. Lees wat je eraan kunt doen, en welke vragen je meeneemt naar je huisarts.
+        </p>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '600',
+          color: 'var(--d-accent)', marginTop: '12px',
+        }}>
+          Naar de kennisbank
+          <ArrowRight size={14} strokeWidth={2} />
+        </span>
+      </button>
+
       {/* Verdieping: educatieve link naar de YouCaps HRV-post (cross-domein, UTM voor toeschrijving) */}
       <a
         href="https://youcaps.app/blog/nl/hrv-autonome-balans/?utm_source=femflow&utm_medium=referral&utm_campaign=hrv_perimenopauze"

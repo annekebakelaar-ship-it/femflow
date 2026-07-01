@@ -276,6 +276,42 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'brain-fog-overgang',
+    title: 'Brain fog in de overgang',
+    subtitle: 'Waarom je hoofd mistig voelt, en wat vaak de echte oorzaak is',
+    category: 'mood',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'Concentratieproblemen en vergeetachtigheid horen bij de perimenopauze. Vaak zit er verstoorde slaap achter, en het brein herstelt zich. Wat de wetenschap zegt, en hoe je je doktersbezoek voorbereidt.',
+    source: 'Gebaseerd op richtlijnen van de British Menopause Society',
+    body: [
+      {
+        kop: 'Brain fog is een echt verschijnsel',
+        tekst: 'Moeite met concentreren, op je woorden komen of dingen onthouden: veel vrouwen ervaren dit in de perimenopauze. Het is geen inbeelding en geen vroeg teken van dementie. Onderzoek erkent cognitieve klachten als een van de gebruikelijke, meestal tijdelijke verschijnselen van de overgang.',
+      },
+      {
+        kop: 'Vaak is slaap de verborgen oorzaak',
+        tekst: 'Brain fog staat zelden op zichzelf. Nachtelijk zweten en opvliegers breken je slaap, en een slecht uitgeruste nacht geeft de volgende dag precies die mistige, trage kop. De concentratieklachten zijn dan een gevolg van verstoorde slaap, niet direct van de hormonen zelf. Daarom is het zo nuttig om je slaap naast je klachten te leggen: koppel je een wearable, dan zie je of slechtere nachten samenvallen met slechtere dagen.',
+      },
+      {
+        kop: 'Je brein past zich aan, en herstelt',
+        tekst: 'Tijdens de overgang verandert de hormoonhuishouding waar het brein op draait, en het brein past zich daaraan aan. Dat aanpassingsvermogen heet neuroplasticiteit. Voor veel vrouwen is dat een geruststelling: onderzoek laat zien dat cognitieve klachten in de overgang vaak tijdelijk zijn en na verloop van tijd verbeteren. Het is een fase, geen eindstation.',
+      },
+      {
+        kop: 'Sluit eerst andere oorzaken uit',
+        tekst: 'Mistig denken heeft veel mogelijke oorzaken, en niet allemaal hormonaal. Medische richtlijnen adviseren om bij dit soort klachten ook te kijken naar je schildklier (TSH), je vitamine B12 en foliumzuur, en je bloedsuiker (HbA1c). FemFlow stelt geen diagnose en kan dat niet: dit zijn punten om met je huisarts te bespreken, zodat je zeker weet dat je aan de juiste knoppen draait.',
+      },
+      {
+        kop: 'Wat je zelf kunt doen',
+        tekst: 'De grootste winst zit vaak in je slaap beschermen: een koele slaapkamer, een vast ritme, en cafeine en alcohol op tijd loslaten. Merk je dat je klachten je dagelijks functioneren raken, ga dan naar je huisarts. Neem je FemFlow-huisartsrapport mee: daarin staat een overzicht van je cyclus en je slaap, plus een lijstje vragen dat je met je arts kunt bespreken.',
+      },
+      {
+        kop: 'Wanneer naar de huisarts',
+        tekst: 'Bij aanhoudende concentratie- of geheugenklachten die je werk of dagelijks leven raken, of als je je zorgen maakt: maak een afspraak. Objectieve data over een paar maanden is een beter gespreksbegin dan "ik voel me niet scherp".',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
@@ -286,6 +322,7 @@ export const AANBEVOLEN = [
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
   { id: 'pms-en-stemming', reason: 'Gebaseerd op veelgelogde symptomen' },
+  { id: 'brain-fog-overgang', reason: 'Bij concentratieklachten in de overgang' },
   { id: 'trainen-met-je-cyclus', reason: 'Past bij je activiteitendata' },
   { id: 'wearable-wat-meet-je', reason: 'Voor wie net gekoppeld heeft' },
 ]

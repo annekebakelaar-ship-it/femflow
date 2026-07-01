@@ -217,6 +217,33 @@ function SymptomenSectie({ frequenties, sectieNummer }) {
   )
 }
 
+// Checklist met vragen om het gesprek voor te bereiden. Bewust als vragen
+// geformuleerd, niet als diagnose of als opdracht om onderzoeken aan te vragen.
+function DoktergesprekSectie({ sectieNummer }) {
+  const vragen = [
+    'Kan mijn schildklier worden gecontroleerd (TSH)? Schildklierklachten lijken op overgangsklachten.',
+    'Kan mijn vitamine B12 en foliumzuur worden bekeken? Tekorten kunnen vermoeidheid en concentratieklachten geven.',
+    'Kan mijn bloedsuiker worden gecontroleerd (HbA1c)?',
+    'Passen mijn klachten (zoals slecht slapen, opvliegers of concentratieproblemen) bij de perimenopauze, of kan er iets anders spelen?',
+    'Welke opties heb ik, en passen die bij mijn situatie en gezondheid?',
+  ]
+  return (
+    <View wrap={false}>
+      <Text style={styles.sectieTitel}>{sectieNummer}. Vragen om te bespreken met je huisarts</Text>
+      <Text style={styles.sectieNoot}>
+        Algemene aandachtspunten om het gesprek voor te bereiden, gebaseerd op gangbare
+        richtlijnen. Dit is geen diagnose en geen advies om zelf onderzoeken aan te vragen.
+      </Text>
+      {vragen.map((v, i) => (
+        <View key={i} style={{ flexDirection: 'row', marginBottom: 3, paddingRight: 12 }}>
+          <Text style={[styles.cel, { width: 12 }]}>{'•'}</Text>
+          <Text style={[styles.cel, { flex: 1 }]}>{v}</Text>
+        </View>
+      ))}
+    </View>
+  )
+}
+
 export function RapportDocument({ overzicht, wearable, symptomen, exportDatum }) {
   const vanaf = new Date(exportDatum)
   vanaf.setMonth(vanaf.getMonth() - RAPPORT_PERIODE_MAANDEN)
@@ -254,6 +281,9 @@ export function RapportDocument({ overzicht, wearable, symptomen, exportDatum })
 
         {/* 3. Symptomen */}
         <SymptomenSectie frequenties={symptomen} sectieNummer={wearable ? 3 : 2} />
+
+        {/* Vragen voor het doktersgesprek */}
+        <DoktergesprekSectie sectieNummer={wearable ? 4 : 3} />
 
         {/* Footer met disclaimer */}
         <View style={styles.footer} fixed>
