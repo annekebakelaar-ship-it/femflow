@@ -21,6 +21,7 @@ import WearableCycle from './pages/health/WearableCycle'
 import DashboardHome from './pages/dashboard/DashboardHome'
 import DashboardPreview from './pages/dashboard/DashboardPreview'
 import DashboardV2Preview from './pages/dashboard/DashboardV2Preview'
+import LifestyleHub from './pages/dashboard/LifestyleHub'
 import QuizResultsPage from './pages/dashboard/QuizResultsPage'
 import LearningHub from './pages/dashboard/LearningHub'
 import ProgressAnalytics from './pages/dashboard/ProgressAnalytics'
@@ -145,6 +146,10 @@ function AppContent() {
       <Route path="/dashboard/classic" element={
         user ? <DashboardHome /> : <Navigate to="/login" replace />
       } />
+      {/* Leefstijl-hub: fase- en herstel-gekoppelde activiteiten (v2, vierde tab) */}
+      <Route path="/dashboard/leefstijl" element={
+        user ? <LifestyleHub /> : <Navigate to="/login" replace />
+      } />
 
       {/* Quiz Results Page */}
       <Route path="/quiz-results" element={<QuizResultsPage />} />
@@ -249,8 +254,8 @@ function AppContent() {
         </div>
       } />
     </Routes>
-    {user && location.pathname !== '/dashboard' && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
-    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/preview-v2' && location.pathname !== '/dashboard' && <FeedbackWidget />}
+    {user && location.pathname !== '/dashboard' && location.pathname !== '/dashboard/leefstijl' && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
+    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/preview-v2' && location.pathname !== '/dashboard' && location.pathname !== '/dashboard/leefstijl' && <FeedbackWidget />}
     <AnalyticsConsentBanner />
     </div>
   )

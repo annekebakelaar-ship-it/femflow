@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  Home, BarChart2, BookOpen, Menu, Droplet, Heart, Moon, Thermometer, Zap,
+  BookOpen, Droplet, Heart, Moon, Thermometer, Zap,
   User, Settings, LogOut, ChevronDown,
 } from 'react-feather'
+import NavV2 from '../../components/NavV2'
 import {
   AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip,
 } from 'recharts'
@@ -193,7 +194,6 @@ function ContextKaart({ faseInfo, dSinds, onLog, onFase }) {
 
 export default function DashboardV2Preview() {
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState(0)
   const [avatarOpen, setAvatarOpen] = useState(false)
   const [menstrualData, setMenstrualData] = useState(null)
   const [symptomLog, setSymptomLog] = useState([])
@@ -238,13 +238,6 @@ export default function DashboardV2Preview() {
   const initiaal = (menstrualData?.name || '').trim().charAt(0).toUpperCase() || '•'
 
   function logout() { clearToken(); navigate('/') }
-
-  const navItems = [
-    { icon: Home, label: 'Home', to: '/dashboard' },
-    { icon: BarChart2, label: 'Stats', to: '/dashboard/progress' },
-    { icon: BookOpen, label: 'Logboek', to: '/health/symptoms' },
-    { icon: Menu, label: 'Meer', to: '/menu' },
-  ]
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#0a0402', fontFamily: sans }}>
@@ -297,22 +290,13 @@ export default function DashboardV2Preview() {
               faseInfo={faseInfo}
               dSinds={dSinds}
               onLog={() => navigate('/health/symptoms')}
-              onFase={() => navigate(faseInfo ? '/dashboard/learning' : '/health/menstruation')}
+              onFase={() => navigate(faseInfo ? '/dashboard/leefstijl' : '/health/menstruation')}
             />
           </div>
         </div>
 
-        {/* Bottom-nav */}
-        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '12px 16px 24px', background: 'rgba(11,5,3,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
-          {navItems.map(({ icon: Icon, label, to }, i) => (
-            <button key={label} onClick={() => { setActiveTab(i); navigate(to) }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: activeTab === i ? 'rgba(196,137,106,0.16)' : 'transparent' }}>
-                <Icon size={20} color={activeTab === i ? '#c4896a' : '#4a2e20'} />
-              </div>
-              <span style={{ fontSize: 12, color: activeTab === i ? '#c4896a' : '#4a2e20', fontFamily: sans }}>{label}</span>
-            </button>
-          ))}
-        </div>
+        {/* Bottom-nav: gedeeld met de Leefstijl-hub (vijf tabs) */}
+        <NavV2 />
       </div>
     </div>
   )
