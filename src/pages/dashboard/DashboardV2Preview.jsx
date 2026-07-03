@@ -253,8 +253,8 @@ export default function DashboardV2Preview() {
         .fp-noscroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
       `}</style>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#110806' }}>
-        {/* Topbar: alleen woordmerk + avatar (geen bel) */}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', flexShrink: 0 }}>
+        {/* Topbar zweeft over de hero-foto zodat die tot de schermrand doorloopt */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', background: 'linear-gradient(to bottom, rgba(10,4,2,0.55) 0%, transparent 100%)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #c4896a, #8b4a2c)' }} />
             <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>FemFlow</span>
@@ -283,8 +283,10 @@ export default function DashboardV2Preview() {
 
         {/* Scrollgebied */}
         <div className="fp-noscroll" style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
+          {/* Foto loopt tot de bovenrand door (topbar zweeft erboven); onderkant
+              vloeit met een langere gradient in de achtergrond over */}
           <img src={heroImg} alt="" aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, objectFit: 'cover', objectPosition: 'center 20%', pointerEvents: 'none', zIndex: 0 }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,4,2,0.5) 0%, rgba(10,4,2,0.15) 30%, rgba(17,8,6,0.55) 65%, rgba(17,8,6,1) 100%)' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,4,2,0.35) 0%, rgba(10,4,2,0.12) 26%, rgba(17,8,6,0.4) 55%, rgba(17,8,6,0.78) 75%, rgba(17,8,6,0.96) 90%, #110806 100%)' }} />
 
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 20, paddingBottom: 32, zIndex: 2 }}>
             <CycleHero faseInfo={faseInfo} onClick={() => navigate(faseInfo ? '/health/cycle-analytics' : '/health/menstruation')} />
