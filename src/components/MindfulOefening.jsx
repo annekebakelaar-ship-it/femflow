@@ -1,25 +1,26 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Volume2, VolumeX } from 'react-feather'
-import { ademStap, rondesIn, IN_SEC, UIT_SEC } from '../utils/adem'
+import { mindfulPrompts } from '../utils/mindful'
 import { spreek, stopSpraak } from '../utils/spreek'
 
-// Begeleide ademoefening (4 tellen in, 6 tellen uit) voor de Leefstijl-hub.
-// Een cirkel groeit mee met de inademing en krimpt met de uitademing; de
-// telefoon telt hardop mee (vrouwenstem nl, gedeeld in utils/spreek.js),
-// uit te zetten met de geluidsknop. Duur kiesbaar: 1, 3 of 5 minuten.
+// Begeleide mindfulness voor de Leefstijl-hub: gesproken aanwijzingen
+// (vrouwenstem, nl) met stiltes ertussen, een langzaam ademende gloed als
+// rustpunt en de lopende aanwijzing in beeld. Duur: 3, 5 of 10 minuten.
 
 const serif = "'Playfair Display', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
-export default function AdemOefening({ onSluit }) {
+export default function MindfulOefening({ onSluit }) {
   const [status, setStatus] = useState('kies')   // kies | bezig | klaar
-  const [duurMin, setDuurMin] = useState(3)
+  const [duurMin, setDuurMin] = useState(5)
   const [sec, setSec] = useState(0)
   const [geluid, setGeluid] = useState(true)
+  const [tekst, setTekst] = useState('')
   const geluidRef = useRef(true)
+  const promptsRef = useRef([])
   const wakeLockRef = useRef(null)
 
-  // Scherm aanhouden tijdens de oefening (waar ondersteund)
+  // Scherm aanhouden tijdens de sessie (waar ondersteund)
   useEffect(() => {
     if (status !== 'bezig') return
     let actief = true
@@ -35,7 +36,6 @@ export default function AdemOefening({ onSluit }) {
     }
   }, [status])
 
-  // De klok: elke seconde een tik
   useEffect(() => {
     if (status !== 'bezig') return
     const t = setInterval(() => setSec(s => s + 1), 1000)
@@ -43,43 +43,44 @@ export default function AdemOefening({ onSluit }) {
   }, [status])
 
   const totaal = duurMin * 60
-  const stap = ademStap(sec)
-  const klaarNa = rondesIn(duurMin)
 
-  // Hardop tellen: faseovergang zegt "Adem in/uit", daarna de tellen
+  // Aanwijzingen op hun moment uitspreken en in beeld zetten
   useEffect(() => {
     if (status !== 'bezig') return
-    if (sec >= totaal) { setStatus('klaar'); spreek('Goed gedaan'); return }
-    if (!geluidRef.current) return
-    if (stap.tel === 1) spreek(stap.fase === 'in' ? 'Adem in' : 'Adem uit')
-    else spreek(String(stap.tel))
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sec, status])
+    if (sec >= totaal) { setStatus('klaar'); stopSpraak(); return }
+    const prompt = promptsRef.current.find(p => p.sec === sec)
+    if (prompt) {
+      setTekst(prompt.tekst)
+      if (geluidRef.current) spreek(prompt.tekst, 0.95)
+    }
+  }, [sec, status, totaal])
 
-  // Spraak netjes stoppen bij sluiten/afronden
-  useEffect(() => () => { stopSpraak() }, [])
+  useEffect(() => () => stopSpraak(), [])
 
   const start = useCallback(() => {
+    promptsRef.current = mindfulPrompts(duurMin)
     setSec(0)
+    setTekst('')
     setStatus('bezig')
-    if (geluidRef.current) spreek('We beginnen. Adem in')
-  }, [])
+  }, [duurMin])
 
   function toggleGeluid() {
     setGeluid(g => {
       geluidRef.current = !g
-      if (g) { stopSpraak() }
+      if (g) stopSpraak()
       return !g
     })
   }
 
-  const inademen = stap.fase === 'in'
   const over = Math.max(0, totaal - sec)
   const minOver = `${Math.floor(over / 60)}:${String(over % 60).padStart(2, '0')}`
 
   return (
     <div style={{ position: 'absolute', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', background: '#0a0402', fontFamily: sans }}>
-      {/* Kop: sluiten + geluid */}
+      <style>{`
+        @keyframes mfAdem { 0%, 100% { transform: scale(0.85); opacity: 0.7; } 50% { transform: scale(1.08); opacity: 1; } }
+      `}</style>
+
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 0' }}>
         <button onClick={onSluit} style={{ background: 'rgba(196,137,106,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
           <X size={16} color="#a08070" />
@@ -93,13 +94,13 @@ export default function AdemOefening({ onSluit }) {
 
       {status === 'kies' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#a08070', margin: '0 0 8px' }}>ADEMOEFENING</p>
-          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#f5ede8', margin: '0 0 10px' }}>4 tellen in, 6 tellen uit</h1>
+          <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#a08070', margin: '0 0 8px' }}>MINDFULNESS</p>
+          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#f5ede8', margin: '0 0 10px' }}>Even niets</h1>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 28px', maxWidth: 280 }}>
-            Beweeg mee met de cirkel. Je telefoon telt hardop mee; zet het geluid uit als je liever stil oefent.
+            Een rustige stem begeleidt je, met stiltes ertussen. Zoek een plek waar je even niet gestoord wordt.
           </p>
           <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
-            {[1, 3, 5].map(m => (
+            {[3, 5, 10].map(m => (
               <button key={m} onClick={() => setDuurMin(m)} style={{ padding: '10px 20px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, background: duurMin === m ? 'rgba(196,137,106,0.35)' : 'rgba(196,137,106,0.1)', color: duurMin === m ? '#f5ede8' : '#a08070' }}>
                 {m} min
               </button>
@@ -112,34 +113,16 @@ export default function AdemOefening({ onSluit }) {
       )}
 
       {status === 'bezig' && (
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px' }}>
-          {/* Ademcirkels: buitenring vast, binnencirkel beweegt op de adem */}
-          <div style={{ position: 'relative', width: 260, height: 260, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 36 }}>
-            <div style={{ position: 'absolute', width: 252, height: 252, borderRadius: '50%', border: '1px solid rgba(212,170,100,0.25)' }} />
-            <div style={{
-              position: 'absolute', width: 220, height: 220, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(220,175,100,0.5) 0%, rgba(196,137,80,0.25) 55%, transparent 75%)',
-              filter: 'blur(6px)',
-              transform: `scale(${inademen ? 1 : 0.55})`,
-              transition: `transform ${inademen ? IN_SEC : UIT_SEC}s cubic-bezier(0.45, 0, 0.35, 1)`,
-            }} />
-            <div style={{
-              position: 'absolute', width: 150, height: 150, borderRadius: '50%',
-              border: '1px solid rgba(232,200,170,0.4)', background: 'rgba(196,137,106,0.12)',
-              transform: `scale(${inademen ? 1.35 : 0.8})`,
-              transition: `transform ${inademen ? IN_SEC : UIT_SEC}s cubic-bezier(0.45, 0, 0.35, 1)`,
-            }} />
-            <div style={{ position: 'relative', textAlign: 'center', zIndex: 2 }}>
-              <p style={{ fontFamily: serif, fontSize: 56, color: '#f5ede8', margin: 0, lineHeight: 1, textShadow: '0 2px 24px rgba(0,0,0,0.5)' }}>{stap.tel}</p>
-              <p style={{ fontSize: 13, letterSpacing: '0.2em', color: '#d4a96a', margin: '8px 0 0', textTransform: 'uppercase' }}>
-                {inademen ? 'Adem in' : 'Adem uit'}
-              </p>
-            </div>
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
+          {/* Langzaam ademende gloed als rustpunt voor de ogen */}
+          <div style={{ position: 'relative', width: 220, height: 220, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 32 }}>
+            <div style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(220,175,100,0.4) 0%, rgba(196,137,80,0.18) 55%, transparent 75%)', filter: 'blur(8px)', animation: 'mfAdem 9s ease-in-out infinite' }} />
+            <p style={{ position: 'relative', fontFamily: serif, fontSize: 30, color: '#f5ede8', margin: 0, zIndex: 2 }}>{minOver}</p>
           </div>
-          <p style={{ fontSize: 13, color: '#a08070', margin: 0 }}>
-            Ronde {Math.min(stap.ronde, klaarNa)} van {klaarNa} · nog {minOver}
+          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 17, lineHeight: 1.6, color: '#d8c7ba', margin: '0 0 28px', minHeight: 80, maxWidth: 300 }}>
+            {tekst || 'Maak het je gemakkelijk.'}
           </p>
-          <button onClick={() => { setStatus('klaar'); stopSpraak() }} style={{ marginTop: 20, padding: '10px 24px', borderRadius: 999, border: '1px solid rgba(196,137,106,0.3)', background: 'transparent', color: '#c4896a', fontFamily: sans, fontSize: 13, cursor: 'pointer' }}>
+          <button onClick={() => { setStatus('klaar'); stopSpraak() }} style={{ padding: '10px 24px', borderRadius: 999, border: '1px solid rgba(196,137,106,0.3)', background: 'transparent', color: '#c4896a', fontFamily: sans, fontSize: 13, cursor: 'pointer' }}>
             Stoppen
           </button>
         </div>
@@ -148,11 +131,11 @@ export default function AdemOefening({ onSluit }) {
       {status === 'klaar' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
           <div style={{ width: 120, height: 120, borderRadius: '50%', marginBottom: 24, background: 'radial-gradient(circle, rgba(220,175,100,0.4) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#f5ede8', margin: 0 }}>Rust</p>
+            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#f5ede8', margin: 0 }}>Stil</p>
           </div>
           <h2 style={{ fontFamily: serif, fontSize: 24, color: '#f5ede8', margin: '0 0 8px' }}>Goed gedaan</h2>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 24px', maxWidth: 260 }}>
-            {Math.min(stap.ronde, klaarNa)} rondes rustig geademd. Merk even op hoe je lijf nu voelt, voordat je verder gaat.
+            Neem dit tempo even mee de rest van je dag in.
           </p>
           <button onClick={onSluit} style={{ padding: '13px 36px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
             Klaar

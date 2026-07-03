@@ -6,6 +6,8 @@ import { PIJLERS, FASE_POETIC, vindActiviteit } from '../../content/leefstijl'
 import { leefstijlAdvies, hrvSignaal } from '../../utils/leefstijlAdvies'
 import NavV2 from '../../components/NavV2'
 import AdemOefening from '../../components/AdemOefening'
+import MindfulOefening from '../../components/MindfulOefening'
+import { openExternal } from '../../utils/openExternal'
 
 // Leefstijl-hub: wat kun je in je vrije tijd doen, gekoppeld aan je fase en
 // je herstel. Bovenaan EEN intelligent dagadvies (fase + HRV + slaap +
@@ -16,6 +18,9 @@ const serif = "'Playfair Display', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 const KAART = { borderRadius: 16, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }
+
+// Activiteiten met een ingebouwde begeleide oefening
+const OEFENINGEN = { ademwerk: 'adem', meditatie: 'mindful' }
 
 function berekenFase(menstrualData) {
   if (!menstrualData?.startDate) return null
@@ -61,9 +66,9 @@ function ActiviteitDetail({ activiteit, faseInfo, onTerug, onStartOefening }) {
         })}
       </div>
 
-      {/* Begeleide oefening: alleen bij ademwerk (cirkel + hardop tellen) */}
-      {a.id === 'ademwerk' && (
-        <button onClick={onStartOefening} style={{ width: '100%', padding: 15, marginBottom: 16, borderRadius: 16, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)', boxShadow: '0 6px 24px rgba(212,169,106,0.3)' }}>
+      {/* Begeleide oefening: ademwerk (cirkel + tellen) en mindfulness (gesproken begeleiding) */}
+      {OEFENINGEN[a.id] && (
+        <button onClick={() => onStartOefening(OEFENINGEN[a.id])} style={{ width: '100%', padding: 15, marginBottom: 16, borderRadius: 16, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)', boxShadow: '0 6px 24px rgba(212,169,106,0.3)' }}>
           Start de begeleide oefening
         </button>
       )}
@@ -95,12 +100,36 @@ function ActiviteitDetail({ activiteit, faseInfo, onTerug, onStartOefening }) {
   )
 }
 
+// Persoonlijke begeleiding: interesse-kaart onder de Kracht-pijler.
+// Loopt via de bestaande FemFlow-WhatsApp-lijn; het gtag-event (consent-gated,
+// zelfde patroon als youcaps_cta_click) maakt de vraag meetbaar zodat duidelijk
+// wordt of een echte PT-samenwerking het uitbouwen waard is.
+function PTKaart() {
+  function vraagAan() {
+    if (typeof window.gtag === 'function') window.gtag('event', 'pt_interesse', { source: 'leefstijl_hub' })
+    const tekst = encodeURIComponent('Hoi! Ik gebruik FemFlow en heb interesse in online personal training die rekening houdt met mijn cyclus.')
+    openExternal(`https://wa.me/31617261463?text=${tekst}`)
+  }
+  return (
+    <div style={{ ...KAART, margin: '12px 16px 0', padding: 18, border: '1px solid rgba(212,169,106,0.2)' }}>
+      <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#d4a96a', margin: '0 0 6px', fontFamily: sans }}>PERSOONLIJKE BEGELEIDING</p>
+      <p style={{ fontFamily: serif, fontSize: 17, color: '#f5ede8', margin: '0 0 6px' }}>Liever iemand die meekijkt?</p>
+      <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 14px', fontFamily: sans }}>
+        Online begeleiding van een personal trainer die rekening houdt met je cyclus en de overgang. Stuur een berichtje, dan nemen we persoonlijk contact op.
+      </p>
+      <button onClick={vraagAan} style={{ padding: '12px 22px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 13, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
+        Vraag via WhatsApp
+      </button>
+    </div>
+  )
+}
+
 export default function LifestyleHub() {
   const [menstrualData, setMenstrualData] = useState(null)
   const [symptomen, setSymptomen] = useState([])
   const [readings, setReadings] = useState([])
   const [openId, setOpenId] = useState(null)
-  const [oefening, setOefening] = useState(false)
+  const [oefening, setOefening] = useState(null)   // 'adem' | 'mindful' | null
 
   useEffect(() => {
     setMenstrualData(getSecure('menstruation_data'))
@@ -130,7 +159,7 @@ export default function LifestyleHub() {
         <div className="fp-noscroll" style={{ flex: 1, overflowY: 'auto' }}>
           {open ? (
             <div style={{ paddingTop: 20 }}>
-              <ActiviteitDetail activiteit={open} faseInfo={faseInfo} onTerug={() => setOpenId(null)} onStartOefening={() => setOefening(true)} />
+              <ActiviteitDetail activiteit={open} faseInfo={faseInfo} onTerug={() => setOpenId(null)} onStartOefening={(type) => setOefening(type)} />
             </div>
           ) : (
             <div style={{ paddingBottom: 24 }}>
@@ -194,6 +223,7 @@ export default function LifestyleHub() {
                       )
                     })}
                   </div>
+                  {p.id === 'kracht' && <PTKaart />}
                 </div>
               ))}
 
@@ -206,8 +236,9 @@ export default function LifestyleHub() {
 
         <NavV2 />
 
-        {/* Begeleide ademoefening als laag over de hele hub */}
-        {oefening && <AdemOefening onSluit={() => setOefening(false)} />}
+        {/* Begeleide oefeningen als laag over de hele hub */}
+        {oefening === 'adem' && <AdemOefening onSluit={() => setOefening(null)} />}
+        {oefening === 'mindful' && <MindfulOefening onSluit={() => setOefening(null)} />}
       </div>
     </div>
   )
