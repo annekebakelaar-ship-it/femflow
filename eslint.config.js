@@ -4,7 +4,8 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 
 export default [
-  { ignores: ['dist', 'node_modules', 'femflow-backend/node_modules'] },
+  // android/ en ios/ zijn Capacitor-schillen met gegenereerde bridge-code
+  { ignores: ['dist', 'node_modules', 'femflow-backend/node_modules', 'android', 'ios'] },
 
   // Frontend (browser, JSX)
   {

@@ -20,6 +20,7 @@ import CycleAnalytics from './pages/health/CycleAnalytics'
 import WearableCycle from './pages/health/WearableCycle'
 import DashboardHome from './pages/dashboard/DashboardHome'
 import DashboardPreview from './pages/dashboard/DashboardPreview'
+import DashboardV2Preview from './pages/dashboard/DashboardV2Preview'
 import QuizResultsPage from './pages/dashboard/QuizResultsPage'
 import LearningHub from './pages/dashboard/LearningHub'
 import ProgressAnalytics from './pages/dashboard/ProgressAnalytics'
@@ -119,12 +120,14 @@ function AppContent() {
 
   return (
     <div style={{
-      background: (location.pathname === '/' || location.pathname === '/preview' || location.pathname === '/dashboard') ? 'transparent' : '#F5EFEB',
+      background: (location.pathname === '/' || location.pathname === '/preview' || location.pathname === '/preview-v2' || location.pathname === '/dashboard') ? 'transparent' : '#F5EFEB',
       minHeight: '100vh',
     }}>
     <Routes>
       {/* New quiz funnel */}
       <Route path="/preview" element={<DashboardPreview />} />
+      {/* Rustige v2-homepage — preview naast de huidige; na akkoord wijst /dashboard hierheen */}
+      <Route path="/preview-v2" element={<DashboardV2Preview />} />
       <Route path="/" element={<Welcome />} />
       <Route path="/quiz" element={<SmartQuiz />} />
       <Route path="/quiz/results" element={<QuizResults />} />
@@ -247,7 +250,7 @@ function AppContent() {
       } />
     </Routes>
     {user && location.pathname !== '/dashboard' && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
-    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/dashboard' && <FeedbackWidget />}
+    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/preview-v2' && location.pathname !== '/dashboard' && <FeedbackWidget />}
     <AnalyticsConsentBanner />
     </div>
   )
