@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Volume2, VolumeX } from 'react-feather'
 import { ademStap, rondesIn, IN_SEC, UIT_SEC } from '../utils/adem'
-import { spreek, stopSpraak } from '../utils/spreek'
+import { spreek, stopSpraak, ADEM_STEM } from '../utils/spreek'
 
 // Begeleide ademoefening (4 tellen in, 6 tellen uit) voor de Leefstijl-hub.
 // Een cirkel groeit mee met de inademing en krimpt met de uitademing; de
@@ -49,10 +49,10 @@ export default function AdemOefening({ onSluit }) {
   // Hardop tellen: faseovergang zegt "Adem in/uit", daarna de tellen
   useEffect(() => {
     if (status !== 'bezig') return
-    if (sec >= totaal) { setStatus('klaar'); spreek('Goed gedaan'); return }
+    if (sec >= totaal) { setStatus('klaar'); spreek('Goed gedaan', ADEM_STEM); return }
     if (!geluidRef.current) return
-    if (stap.tel === 1) spreek(stap.fase === 'in' ? 'Adem in' : 'Adem uit')
-    else spreek(String(stap.tel))
+    if (stap.tel === 1) spreek(stap.fase === 'in' ? 'Adem in' : 'Adem uit', ADEM_STEM)
+    else spreek(String(stap.tel), ADEM_STEM)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sec, status])
 
@@ -62,7 +62,7 @@ export default function AdemOefening({ onSluit }) {
   const start = useCallback(() => {
     setSec(0)
     setStatus('bezig')
-    if (geluidRef.current) spreek('We beginnen. Adem in')
+    if (geluidRef.current) spreek('We beginnen. Adem in', ADEM_STEM)
   }, [])
 
   function toggleGeluid() {

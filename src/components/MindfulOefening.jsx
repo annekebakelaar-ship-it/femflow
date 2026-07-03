@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Volume2, VolumeX } from 'react-feather'
 import { mindfulPrompts } from '../utils/mindful'
-import { spreek, stopSpraak } from '../utils/spreek'
+import { spreek, stopSpraak, MEDITATIE_STEM } from '../utils/spreek'
 
 // Begeleide mindfulness voor de Leefstijl-hub: gesproken aanwijzingen
 // (vrouwenstem, nl) met stiltes ertussen, een langzaam ademende gloed als
@@ -51,7 +51,7 @@ export default function MindfulOefening({ onSluit }) {
     const prompt = promptsRef.current.find(p => p.sec === sec)
     if (prompt) {
       setTekst(prompt.tekst)
-      if (geluidRef.current) spreek(prompt.tekst, 0.95)
+      if (geluidRef.current) spreek(prompt.tekst, MEDITATIE_STEM)
     }
   }, [sec, status, totaal])
 

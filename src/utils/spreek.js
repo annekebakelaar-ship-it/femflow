@@ -20,7 +20,10 @@ if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
   window.speechSynthesis.addEventListener?.('voiceschanged', () => { _stem = kiesStem() })
 }
 
-export function spreek(tekst, rate = 1.05) {
+// opties: rate (tempo), pitch (toonhoogte), volume (0-1). De mindfulness
+// gebruikt de zachte meditatiestand; de ademoefening blijft iets duidelijker
+// omdat het telwerk goed verstaanbaar moet zijn.
+export function spreek(tekst, { rate = 1.0, pitch = 1.0, volume = 1.0 } = {}) {
   try {
     if (!('speechSynthesis' in window)) return
     window.speechSynthesis.cancel()
@@ -29,9 +32,16 @@ export function spreek(tekst, rate = 1.05) {
     if (_stem) u.voice = _stem
     u.lang = 'nl-NL'
     u.rate = rate
+    u.pitch = pitch
+    u.volume = volume
     window.speechSynthesis.speak(u)
   } catch { /* geen spraak beschikbaar: de tekst staat ook op het scherm */ }
 }
+
+// Zachte meditatiestand: langzamer, iets lager, gedempt volume
+export const MEDITATIE_STEM = { rate: 0.85, pitch: 0.92, volume: 0.7 }
+// Ademtellen: rustig maar duidelijk verstaanbaar
+export const ADEM_STEM = { rate: 1.0, pitch: 0.98, volume: 0.85 }
 
 export function stopSpraak() {
   try { window.speechSynthesis?.cancel() } catch { /* */ }
