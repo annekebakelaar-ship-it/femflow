@@ -5,6 +5,7 @@ import { getSecure } from '../../utils/secureStorage'
 import { PIJLERS, FASE_POETIC, vindActiviteit } from '../../content/leefstijl'
 import { leefstijlAdvies, hrvSignaal } from '../../utils/leefstijlAdvies'
 import NavV2 from '../../components/NavV2'
+import AdemOefening from '../../components/AdemOefening'
 
 // Leefstijl-hub: wat kun je in je vrije tijd doen, gekoppeld aan je fase en
 // je herstel. Bovenaan EEN intelligent dagadvies (fase + HRV + slaap +
@@ -33,7 +34,7 @@ function berekenFase(menstrualData) {
 }
 
 // Detailweergave van een activiteit (in-page, met terugknop)
-function ActiviteitDetail({ activiteit, faseInfo, onTerug }) {
+function ActiviteitDetail({ activiteit, faseInfo, onTerug, onStartOefening }) {
   const a = activiteit
   const actueleFase = faseInfo?.fase
   return (
@@ -59,6 +60,13 @@ function ActiviteitDetail({ activiteit, faseInfo, onTerug }) {
           )
         })}
       </div>
+
+      {/* Begeleide oefening: alleen bij ademwerk (cirkel + hardop tellen) */}
+      {a.id === 'ademwerk' && (
+        <button onClick={onStartOefening} style={{ width: '100%', padding: 15, marginBottom: 16, borderRadius: 16, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)', boxShadow: '0 6px 24px rgba(212,169,106,0.3)' }}>
+          Start de begeleide oefening
+        </button>
+      )}
 
       <div style={{ ...KAART, padding: 18, marginBottom: 16 }}>
         <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#a08070', margin: '0 0 8px', fontFamily: sans }}>WAAROM DIT WERKT</p>
@@ -92,6 +100,7 @@ export default function LifestyleHub() {
   const [symptomen, setSymptomen] = useState([])
   const [readings, setReadings] = useState([])
   const [openId, setOpenId] = useState(null)
+  const [oefening, setOefening] = useState(false)
 
   useEffect(() => {
     setMenstrualData(getSecure('menstruation_data'))
@@ -121,7 +130,7 @@ export default function LifestyleHub() {
         <div className="fp-noscroll" style={{ flex: 1, overflowY: 'auto' }}>
           {open ? (
             <div style={{ paddingTop: 20 }}>
-              <ActiviteitDetail activiteit={open} faseInfo={faseInfo} onTerug={() => setOpenId(null)} />
+              <ActiviteitDetail activiteit={open} faseInfo={faseInfo} onTerug={() => setOpenId(null)} onStartOefening={() => setOefening(true)} />
             </div>
           ) : (
             <div style={{ paddingBottom: 24 }}>
@@ -196,6 +205,9 @@ export default function LifestyleHub() {
         </div>
 
         <NavV2 />
+
+        {/* Begeleide ademoefening als laag over de hele hub */}
+        {oefening && <AdemOefening onSluit={() => setOefening(false)} />}
       </div>
     </div>
   )
