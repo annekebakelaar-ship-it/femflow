@@ -337,6 +337,69 @@ export const PIJLERS = [
       },
     ],
   },
+  {
+    id: 'supplementen',
+    naam: 'Supplementen',
+    intro: 'De kleinste hefboom, dus hij komt bewust als laatste: kracht, slaap en voeding doen het grote werk. Maar een paar middelen zijn in deze levensfase wel degelijk zinnig, en het scheelt geld en teleurstelling om te weten welke.',
+    activiteiten: [
+      {
+        id: 'supp-basis',
+        titel: 'De eerlijke basis',
+        duur: 'Alleen wat onderbouwd is',
+        waarom: 'Voor een handvol middelen bestaat serieus bewijs en een goedgekeurde claim; voor de meeste overgangssupplementen niet. Dit is de korte lijst die de toets doorstaat.',
+        fases: [],
+        uitleg: [
+          'Vitamine D is de enige die in de officiele Nederlandse richtlijnen staat: 20 microgram per dag voor vrouwen boven de vijftig, en van oktober tot april eigenlijk voor iedereen hier. Vitamine D draagt bij aan de normale werking van het immuunsysteem en het behoud van sterke botten.',
+          'Magnesium is het overwegen waard als je slecht slaapt of veel kramp hebt: het draagt bij aan de vermindering van vermoeidheid en aan een normale spier- en zenuwfunctie. Kies een goed opneembare vorm (zie de kwaliteitsgids).',
+          'Creatine is verrassend goed onderzocht, ook bij vrouwen: het verhoogt de fysieke prestatie bij korte, intensieve inspanning — precies het krachtwerk dat in deze fase het anker is. Drie tot vijf gram per dag, elke dag, meer is niet nodig.',
+          'Omega-3 (EPA en DHA) draagt bij aan een normale hartfunctie; relevant als je weinig vette vis eet. Verder geldt voor bijna al het andere: eerst meten of voelen, dan pas slikken.',
+        ],
+        stappen: [
+          'Winterhelft van het jaar: vitamine D 20 mcg per dag',
+          'Slaap- of krampklachten: probeer magnesium 4 weken en kijk naar je eigen data',
+          'Train je kracht: creatine 3-5 g per dag is de best onderbouwde aanvulling',
+        ],
+        nuance: 'Supplementen vullen aan, ze repareren niet. Een tekort aan slaap, eiwit of training is met geen enkele pil te compenseren.',
+      },
+      {
+        id: 'supp-overslaan',
+        titel: 'Wat je mag overslaan',
+        duur: 'Bespaart geld en hoop',
+        waarom: 'De overgangsmarkt staat vol beloftes zonder onderbouwing. Weten wat je NIET hoeft te kopen is minstens zoveel waard als weten wat wel.',
+        fases: [],
+        uitleg: [
+          'Detoxkuren en "reinigende" supplementen: je lever en nieren ontgiften al, daar is geen kuur voor nodig. Alles-in-een overgangscomplexen met twintig ingredienten in minidoseringen klinken compleet, maar bevatten van alles te weinig om iets te doen.',
+          'IJzer op de gok is de gevaarlijkste van het rijtje: te veel ijzer stapelt en is schadelijk. Alleen slikken na een bloedtest (zie de ijzergids bij Voeding).',
+          'Voor populaire kruiden als ashwagandha en teunisbloemolie is het eerlijke verhaal: sommige vrouwen ervaren er iets bij, maar er is geen goedgekeurde gezondheidsclaim en het bewijs is wisselend. Dat mag je best proberen, zolang je weet dat je experimenteert — en het meldt bij je huisarts als je medicijnen gebruikt.',
+          'Megadoseringen ("hoe meer hoe beter") slaan nergens op: boven de behoefte plas je het duurste deel gewoon uit, of erger, het stapelt.',
+        ],
+        stappen: [
+          'Check bij elk product: staat er een concreet ingredient met een concrete dosering op, of vooral beloftetaal?',
+          'Twintig ingredienten in een pil = van alles te weinig',
+          'Gebruik je medicijnen? Meld elk supplement bij huisarts of apotheek',
+        ],
+        nuance: 'Skepsis is hier zelfzorg: elke euro die niet naar een loze belofte gaat, kan naar goede voeding of een sportschoolpas.',
+      },
+      {
+        id: 'supp-kwaliteit',
+        titel: 'Zo kies je kwaliteit',
+        duur: 'Eenmalig uitzoeken',
+        waarom: 'Tussen twee potjes "magnesium" kan een wereld van verschil zitten: de vorm, de dosering en de vulstoffen bepalen of je er iets aan hebt.',
+        fases: [],
+        uitleg: [
+          'De vorm telt. Magnesiumoxide is goedkoop maar wordt slecht opgenomen (en werkt vooral laxerend); bisglycinaat of citraat zijn de vormen die je zoekt. Bij vitamine D wil je D3, bij omega-3 kijk je naar de EPA+DHA-hoeveelheid per capsule in plaats van naar "1000 mg visolie".',
+          'Dosering: vergelijk met de aanbevolen dagelijkse hoeveelheid op het etiket. Ruim onder de 100% doet waarschijnlijk weinig; vele honderden procenten is zelden zinvol en soms onverstandig.',
+          'Duurder is niet beter. Huismerken met de juiste vorm en dosering doen hetzelfde als premiummerken; je betaalt vaak voor marketing. En een supplement dat je maandenlang consequent neemt, wint het altijd van een perfect potje dat in de kast staat.',
+        ],
+        stappen: [
+          'Magnesium: kies bisglycinaat of citraat, geen oxide',
+          'Vergelijk de dosering met de referentie-inname op het etiket',
+          'Zet je supplementmoment vast aan een bestaande gewoonte (ontbijt, tandenpoetsen)',
+        ],
+        nuance: 'Twijfel je tussen producten? De apotheek denkt gratis mee, ook over wisselwerkingen met medicijnen.',
+      },
+    ],
+  },
 ]
 
 // Vlakke lookup op activiteit-id

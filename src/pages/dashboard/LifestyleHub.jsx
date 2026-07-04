@@ -8,6 +8,7 @@ import NavV2 from '../../components/NavV2'
 import AdemOefening from '../../components/AdemOefening'
 import MindfulOefening from '../../components/MindfulOefening'
 import VoedingScanner from '../../components/VoedingScanner'
+import SupplementSuggestie from '../../components/SupplementSuggestie'
 import { openExternal } from '../../utils/openExternal'
 
 // Leefstijl-hub: wat kun je in je vrije tijd doen, gekoppeld aan je fase en
@@ -225,6 +226,14 @@ export default function LifestyleHub() {
                     })}
                   </div>
                   {p.id === 'kracht' && <PTKaart />}
+                  {p.id === 'supplementen' && (
+                    // Persoonlijke, data-onderbouwde suggesties (EFSA-only) —
+                    // dezelfde motor + YouCaps-funnelmeting als op de home.
+                    // Toont zichzelf alleen als eigen data een suggestie draagt.
+                    <div style={{ margin: '12px 16px 0' }}>
+                      <SupplementSuggestie cyclusFase={faseInfo?.fase || null} />
+                    </div>
+                  )}
                   {p.id === 'voeding' && (
                     <div onClick={() => setOefening('scanner')} style={{ ...KAART, margin: '12px 16px 0', padding: 18, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(212,169,106,0.2)' }}>
                       <div style={{ width: 40, height: 40, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
