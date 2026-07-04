@@ -63,7 +63,7 @@ export default function WearableCycle() {
             fontSize: '18px',
             fontWeight: '500',
             color: 'var(--d-ink)',
-          }}>FemFlow</span>
+          }}>Ovari</span>
           <div style={{ width: '20px' }} />
         </div>
 
@@ -139,7 +139,7 @@ export default function WearableCycle() {
         >
           ←
         </button>
-        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--d-ink)' }}>FemFlow</span>
+        <span style={{ fontFamily: 'var(--font-display)', fontSize: '18px', fontWeight: '500', color: 'var(--d-ink)' }}>Ovari</span>
         <div style={{ width: '20px' }} />
       </div>
 

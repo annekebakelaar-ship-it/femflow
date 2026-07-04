@@ -262,7 +262,7 @@ export default function QuizResults() {
                 margin: '0 0 12px 0',
                 lineHeight: 1.5,
               }}>
-                Maximaal één mail per week over perimenopauze en FemFlow.
+                Maximaal één mail per week over perimenopauze en Ovari.
                 Uitschrijven kan altijd met één klik.
               </p>
               <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
@@ -324,11 +324,11 @@ export default function QuizResults() {
       }}>
         <p style={{ margin: 0, marginBottom: '8px' }}>
           Door in te loggen ga je akkoord met onze{' '}
-          <a href="https://femflow.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://ovari.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://ovari.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             voorwaarden
           </a>
           {' '}en{' '}
-          <a href="https://femflow.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://ovari.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://ovari.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             privacybeleid
           </a>
         </p>

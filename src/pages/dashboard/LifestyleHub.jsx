@@ -103,13 +103,13 @@ function ActiviteitDetail({ activiteit, faseInfo, onTerug, onStartOefening }) {
 }
 
 // Persoonlijke begeleiding: interesse-kaart onder de Kracht-pijler.
-// Loopt via de bestaande FemFlow-WhatsApp-lijn; het gtag-event (consent-gated,
+// Loopt via de bestaande Ovari-WhatsApp-lijn; het gtag-event (consent-gated,
 // zelfde patroon als youcaps_cta_click) maakt de vraag meetbaar zodat duidelijk
 // wordt of een echte PT-samenwerking het uitbouwen waard is.
 function PTKaart() {
   function vraagAan() {
     if (typeof window.gtag === 'function') window.gtag('event', 'pt_interesse', { source: 'leefstijl_hub' })
-    const tekst = encodeURIComponent('Hoi! Ik gebruik FemFlow en heb interesse in online personal training die rekening houdt met mijn cyclus.')
+    const tekst = encodeURIComponent('Hoi! Ik gebruik Ovari en heb interesse in online personal training die rekening houdt met mijn cyclus.')
     openExternal(`https://wa.me/31617261463?text=${tekst}`)
   }
   return (

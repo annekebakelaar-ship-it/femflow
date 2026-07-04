@@ -8,7 +8,7 @@ export default function WearableDashboard() {
   const [wearableData, setWearableData] = useState(null)
 
   useEffect(() => {
-    // Laatste reading via de FemFlow-API (voorheen: niet-bestaand WAB-endpoint)
+    // Laatste reading via de Ovari-API (voorheen: niet-bestaand WAB-endpoint)
     const fetchWearableData = async () => {
       try {
         const result = await getWearableReadings(1)
@@ -58,7 +58,7 @@ export default function WearableDashboard() {
             fontSize: '18px',
             fontWeight: '500',
             color: 'var(--d-ink)',
-          }}>FemFlow</span>
+          }}>Ovari</span>
         </button>
 
         <button

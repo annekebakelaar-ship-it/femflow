@@ -278,7 +278,7 @@ export default function DashboardV2Preview() {
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', background: 'linear-gradient(to bottom, rgba(10,4,2,0.55) 0%, transparent 100%)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #c4896a, #8b4a2c)' }} />
-            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>FemFlow</span>
+            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>Ovari</span>
           </div>
           <div style={{ position: 'relative' }}>
             <button onClick={() => setAvatarOpen(!avatarOpen)} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>

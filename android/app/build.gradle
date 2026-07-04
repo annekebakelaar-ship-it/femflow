@@ -12,7 +12,7 @@ android {
     namespace = "app.youcaps.femflow"
     compileSdk = rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "app.youcaps.femflow"
+        applicationId "app.youcaps.ovari"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

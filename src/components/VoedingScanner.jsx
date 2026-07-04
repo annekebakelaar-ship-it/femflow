@@ -201,7 +201,7 @@ export default function VoedingScanner({ onSluit }) {
               )}
             </div>
 
-            {/* FemFlow-duiding: beschrijvend, met de echte cijfers */}
+            {/* Ovari-duiding: beschrijvend, met de echte cijfers */}
             <div style={{ ...KAART, padding: 18, marginBottom: 12 }}>
               <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#a08070', margin: '0 0 10px' }}>WAT WIJ ZIEN</p>
               {duiding.regels.map((r, i) => (

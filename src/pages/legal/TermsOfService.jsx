@@ -9,7 +9,7 @@ export default function TermsOfService() {
       color: 'var(--ink)',
     }}>
       <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-        Gebruikersvoorwaarden FemFlow
+        Gebruikersvoorwaarden Ovari
       </h1>
 
       <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', marginBottom: 'var(--space-lg)' }}>
@@ -19,7 +19,7 @@ export default function TermsOfService() {
       <section style={{ marginBottom: 'var(--space-lg)' }}>
         <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>1. Acceptatie van Voorwaarden</h2>
         <p>
-          Door FemFlow te gebruiken, gaat u ermee akkoord dat u deze Gebruikersvoorwaarden, ons Privacybeleid en alle toepasselijke wetten hebt gelezen en aanvaard.
+          Door Ovari te gebruiken, gaat u ermee akkoord dat u deze Gebruikersvoorwaarden, ons Privacybeleid en alle toepasselijke wetten hebt gelezen en aanvaard.
         </p>
         <p>
           Als u niet akkoord bent, mag u de app niet gebruiken.
@@ -30,7 +30,7 @@ export default function TermsOfService() {
         <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>2. Dienstbeschrijving</h2>
 
         <p>
-          FemFlow is een gezondheids- en welzijnsapp van YouCaps, gericht op:
+          Ovari is een gezondheids- en welzijnsapp van YouCaps, gericht op:
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>Menstruatiecyclus volgen en analyseren</li>
@@ -42,7 +42,7 @@ export default function TermsOfService() {
         </ul>
 
         <p>
-          <strong>Belangrijk:</strong> FemFlow is <strong>geen medische dienst</strong>.
+          <strong>Belangrijk:</strong> Ovari is <strong>geen medische dienst</strong>.
           Raadpleeg altijd uw huisarts voor medisch advies, diagnoses of behandeling.
         </p>
       </section>
@@ -110,7 +110,7 @@ export default function TermsOfService() {
           5.1 Geen Medisch Advies
         </h3>
         <p>
-          <strong>FemFlow verleent GEEN medisch advies.</strong> De app is:
+          <strong>Ovari verleent GEEN medisch advies.</strong> De app is:
         </p>
         <ul>
           <li>Een trackinghulpmiddel (voor educatie en zelfkennis)</li>
@@ -190,7 +190,7 @@ export default function TermsOfService() {
           7.1 De app wordt geleverd zoals hij is ("as-is")
         </h3>
         <p>
-          FemFlow wordt aangeboden op "as-is"-basis. We garanderen <strong>NIET</strong>:
+          Ovari wordt aangeboden op "as-is"-basis. We garanderen <strong>NIET</strong>:
         </p>
         <ul>
           <li>Voortdurende beschikbaarheid (onderhoudsvensters kunnen nodig zijn)</li>
@@ -232,7 +232,7 @@ export default function TermsOfService() {
           8.1 Gratis App
         </h3>
         <p>
-          De volledige FemFlow-app is <strong>GRATIS</strong>. Geen paywall, geen verborgen kosten.
+          De volledige Ovari-app is <strong>GRATIS</strong>. Geen paywall, geen verborgen kosten.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>

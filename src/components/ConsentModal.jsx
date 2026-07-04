@@ -56,7 +56,7 @@ export default function ConsentModal({ onAccept, onReject }) {
           margin: '0 0 20px 0',
           lineHeight: '1.6',
         }}>
-          FemFlow verwerkt gevoelige gezondheidsgegevens. We willen transparant zijn over hoe we je data gebruiken.
+          Ovari verwerkt gevoelige gezondheidsgegevens. We willen transparant zijn over hoe we je data gebruiken.
         </p>
 
         {/* Summary */}

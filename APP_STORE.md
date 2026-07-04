@@ -1,17 +1,17 @@
-# FemFlow op de Apple App Store (iOS)
+# Ovari op de Apple App Store (iOS)
 
 iOS-fundering staat klaar (Capacitor iOS-project in `ios/`, iconen + splash
 gegenereerd, cloud-build-recept in `codemagic.yaml`). Bouwen gebeurt op een
 cloud-Mac via Codemagic, dus je hebt zelf geen Mac nodig.
 
-## Goed nieuws: FemFlow is gratis
+## Goed nieuws: Ovari is gratis
 Geen in-app-aankopen, dus geen 15-30% Apple-heffing en geen IAP-gedoe. Dit is
-precies waarom FemFlow de logische eerste iOS-app is (anders dan YouCaps, dat
+precies waarom Ovari de logische eerste iOS-app is (anders dan YouCaps, dat
 een abonnement verkoopt).
 
 ## Wat jij eenmalig doet zodra je Apple Developer-account erdoor is
-1. **Bundle-id registreren:** Apple Developer > Identifiers > `app.youcaps.femflow`.
-2. **App aanmaken** in App Store Connect (naam FemFlow, taal Nederlands).
+1. **Bundle-id registreren:** Apple Developer > Identifiers > `app.youcaps.ovari`.
+2. **App aanmaken** in App Store Connect (naam Ovari, taal Nederlands).
 3. **App Store Connect API-key** maken (Users and Access > Integrations > App
    Store Connect API) en in **Codemagic** toevoegen (Team > Integrations). Vul
    die naam in `codemagic.yaml` in bij `integrations.app_store_connect`.

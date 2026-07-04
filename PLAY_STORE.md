@@ -1,18 +1,23 @@
-# FemFlow op Google Play — klaarzet-document
+> REBRAND 4 jul 2026: FemFlow -> Ovari (naamconflict met bestaande
+> menstruatietracker). Nieuwe package-id app.youcaps.ovari = NIEUWE app in
+> Play Console: oude femflow-inzending intrekken, listing/screenshots/
+> feature-graphic opnieuw met Ovari-branding, zelfde keystore mag hergebruikt.
+
+# Ovari op Google Play — klaarzet-document
 
 Alles wat je in de Play Console invult. Kopieer per veld. Niets hiervan is
-medisch advies-taal; FemFlow is een tracker, geen medisch hulpmiddel.
+medisch advies-taal; Ovari is een tracker, geen medisch hulpmiddel.
 
 ---
 
 ## 1. Basis
 
-- **App-naam:** FemFlow
+- **App-naam:** Ovari
 - **Standaardtaal:** Nederlands (nl-NL)
 - **Categorie:** Gezondheid en fitness
 - **Contact-e-mail:** info@youcaps.app
-- **Privacybeleid-URL:** https://femflow.youcaps.app/privacy
-- **Website:** https://femflow.youcaps.app
+- **Privacybeleid-URL:** https://ovari.youcaps.app/privacy
+- **Website:** https://ovari.youcaps.app
 
 ---
 
@@ -24,14 +29,14 @@ Volg je cyclus en perimenopauze. Zie je eigen patroon, rustig en privé.
 
 ## 3. Volledige beschrijving (max 4000 tekens)
 
-FemFlow is een rustige, private tracker voor je menstruatiecyclus en de
+Ovari is een rustige, private tracker voor je menstruatiecyclus en de
 (peri)menopauze. Geen ruis, geen advertenties, geen doorverkoop van je
 gegevens. Alleen jouw lichaam, jouw patroon, helder in beeld.
 
-Wat je met FemFlow doet:
+Wat je met Ovari doet:
 
 - Je cyclus bijhouden: menstruatie, lengte en symptomen, dag voor dag.
-- Je patroon zien: FemFlow rekent een eerlijk venster uit op basis van je
+- Je patroon zien: Ovari rekent een eerlijk venster uit op basis van je
   eigen gegevens, niet op een vaste 28-dagenaanname.
 - De (peri)menopauze volgen: zie hoe je cyclus varieert in de overgang, met
   een venster dat breder wordt naarmate je cyclus grilliger is.
@@ -47,7 +52,7 @@ Privacy staat voorop:
   verwijderen, op elk moment.
 - Geen advertenties en geen verkoop van je data aan derden.
 
-Belangrijk: FemFlow geeft informatie, geen medisch advies, en is geen
+Belangrijk: Ovari geeft informatie, geen medisch advies, en is geen
 medisch hulpmiddel. Heb je klachten die je zorgen baren, raadpleeg dan je
 huisarts.
 
@@ -59,7 +64,7 @@ Gemaakt met zorg in de EU.
 
 - **App-icoon:** 512x512 PNG. KLAAR: public/icon-512.png (druppel op caramel).
 - **Feature graphic:** 1024x500 PNG. NOG MAKEN (kan ik genereren met het
-  FemFlow-woordmerk op de warme achtergrond).
+  Ovari-woordmerk op de warme achtergrond).
 - **Telefoon-screenshots:** minimaal 2, maximaal 8 (bijv. 1080x1920 of
   1080x2400). NOG MAKEN (kan ik uit de emulator vastleggen).
 - Tablet-screenshots: alleen nodig als je tablets target. Overslaan kan.
@@ -101,7 +106,7 @@ gezondheids-/menstruatietracker gaat.
 
 ## 7. App-toegang voor de review (review-login is gebouwd)
 
-FemFlow logt in met een e-mailcode (OTP) die reviewers niet kunnen ontvangen.
+Ovari logt in met een e-mailcode (OTP) die reviewers niet kunnen ontvangen.
 Opgelost: de backend accepteert een vast review-adres plus een vaste code via
 twee env-vars. Te doen:
 

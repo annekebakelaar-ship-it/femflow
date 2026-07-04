@@ -307,7 +307,7 @@ export default function DashboardPreview() {
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #c4896a, #8b4a2c)' }} />
-            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>FemFlow</span>
+            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>Ovari</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ position: 'relative' }}>

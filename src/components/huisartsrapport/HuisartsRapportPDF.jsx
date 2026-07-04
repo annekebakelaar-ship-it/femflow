@@ -1,6 +1,6 @@
 // PDF-template voor het Huisartsrapport.
 // Bewust NIET de warme app-stijl: wit, zwarte tekst, dunne lijnen — klinisch
-// en printvriendelijk. Alleen het FemFlow-woordmerk draagt de accentkleur.
+// en printvriendelijk. Alleen het Ovari-woordmerk draagt de accentkleur.
 // Wordt dynamisch geimporteerd zodat @react-pdf/renderer buiten de hoofdbundel blijft.
 
 import { Document, Page, View, Text, StyleSheet, Svg, Polyline, Line, pdf } from '@react-pdf/renderer'
@@ -250,8 +250,8 @@ export function RapportDocument({ overzicht, wearable, symptomen, exportDatum })
 
   return (
     <Document
-      title="FemFlow Cyclusrapport"
-      author="FemFlow"
+      title="Ovari Cyclusrapport"
+      author="Ovari"
       subject={`Cyclus- en wearable-data ${formatDatum(vanaf)} - ${formatDatum(exportDatum)}`}
     >
       <Page size="A4" style={styles.page}>
@@ -264,7 +264,7 @@ export function RapportDocument({ overzicht, wearable, symptomen, exportDatum })
             </Text>
             <Text style={styles.meta}>Geëxporteerd op {formatDatum(exportDatum)}</Text>
           </View>
-          <Text style={styles.woordmerk}>FemFlow</Text>
+          <Text style={styles.woordmerk}>Ovari</Text>
         </View>
 
         {/* 1. Cyclusoverzicht */}
@@ -289,7 +289,7 @@ export function RapportDocument({ overzicht, wearable, symptomen, exportDatum })
         <View style={styles.footer} fixed>
           <Text style={styles.disclaimer}>
             Dit rapport bevat zelfgerapporteerde en wearable-data en is geen medisch advies of
-            diagnose. Gegenereerd door FemFlow op het apparaat van de gebruiker; er is geen data
+            diagnose. Gegenereerd door Ovari op het apparaat van de gebruiker; er is geen data
             naar een server verstuurd voor dit rapport.
           </Text>
         </View>

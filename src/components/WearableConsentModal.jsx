@@ -58,7 +58,7 @@ export default function WearableConsentModal({ onConsent }) {
           marginBottom: 'var(--space-md)',
           fontFamily: 'var(--font-sans)',
         }}>
-          FemFlow kan je slaap-, hartslag- en hersteldata analyseren voor beter perimenopause inzicht.
+          Ovari kan je slaap-, hartslag- en hersteldata analyseren voor beter perimenopause inzicht.
         </p>
 
         <div style={{

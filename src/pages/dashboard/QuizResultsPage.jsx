@@ -144,7 +144,7 @@ export default function QuizResultsPage() {
             fontSize: '18px',
             fontWeight: '500',
             color: 'var(--d-ink)',
-          }}>FemFlow</span>
+          }}>Ovari</span>
         <div style={{ width: '20px' }} />
       </div>
 

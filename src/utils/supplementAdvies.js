@@ -1,4 +1,4 @@
-// Client-side supplementsuggesties — de FemFlow → YouCaps funnel (fase 1).
+// Client-side supplementsuggesties — de Ovari → YouCaps funnel (fase 1).
 //
 // Uitgangspunten:
 // - Volledig op het apparaat: er gaat geen gezondheidsdata naar een server.

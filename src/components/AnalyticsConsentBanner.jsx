@@ -42,7 +42,7 @@ export default function AnalyticsConsentBanner() {
         lineHeight: 1.5,
         color: 'var(--ink-2, #6E635B)',
       }}>
-        We gebruiken anonieme statistieken om FemFlow te verbeteren.
+        We gebruiken anonieme statistieken om Ovari te verbeteren.
         Geen advertenties, geen doorverkoop. Vind je dat goed?
       </p>
       <div style={{ display: 'flex', gap: '8px' }}>

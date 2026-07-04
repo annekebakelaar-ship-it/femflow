@@ -1,4 +1,4 @@
-// Duiding van gescande producten (Open Food Facts) in FemFlow-toon:
+// Duiding van gescande producten (Open Food Facts) in Ovari-toon:
 // beschrijvend en eerlijk, geen oordelen of dieetadvies. Drempels volgen de
 // gangbare etiket-richtlijnen per 100 g (o.a. UK 'traffic light' en de
 // EU-claimgrenzen voor eiwit- en vezelbronnen).

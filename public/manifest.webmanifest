@@ -1,6 +1,6 @@
 {
-  "name": "FemFlow — Cyclus & Perimenopauze Tracker",
-  "short_name": "FemFlow",
+  "name": "Ovari — Cyclus & Perimenopauze Tracker",
+  "short_name": "Ovari",
   "description": "Volg je cyclus, symptomen en wearable-data. Privacyvriendelijk: je gezondheidsdata blijft op je eigen apparaat.",
   "id": "/",
   "start_url": "/dashboard",

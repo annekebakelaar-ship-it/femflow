@@ -34,7 +34,7 @@ export default function SupplementsPage() {
             fontSize: '18px',
             fontWeight: '500',
             color: 'var(--d-ink)',
-          }}>FemFlow</span>
+          }}>Ovari</span>
         </button>
         <button onClick={() => navigate('/dashboard')} style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}>←</button>
       </div>

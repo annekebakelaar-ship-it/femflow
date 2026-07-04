@@ -171,7 +171,7 @@ export default function FeedbackWidget() {
                   color: 'var(--d-ink-2)',
                   margin: '0 0 8px 0',
                 }}>
-                  Help ons FemFlow beter te maken. Wat vind je goed? Wat kan beter?
+                  Help ons Ovari beter te maken. Wat vind je goed? Wat kan beter?
                 </p>
 
                 {/* Feedback textarea */}

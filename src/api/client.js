@@ -1,4 +1,4 @@
-// FemFlow API - Render backend (set via VITE_API_URL or use default)
+// Ovari API - Render backend (set via VITE_API_URL or use default)
 const BASE = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
 
 const JWT_KEY = 'femflow_jwt'
@@ -34,7 +34,7 @@ async function request(path, options = {}) {
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
-// FemFlow: OTP Code Authentication (6-digit codes via email)
+// Ovari: OTP Code Authentication (6-digit codes via email)
 export async function requestMagicLink(email) {
   return request('/api/v1/auth/request-code', {
     method: 'POST',
@@ -81,7 +81,7 @@ export async function getMe() {
 
 // ── Oura (legacy-namen; delegeren naar de echte /api/v1/wearable endpoints) ───
 // De oude paden (/api/oura/*, /api/readings) stammen uit WAB en bestaan niet
-// in de FemFlow-backend — alle aanroepen faalden daardoor met een 404.
+// in de Ovari-backend — alle aanroepen faalden daardoor met een 404.
 
 export async function requestOuraConnect() {
   const res = await requestWearableConnect()
@@ -135,7 +135,7 @@ export async function withdrawConsent() {
   return { success: true }
 }
 
-// ── FemFlow Menstruation Data ───────────────────────────────────────
+// ── Ovari Menstruation Data ───────────────────────────────────────
 
 export async function getMenstruationData() {
   return request('/api/v1/menstruation')

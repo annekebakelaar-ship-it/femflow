@@ -447,11 +447,11 @@ export default function SigninPage() {
       }}>
         <p style={{ margin: 0, marginBottom: '8px' }}>
           Door in te loggen ga je akkoord met onze{' '}
-          <a href="https://femflow.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://ovari.youcaps.app/terms" onClick={(e) => { e.preventDefault(); openExternal('https://ovari.youcaps.app/terms') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             voorwaarden
           </a>
           {' '}en{' '}
-          <a href="https://femflow.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://femflow.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
+          <a href="https://ovari.youcaps.app/privacy" onClick={(e) => { e.preventDefault(); openExternal('https://ovari.youcaps.app/privacy') }} rel="noopener noreferrer" style={{ color: 'var(--d-accent)', textDecoration: 'none', textDecorationLine: 'underline', textUnderlineOffset: 2 }}>
             privacybeleid
           </a>
         </p>

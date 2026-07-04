@@ -38,7 +38,7 @@ export default function LifestyleCheckPage() {
             fontSize: '18px',
             fontWeight: '500',
             color: 'var(--d-ink)',
-          }}>FemFlow</span>
+          }}>Ovari</span>
         </button>
 
         <button

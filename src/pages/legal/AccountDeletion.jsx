@@ -1,4 +1,4 @@
-// Publieke pagina (geen login) die uitlegt hoe je je FemFlow-account en alle
+// Publieke pagina (geen login) die uitlegt hoe je je Ovari-account en alle
 // bijbehorende gegevens verwijdert. Vereist door Google Play en Apple voor
 // apps met accounts: een publiek toegankelijke verwijder-instructie/-aanvraag.
 export default function AccountDeletion() {
@@ -21,7 +21,7 @@ export default function AccountDeletion() {
         </h1>
 
         <p style={{ marginBottom: 'var(--space-lg)' }}>
-          Je kunt je FemFlow-account en alle bijbehorende gegevens op elk moment
+          Je kunt je Ovari-account en alle bijbehorende gegevens op elk moment
           permanent laten verwijderen. Dit kan rechtstreeks in de app, of op verzoek
           per e-mail.
         </p>
@@ -29,7 +29,7 @@ export default function AccountDeletion() {
         <section style={{ marginBottom: 'var(--space-lg)' }}>
           <h2 style={h2}>In de app (direct)</h2>
           <p>
-            Open FemFlow en ga naar <strong>Menu &gt; Instellingen &gt; Account verwijderen</strong>.
+            Open Ovari en ga naar <strong>Menu &gt; Instellingen &gt; Account verwijderen</strong>.
             Bevestig de verwijdering. Je account en gegevens worden dan direct en
             permanent gewist.
           </p>
@@ -69,7 +69,7 @@ export default function AccountDeletion() {
         </section>
 
         <p style={{ marginTop: 'var(--space-xxl)', borderTop: '1px solid var(--border)', paddingTop: 'var(--space-lg)', color: 'var(--ink-3)', fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400' }}>
-          FemFlow, een product van YouCaps (KvK 95822623)
+          Ovari, een product van YouCaps (KvK 95822623)
         </p>
       </div>
     </div>

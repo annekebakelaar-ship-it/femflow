@@ -18,7 +18,7 @@ export default function Support() {
         margin: '0 auto',
       }}>
         <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-          FemFlow Support & Contact
+          Ovari Support & Contact
         </h1>
 
         <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -75,7 +75,7 @@ export default function Support() {
         </section>
 
         <p style={{ marginTop: 'var(--space-xxl)', borderTop: '1px solid var(--border)', paddingTop: 'var(--space-lg)', color: 'var(--ink-3)', fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400' }}>
-          FemFlow Support Team
+          Ovari Support Team
         </p>
       </div>
     </div>

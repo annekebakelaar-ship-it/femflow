@@ -12,7 +12,7 @@ export const ARTIKELEN = [
     difficulty: 'beginner',
     readTime: 6,
     description: 'Menstruatie, folliculaire fase, ovulatie en luteale fase: wat ze zijn, hoe lang ze duren en wat normaal is.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'De cyclus is geen klok',
@@ -36,7 +36,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'Waarom loggen loont',
-        tekst: 'Pas als je een paar cycli hebt vastgelegd, zie je jóuw patroon — en kun je afwijkingen daarvan herkennen. Daarom draait FemFlow om de logknop: één tik per cyclusstart is genoeg om je eigen referentiekader op te bouwen.',
+        tekst: 'Pas als je een paar cycli hebt vastgelegd, zie je jóuw patroon — en kun je afwijkingen daarvan herkennen. Daarom draait Ovari om de logknop: één tik per cyclusstart is genoeg om je eigen referentiekader op te bouwen.',
       },
     ],
   },
@@ -59,7 +59,7 @@ export const ARTIKELEN = [
         tekst: 'Onderzoekers gebruiken het STRAW+10-raamwerk om de overgangsfasen in te delen. De vroege overgang kenmerkt zich door een aanhoudend verschil van zeven dagen of meer tussen opeenvolgende cycli — bijvoorbeeld een cyclus van 24 dagen gevolgd door één van 33. De late overgang kenmerkt zich door cycli van 60 dagen of langer: er worden dan menstruaties overgeslagen.',
       },
       {
-        kop: 'Dit is precies wat FemFlow markeert',
+        kop: 'Dit is precies wat Ovari markeert',
         tekst: 'De markers in je cyclushistorie en het huisartsrapport ("±7 dagen t.o.v. vorige" en "60+ dagen") zijn deze STRAW-signalen. Eén keer een afwijkende cyclus betekent niets — stress, ziekte of reizen verstoren een cyclus ook. Het patroon over meerdere cycli is wat telt.',
       },
       {
@@ -68,7 +68,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'Wanneer naar de huisarts',
-        tekst: 'Bij aanhoudende cyclusveranderingen, klachten die je dagelijks functioneren raken, of bloedverlies na seks of tussen menstruaties door: maak een afspraak. Neem je FemFlow-huisartsrapport mee — zes maanden objectieve data is een beter gespreksbegin dan "het voelt anders".',
+        tekst: 'Bij aanhoudende cyclusveranderingen, klachten die je dagelijks functioneren raken, of bloedverlies na seks of tussen menstruaties door: maak een afspraak. Neem je Ovari-huisartsrapport mee — zes maanden objectieve data is een beter gespreksbegin dan "het voelt anders".',
       },
     ],
   },
@@ -80,7 +80,7 @@ export const ARTIKELEN = [
     difficulty: 'intermediate',
     readTime: 7,
     description: 'Uitgebreide symptoomlijsten tellen 60 tot 100+ klachten. Wat daarvan klopt, wat framing is, en hoe je er zelf wijs uit wordt.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'Eerst de nuance: er bestaat geen officiële lijst',
@@ -116,7 +116,7 @@ export const ARTIKELEN = [
     difficulty: 'beginner',
     readTime: 6,
     description: 'Progesteron, lichaamstemperatuur en slaapkwaliteit hangen samen. Wat je wearable laat zien en wat je eraan hebt.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'De tweede cyclushelft slaapt anders',
@@ -132,7 +132,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'In de perimenopauze',
-        tekst: 'Slaapklachten horen bij de meest gerapporteerde overgangsklachten, mede door nachtelijke opvliegers. Houd ze bij in FemFlow: het patroon (wanneer in je cyclus, hoe vaak) is waardevolle informatie voor een gesprek met je huisarts.',
+        tekst: 'Slaapklachten horen bij de meest gerapporteerde overgangsklachten, mede door nachtelijke opvliegers. Houd ze bij in Ovari: het patroon (wanneer in je cyclus, hoe vaak) is waardevolle informatie voor een gesprek met je huisarts.',
       },
     ],
   },
@@ -144,7 +144,7 @@ export const ARTIKELEN = [
     difficulty: 'intermediate',
     readTime: 7,
     description: 'Hartslagvariabiliteit is een venster op je herstel — als je weet hoe je ernaar moet kijken.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'Wat HRV is',
@@ -152,7 +152,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'Vergelijk jezelf alleen met jezelf',
-        tekst: 'HRV verschilt enorm tussen mensen: 25 ms kan voor de één normaal zijn waar een ander op 90 ms zit. Getallen van anderen zeggen dus niets. Wat wél betekenis heeft: jouw waarde vergeleken met jouw eigen gemiddelde van de afgelopen weken. Daarom toont FemFlow trends, geen losse dagscores.',
+        tekst: 'HRV verschilt enorm tussen mensen: 25 ms kan voor de één normaal zijn waar een ander op 90 ms zit. Getallen van anderen zeggen dus niets. Wat wél betekenis heeft: jouw waarde vergeleken met jouw eigen gemiddelde van de afgelopen weken. Daarom toont Ovari trends, geen losse dagscores.',
       },
       {
         kop: 'De cyclus zit in je HRV',
@@ -172,7 +172,7 @@ export const ARTIKELEN = [
     difficulty: 'beginner',
     readTime: 5,
     description: 'Maandelijks bloedverlies betekent maandelijks ijzerverlies. Wat dat betekent voor je energie en je bord.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'De rekensom',
@@ -200,7 +200,7 @@ export const ARTIKELEN = [
     difficulty: 'intermediate',
     readTime: 7,
     description: 'Cyclusgebaseerd trainen is populair. De wetenschap is genuanceerder dan de hype — en dat is goed nieuws.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'Eerst de hype ontluchten',
@@ -228,7 +228,7 @@ export const ARTIKELEN = [
     difficulty: 'beginner',
     readTime: 6,
     description: 'Prikkelbaarheid en somberheid voor je menstruatie zijn veelvoorkomend. Loggen maakt het patroon zichtbaar.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'Wat PMS is',
@@ -240,7 +240,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'Loggen maakt het bespreekbaar',
-        tekst: 'Door stemming als symptoom te loggen in FemFlow zie je na een paar cycli of er echt een patroon zit: komen de sombere dagen steeds in dezelfde fase? Die informatie is goud waard — voor jezelf (je weet wat eraan komt) en voor een eventueel gesprek met je huisarts.',
+        tekst: 'Door stemming als symptoom te loggen in Ovari zie je na een paar cycli of er echt een patroon zit: komen de sombere dagen steeds in dezelfde fase? Die informatie is goud waard — voor jezelf (je weet wat eraan komt) en voor een eventueel gesprek met je huisarts.',
       },
       {
         kop: 'Wanneer het meer is dan PMS',
@@ -256,7 +256,7 @@ export const ARTIKELEN = [
     difficulty: 'beginner',
     readTime: 6,
     description: 'Een ring of horloge is geen lab. Hoe de metingen werken en hoe je er verstandig mee omgaat.',
-    source: 'FemFlow Redactie',
+    source: 'Ovari Redactie',
     body: [
       {
         kop: 'Hoe het werkt',
@@ -268,7 +268,7 @@ export const ARTIKELEN = [
       },
       {
         kop: 'De cyclus als verborgen factor',
-        tekst: 'Rusthartslag en temperatuur stijgen licht in de luteale fase, HRV zakt wat. Wie dat niet weet, leest elke maand een "verslechtering" die er geen is. FemFlow legt je wearable-data daarom naast je cyclusdata — dezelfde nacht betekent iets anders op dag 5 dan op dag 25.',
+        tekst: 'Rusthartslag en temperatuur stijgen licht in de luteale fase, HRV zakt wat. Wie dat niet weet, leest elke maand een "verslechtering" die er geen is. Ovari legt je wearable-data daarom naast je cyclusdata — dezelfde nacht betekent iets anders op dag 5 dan op dag 25.',
       },
       {
         kop: 'Gezond omgaan met de getallen',
@@ -300,11 +300,11 @@ export const ARTIKELEN = [
       },
       {
         kop: 'Sluit eerst andere oorzaken uit',
-        tekst: 'Mistig denken heeft veel mogelijke oorzaken, en niet allemaal hormonaal. Medische richtlijnen adviseren om bij dit soort klachten ook te kijken naar je schildklier (TSH), je vitamine B12 en foliumzuur, en je bloedsuiker (HbA1c). FemFlow stelt geen diagnose en kan dat niet: dit zijn punten om met je huisarts te bespreken, zodat je zeker weet dat je aan de juiste knoppen draait.',
+        tekst: 'Mistig denken heeft veel mogelijke oorzaken, en niet allemaal hormonaal. Medische richtlijnen adviseren om bij dit soort klachten ook te kijken naar je schildklier (TSH), je vitamine B12 en foliumzuur, en je bloedsuiker (HbA1c). Ovari stelt geen diagnose en kan dat niet: dit zijn punten om met je huisarts te bespreken, zodat je zeker weet dat je aan de juiste knoppen draait.',
       },
       {
         kop: 'Wat je zelf kunt doen',
-        tekst: 'De grootste winst zit vaak in je slaap beschermen: een koele slaapkamer, een vast ritme, en cafeine en alcohol op tijd loslaten. Merk je dat je klachten je dagelijks functioneren raken, ga dan naar je huisarts. Neem je FemFlow-huisartsrapport mee: daarin staat een overzicht van je cyclus en je slaap, plus een lijstje vragen dat je met je arts kunt bespreken.',
+        tekst: 'De grootste winst zit vaak in je slaap beschermen: een koele slaapkamer, een vast ritme, en cafeine en alcohol op tijd loslaten. Merk je dat je klachten je dagelijks functioneren raken, ga dan naar je huisarts. Neem je Ovari-huisartsrapport mee: daarin staat een overzicht van je cyclus en je slaap, plus een lijstje vragen dat je met je arts kunt bespreken.',
       },
       {
         kop: 'Wanneer naar de huisarts',

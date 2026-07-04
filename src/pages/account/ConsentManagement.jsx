@@ -19,7 +19,7 @@ const DEFAULT_CONSENTS = {
   anonieme_statistieken: {
     enabled: false,
     can_revoke: true,
-    description: 'Anonieme gebruiksstatistieken om FemFlow te verbeteren.',
+    description: 'Anonieme gebruiksstatistieken om Ovari te verbeteren.',
   },
 }
 
@@ -108,7 +108,7 @@ export default function ConsentManagement() {
     if (!confirmed) return
 
     try {
-      // Serverdata weg via de FemFlow-API (voorheen: niet-bestaand WAB-endpoint,
+      // Serverdata weg via de Ovari-API (voorheen: niet-bestaand WAB-endpoint,
       // waardoor deze knop stilletjes niets deed), daarna lokale data en token
       await deleteAccount()
       deleteAllSecure()

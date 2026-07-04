@@ -393,7 +393,7 @@ export default function AccountPage() {
                 margin: 0,
                 lineHeight: 1.5,
               }}>
-                Maximaal één mail per week over perimenopauze en FemFlow.
+                Maximaal één mail per week over perimenopauze en Ovari.
               </p>
             </div>
             <button

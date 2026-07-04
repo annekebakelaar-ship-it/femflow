@@ -16,7 +16,7 @@ export default function PrivacyPolicy() {
         margin: '0 auto',
       }}>
       <h1 style={{ fontSize: '26px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-lg)' }}>
-        Privacybeleid FemFlow
+        Privacybeleid Ovari
       </h1>
 
       <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', marginBottom: 'var(--space-lg)' }}>
@@ -26,7 +26,7 @@ export default function PrivacyPolicy() {
       <section style={{ marginBottom: 'var(--space-lg)' }}>
         <h2 style={{ fontSize: '20px', fontFamily: 'var(--font-display)', fontWeight: '500', lineHeight: 1.25, marginBottom: 'var(--space-md)' }}>1. Inleiding</h2>
         <p>
-          FemFlow is een app van YouCaps ("wij", "ons" of "onze"). Wij zijn verplicht te voldoen aan de Algemene Verordening Gegevensbescherming (AVG/GDPR).
+          Ovari is een app van YouCaps ("wij", "ons" of "onze"). Wij zijn verplicht te voldoen aan de Algemene Verordening Gegevensbescherming (AVG/GDPR).
           Dit privacybeleid legt uit hoe wij uw persoonlijke gegevens verzamelen, gebruiken, beschermen en verwijderen.
         </p>
         <p>
@@ -337,7 +337,7 @@ export default function PrivacyPolicy() {
         <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>9. AI & Geautomatiseerde Besluitvorming</h2>
 
         <p>
-          De FemFlow-app gebruikt AI voor:
+          De Ovari-app gebruikt AI voor:
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li><strong>Artikel aanbevelingen:</strong> Gebaseerd op uw cyclus, symptomen en readiness. Transparant (u ziet waarom).</li>
