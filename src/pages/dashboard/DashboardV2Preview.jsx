@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   BookOpen, Compass, Droplet, Heart, Moon, Thermometer, Zap,
-  User, Settings, LogOut, ChevronDown,
+  User, Settings, LogOut, ChevronDown, ChevronRight,
 } from 'react-feather'
 import NavV2 from '../../components/NavV2'
 import { leefstijlAdvies } from '../../utils/leefstijlAdvies'
@@ -159,15 +159,17 @@ function StatsRij({ stats }) {
 // EEN contextuele kaart: de meest relevante boodschap van dit moment,
 // met echte cijfers (geen hardcoded teksten meer).
 function ContextKaart({ faseInfo, dSinds, advies, onLog, onFase, onLeefstijl }) {
-  let icon = BookOpen, titel, tekst, actie, label = null
+  let icon = BookOpen, titel, tekst, actie, label = null, actieTekst
   if (dSinds == null) {
     titel = 'Begin je logboek'
     tekst = 'Log je eerste symptomen, dan zie je hier straks je eigen patronen terug.'
     actie = onLog
+    actieTekst = 'Open je logboek'
   } else if (dSinds >= 2) {
     titel = 'Even bijwerken'
     tekst = `Je hebt ${dSinds} dagen niet gelogd. Twee tikken en je patroon blijft compleet.`
     actie = onLog
+    actieTekst = 'Open je logboek'
   } else if (advies) {
     // Logboek is bij -> het intelligente leefstijl-dagadvies (fase + herstel)
     icon = Compass
@@ -175,16 +177,19 @@ function ContextKaart({ faseInfo, dSinds, advies, onLog, onFase, onLeefstijl }) 
     tekst = advies.reden
     actie = onLeefstijl
     label = 'Leefstijl'
+    actieTekst = 'Bekijk in Leefstijl'
   } else if (faseInfo) {
     icon = Droplet
     titel = `${faseInfo.fase}`
     tekst = FASE_TIP[faseInfo.fase]
     actie = onFase
+    actieTekst = 'Meer over deze fase'
   } else {
     icon = Droplet
     titel = 'Stel je cyclus in'
     tekst = 'Met je startdatum en cycluslengte wordt dit scherm persoonlijk.'
     actie = onFase
+    actieTekst = 'Stel je cyclus in'
   }
   const Icon = icon
   return (
@@ -198,6 +203,10 @@ function ContextKaart({ faseInfo, dSinds, advies, onLog, onFase, onLeefstijl }) 
           {label && <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,169,106,0.15)', color: '#d4a96a', fontFamily: sans }}>{label}</span>}
         </div>
         <p style={{ fontSize: 13, lineHeight: 1.55, margin: 0, color: '#a08070', fontFamily: sans }}>{tekst}</p>
+        {/* Duidelijke actieregel: de hele kaart is tikbaar, dit zegt waarheen */}
+        <p style={{ fontSize: 12, margin: '8px 0 0', display: 'flex', alignItems: 'center', gap: 4, color: '#c4896a', fontFamily: sans }}>
+          {actieTekst} <ChevronRight size={12} />
+        </p>
       </div>
     </div>
   )
