@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
-  BookOpen, Droplet, Heart, Moon, Thermometer, Zap,
+  BookOpen, Compass, Droplet, Heart, Moon, Thermometer, Zap,
   User, Settings, LogOut, ChevronDown,
 } from 'react-feather'
 import NavV2 from '../../components/NavV2'
+import { leefstijlAdvies } from '../../utils/leefstijlAdvies'
 import {
   AreaChart, Area, XAxis, YAxis, ResponsiveContainer, Tooltip,
 } from 'recharts'
@@ -157,8 +158,8 @@ function StatsRij({ stats }) {
 
 // EEN contextuele kaart: de meest relevante boodschap van dit moment,
 // met echte cijfers (geen hardcoded teksten meer).
-function ContextKaart({ faseInfo, dSinds, onLog, onFase }) {
-  let icon = BookOpen, titel, tekst, actie
+function ContextKaart({ faseInfo, dSinds, advies, onLog, onFase, onLeefstijl }) {
+  let icon = BookOpen, titel, tekst, actie, label = null
   if (dSinds == null) {
     titel = 'Begin je logboek'
     tekst = 'Log je eerste symptomen, dan zie je hier straks je eigen patronen terug.'
@@ -167,6 +168,13 @@ function ContextKaart({ faseInfo, dSinds, onLog, onFase }) {
     titel = 'Even bijwerken'
     tekst = `Je hebt ${dSinds} dagen niet gelogd. Twee tikken en je patroon blijft compleet.`
     actie = onLog
+  } else if (advies) {
+    // Logboek is bij -> het intelligente leefstijl-dagadvies (fase + herstel)
+    icon = Compass
+    titel = advies.kop
+    tekst = advies.reden
+    actie = onLeefstijl
+    label = 'Leefstijl'
   } else if (faseInfo) {
     icon = Droplet
     titel = `${faseInfo.fase}`
@@ -184,8 +192,11 @@ function ContextKaart({ faseInfo, dSinds, onLog, onFase }) {
       <div style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(196,137,106,0.15)' }}>
         <Icon size={15} color="#c4896a" />
       </div>
-      <div>
-        <p style={{ fontSize: 14, fontWeight: 500, margin: '0 0 4px 0', color: '#f5ede8', fontFamily: serif }}>{titel}</p>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <p style={{ fontSize: 14, fontWeight: 500, margin: '0 0 4px 0', color: '#f5ede8', fontFamily: serif, flex: 1 }}>{titel}</p>
+          {label && <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,169,106,0.15)', color: '#d4a96a', fontFamily: sans }}>{label}</span>}
+        </div>
         <p style={{ fontSize: 13, lineHeight: 1.55, margin: 0, color: '#a08070', fontFamily: sans }}>{tekst}</p>
       </div>
     </div>
@@ -211,6 +222,14 @@ export default function DashboardV2Preview() {
   const dSinds = dagenSindsLog(symptomLog)
 
   const laatste = [...readings].reverse().find(r => r.hrv_ms != null) || readings[readings.length - 1] || {}
+
+  // Leefstijl-dagadvies voor de contextkaart (zelfde logica als de hub)
+  const dagAdvies = leefstijlAdvies({
+    faseInfo,
+    readings,
+    symptomen: symptomLog,
+    slaapUur: laatste.sleep_duration_min != null ? +(laatste.sleep_duration_min / 60).toFixed(1) : null,
+  })
   const hrv = laatste.hrv_ms != null ? Math.round(laatste.hrv_ms) : null
 
   const weeklyHRV = readings.slice(-7).map(r => {
@@ -289,8 +308,10 @@ export default function DashboardV2Preview() {
             <ContextKaart
               faseInfo={faseInfo}
               dSinds={dSinds}
+              advies={dagAdvies}
               onLog={() => navigate('/health/symptoms')}
               onFase={() => navigate(faseInfo ? '/dashboard/leefstijl' : '/health/menstruation')}
+              onLeefstijl={() => navigate('/dashboard/leefstijl')}
             />
           </div>
         </div>
