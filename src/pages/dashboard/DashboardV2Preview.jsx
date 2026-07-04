@@ -62,25 +62,27 @@ const DAGEN = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
 function CycleHero({ faseInfo, onClick }) {
   const poetic = faseInfo ? POETIC[faseInfo.fase] : 'Welkom'
   return (
-    <div onClick={onClick} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, height: 320, cursor: 'pointer' }}>
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.2) 0%, transparent 70%)' }} />
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 260, height: 260, marginTop: 80 }}>
-        {/* Ovari-ringembleem als achtergrond achter de bestaande cirkel */}
-        <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', width: 316, height: 300, opacity: 0.5, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,163,115,0.25)', boxShadow: '0 0 22px 4px rgba(212,163,115,0.12)' }} />
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(223,184,138,0.45) 0%, rgba(200,152,100,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
-        <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-          <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
-            {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
-          </p>
-          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 40px rgba(212,163,115,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
-            {poetic}
-          </p>
-          <p style={{ fontSize: 14, marginTop: 8, color: '#DFB88A', fontFamily: sans }}>
-            {faseInfo ? `Dag ${faseInfo.dag} van ${faseInfo.cycleLength}` : 'Stel je cyclus in'}
-          </p>
-        </div>
+    <div onClick={onClick} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, paddingTop: 76, paddingBottom: 8, cursor: 'pointer' }}>
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.18) 0%, transparent 70%)' }} />
+
+      {/* Faselabel boven de ring */}
+      <p style={{ position: 'relative', fontSize: 11, margin: '0 0 10px', color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
+        {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
+      </p>
+
+      {/* Het Ovari-ringembleem IS de cirkel: het fasewoord staat in de opening */}
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 224, height: 213 }}>
+        <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.9, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 120, height: 120, background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, rgba(200,152,100,0.18) 45%, transparent 70%)', filter: 'blur(12px)' }} />
+        <p style={{ position: 'relative', zIndex: 10, fontFamily: serif, fontStyle: 'italic', fontSize: 27, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
+          {poetic}
+        </p>
       </div>
+
+      {/* Dagregel onder de ring */}
+      <p style={{ position: 'relative', fontSize: 14, margin: '12px 0 0', color: '#DFB88A', fontFamily: sans }}>
+        {faseInfo ? `Dag ${faseInfo.dag} van ${faseInfo.cycleLength}` : 'Stel je cyclus in'}
+      </p>
     </div>
   )
 }
