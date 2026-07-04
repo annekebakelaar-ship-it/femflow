@@ -258,6 +258,85 @@ export const PIJLERS = [
       },
     ],
   },
+  {
+    id: 'voeding',
+    naam: 'Voeding',
+    intro: 'Geen dieet, wel een paar dingen die er in deze levensfase echt toe doen: genoeg eiwit, sterke botten, een rustige bloedsuiker en ijzer als je menstruatie hevig is. Scan een product om te zien wat erin zit.',
+    activiteiten: [
+      {
+        id: 'voeding-eiwit',
+        titel: 'Eiwit als anker',
+        duur: 'Elke maaltijd',
+        waarom: 'Spierbehoud vraagt in deze levensfase om meer eiwit dan ervoor: richtpunt 1,2 tot 1,6 gram per kilo lichaamsgewicht per dag. Zonder genoeg eiwit doet krachttraining maar het halve werk.',
+        fases: ['Menstruatie', 'Folliculair', 'Ovulatie', 'Luteaal'],
+        uitleg: [
+          'Voor iemand van 70 kilo betekent dat 85 tot 110 gram eiwit per dag. Dat haal je zelden met een boterham met kaas en een avondmaaltijd; het lukt wel als elke maaltijd een echte eiwitbron heeft: kwark of skyr, eieren, vis, kip, peulvruchten, tofu.',
+          'De verdeling telt: je spieren kunnen per maaltijd maar een beperkte hoeveelheid benutten, dus drie keer 25 tot 35 gram werkt beter dan alles bij het avondeten. Het ontbijt is bij de meeste vrouwen de zwakste plek.',
+          'Gebruik de scanner gerust in de supermarkt: 10 gram eiwit per 100 gram of meer is een serieuze bron.',
+        ],
+        stappen: [
+          'Reken je eigen richtpunt uit: lichaamsgewicht x 1,2 tot 1,6 gram',
+          'Begin bij het ontbijt: kwark, skyr of eieren in plaats van alleen brood',
+          'Na een krachtsessie: binnen een paar uur een eiwitrijk moment',
+        ],
+        nuance: 'Eiwit is geen wondermiddel maar een randvoorwaarde: het werkt samen met krachttraining, niet in plaats daarvan.',
+      },
+      {
+        id: 'voeding-botten',
+        titel: 'Calcium en vitamine D',
+        duur: 'Dagelijks',
+        waarom: 'Als oestrogeen daalt, versnelt botafbraak. Calcium (richtpunt 1000-1200 mg per dag) en vitamine D zijn samen met krachttraining de best onderbouwde botbeschermers.',
+        fases: ['Menstruatie', 'Folliculair', 'Ovulatie', 'Luteaal'],
+        uitleg: [
+          'Calcium haal je het makkelijkst uit zuivel (een glas melk of schaaltje kwark is zo\'n 300 mg), maar ook uit groene groenten, noten, tofu en verrijkte plantaardige dranken. Drie tot vier porties per dag brengen je in de buurt van het richtpunt.',
+          'Vitamine D maakt je huid van zonlicht, en van oktober tot april lukt dat in Nederland nauwelijks. De algemene richtlijn voor vrouwen boven de vijftig is een supplement van 20 microgram per dag; dat is een van de weinige supplementadviezen die officieel in de Nederlandse richtlijnen staat.',
+          'Kijk bij het scannen ook eens naar verrijkte producten: veel plantaardige melk heeft toegevoegd calcium en vitamine D, maar lang niet allemaal.',
+        ],
+        stappen: [
+          'Tel een dag lang je porties zuivel of verrijkte alternatieven',
+          'Onder de drie porties? Voeg er bewust een toe',
+          'Overweeg vitamine D-suppletie in de wintermaanden (20 mcg is de standaardrichtlijn 50+)',
+        ],
+        nuance: 'Meer dan het richtpunt aan calcium slikken heeft geen zin en kan zelfs nadelig zijn; het gaat om genoeg, niet om veel.',
+      },
+      {
+        id: 'voeding-bloedsuiker',
+        titel: 'Rustige bloedsuiker',
+        duur: 'Bij elke maaltijd',
+        waarom: 'Rond de overgang wordt het lichaam vaak minder gevoelig voor insuline, en veel vrouwen merken sterkere energie-dips en cravings, vooral in de luteale fase. Vezels en eiwit dempen die pieken.',
+        fases: ['Luteaal'],
+        uitleg: [
+          'De volgorde is simpel: hoe meer vezels en eiwit bij een maaltijd, hoe rustiger je bloedsuiker erna. Volkoren in plaats van wit, peulvruchten, groente bij de lunch en niet alleen bij het avondeten.',
+          'De luteale week is het moment waarop dit het meest merkbaar is: dezelfde koek geeft dan bij veel vrouwen een grotere dip erna. Dat is geen gebrek aan discipline maar fysiologie; een eiwitrijk tussendoortje (noten, kwark) vangt het beter op dan iets zoets.',
+          'Op etiketten: kijk naar vezels (6 gram per 100 gram of meer is een goede bron) en naar suikers (boven de 22,5 gram per 100 gram is veel).',
+        ],
+        stappen: [
+          'Ontbijt met eiwit en vezels in plaats van alleen snel brood',
+          'Houd in je luteale week eiwitrijke tussendoortjes binnen handbereik',
+          'Scan je vaste tussendoortjes eens: de suikercijfers verrassen vaak',
+        ],
+        nuance: 'Dit gaat om patronen, niet om verboden. Een koek is geen zonde; weten wat hij doet maakt de keuze alleen bewuster.',
+      },
+      {
+        id: 'voeding-ijzer',
+        titel: 'IJzer rond je menstruatie',
+        duur: 'Vooral in je menstruatieweek',
+        waarom: 'Hevige of frequentere menstruaties, veelvoorkomend in de perimenopauze, kosten ijzer. Vermoeidheid die niet overgaat kan daarmee te maken hebben.',
+        fases: ['Menstruatie'],
+        uitleg: [
+          'IJzer uit dierlijke bronnen (rood vlees, vis) neemt je lichaam het makkelijkst op. Plantaardig ijzer (peulvruchten, volkoren, groene groenten) werkt ook, en de opname verdubbelt ruwweg als je er vitamine C bij eet: paprika, citrus of kiwi bij de maaltijd.',
+          'Koffie en thee bij de maaltijd remmen juist de opname; drink ze liever een uur ervoor of erna.',
+          'Belangrijk en eerlijk: slik geen ijzersupplementen op de gok. Te veel ijzer is schadelijk, en aanhoudende vermoeidheid verdient een bloedtest bij de huisarts in plaats van zelfmedicatie.',
+        ],
+        stappen: [
+          'Combineer plantaardig ijzer met vitamine C in dezelfde maaltijd',
+          'Koffie en thee los van de maaltijden in je menstruatieweek',
+          'Aanhoudend moe plus hevige menstruaties? Vraag de huisarts om een ferritine-test',
+        ],
+        nuance: 'Dit is het enige onderwerp in deze hub waar de huisarts expliciet in de eerste stap hoort: ijzerstatus meet je, die gok je niet.',
+      },
+    ],
+  },
 ]
 
 // Vlakke lookup op activiteit-id

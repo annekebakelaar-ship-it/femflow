@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Clock, ChevronRight, Compass, Info } from 'react-feather'
+import { ArrowLeft, Camera, Clock, ChevronRight, Compass, Info } from 'react-feather'
 import { getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import { PIJLERS, FASE_POETIC, vindActiviteit } from '../../content/leefstijl'
@@ -7,6 +7,7 @@ import { leefstijlAdvies, hrvSignaal } from '../../utils/leefstijlAdvies'
 import NavV2 from '../../components/NavV2'
 import AdemOefening from '../../components/AdemOefening'
 import MindfulOefening from '../../components/MindfulOefening'
+import VoedingScanner from '../../components/VoedingScanner'
 import { openExternal } from '../../utils/openExternal'
 
 // Leefstijl-hub: wat kun je in je vrije tijd doen, gekoppeld aan je fase en
@@ -224,6 +225,20 @@ export default function LifestyleHub() {
                     })}
                   </div>
                   {p.id === 'kracht' && <PTKaart />}
+                  {p.id === 'voeding' && (
+                    <div onClick={() => setOefening('scanner')} style={{ ...KAART, margin: '12px 16px 0', padding: 18, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(212,169,106,0.2)' }}>
+                      <div style={{ width: 40, height: 40, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
+                        <Camera size={17} color="#1a0d08" />
+                      </div>
+                      <div style={{ flex: 1 }}>
+                        <p style={{ fontFamily: serif, fontSize: 16, color: '#f5ede8', margin: 0 }}>Scan een product</p>
+                        <p style={{ fontSize: 12, lineHeight: 1.5, color: '#a08070', margin: '3px 0 0', fontFamily: sans }}>
+                          Streepjescode scannen, direct zien wat erin zit — met eerlijke duiding.
+                        </p>
+                      </div>
+                      <ChevronRight size={15} color="#c4896a" style={{ flexShrink: 0 }} />
+                    </div>
+                  )}
                 </div>
               ))}
 
@@ -236,9 +251,10 @@ export default function LifestyleHub() {
 
         <NavV2 />
 
-        {/* Begeleide oefeningen als laag over de hele hub */}
+        {/* Begeleide oefeningen + scanner als laag over de hele hub */}
         {oefening === 'adem' && <AdemOefening onSluit={() => setOefening(null)} />}
         {oefening === 'mindful' && <MindfulOefening onSluit={() => setOefening(null)} />}
+        {oefening === 'scanner' && <VoedingScanner onSluit={() => setOefening(null)} />}
       </div>
     </div>
   )
