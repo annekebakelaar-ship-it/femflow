@@ -138,9 +138,9 @@ function AppContent() {
       <Route path="/login" element={<SigninPage />} />
       <Route path="/signup" element={<SigninPage />} />
 
-      {/* Dashboard home (protected) — nieuw Figma-ontwerp */}
+      {/* Dashboard home (protected) — v2: rustige home (akkoord Danib 4 jul) */}
       <Route path="/dashboard" element={
-        user ? <DashboardPreview /> : <Navigate to="/login" replace />
+        user ? <DashboardV2Preview /> : <Navigate to="/login" replace />
       } />
       {/* Oude dashboard-home, tijdelijke terugval tijdens de overgang */}
       <Route path="/dashboard/classic" element={
