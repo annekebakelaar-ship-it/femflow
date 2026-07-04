@@ -65,18 +65,18 @@ function CycleHero({ faseInfo, onClick }) {
     <div onClick={onClick} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, paddingTop: 76, paddingBottom: 8, cursor: 'pointer' }}>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.18) 0%, transparent 70%)' }} />
 
-      {/* Faselabel boven de ring */}
-      <p style={{ position: 'relative', fontSize: 11, margin: '0 0 10px', color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
-        {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
-      </p>
-
-      {/* Het Ovari-ringembleem IS de cirkel: het fasewoord staat in de opening */}
+      {/* Het Ovari-ringembleem IS de cirkel: faselabel + fasewoord in de opening */}
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 248, height: 237 }}>
         <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.95, pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 140, height: 140, background: 'radial-gradient(circle, rgba(223,184,138,0.35) 0%, rgba(200,152,100,0.16) 45%, transparent 70%)', filter: 'blur(12px)' }} />
-        <p style={{ position: 'relative', zIndex: 10, fontFamily: serif, fontStyle: 'italic', fontSize: 31, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
-          {poetic}
-        </p>
+        <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
+          <p style={{ fontSize: 10, margin: '0 0 7px', color: 'rgba(230,212,190,0.75)', letterSpacing: '0.18em', fontFamily: sans }}>
+            {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
+          </p>
+          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 31, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
+            {poetic}
+          </p>
+        </div>
       </div>
 
       {/* Dagregel onder de ring */}
