@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from 'react'
 import { X, Volume2, VolumeX } from 'react-feather'
 import { mindfulPrompts } from '../utils/mindful'
 import { spreek, stopSpraak, MEDITATIE_STEM } from '../utils/spreek'
+import { startOceaan, stopOceaan } from '../utils/oceaan'
 
 // Begeleide mindfulness voor de Leefstijl-hub: gesproken aanwijzingen
 // (vrouwenstem, nl) met stiltes ertussen, een langzaam ademende gloed als
@@ -15,10 +16,18 @@ export default function MindfulOefening({ onSluit }) {
   const [duurMin, setDuurMin] = useState(5)
   const [sec, setSec] = useState(0)
   const [geluid, setGeluid] = useState(true)
+  const [golven, setGolven] = useState(false)   // achtergrondgeluid, bewust standaard uit
   const [tekst, setTekst] = useState('')
   const geluidRef = useRef(true)
   const promptsRef = useRef([])
   const wakeLockRef = useRef(null)
+
+  // Golfgeluid volgt de sessie: aan bij start (indien gekozen), uit daarna
+  useEffect(() => {
+    if (status === 'bezig' && golven) startOceaan()
+    else stopOceaan()
+  }, [status, golven])
+  useEffect(() => () => stopOceaan(0), [])
 
   // Scherm aanhouden tijdens de sessie (waar ondersteund)
   useEffect(() => {
@@ -99,13 +108,22 @@ export default function MindfulOefening({ onSluit }) {
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 28px', maxWidth: 280 }}>
             Een rustige stem begeleidt je, met stiltes ertussen. Zoek een plek waar je even niet gestoord wordt.
           </p>
-          <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
+          <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
             {[3, 5, 10].map(m => (
               <button key={m} onClick={() => setDuurMin(m)} style={{ padding: '10px 20px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, background: duurMin === m ? 'rgba(196,137,106,0.35)' : 'rgba(196,137,106,0.1)', color: duurMin === m ? '#f5ede8' : '#a08070' }}>
                 {m} min
               </button>
             ))}
           </div>
+
+          {/* Achtergrondgeluid: eerlijk gebracht en standaard uit */}
+          <button onClick={() => setGolven(g => !g)} style={{ padding: '9px 18px', borderRadius: 999, marginBottom: 8, border: `1px solid ${golven ? 'rgba(212,169,106,0.5)' : 'rgba(196,137,106,0.2)'}`, cursor: 'pointer', fontFamily: sans, fontSize: 13, background: golven ? 'rgba(196,137,106,0.18)' : 'transparent', color: golven ? '#f5ede8' : '#a08070' }}>
+            Zacht golfgeluid: {golven ? 'aan' : 'uit'}
+          </button>
+          <p style={{ fontSize: 11, lineHeight: 1.5, color: '#5a3020', margin: '0 0 24px', maxWidth: 260 }}>
+            Stilte is de oefening; geluid mag als het je helpt te beginnen.
+          </p>
+
           <button onClick={start} style={{ padding: '16px 48px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)', boxShadow: '0 6px 24px rgba(212,169,106,0.35)' }}>
             Start
           </button>
