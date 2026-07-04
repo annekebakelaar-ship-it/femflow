@@ -11,8 +11,8 @@ import {
 } from 'recharts'
 import { getWearableReadings, clearToken } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
-import heroImg from '../../assets/figma-hero.png'
-import logoImg from '../../assets/ovari-logo.jpg'
+import wordmarkImg from '../../assets/ovari-wordmark.png'
+import ringImg from '../../assets/ovari-ring.png'
 
 // V2-homepage: de RUSTIGE variant van het dashboard. Zelfde palet en
 // designtaal als DashboardPreview, maar elk gegeven staat er nog maar
@@ -65,6 +65,8 @@ function CycleHero({ faseInfo, onClick }) {
     <div onClick={onClick} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, height: 320, cursor: 'pointer' }}>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.2) 0%, transparent 70%)' }} />
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 260, height: 260, marginTop: 80 }}>
+        {/* Ovari-ringembleem als achtergrond achter de bestaande cirkel */}
+        <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', width: 316, height: 300, opacity: 0.5, pointerEvents: 'none' }} />
         <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,163,115,0.25)', boxShadow: '0 0 22px 4px rgba(212,163,115,0.12)' }} />
         <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(223,184,138,0.45) 0%, rgba(200,152,100,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
         <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
@@ -275,13 +277,9 @@ export default function DashboardV2Preview() {
         .fp-noscroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
       `}</style>
       <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#211c1a' }}>
-        {/* Topbar zweeft over de hero-foto zodat die tot de schermrand doorloopt */}
-        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', background: 'linear-gradient(to bottom, rgba(10,4,2,0.55) 0%, transparent 100%)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            {/* Ovari-embleem (bruine variant vloeit weg op de espresso-achtergrond) */}
-            <img src={logoImg} alt="" style={{ width: 30, height: 30, borderRadius: 9, objectFit: 'cover', objectPosition: 'center 22%' }} />
-            <span style={{ fontFamily: serif, color: '#F5F2EB', fontSize: 16 }}>Ovari</span>
-          </div>
+        {/* Topbar: OVARI-woordmerk gecentreerd, avatar rechts */}
+        <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', padding: '16px 20px 8px', background: 'linear-gradient(to bottom, rgba(33,28,26,0.85) 0%, transparent 100%)' }}>
+          <img src={wordmarkImg} alt="Ovari" style={{ position: 'absolute', left: '50%', top: 19, transform: 'translateX(-50%)', height: 19, width: 'auto' }} />
           <div style={{ position: 'relative' }}>
             <button onClick={() => setAvatarOpen(!avatarOpen)} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(212,163,115,0.1)', border: 'none', cursor: 'pointer' }}>
               <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #D4A373, #6F5238)', color: '#F5F2EB' }}>{initiaal}</div>
@@ -304,12 +302,8 @@ export default function DashboardV2Preview() {
           </div>
         </div>
 
-        {/* Scrollgebied */}
+        {/* Scrollgebied — rustige espresso-achtergrond, geen foto meer */}
         <div className="fp-noscroll" style={{ flex: 1, overflowY: 'auto', position: 'relative' }}>
-          {/* Foto loopt tot de bovenrand door (topbar zweeft erboven); onderkant
-              vloeit met een langere gradient in de achtergrond over */}
-          <img src={heroImg} alt="" aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, objectFit: 'cover', objectPosition: 'center 20%', pointerEvents: 'none', zIndex: 0 }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,4,2,0.35) 0%, rgba(10,4,2,0.12) 26%, rgba(17,8,6,0.4) 55%, rgba(17,8,6,0.78) 75%, rgba(17,8,6,0.96) 90%, #211c1a 100%)' }} />
 
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 20, paddingBottom: 32, zIndex: 2 }}>
             <CycleHero faseInfo={faseInfo} onClick={() => navigate(faseInfo ? '/health/cycle-analytics' : '/health/menstruation')} />
