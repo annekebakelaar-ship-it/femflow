@@ -95,7 +95,7 @@ export default function SupplementsSection({ userData = {} }) {
           <button onClick={() => navigate('/dashboard/supplements')} style={{
             padding: 'var(--space-md) var(--space-lg)',
             background: 'var(--d-accent)',
-            color: '#1B0F07',
+            color: '#211C1A',
             border: 'none',
             borderRadius: '22px',
             fontSize: '15px',

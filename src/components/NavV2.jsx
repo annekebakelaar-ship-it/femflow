@@ -19,15 +19,15 @@ export default function NavV2({ actiefPad }) {
   const location = useLocation()
   const huidig = actiefPad || location.pathname
   return (
-    <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '12px 8px 24px', background: 'rgba(11,5,3,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+    <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '12px 8px 24px', background: 'rgba(26,22,20,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
       {ITEMS.map(({ icon: Icon, label, to }) => {
         const actief = huidig === to || (to === '/dashboard' && huidig === '/preview-v2')
         return (
           <button key={label} onClick={() => navigate(to)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer', minWidth: 56 }}>
-            <div style={{ width: 40, height: 40, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: actief ? 'rgba(196,137,106,0.16)' : 'transparent' }}>
-              <Icon size={19} color={actief ? '#c4896a' : '#4a2e20'} />
+            <div style={{ width: 40, height: 40, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: actief ? 'rgba(212,163,115,0.16)' : 'transparent' }}>
+              <Icon size={19} color={actief ? '#D4A373' : '#574B41'} />
             </div>
-            <span style={{ fontSize: 11, color: actief ? '#c4896a' : '#4a2e20', fontFamily: sans }}>{label}</span>
+            <span style={{ fontSize: 11, color: actief ? '#D4A373' : '#574B41', fontFamily: sans }}>{label}</span>
           </button>
         )
       })}

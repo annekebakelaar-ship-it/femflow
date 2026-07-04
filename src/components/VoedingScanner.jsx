@@ -10,8 +10,8 @@ import { duidProduct, voedingstabel, isBarcode } from '../utils/voeding'
 const serif = "'Playfair Display', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
-const KAART = { borderRadius: 16, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }
-const TOON_KLEUR = { goed: '#8fae72', 'let-op': '#d4a96a', neutraal: '#a08070' }
+const KAART = { borderRadius: 16, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }
+const TOON_KLEUR = { goed: '#8fae72', 'let-op': '#DFB88A', neutraal: '#A8998A' }
 
 async function haalProduct(code) {
   const velden = 'product_name,brands,quantity,nutriments,nutriscore_grade,image_front_small_url'
@@ -109,12 +109,12 @@ export default function VoedingScanner({ onSluit }) {
   const tabel = product ? voedingstabel(product.nutriments || {}) : []
 
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', background: '#0a0402', fontFamily: sans }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', background: '#1a1614', fontFamily: sans }}>
       {/* Kop */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 8px' }}>
-        <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#a08070', margin: 0 }}>VOEDINGSSCANNER</p>
-        <button onClick={() => { stopRef.current?.(); onSluit() }} style={{ background: 'rgba(196,137,106,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-          <X size={16} color="#a08070" />
+        <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#A8998A', margin: 0 }}>VOEDINGSSCANNER</p>
+        <button onClick={() => { stopRef.current?.(); onSluit() }} style={{ background: 'rgba(212,163,115,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <X size={16} color="#A8998A" />
         </button>
       </div>
 
@@ -125,16 +125,16 @@ export default function VoedingScanner({ onSluit }) {
               <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', background: '#000', marginBottom: 14 }}>
                 <video ref={videoRef} playsInline muted style={{ width: '100%', height: 300, objectFit: 'cover', display: 'block' }} />
                 <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-                  <div style={{ width: '72%', height: 110, border: '1.5px solid rgba(212,169,106,0.8)', borderRadius: 12, boxShadow: '0 0 0 2000px rgba(0,0,0,0.35)' }} />
+                  <div style={{ width: '72%', height: 110, border: '1.5px solid rgba(212,163,115,0.8)', borderRadius: 12, boxShadow: '0 0 0 2000px rgba(0,0,0,0.35)' }} />
                 </div>
-                <p style={{ position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center', fontSize: 12, color: '#f5ede8', margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}>
+                <p style={{ position: 'absolute', bottom: 10, left: 0, right: 0, textAlign: 'center', fontSize: 12, color: '#F5F2EB', margin: 0, textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}>
                   Richt op de streepjescode
                 </p>
               </div>
             ) : (
               <div style={{ ...KAART, padding: 18, marginBottom: 14, display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                <Camera size={16} color="#c4896a" style={{ flexShrink: 0, marginTop: 2 }} />
-                <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: 0 }}>
+                <Camera size={16} color="#D4A373" style={{ flexShrink: 0, marginTop: 2 }} />
+                <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: 0 }}>
                   {cameraFout
                     ? 'Geen toegang tot de camera. Typ de streepjescode hieronder in.'
                     : 'Live scannen wordt op dit toestel nog niet ondersteund. Typ de streepjescode van het etiket hieronder in.'}
@@ -149,34 +149,34 @@ export default function VoedingScanner({ onSluit }) {
                 onChange={e => setHandmatig(e.target.value.replace(/\D/g, ''))}
                 placeholder="Streepjescode, bijv. 8712345678906"
                 inputMode="numeric"
-                style={{ flex: 1, padding: '13px 14px', borderRadius: 12, border: '1px solid rgba(196,137,106,0.25)', background: 'rgba(20,8,4,0.5)', color: '#f5ede8', fontSize: 14, fontFamily: sans, outline: 'none' }}
+                style={{ flex: 1, padding: '13px 14px', borderRadius: 12, border: '1px solid rgba(212,163,115,0.25)', background: 'rgba(45,38,35,0.7)', color: '#F5F2EB', fontSize: 14, fontFamily: sans, outline: 'none' }}
               />
-              <button type="submit" disabled={!isBarcode(handmatig)} style={{ padding: '0 18px', borderRadius: 12, border: 'none', cursor: isBarcode(handmatig) ? 'pointer' : 'default', background: isBarcode(handmatig) ? 'linear-gradient(135deg, #d4a96a, #c4896a)' : 'rgba(196,137,106,0.15)', color: isBarcode(handmatig) ? '#1a0d08' : '#5a3020' }}>
+              <button type="submit" disabled={!isBarcode(handmatig)} style={{ padding: '0 18px', borderRadius: 12, border: 'none', cursor: isBarcode(handmatig) ? 'pointer' : 'default', background: isBarcode(handmatig) ? 'linear-gradient(135deg, #DFB88A, #D4A373)' : 'rgba(212,163,115,0.15)', color: isBarcode(handmatig) ? '#211C1A' : '#6B5D52' }}>
                 <Search size={16} />
               </button>
             </form>
 
-            <p style={{ fontSize: 11, lineHeight: 1.6, color: '#5a3020', margin: '14px 2px 0' }}>
+            <p style={{ fontSize: 11, lineHeight: 1.6, color: '#6B5D52', margin: '14px 2px 0' }}>
               Productdata: Open Food Facts (open database, kan onvolledig zijn). Wij kijken naar eiwit, vezels, suiker, verzadigd vet en zout — beschrijvend, geen dieetadvies.
             </p>
           </>
         )}
 
         {modus === 'laden' && (
-          <div style={{ textAlign: 'center', padding: '60px 0', color: '#a08070', fontSize: 13 }}>Product opzoeken...</div>
+          <div style={{ textAlign: 'center', padding: '60px 0', color: '#A8998A', fontSize: 13 }}>Product opzoeken...</div>
         )}
 
         {(modus === 'niet-gevonden' || modus === 'fout') && (
           <div style={{ ...KAART, padding: 20, textAlign: 'center' }}>
-            <p style={{ fontFamily: serif, fontSize: 18, color: '#f5ede8', margin: '0 0 8px' }}>
+            <p style={{ fontFamily: serif, fontSize: 18, color: '#F5F2EB', margin: '0 0 8px' }}>
               {modus === 'fout' ? 'Even geen verbinding' : 'Niet gevonden'}
             </p>
-            <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 18px' }}>
+            <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 18px' }}>
               {modus === 'fout'
                 ? 'De productdatabase is nu niet bereikbaar. Probeer het zo nog eens.'
                 : 'Dit product staat (nog) niet in Open Food Facts. Vers en onverpakt heeft geen barcode; merkproducten staan er meestal wel in.'}
             </p>
-            <button onClick={() => { setProduct(null); setHandmatig(''); setModus('scan') }} style={{ padding: '11px 24px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 13, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
+            <button onClick={() => { setProduct(null); setHandmatig(''); setModus('scan') }} style={{ padding: '11px 24px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 13, fontWeight: 600, color: '#211C1A', background: 'linear-gradient(135deg, #DFB88A, #D4A373)' }}>
               Opnieuw scannen
             </button>
           </div>
@@ -186,16 +186,16 @@ export default function VoedingScanner({ onSluit }) {
           <>
             <div style={{ ...KAART, padding: 18, marginBottom: 12, display: 'flex', gap: 14, alignItems: 'center' }}>
               {product.image_front_small_url && (
-                <img src={product.image_front_small_url} alt="" style={{ width: 56, height: 56, objectFit: 'contain', borderRadius: 10, background: 'rgba(245,237,232,0.06)', flexShrink: 0 }} />
+                <img src={product.image_front_small_url} alt="" style={{ width: 56, height: 56, objectFit: 'contain', borderRadius: 10, background: 'rgba(245,242,235,0.06)', flexShrink: 0 }} />
               )}
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontFamily: serif, fontSize: 17, color: '#f5ede8', margin: 0, lineHeight: 1.3 }}>{product.product_name || 'Onbekende naam'}</p>
-                <p style={{ fontSize: 12, color: '#a08070', margin: '3px 0 0' }}>
+                <p style={{ fontFamily: serif, fontSize: 17, color: '#F5F2EB', margin: 0, lineHeight: 1.3 }}>{product.product_name || 'Onbekende naam'}</p>
+                <p style={{ fontSize: 12, color: '#A8998A', margin: '3px 0 0' }}>
                   {[product.brands, product.quantity].filter(Boolean).join(' · ')}
                 </p>
               </div>
               {product.nutriscore_grade && (
-                <span style={{ fontFamily: serif, fontSize: 20, fontWeight: 700, color: '#f5ede8', width: 40, height: 40, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: { a: '#4d7c43', b: '#7ea05a', c: '#c9a53f', d: '#c07c3a', e: '#b0503c' }[product.nutriscore_grade] || 'rgba(196,137,106,0.2)', textTransform: 'uppercase' }}>
+                <span style={{ fontFamily: serif, fontSize: 20, fontWeight: 700, color: '#F5F2EB', width: 40, height: 40, borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: { a: '#4d7c43', b: '#7ea05a', c: '#c9a53f', d: '#c07c3a', e: '#b0503c' }[product.nutriscore_grade] || 'rgba(212,163,115,0.2)', textTransform: 'uppercase' }}>
                   {product.nutriscore_grade}
                 </span>
               )}
@@ -203,32 +203,32 @@ export default function VoedingScanner({ onSluit }) {
 
             {/* Ovari-duiding: beschrijvend, met de echte cijfers */}
             <div style={{ ...KAART, padding: 18, marginBottom: 12 }}>
-              <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#a08070', margin: '0 0 10px' }}>WAT WIJ ZIEN</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#A8998A', margin: '0 0 10px' }}>WAT WIJ ZIEN</p>
               {duiding.regels.map((r, i) => (
                 <div key={i} style={{ display: 'flex', gap: 10, marginBottom: i < duiding.regels.length - 1 ? 10 : 0 }}>
                   <span style={{ width: 7, height: 7, borderRadius: '50%', background: TOON_KLEUR[r.toon], flexShrink: 0, marginTop: 6 }} />
-                  <p style={{ fontSize: 13, lineHeight: 1.55, color: '#f5ede8', margin: 0 }}>{r.tekst}</p>
+                  <p style={{ fontSize: 13, lineHeight: 1.55, color: '#F5F2EB', margin: 0 }}>{r.tekst}</p>
                 </div>
               ))}
             </div>
 
             {/* Voedingswaarden per 100 g */}
             <div style={{ ...KAART, padding: 18, marginBottom: 14 }}>
-              <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#a08070', margin: '0 0 10px' }}>PER 100 G</p>
+              <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#A8998A', margin: '0 0 10px' }}>PER 100 G</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 10 }}>
                 {tabel.map(({ label, waarde, eenheid }) => (
                   <div key={label}>
-                    <p style={{ fontSize: 15, fontWeight: 500, color: '#f5ede8', margin: 0, fontFamily: sans }}>
+                    <p style={{ fontSize: 15, fontWeight: 500, color: '#F5F2EB', margin: 0, fontFamily: sans }}>
                       {waarde == null ? '—' : `${waarde}${eenheid === 'kcal' ? '' : ' ' + eenheid}`}
-                      {waarde != null && eenheid === 'kcal' && <span style={{ fontSize: 11, color: '#a08070' }}> kcal</span>}
+                      {waarde != null && eenheid === 'kcal' && <span style={{ fontSize: 11, color: '#A8998A' }}> kcal</span>}
                     </p>
-                    <p style={{ fontSize: 11, color: '#a08070', margin: '2px 0 0' }}>{label}</p>
+                    <p style={{ fontSize: 11, color: '#A8998A', margin: '2px 0 0' }}>{label}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <button onClick={() => { setProduct(null); setHandmatig(''); setModus('scan') }} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 14, borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
+            <button onClick={() => { setProduct(null); setHandmatig(''); setModus('scan') }} style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, padding: 14, borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, fontWeight: 600, color: '#211C1A', background: 'linear-gradient(135deg, #DFB88A, #D4A373)' }}>
               <RefreshCw size={14} /> Volgend product
             </button>
           </>

@@ -90,7 +90,7 @@ export default function WearableConsentModal({ onConsent }) {
             style={{
               padding: '14px 24px',
               background: 'var(--d-accent)',
-              color: '#1B0F07',
+              color: '#211C1A',
               border: 'none',
               borderRadius: '12px',
               fontSize: '15px',

@@ -193,7 +193,7 @@ export default function VariabiliteitsBand({ menstrualData }) {
           <div style={{
             display: 'inline-block',
             background: 'var(--info)',
-            color: '#1B0F07',
+            color: '#211C1A',
             padding: '4px 8px',
             borderRadius: 'var(--radius-sm)',
             fontSize: '11px',

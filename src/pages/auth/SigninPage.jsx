@@ -260,7 +260,7 @@ export default function SigninPage() {
                 style={{
                   padding: '14px 24px',
                   background: loading ? 'var(--d-border)' : 'var(--d-accent)',
-                  color: loading ? 'var(--d-ink-2)' : '#1B0F07',
+                  color: loading ? 'var(--d-ink-2)' : '#211C1A',
                   border: 'none',
                   borderRadius: '999px',
                   fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600',
@@ -375,7 +375,7 @@ export default function SigninPage() {
                 style={{
                   padding: '14px 24px',
                   background: (loading || token.length !== 6) ? 'var(--d-border)' : 'var(--d-accent)',
-                  color: (loading || token.length !== 6) ? 'var(--d-ink-2)' : '#1B0F07',
+                  color: (loading || token.length !== 6) ? 'var(--d-ink-2)' : '#211C1A',
                   border: 'none',
                   borderRadius: '999px',
                   fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600',

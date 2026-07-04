@@ -10,7 +10,7 @@ const INKT = '#111111'
 const GRIJS = '#555555'
 const LICHTGRIJS = '#999999'
 const HAARLIJN = '#CCCCCC'
-const ACCENT = '#C79A6E' // alleen voor het woordmerk
+const ACCENT = '#D4A373' // alleen voor het woordmerk
 
 const styles = StyleSheet.create({
   page: {

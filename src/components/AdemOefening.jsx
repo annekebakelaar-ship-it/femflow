@@ -78,34 +78,34 @@ export default function AdemOefening({ onSluit }) {
   const minOver = `${Math.floor(over / 60)}:${String(over % 60).padStart(2, '0')}`
 
   return (
-    <div style={{ position: 'absolute', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', background: '#0a0402', fontFamily: sans }}>
+    <div style={{ position: 'absolute', inset: 0, zIndex: 60, display: 'flex', flexDirection: 'column', background: '#1a1614', fontFamily: sans }}>
       {/* Kop: sluiten + geluid */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '18px 20px 0' }}>
-        <button onClick={onSluit} style={{ background: 'rgba(196,137,106,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-          <X size={16} color="#a08070" />
+        <button onClick={onSluit} style={{ background: 'rgba(212,163,115,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+          <X size={16} color="#A8998A" />
         </button>
         {status === 'bezig' && (
-          <button onClick={toggleGeluid} style={{ background: 'rgba(196,137,106,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-            {geluid ? <Volume2 size={16} color="#c4896a" /> : <VolumeX size={16} color="#a08070" />}
+          <button onClick={toggleGeluid} style={{ background: 'rgba(212,163,115,0.1)', border: 'none', borderRadius: '50%', width: 36, height: 36, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
+            {geluid ? <Volume2 size={16} color="#D4A373" /> : <VolumeX size={16} color="#A8998A" />}
           </button>
         )}
       </div>
 
       {status === 'kies' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
-          <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#a08070', margin: '0 0 8px' }}>ADEMOEFENING</p>
-          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#f5ede8', margin: '0 0 10px' }}>4 tellen in, 6 tellen uit</h1>
-          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 28px', maxWidth: 280 }}>
+          <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#A8998A', margin: '0 0 8px' }}>ADEMOEFENING</p>
+          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#F5F2EB', margin: '0 0 10px' }}>4 tellen in, 6 tellen uit</h1>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 28px', maxWidth: 280 }}>
             Beweeg mee met de cirkel. Je telefoon telt hardop mee; zet het geluid uit als je liever stil oefent.
           </p>
           <div style={{ display: 'flex', gap: 10, marginBottom: 28 }}>
             {[1, 3, 5].map(m => (
-              <button key={m} onClick={() => setDuurMin(m)} style={{ padding: '10px 20px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, background: duurMin === m ? 'rgba(196,137,106,0.35)' : 'rgba(196,137,106,0.1)', color: duurMin === m ? '#f5ede8' : '#a08070' }}>
+              <button key={m} onClick={() => setDuurMin(m)} style={{ padding: '10px 20px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, background: duurMin === m ? 'rgba(212,163,115,0.35)' : 'rgba(212,163,115,0.1)', color: duurMin === m ? '#F5F2EB' : '#A8998A' }}>
                 {m} min
               </button>
             ))}
           </div>
-          <button onClick={start} style={{ padding: '16px 48px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)', boxShadow: '0 6px 24px rgba(212,169,106,0.35)' }}>
+          <button onClick={start} style={{ padding: '16px 48px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 15, fontWeight: 600, color: '#211C1A', background: 'linear-gradient(135deg, #DFB88A, #D4A373)', boxShadow: '0 6px 24px rgba(212,163,115,0.35)' }}>
             Start
           </button>
         </div>
@@ -115,31 +115,31 @@ export default function AdemOefening({ onSluit }) {
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px' }}>
           {/* Ademcirkels: buitenring vast, binnencirkel beweegt op de adem */}
           <div style={{ position: 'relative', width: 260, height: 260, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 36 }}>
-            <div style={{ position: 'absolute', width: 252, height: 252, borderRadius: '50%', border: '1px solid rgba(212,170,100,0.25)' }} />
+            <div style={{ position: 'absolute', width: 252, height: 252, borderRadius: '50%', border: '1px solid rgba(212,163,115,0.25)' }} />
             <div style={{
               position: 'absolute', width: 220, height: 220, borderRadius: '50%',
-              background: 'radial-gradient(circle, rgba(220,175,100,0.5) 0%, rgba(196,137,80,0.25) 55%, transparent 75%)',
+              background: 'radial-gradient(circle, rgba(223,184,138,0.5) 0%, rgba(200,152,100,0.25) 55%, transparent 75%)',
               filter: 'blur(6px)',
               transform: `scale(${inademen ? 1 : 0.55})`,
               transition: `transform ${inademen ? IN_SEC : UIT_SEC}s cubic-bezier(0.45, 0, 0.35, 1)`,
             }} />
             <div style={{
               position: 'absolute', width: 150, height: 150, borderRadius: '50%',
-              border: '1px solid rgba(232,200,170,0.4)', background: 'rgba(196,137,106,0.12)',
+              border: '1px solid rgba(230,212,190,0.4)', background: 'rgba(212,163,115,0.12)',
               transform: `scale(${inademen ? 1.35 : 0.8})`,
               transition: `transform ${inademen ? IN_SEC : UIT_SEC}s cubic-bezier(0.45, 0, 0.35, 1)`,
             }} />
             <div style={{ position: 'relative', textAlign: 'center', zIndex: 2 }}>
-              <p style={{ fontFamily: serif, fontSize: 56, color: '#f5ede8', margin: 0, lineHeight: 1, textShadow: '0 2px 24px rgba(0,0,0,0.5)' }}>{stap.tel}</p>
-              <p style={{ fontSize: 13, letterSpacing: '0.2em', color: '#d4a96a', margin: '8px 0 0', textTransform: 'uppercase' }}>
+              <p style={{ fontFamily: serif, fontSize: 56, color: '#F5F2EB', margin: 0, lineHeight: 1, textShadow: '0 2px 24px rgba(0,0,0,0.5)' }}>{stap.tel}</p>
+              <p style={{ fontSize: 13, letterSpacing: '0.2em', color: '#DFB88A', margin: '8px 0 0', textTransform: 'uppercase' }}>
                 {inademen ? 'Adem in' : 'Adem uit'}
               </p>
             </div>
           </div>
-          <p style={{ fontSize: 13, color: '#a08070', margin: 0 }}>
+          <p style={{ fontSize: 13, color: '#A8998A', margin: 0 }}>
             Ronde {Math.min(stap.ronde, klaarNa)} van {klaarNa} · nog {minOver}
           </p>
-          <button onClick={() => { setStatus('klaar'); stopSpraak() }} style={{ marginTop: 20, padding: '10px 24px', borderRadius: 999, border: '1px solid rgba(196,137,106,0.3)', background: 'transparent', color: '#c4896a', fontFamily: sans, fontSize: 13, cursor: 'pointer' }}>
+          <button onClick={() => { setStatus('klaar'); stopSpraak() }} style={{ marginTop: 20, padding: '10px 24px', borderRadius: 999, border: '1px solid rgba(212,163,115,0.3)', background: 'transparent', color: '#D4A373', fontFamily: sans, fontSize: 13, cursor: 'pointer' }}>
             Stoppen
           </button>
         </div>
@@ -147,14 +147,14 @@ export default function AdemOefening({ onSluit }) {
 
       {status === 'klaar' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
-          <div style={{ width: 120, height: 120, borderRadius: '50%', marginBottom: 24, background: 'radial-gradient(circle, rgba(220,175,100,0.4) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#f5ede8', margin: 0 }}>Rust</p>
+          <div style={{ width: 120, height: 120, borderRadius: '50%', marginBottom: 24, background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#F5F2EB', margin: 0 }}>Rust</p>
           </div>
-          <h2 style={{ fontFamily: serif, fontSize: 24, color: '#f5ede8', margin: '0 0 8px' }}>Goed gedaan</h2>
-          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#a08070', margin: '0 0 24px', maxWidth: 260 }}>
+          <h2 style={{ fontFamily: serif, fontSize: 24, color: '#F5F2EB', margin: '0 0 8px' }}>Goed gedaan</h2>
+          <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 24px', maxWidth: 260 }}>
             {Math.min(stap.ronde, klaarNa)} rondes rustig geademd. Merk even op hoe je lijf nu voelt, voordat je verder gaat.
           </p>
-          <button onClick={onSluit} style={{ padding: '13px 36px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, fontWeight: 600, color: '#1a0d08', background: 'linear-gradient(135deg, #d4a96a, #c4896a)' }}>
+          <button onClick={onSluit} style={{ padding: '13px 36px', borderRadius: 999, border: 'none', cursor: 'pointer', fontFamily: sans, fontSize: 14, fontWeight: 600, color: '#211C1A', background: 'linear-gradient(135deg, #DFB88A, #D4A373)' }}>
             Klaar
           </button>
         </div>

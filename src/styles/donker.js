@@ -66,7 +66,7 @@ export const terugKnop = {
 export const primaireKnop = {
   padding: '12px 20px',
   background: 'var(--d-accent)',
-  color: '#1B0F07',
+  color: '#211C1A',
   border: 'none',
   borderRadius: '999px',
   cursor: 'pointer',

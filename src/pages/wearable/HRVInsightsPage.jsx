@@ -52,7 +52,7 @@ export default function HRVInsightsPage() {
             marginTop: '20px',
             padding: '10px 20px',
             background: 'var(--d-accent)',
-            color: '#1B0F07',
+            color: '#211C1A',
             border: 'none',
             borderRadius: '999px',
             cursor: 'pointer',

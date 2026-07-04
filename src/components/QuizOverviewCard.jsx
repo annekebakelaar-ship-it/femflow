@@ -77,7 +77,7 @@ export default function QuizOverviewCard() {
             marginTop: 'var(--space-sm)',
             padding: 'var(--space-sm) var(--space-md)',
             background: 'var(--d-accent)',
-            color: '#1B0F07',
+            color: '#211C1A',
             border: 'none',
             borderRadius: '999px',
             fontSize: '11px',

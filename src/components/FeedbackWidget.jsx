@@ -219,7 +219,7 @@ export default function FeedbackWidget() {
                     width: '100%',
                     padding: '12px',
                     background: feedback.trim().length >= 10 ? 'var(--d-accent)' : 'var(--d-border)',
-                    color: '#1B0F07',
+                    color: '#211C1A',
                     border: 'none',
                     borderRadius: '12px',
                     cursor: feedback.trim().length >= 10 ? 'pointer' : 'not-allowed',

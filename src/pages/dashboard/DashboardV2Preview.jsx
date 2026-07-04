@@ -12,6 +12,7 @@ import {
 import { getWearableReadings, clearToken } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import heroImg from '../../assets/figma-hero.png'
+import logoImg from '../../assets/ovari-logo.jpg'
 
 // V2-homepage: de RUSTIGE variant van het dashboard. Zelfde palet en
 // designtaal als DashboardPreview, maar elk gegeven staat er nog maar
@@ -62,18 +63,18 @@ function CycleHero({ faseInfo, onClick }) {
   const poetic = faseInfo ? POETIC[faseInfo.fase] : 'Welkom'
   return (
     <div onClick={onClick} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, height: 320, cursor: 'pointer' }}>
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(196,137,106,0.2) 0%, transparent 70%)' }} />
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.2) 0%, transparent 70%)' }} />
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 260, height: 260, marginTop: 80 }}>
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,170,100,0.25)', boxShadow: '0 0 22px 4px rgba(212,160,80,0.12)' }} />
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(220,175,100,0.45) 0%, rgba(196,137,80,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,163,115,0.25)', boxShadow: '0 0 22px 4px rgba(212,163,115,0.12)' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(223,184,138,0.45) 0%, rgba(200,152,100,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
         <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-          <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(232,200,170,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
+          <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
             {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
           </p>
-          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#f5ede8', textShadow: '0 0 40px rgba(196,137,106,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
+          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 40px rgba(212,163,115,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
             {poetic}
           </p>
-          <p style={{ fontSize: 14, marginTop: 8, color: '#d4a96a', fontFamily: sans }}>
+          <p style={{ fontSize: 14, marginTop: 8, color: '#DFB88A', fontFamily: sans }}>
             {faseInfo ? `Dag ${faseInfo.dag} van ${faseInfo.cycleLength}` : 'Stel je cyclus in'}
           </p>
         </div>
@@ -104,10 +105,10 @@ function CycleLijn({ faseInfo, onClick }) {
           vorige = tot
           const actief = key === faseInfo.fase
           return (
-            <div key={key} style={{ width: `${breedte}%`, height: '100%', borderRadius: 999, background: actief ? 'rgba(196,137,106,0.75)' : 'rgba(196,137,106,0.18)' }} />
+            <div key={key} style={{ width: `${breedte}%`, height: '100%', borderRadius: 999, background: actief ? 'rgba(212,163,115,0.75)' : 'rgba(212,163,115,0.18)' }} />
           )
         })}
-        <div style={{ position: 'absolute', left: `${positie}%`, top: '50%', transform: 'translate(-50%, -50%)', width: 10, height: 10, borderRadius: '50%', background: '#e8b87a', boxShadow: '0 0 8px 2px rgba(220,170,90,0.5)' }} />
+        <div style={{ position: 'absolute', left: `${positie}%`, top: '50%', transform: 'translate(-50%, -50%)', width: 10, height: 10, borderRadius: '50%', background: '#E5C297', boxShadow: '0 0 8px 2px rgba(220,170,90,0.5)' }} />
       </div>
     </div>
   )
@@ -115,24 +116,24 @@ function CycleLijn({ faseInfo, onClick }) {
 
 function HRVCard({ hrv, weeklyHRV, onClick }) {
   return (
-    <div onClick={onClick} style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
-      <p style={{ fontSize: 12, marginTop: 0, marginBottom: 4, color: '#a08070', letterSpacing: '0.14em', fontFamily: sans }}>HERSTEL - HRV</p>
+    <div onClick={onClick} style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
+      <p style={{ fontSize: 12, marginTop: 0, marginBottom: 4, color: '#A8998A', letterSpacing: '0.14em', fontFamily: sans }}>HERSTEL - HRV</p>
       <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4, marginBottom: 12 }}>
-        <span style={{ fontFamily: serif, fontSize: 52, lineHeight: 1, color: '#f5ede8', fontWeight: 700 }}>{hrv ?? '—'}</span>
-        <span style={{ fontSize: 16, marginBottom: 6, color: '#c4896a', fontFamily: sans }}>ms</span>
+        <span style={{ fontFamily: serif, fontSize: 52, lineHeight: 1, color: '#F5F2EB', fontWeight: 700 }}>{hrv ?? '—'}</span>
+        <span style={{ fontSize: 16, marginBottom: 6, color: '#D4A373', fontFamily: sans }}>ms</span>
       </div>
       <ResponsiveContainer width="100%" height={80}>
         <AreaChart data={weeklyHRV}>
           <defs>
             <linearGradient id="hrvG2" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#c4896a" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="#c4896a" stopOpacity={0} />
+              <stop offset="5%" stopColor="#D4A373" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#D4A373" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="dag" axisLine={false} tickLine={false} tick={{ fill: '#a08070', fontSize: 10 }} />
+          <XAxis dataKey="dag" axisLine={false} tickLine={false} tick={{ fill: '#A8998A', fontSize: 10 }} />
           <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
-          <Tooltip contentStyle={{ background: '#2a1610', border: 'none', borderRadius: 10, color: '#f5ede8', fontSize: 12 }} />
-          <Area type="monotone" dataKey="hrv" stroke="#c4896a" strokeWidth={2} fill="url(#hrvG2)" dot={false} connectNulls />
+          <Tooltip contentStyle={{ background: '#2D2623', border: 'none', borderRadius: 10, color: '#F5F2EB', fontSize: 12 }} />
+          <Area type="monotone" dataKey="hrv" stroke="#D4A373" strokeWidth={2} fill="url(#hrvG2)" dot={false} connectNulls />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -142,14 +143,14 @@ function HRVCard({ hrv, weeklyHRV, onClick }) {
 // Een stille statregel: een kaart, vier kolommen, geen icoonblokjes
 function StatsRij({ stats }) {
   return (
-    <div style={{ margin: '0 16px', borderRadius: 16, padding: '14px 8px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+    <div style={{ margin: '0 16px', borderRadius: 16, padding: '14px 8px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
       {stats.map(({ icon: Icon, label, value, unit }) => (
         <div key={label} style={{ textAlign: 'center' }}>
           <Icon size={13} color="#7a5a44" style={{ marginBottom: 6 }} />
-          <p style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.2, margin: 0, color: '#f5ede8', fontFamily: sans }}>
-            {value}<span style={{ fontSize: 11, fontWeight: 400, color: '#a08070', marginLeft: 2 }}>{unit}</span>
+          <p style={{ fontSize: 15, fontWeight: 500, lineHeight: 1.2, margin: 0, color: '#F5F2EB', fontFamily: sans }}>
+            {value}<span style={{ fontSize: 11, fontWeight: 400, color: '#A8998A', marginLeft: 2 }}>{unit}</span>
           </p>
-          <p style={{ fontSize: 11, margin: '2px 0 0 0', color: '#a08070', fontFamily: sans }}>{label}</p>
+          <p style={{ fontSize: 11, margin: '2px 0 0 0', color: '#A8998A', fontFamily: sans }}>{label}</p>
         </div>
       ))}
     </div>
@@ -193,18 +194,18 @@ function ContextKaart({ faseInfo, dSinds, advies, onLog, onFase, onLeefstijl }) 
   }
   const Icon = icon
   return (
-    <div onClick={actie} style={{ margin: '0 16px', borderRadius: 16, padding: 18, display: 'flex', gap: 14, alignItems: 'flex-start', background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
-      <div style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(196,137,106,0.15)' }}>
-        <Icon size={15} color="#c4896a" />
+    <div onClick={actie} style={{ margin: '0 16px', borderRadius: 16, padding: 18, display: 'flex', gap: 14, alignItems: 'flex-start', background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
+      <div style={{ width: 34, height: 34, borderRadius: 10, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(212,163,115,0.15)' }}>
+        <Icon size={15} color="#D4A373" />
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          <p style={{ fontSize: 14, fontWeight: 500, margin: '0 0 4px 0', color: '#f5ede8', fontFamily: serif, flex: 1 }}>{titel}</p>
-          {label && <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,169,106,0.15)', color: '#d4a96a', fontFamily: sans }}>{label}</span>}
+          <p style={{ fontSize: 14, fontWeight: 500, margin: '0 0 4px 0', color: '#F5F2EB', fontFamily: serif, flex: 1 }}>{titel}</p>
+          {label && <span style={{ fontSize: 11, padding: '2px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,163,115,0.15)', color: '#DFB88A', fontFamily: sans }}>{label}</span>}
         </div>
-        <p style={{ fontSize: 13, lineHeight: 1.55, margin: 0, color: '#a08070', fontFamily: sans }}>{tekst}</p>
+        <p style={{ fontSize: 13, lineHeight: 1.55, margin: 0, color: '#A8998A', fontFamily: sans }}>{tekst}</p>
         {/* Duidelijke actieregel: de hele kaart is tikbaar, dit zegt waarheen */}
-        <p style={{ fontSize: 12, margin: '8px 0 0', display: 'flex', alignItems: 'center', gap: 4, color: '#c4896a', fontFamily: sans }}>
+        <p style={{ fontSize: 12, margin: '8px 0 0', display: 'flex', alignItems: 'center', gap: 4, color: '#D4A373', fontFamily: sans }}>
           {actieTekst} <ChevronRight size={12} />
         </p>
       </div>
@@ -268,32 +269,33 @@ export default function DashboardV2Preview() {
   function logout() { clearToken(); navigate('/') }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#0a0402', fontFamily: sans }}>
+    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#1a1614', fontFamily: sans }}>
       <style>{`
         .fp-noscroll { scrollbar-width: none; -ms-overflow-style: none; }
         .fp-noscroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
       `}</style>
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#110806' }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#211c1a' }}>
         {/* Topbar zweeft over de hero-foto zodat die tot de schermrand doorloopt */}
         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', background: 'linear-gradient(to bottom, rgba(10,4,2,0.55) 0%, transparent 100%)' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #c4896a, #8b4a2c)' }} />
-            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>Ovari</span>
+            {/* Ovari-embleem (bruine variant vloeit weg op de espresso-achtergrond) */}
+            <img src={logoImg} alt="" style={{ width: 30, height: 30, borderRadius: 9, objectFit: 'cover', objectPosition: 'center 22%' }} />
+            <span style={{ fontFamily: serif, color: '#F5F2EB', fontSize: 16 }}>Ovari</span>
           </div>
           <div style={{ position: 'relative' }}>
-            <button onClick={() => setAvatarOpen(!avatarOpen)} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
-              <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #c4896a, #6b3a25)', color: '#f5ede8' }}>{initiaal}</div>
-              <ChevronDown size={10} color="#a08070" />
+            <button onClick={() => setAvatarOpen(!avatarOpen)} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(212,163,115,0.1)', border: 'none', cursor: 'pointer' }}>
+              <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #D4A373, #6F5238)', color: '#F5F2EB' }}>{initiaal}</div>
+              <ChevronDown size={10} color="#A8998A" />
             </button>
             {avatarOpen && (
-              <div style={{ position: 'absolute', right: 0, top: 36, borderRadius: 16, padding: '4px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2a1610', minWidth: 150 }}>
+              <div style={{ position: 'absolute', right: 0, top: 36, borderRadius: 16, padding: '4px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2D2623', minWidth: 150 }}>
                 {[
                   { icon: User, label: 'Profiel', act: () => navigate('/account') },
                   { icon: Settings, label: 'Instellingen', act: () => navigate('/consent') },
                   { icon: LogOut, label: 'Uitloggen', act: logout },
                 ].map(({ icon: Icon, label, act }) => (
                   <button key={label} onClick={() => { setAvatarOpen(false); act() }}
-                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', color: label === 'Uitloggen' ? '#c4896a' : '#f5ede8', fontFamily: sans }}>
+                    style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', color: label === 'Uitloggen' ? '#D4A373' : '#F5F2EB', fontFamily: sans }}>
                     <Icon size={12} /> {label}
                   </button>
                 ))}
@@ -307,7 +309,7 @@ export default function DashboardV2Preview() {
           {/* Foto loopt tot de bovenrand door (topbar zweeft erboven); onderkant
               vloeit met een langere gradient in de achtergrond over */}
           <img src={heroImg} alt="" aria-hidden style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, objectFit: 'cover', objectPosition: 'center 20%', pointerEvents: 'none', zIndex: 0 }} />
-          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,4,2,0.35) 0%, rgba(10,4,2,0.12) 26%, rgba(17,8,6,0.4) 55%, rgba(17,8,6,0.78) 75%, rgba(17,8,6,0.96) 90%, #110806 100%)' }} />
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 560, pointerEvents: 'none', zIndex: 1, background: 'linear-gradient(to bottom, rgba(10,4,2,0.35) 0%, rgba(10,4,2,0.12) 26%, rgba(17,8,6,0.4) 55%, rgba(17,8,6,0.78) 75%, rgba(17,8,6,0.96) 90%, #211c1a 100%)' }} />
 
           <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', gap: 20, paddingBottom: 32, zIndex: 2 }}>
             <CycleHero faseInfo={faseInfo} onClick={() => navigate(faseInfo ? '/health/cycle-analytics' : '/health/menstruation')} />

@@ -173,7 +173,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
                 padding: 'var(--space-sm) var(--space-md)',
                 borderRadius: '12px',
                 background: msg.type === 'user' ? 'var(--d-accent)' : 'var(--d-card-solid)',
-                color: msg.type === 'user' ? '#1B0F07' : 'var(--d-ink)',
+                color: msg.type === 'user' ? '#211C1A' : 'var(--d-ink)',
                 fontSize: 'var(--font-size-small)',
                 lineHeight: '1.5',
               }}
@@ -254,7 +254,7 @@ export default function QuizChatBot({ activeSignals = [] }) {
           style={{
             padding: 'var(--space-sm) var(--space-md)',
             background: 'var(--d-accent)',
-            color: '#1B0F07',
+            color: '#211C1A',
             border: 'none',
             borderRadius: '8px',
             cursor: isLoading || !input.trim() ? 'not-allowed' : 'pointer',

@@ -65,18 +65,18 @@ function CycleHero({ faseInfo, onClick }) {
   const poetic = faseInfo ? POETIC[faseInfo.fase] : 'Welkom'
   return (
     <div onClick={onClick} style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, height: 320, cursor: 'pointer' }}>
-      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(196,137,106,0.2) 0%, transparent 70%)' }} />
+      <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.2) 0%, transparent 70%)' }} />
       <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 260, height: 260, marginTop: 80 }}>
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,170,100,0.25)', boxShadow: '0 0 22px 4px rgba(212,160,80,0.12)' }} />
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(220,175,100,0.45) 0%, rgba(196,137,80,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 252, height: 252, border: '1px solid rgba(212,163,115,0.25)', boxShadow: '0 0 22px 4px rgba(212,163,115,0.12)' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 160, height: 160, background: 'radial-gradient(circle, rgba(223,184,138,0.45) 0%, rgba(200,152,100,0.2) 45%, transparent 70%)', filter: 'blur(14px)' }} />
         <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-          <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(232,200,170,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
+          <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
             {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
           </p>
-          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#f5ede8', textShadow: '0 0 40px rgba(196,137,106,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
+          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 40px rgba(212,163,115,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
             {poetic}
           </p>
-          <p style={{ fontSize: 14, marginTop: 8, color: '#d4a96a', fontFamily: sans }}>
+          <p style={{ fontSize: 14, marginTop: 8, color: '#DFB88A', fontFamily: sans }}>
             {faseInfo ? `Dag ${faseInfo.dag} / ${faseInfo.cycleLength}` : 'Stel je cyclus in'}
           </p>
         </div>
@@ -87,14 +87,14 @@ function CycleHero({ faseInfo, onClick }) {
 
 function PhaseCard({ faseInfo, onClick }) {
   return (
-    <div onClick={onClick} style={{ margin: '0 16px', borderRadius: 16, display: 'flex', alignItems: 'center', gap: 16, padding: 16, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
-      <div style={{ width: 56, height: 56, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #b06a3a, #e8b87a, #c4896a)', boxShadow: '0 4px 14px rgba(220,160,80,0.35)' }}>
-        <Droplet size={22} color="#f5ede8" />
+    <div onClick={onClick} style={{ margin: '0 16px', borderRadius: 16, display: 'flex', alignItems: 'center', gap: 16, padding: 16, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', cursor: 'pointer' }}>
+      <div style={{ width: 56, height: 56, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #B08050, #E5C297, #D4A373)', boxShadow: '0 4px 14px rgba(220,160,80,0.35)' }}>
+        <Droplet size={22} color="#F5F2EB" />
       </div>
       <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 12, margin: '0 0 2px 0', color: '#a08070', fontFamily: sans }}>{faseInfo ? `Dag ${faseInfo.dag}` : 'Cyclus'}</p>
-        <p style={{ fontWeight: 600, fontSize: 16, margin: 0, color: '#f5ede8', fontFamily: serif }}>{faseInfo ? faseInfo.fase : 'Nog niet ingesteld'}</p>
-        <p style={{ fontSize: 12, margin: '2px 0 0 0', display: 'flex', alignItems: 'center', gap: 4, color: '#c4896a', fontFamily: sans }}>
+        <p style={{ fontSize: 12, margin: '0 0 2px 0', color: '#A8998A', fontFamily: sans }}>{faseInfo ? `Dag ${faseInfo.dag}` : 'Cyclus'}</p>
+        <p style={{ fontWeight: 600, fontSize: 16, margin: 0, color: '#F5F2EB', fontFamily: serif }}>{faseInfo ? faseInfo.fase : 'Nog niet ingesteld'}</p>
+        <p style={{ fontSize: 12, margin: '2px 0 0 0', display: 'flex', alignItems: 'center', gap: 4, color: '#D4A373', fontFamily: sans }}>
           Bekijk inzichten <ChevronRight size={12} />
         </p>
       </div>
@@ -104,21 +104,21 @@ function PhaseCard({ faseInfo, onClick }) {
 
 function HRVCard({ hrv, weeklyHRV, onCard, onLog, onLearn }) {
   return (
-    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
       <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 12 }}>
         <div onClick={onCard} style={{ cursor: 'pointer' }}>
-          <p style={{ fontSize: 12, marginBottom: 4, color: '#a08070', letterSpacing: '0.14em', fontFamily: sans }}>HARTRITME VARIABILITEIT</p>
+          <p style={{ fontSize: 12, marginBottom: 4, color: '#A8998A', letterSpacing: '0.14em', fontFamily: sans }}>HARTRITME VARIABILITEIT</p>
           <div style={{ display: 'flex', alignItems: 'flex-end', gap: 4 }}>
-            <span style={{ fontFamily: serif, fontSize: 52, lineHeight: 1, color: '#f5ede8', fontWeight: 700 }}>{hrv ?? '—'}</span>
-            <span style={{ fontSize: 16, marginBottom: 6, color: '#c4896a', fontFamily: sans }}>ms</span>
+            <span style={{ fontFamily: serif, fontSize: 52, lineHeight: 1, color: '#F5F2EB', fontWeight: 700 }}>{hrv ?? '—'}</span>
+            <span style={{ fontSize: 16, marginBottom: 6, color: '#D4A373', fontFamily: sans }}>ms</span>
           </div>
         </div>
         <div style={{ display: 'flex', gap: 8, marginTop: 4 }}>
-          <button onClick={onLog} style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#c4896a', border: 'none', cursor: 'pointer' }}>
-            <Droplet size={16} color="#f5ede8" />
+          <button onClick={onLog} style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#D4A373', border: 'none', cursor: 'pointer' }}>
+            <Droplet size={16} color="#F5F2EB" />
           </button>
-          <button onClick={onLearn} style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#d4a96a', border: 'none', cursor: 'pointer' }}>
-            <BookOpen size={16} color="#1a0d08" />
+          <button onClick={onLearn} style={{ width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#DFB88A', border: 'none', cursor: 'pointer' }}>
+            <BookOpen size={16} color="#211C1A" />
           </button>
         </div>
       </div>
@@ -126,14 +126,14 @@ function HRVCard({ hrv, weeklyHRV, onCard, onLog, onLearn }) {
         <AreaChart data={weeklyHRV}>
           <defs>
             <linearGradient id="hrvG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#c4896a" stopOpacity={0.4} />
-              <stop offset="95%" stopColor="#c4896a" stopOpacity={0} />
+              <stop offset="5%" stopColor="#D4A373" stopOpacity={0.4} />
+              <stop offset="95%" stopColor="#D4A373" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="dag" axisLine={false} tickLine={false} tick={{ fill: '#a08070', fontSize: 10 }} />
+          <XAxis dataKey="dag" axisLine={false} tickLine={false} tick={{ fill: '#A8998A', fontSize: 10 }} />
           <YAxis hide domain={['dataMin - 5', 'dataMax + 5']} />
-          <Tooltip contentStyle={{ background: '#2a1610', border: 'none', borderRadius: 10, color: '#f5ede8', fontSize: 12 }} />
-          <Area type="monotone" dataKey="hrv" stroke="#c4896a" strokeWidth={2} fill="url(#hrvG)" dot={false} connectNulls />
+          <Tooltip contentStyle={{ background: '#2D2623', border: 'none', borderRadius: 10, color: '#F5F2EB', fontSize: 12 }} />
+          <Area type="monotone" dataKey="hrv" stroke="#D4A373" strokeWidth={2} fill="url(#hrvG)" dot={false} connectNulls />
         </AreaChart>
       </ResponsiveContainer>
     </div>
@@ -144,14 +144,14 @@ function StatsRow({ stats }) {
   return (
     <div style={{ margin: '0 16px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
       {stats.map(({ icon: Icon, label, value, unit }) => (
-        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', borderRadius: 12, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
-          <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(196,137,106,0.18)' }}>
-            <Icon size={14} color="#c4896a" />
+        <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px', borderRadius: 12, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+          <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, background: 'rgba(212,163,115,0.18)' }}>
+            <Icon size={14} color="#D4A373" />
           </div>
           <div>
-            <p style={{ fontSize: 12, margin: 0, color: '#a08070', fontFamily: sans }}>{label}</p>
-            <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.2, margin: 0, color: '#f5ede8', fontFamily: sans }}>
-              {value} <span style={{ fontSize: 12, fontWeight: 400, color: '#a08070' }}>{unit}</span>
+            <p style={{ fontSize: 12, margin: 0, color: '#A8998A', fontFamily: sans }}>{label}</p>
+            <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.2, margin: 0, color: '#F5F2EB', fontFamily: sans }}>
+              {value} <span style={{ fontSize: 12, fontWeight: 400, color: '#A8998A' }}>{unit}</span>
             </p>
           </div>
         </div>
@@ -167,10 +167,10 @@ function CycleOverview({ faseInfo, cycleData }) {
   ]
   const actief = faseInfo?.fase
   return (
-    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
+    <div style={{ margin: '0 16px', borderRadius: 16, padding: 20, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }}>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#f5ede8', fontFamily: serif }}>Cyclus overzicht</p>
-        <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 999, background: 'rgba(196,137,106,0.15)', color: '#c4896a', fontFamily: sans }}>
+        <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#F5F2EB', fontFamily: serif }}>Cyclus overzicht</p>
+        <span style={{ fontSize: 12, padding: '2px 8px', borderRadius: 999, background: 'rgba(212,163,115,0.15)', color: '#D4A373', fontFamily: sans }}>
           {faseInfo ? `${faseInfo.cycleLength} dagen` : '—'}
         </span>
       </div>
@@ -178,12 +178,12 @@ function CycleOverview({ faseInfo, cycleData }) {
         <AreaChart data={cycleData}>
           <defs>
             <linearGradient id="cycG" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#d4a96a" stopOpacity={0.3} />
-              <stop offset="95%" stopColor="#d4a96a" stopOpacity={0} />
+              <stop offset="5%" stopColor="#DFB88A" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="#DFB88A" stopOpacity={0} />
             </linearGradient>
           </defs>
           <XAxis hide /><YAxis hide />
-          <Area type="monotone" dataKey="v" stroke="#d4a96a" strokeWidth={2} fill="url(#cycG)" dot={false} />
+          <Area type="monotone" dataKey="v" stroke="#DFB88A" strokeWidth={2} fill="url(#cycG)" dot={false} />
         </AreaChart>
       </ResponsiveContainer>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 8 }}>
@@ -191,8 +191,8 @@ function CycleOverview({ faseInfo, cycleData }) {
           const on = actief === key
           return (
             <div key={label} style={{ textAlign: 'center' }}>
-              <div style={{ width: 6, height: 6, borderRadius: '50%', margin: '0 auto 4px auto', background: on ? '#c4896a' : '#5a3020' }} />
-              <p style={{ fontSize: 12, margin: 0, color: on ? '#c4896a' : '#5a3020', fontFamily: sans }}>{label}</p>
+              <div style={{ width: 6, height: 6, borderRadius: '50%', margin: '0 auto 4px auto', background: on ? '#D4A373' : '#6B5D52' }} />
+              <p style={{ fontSize: 12, margin: 0, color: on ? '#D4A373' : '#6B5D52', fontFamily: sans }}>{label}</p>
             </div>
           )
         })}
@@ -203,15 +203,15 @@ function CycleOverview({ faseInfo, cycleData }) {
 
 function InsightCard({ icon: Icon, title, desc, badge, onClick }) {
   return (
-    <div onClick={onClick} style={{ borderRadius: 16, padding: 16, flexShrink: 0, background: 'rgba(20,8,4,0.38)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', width: 210, cursor: 'pointer' }}>
+    <div onClick={onClick} style={{ borderRadius: 16, padding: 16, flexShrink: 0, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', width: 210, cursor: 'pointer' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
-        <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(196,137,106,0.15)' }}>
-          <Icon size={14} color="#c4896a" />
+        <div style={{ width: 32, height: 32, borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(212,163,115,0.15)' }}>
+          <Icon size={14} color="#D4A373" />
         </div>
-        <p style={{ fontSize: 14, fontWeight: 500, flex: 1, margin: 0, color: '#f5ede8', fontFamily: sans }}>{title}</p>
-        <span style={{ fontSize: 12, padding: '2px 6px', borderRadius: 999, background: 'rgba(196,137,106,0.12)', color: '#c4896a', fontFamily: sans }}>{badge}</span>
+        <p style={{ fontSize: 14, fontWeight: 500, flex: 1, margin: 0, color: '#F5F2EB', fontFamily: sans }}>{title}</p>
+        <span style={{ fontSize: 12, padding: '2px 6px', borderRadius: 999, background: 'rgba(212,163,115,0.12)', color: '#D4A373', fontFamily: sans }}>{badge}</span>
       </div>
-      <p style={{ fontSize: 12, lineHeight: 1.5, margin: 0, color: '#a08070', fontFamily: sans }}>{desc}</p>
+      <p style={{ fontSize: 12, lineHeight: 1.5, margin: 0, color: '#A8998A', fontFamily: sans }}>{desc}</p>
     </div>
   )
 }
@@ -297,52 +297,52 @@ export default function DashboardPreview() {
   ]
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#0a0402', fontFamily: sans }}>
+    <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#1a1614', fontFamily: sans }}>
       <style>{`
         .fp-noscroll { scrollbar-width: none; -ms-overflow-style: none; }
         .fp-noscroll::-webkit-scrollbar { display: none; width: 0; height: 0; }
       `}</style>
-      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#110806' }}>
+      <div style={{ position: 'relative', display: 'flex', flexDirection: 'column', overflow: 'hidden', width: '100%', maxWidth: 420, minHeight: '100vh', background: '#211c1a' }}>
         {/* Topbar */}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '16px 20px 8px', flexShrink: 0 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #c4896a, #8b4a2c)' }} />
-            <span style={{ fontFamily: serif, color: '#f5ede8', fontSize: 16 }}>Ovari</span>
+            <div style={{ width: 28, height: 28, borderRadius: '50%', background: 'linear-gradient(135deg, #D4A373, #8F6A44)' }} />
+            <span style={{ fontFamily: serif, color: '#F5F2EB', fontSize: 16 }}>Ovari</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <div style={{ position: 'relative' }}>
-              <button onClick={() => { setBellOpen(!bellOpen); setAvatarOpen(false) }} style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
-                <Bell size={14} color="#a08070" />
-                {meldingen.length > 0 && <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#c4896a' }} />}
+              <button onClick={() => { setBellOpen(!bellOpen); setAvatarOpen(false) }} style={{ width: 32, height: 32, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', background: 'rgba(212,163,115,0.1)', border: 'none', cursor: 'pointer' }}>
+                <Bell size={14} color="#A8998A" />
+                {meldingen.length > 0 && <span style={{ position: 'absolute', top: 6, right: 6, width: 6, height: 6, borderRadius: '50%', background: '#D4A373' }} />}
               </button>
               {bellOpen && (
-                <div style={{ position: 'absolute', right: 0, top: 40, borderRadius: 16, padding: '8px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2a1610', width: 240 }}>
-                  <p style={{ fontSize: 11, letterSpacing: '0.1em', color: '#a08070', margin: '4px 16px 8px', fontFamily: sans }}>MELDINGEN</p>
+                <div style={{ position: 'absolute', right: 0, top: 40, borderRadius: 16, padding: '8px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2D2623', width: 240 }}>
+                  <p style={{ fontSize: 11, letterSpacing: '0.1em', color: '#A8998A', margin: '4px 16px 8px', fontFamily: sans }}>MELDINGEN</p>
                   {meldingen.length === 0 ? (
-                    <p style={{ fontSize: 13, color: '#a08070', margin: '0 16px 6px', fontFamily: sans }}>Niets nieuws.</p>
+                    <p style={{ fontSize: 13, color: '#A8998A', margin: '0 16px 6px', fontFamily: sans }}>Niets nieuws.</p>
                   ) : meldingen.map(({ icon: Icon, tekst }, i) => (
                     <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '8px 16px' }}>
-                      <Icon size={14} color="#c4896a" />
-                      <span style={{ fontSize: 13, color: '#f5ede8', fontFamily: sans }}>{tekst}</span>
+                      <Icon size={14} color="#D4A373" />
+                      <span style={{ fontSize: 13, color: '#F5F2EB', fontFamily: sans }}>{tekst}</span>
                     </div>
                   ))}
                 </div>
               )}
             </div>
             <div style={{ position: 'relative' }}>
-              <button onClick={() => { setAvatarOpen(!avatarOpen); setBellOpen(false) }} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(196,137,106,0.1)', border: 'none', cursor: 'pointer' }}>
-                <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #c4896a, #6b3a25)', color: '#f5ede8' }}>{initiaal}</div>
-                <ChevronDown size={10} color="#a08070" />
+              <button onClick={() => { setAvatarOpen(!avatarOpen); setBellOpen(false) }} style={{ display: 'flex', alignItems: 'center', gap: 4, borderRadius: 999, padding: '4px 6px', background: 'rgba(212,163,115,0.1)', border: 'none', cursor: 'pointer' }}>
+                <div style={{ width: 24, height: 24, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 600, background: 'linear-gradient(135deg, #D4A373, #6F5238)', color: '#F5F2EB' }}>{initiaal}</div>
+                <ChevronDown size={10} color="#A8998A" />
               </button>
               {avatarOpen && (
-                <div style={{ position: 'absolute', right: 0, top: 36, borderRadius: 16, padding: '4px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2a1610', minWidth: 150 }}>
+                <div style={{ position: 'absolute', right: 0, top: 36, borderRadius: 16, padding: '4px 0', boxShadow: '0 20px 40px rgba(0,0,0,0.6)', zIndex: 50, background: '#2D2623', minWidth: 150 }}>
                   {[
                     { icon: User, label: 'Profiel', act: () => navigate('/account') },
                     { icon: Settings, label: 'Instellingen', act: () => navigate('/consent') },
                     { icon: LogOut, label: 'Uitloggen', act: logout },
                   ].map(({ icon: Icon, label, act }) => (
                     <button key={label} onClick={() => { setAvatarOpen(false); act() }}
-                      style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', color: label === 'Uitloggen' ? '#c4896a' : '#f5ede8', fontFamily: sans }}>
+                      style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', fontSize: 14, background: 'none', border: 'none', cursor: 'pointer', color: label === 'Uitloggen' ? '#D4A373' : '#F5F2EB', fontFamily: sans }}>
                       <Icon size={12} /> {label}
                     </button>
                   ))}
@@ -372,8 +372,8 @@ export default function DashboardPreview() {
 
             <div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0 16px', marginBottom: 12 }}>
-                <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#f5ede8', fontFamily: serif }}>Inzichten</p>
-                <p onClick={() => navigate('/dashboard/learning')} style={{ fontSize: 12, margin: 0, color: '#c4896a', fontFamily: sans, cursor: 'pointer' }}>Alles</p>
+                <p style={{ fontSize: 14, fontWeight: 500, margin: 0, color: '#F5F2EB', fontFamily: serif }}>Inzichten</p>
+                <p onClick={() => navigate('/dashboard/learning')} style={{ fontSize: 12, margin: 0, color: '#D4A373', fontFamily: sans, cursor: 'pointer' }}>Alles</p>
               </div>
               <div className="fp-noscroll" style={{ display: 'flex', gap: 12, padding: '0 16px', overflowX: 'auto' }}>
                 <InsightCard icon={Droplet} title="Hydratatie" desc="Drink meer water tijdens je menstruatie." badge="Tip" onClick={() => navigate('/dashboard/learning')} />
@@ -385,13 +385,13 @@ export default function DashboardPreview() {
         </div>
 
         {/* Bottom-nav */}
-        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '12px 16px 24px', background: 'rgba(11,5,3,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
+        <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-around', padding: '12px 16px 24px', background: 'rgba(26,22,20,0.97)', backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)' }}>
           {navItems.map(({ icon: Icon, label, to }, i) => (
             <button key={label} onClick={() => { setActiveTab(i); navigate(to) }} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 4, background: 'none', border: 'none', cursor: 'pointer' }}>
-              <div style={{ width: 40, height: 40, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: activeTab === i ? 'rgba(196,137,106,0.16)' : 'transparent' }}>
-                <Icon size={20} color={activeTab === i ? '#c4896a' : '#4a2e20'} />
+              <div style={{ width: 40, height: 40, borderRadius: 16, display: 'flex', alignItems: 'center', justifyContent: 'center', background: activeTab === i ? 'rgba(212,163,115,0.16)' : 'transparent' }}>
+                <Icon size={20} color={activeTab === i ? '#D4A373' : '#574B41'} />
               </div>
-              <span style={{ fontSize: 12, color: activeTab === i ? '#c4896a' : '#4a2e20', fontFamily: sans }}>{label}</span>
+              <span style={{ fontSize: 12, color: activeTab === i ? '#D4A373' : '#574B41', fontFamily: sans }}>{label}</span>
             </button>
           ))}
         </div>

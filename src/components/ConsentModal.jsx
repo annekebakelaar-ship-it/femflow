@@ -202,7 +202,7 @@ export default function ConsentModal({ onAccept, onReject }) {
               fontFamily: 'var(--font-sans)',
               fontSize: '14px',
               fontWeight: '600',
-              color: '#1B0F07',
+              color: '#211C1A',
               transition: 'all 150ms ease',
             }}
             onMouseEnter={(e) => {

@@ -139,7 +139,7 @@ export default function MenuPage() {
                   flex: 1,
                   padding: '10px 12px',
                   background: 'var(--d-accent)',
-                  color: '#1B0F07',
+                  color: '#211C1A',
                   border: 'none',
                   borderRadius: '999px',
                   cursor: 'pointer',

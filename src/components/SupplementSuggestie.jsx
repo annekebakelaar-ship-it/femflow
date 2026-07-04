@@ -126,7 +126,7 @@ export default function SupplementSuggestie({ cyclusFase = null }) {
             gap: '8px',
             padding: '12px 20px',
             background: 'var(--d-accent)',
-            color: '#1B0F07',
+            color: '#211C1A',
             border: 'none',
             borderRadius: '999px',
             cursor: 'pointer',

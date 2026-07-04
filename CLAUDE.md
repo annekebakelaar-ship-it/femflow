@@ -1,4 +1,8 @@
-# CLAUDE.md — FemFlow (Menstruation & Perimenopause Tracker)
+# CLAUDE.md — Ovari (Menstruation & Perimenopause Tracker)
+
+> REBRAND 4 jul 2026: de app heet OVARI (was FemFlow; naamconflict). Interne
+> namen (femflow_ storage keys, femflow_ DB-prefix, femflow-api, repo-map)
+> blijven bewust FemFlow — alleen het zichtbare merk is Ovari.
 
 This file defines the build guidelines, style system, and architecture for FemFlow.
 Read before writing or changing code. Match these patterns exactly.
@@ -100,7 +104,7 @@ Key routes:
   --border:        #E8E0D8;      /* hairlines */
   
   /* Accent */
-  --accent:        #C79A6E;      /* caramel: highlights, active */
+  --accent:        #D4A373;      /* Warm Ochre (Ovari-stijlgids) */
   --accent-soft:   #ECE0D2;      /* tinted backgrounds */
   
   /* Status */
@@ -108,6 +112,16 @@ Key routes:
   --error:         #C0492D;
 }
 ```
+
+### Ovari app-palet (donkere ingelogde app, stijlgids 4 jul 2026)
+
+Hardcoded in de v2-schermen en als --d-* tokens in index.html:
+
+- Deep Espresso `#211C1A` — app-achtergrond (buitenrand `#1a1614`)
+- Smoked Umber `#2D2623` — dropdowns/tooltips; kaarten = `rgba(45,38,35,0.55)` + blur
+- Parchment White `#F5F2EB` — primaire tekst (secundair `#A8998A`, gedempt `#6B5D52`)
+- Warm Ochre `#D4A373` — accent/CTA (gradient-partner `#DFB88A`)
+- Logo: src/assets/ovari-logo.jpg (bruine variant); PWA-iconen in public/ ervan afgeleid
 
 ---
 
