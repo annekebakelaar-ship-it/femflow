@@ -71,10 +71,10 @@ function CycleHero({ faseInfo, onClick }) {
       </p>
 
       {/* Het Ovari-ringembleem IS de cirkel: het fasewoord staat in de opening */}
-      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 224, height: 213 }}>
-        <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.9, pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 120, height: 120, background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, rgba(200,152,100,0.18) 45%, transparent 70%)', filter: 'blur(12px)' }} />
-        <p style={{ position: 'relative', zIndex: 10, fontFamily: serif, fontStyle: 'italic', fontSize: 27, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center', width: 248, height: 237 }}>
+        <img src={ringImg} alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.95, pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', borderRadius: '50%', pointerEvents: 'none', width: 140, height: 140, background: 'radial-gradient(circle, rgba(223,184,138,0.35) 0%, rgba(200,152,100,0.16) 45%, transparent 70%)', filter: 'blur(12px)' }} />
+        <p style={{ position: 'relative', zIndex: 10, fontFamily: serif, fontStyle: 'italic', fontSize: 31, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
           {poetic}
         </p>
       </div>
