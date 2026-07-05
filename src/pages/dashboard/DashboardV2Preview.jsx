@@ -62,7 +62,7 @@ const DAGEN = ['Zo', 'Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za']
 function CycleHero({ faseInfo, onClick }) {
   const poetic = faseInfo ? POETIC[faseInfo.fase] : 'Welkom'
   return (
-    <div onClick={onClick} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, paddingTop: 76, paddingBottom: 8, cursor: 'pointer' }}>
+    <div onClick={onClick} style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', flexShrink: 0, paddingTop: 122, paddingBottom: 8, cursor: 'pointer' }}>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: 'radial-gradient(ellipse 60% 50% at 50% 50%, rgba(212,163,115,0.18) 0%, transparent 70%)' }} />
 
       {/* Het Ovari-ringembleem IS de cirkel: faselabel + fasewoord in de opening */}
