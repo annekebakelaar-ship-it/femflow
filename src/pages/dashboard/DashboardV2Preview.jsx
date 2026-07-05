@@ -21,7 +21,7 @@ import ringImg from '../../assets/ovari-ring.png'
 // grafieken, geen horizontale scroll-strip.
 // Preview op /preview-v2; na akkoord wijst /dashboard hierheen.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 const POETIC = { Menstruatie: 'Herstel', Folliculair: 'Opbouw', Ovulatie: 'Verbind', Luteaal: 'Verhelder' }
@@ -73,8 +73,7 @@ function CycleHero({ faseInfo, onClick }) {
           <p style={{ fontSize: 10, margin: '0 0 7px', color: 'rgba(230,212,190,0.75)', letterSpacing: '0.18em', fontFamily: sans }}>
             {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
           </p>
-          {/* Cinzel: dezelfde Romeinse kapitaal-stijl als het OVARI-wordmark */}
-          <p style={{ fontFamily: "'Cinzel', 'Playfair Display', serif", fontWeight: 500, fontSize: 27, lineHeight: 1.05, letterSpacing: '0.05em', color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
+          <p style={{ fontFamily: serif, fontWeight: 500, fontSize: 27, lineHeight: 1.05, letterSpacing: '0.05em', color: '#F5F2EB', textShadow: '0 0 30px rgba(212,163,115,0.55), 0 2px 18px rgba(0,0,0,0.5)', margin: 0 }}>
             {poetic}
           </p>
         </div>

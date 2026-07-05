@@ -42,7 +42,7 @@ export default function CycleBloom({
       <span style={{ fontSize: size * 0.03, letterSpacing: size * 0.005, textTransform: "uppercase", fontWeight: 600, opacity: 0.5 }}>
         {phase.clinical} fase
       </span>
-      <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: "italic", fontSize: size * 0.125,
+      <span style={{ fontFamily: "'Cinzel',Georgia,serif", fontSize: size * 0.125,
         lineHeight: 1, margin: `${size * 0.015}px 0 ${size * 0.02}px` }}>{phase.poetic}</span>
       <span style={{ fontSize: size * 0.038, opacity: 0.65 }}>Dag {day} / {total}</span>
     </Bloom>

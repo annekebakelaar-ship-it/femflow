@@ -8,7 +8,7 @@ import { startOceaan, stopOceaan } from '../utils/oceaan'
 // (vrouwenstem, nl) met stiltes ertussen, een langzaam ademende gloed als
 // rustpunt en de lopende aanwijzing in beeld. Duur: 3, 5 of 10 minuten.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 export default function MindfulOefening({ onSluit }) {
@@ -104,7 +104,7 @@ export default function MindfulOefening({ onSluit }) {
       {status === 'kies' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
           <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#A8998A', margin: '0 0 8px' }}>MINDFULNESS</p>
-          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#F5F2EB', margin: '0 0 10px' }}>Even niets</h1>
+          <h1 style={{ fontFamily: serif, fontSize: 30, color: '#F5F2EB', margin: '0 0 10px' }}>Even niets</h1>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 28px', maxWidth: 280 }}>
             Een rustige stem begeleidt je, met stiltes ertussen. Zoek een plek waar je even niet gestoord wordt.
           </p>
@@ -137,7 +137,7 @@ export default function MindfulOefening({ onSluit }) {
             <div style={{ position: 'absolute', width: 200, height: 200, borderRadius: '50%', background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, rgba(200,152,100,0.18) 55%, transparent 75%)', filter: 'blur(8px)', animation: 'mfAdem 9s ease-in-out infinite' }} />
             <p style={{ position: 'relative', fontFamily: serif, fontSize: 30, color: '#F5F2EB', margin: 0, zIndex: 2 }}>{minOver}</p>
           </div>
-          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 17, lineHeight: 1.6, color: '#D9CFC2', margin: '0 0 28px', minHeight: 80, maxWidth: 300 }}>
+          <p style={{ fontFamily: serif, fontSize: 17, lineHeight: 1.6, color: '#D9CFC2', margin: '0 0 28px', minHeight: 80, maxWidth: 300 }}>
             {tekst || 'Maak het je gemakkelijk.'}
           </p>
           <button onClick={() => { setStatus('klaar'); stopSpraak() }} style={{ padding: '10px 24px', borderRadius: 999, border: '1px solid rgba(212,163,115,0.3)', background: 'transparent', color: '#D4A373', fontFamily: sans, fontSize: 13, cursor: 'pointer' }}>
@@ -149,7 +149,7 @@ export default function MindfulOefening({ onSluit }) {
       {status === 'klaar' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
           <div style={{ width: 120, height: 120, borderRadius: '50%', marginBottom: 24, background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#F5F2EB', margin: 0 }}>Stil</p>
+            <p style={{ fontFamily: serif, fontSize: 22, color: '#F5F2EB', margin: 0 }}>Stil</p>
           </div>
           <h2 style={{ fontFamily: serif, fontSize: 24, color: '#F5F2EB', margin: '0 0 8px' }}>Goed gedaan</h2>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 24px', maxWidth: 260 }}>

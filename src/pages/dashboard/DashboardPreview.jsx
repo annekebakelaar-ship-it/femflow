@@ -14,7 +14,7 @@ import heroImg from '../../assets/figma-hero.png'
 // Dashboard in de Figma-stijl, gewired aan echte data + routes.
 // Op /preview tot Danib akkoord is om /dashboard hierheen te wijzen.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 // Klinische fase -> poëtische naam (zelfde mapping als de CycleBloom)
@@ -73,7 +73,7 @@ function CycleHero({ faseInfo, onClick }) {
           <p style={{ fontSize: 12, marginBottom: 8, color: 'rgba(230,212,190,0.75)', letterSpacing: '0.25em', fontFamily: sans }}>
             {faseInfo ? `${faseInfo.fase.toUpperCase()} FASE` : 'JE CYCLUS'}
           </p>
-          <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 48, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 40px rgba(212,163,115,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
+          <p style={{ fontFamily: serif, fontSize: 48, lineHeight: 1, color: '#F5F2EB', textShadow: '0 0 40px rgba(212,163,115,0.55), 0 2px 24px rgba(0,0,0,0.5)', margin: 0 }}>
             {poetic}
           </p>
           <p style={{ fontSize: 14, marginTop: 8, color: '#DFB88A', fontFamily: sans }}>

@@ -8,7 +8,7 @@ import { spreek, stopSpraak, ADEM_STEM } from '../utils/spreek'
 // telefoon telt hardop mee (vrouwenstem nl, gedeeld in utils/spreek.js),
 // uit te zetten met de geluidsknop. Duur kiesbaar: 1, 3 of 5 minuten.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 export default function AdemOefening({ onSluit }) {
@@ -94,7 +94,7 @@ export default function AdemOefening({ onSluit }) {
       {status === 'kies' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
           <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#A8998A', margin: '0 0 8px' }}>ADEMOEFENING</p>
-          <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#F5F2EB', margin: '0 0 10px' }}>4 tellen in, 6 tellen uit</h1>
+          <h1 style={{ fontFamily: serif, fontSize: 30, color: '#F5F2EB', margin: '0 0 10px' }}>4 tellen in, 6 tellen uit</h1>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 28px', maxWidth: 280 }}>
             Beweeg mee met de cirkel. Je telefoon telt hardop mee; zet het geluid uit als je liever stil oefent.
           </p>
@@ -148,7 +148,7 @@ export default function AdemOefening({ onSluit }) {
       {status === 'klaar' && (
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0 32px', textAlign: 'center' }}>
           <div style={{ width: 120, height: 120, borderRadius: '50%', marginBottom: 24, background: 'radial-gradient(circle, rgba(223,184,138,0.4) 0%, transparent 70%)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <p style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 22, color: '#F5F2EB', margin: 0 }}>Rust</p>
+            <p style={{ fontFamily: serif, fontSize: 22, color: '#F5F2EB', margin: 0 }}>Rust</p>
           </div>
           <h2 style={{ fontFamily: serif, fontSize: 24, color: '#F5F2EB', margin: '0 0 8px' }}>Goed gedaan</h2>
           <p style={{ fontSize: 13, lineHeight: 1.6, color: '#A8998A', margin: '0 0 24px', maxWidth: 260 }}>

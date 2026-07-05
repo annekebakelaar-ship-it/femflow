@@ -16,7 +16,7 @@ import { openExternal } from '../../utils/openExternal'
 // symptomen, zie utils/leefstijlAdvies.js), daaronder de vier pijlers met
 // verdiepende activiteiten. Detailweergave in-page, zoals de kennisbank.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 const KAART = { borderRadius: 16, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }
@@ -168,7 +168,7 @@ export default function LifestyleHub() {
               {/* Kop */}
               <div style={{ padding: '24px 16px 4px' }}>
                 <p style={{ fontSize: 12, letterSpacing: '0.22em', color: '#A8998A', margin: '0 0 4px', fontFamily: sans }}>LEEFSTIJL</p>
-                <h1 style={{ fontFamily: serif, fontStyle: 'italic', fontSize: 30, color: '#F5F2EB', margin: 0 }}>Goed voor jezelf</h1>
+                <h1 style={{ fontFamily: serif, fontSize: 30, color: '#F5F2EB', margin: 0 }}>Goed voor jezelf</h1>
                 {faseInfo && (
                   <p style={{ fontSize: 13, color: '#DFB88A', margin: '6px 0 0', fontFamily: sans }}>
                     {FASE_POETIC[faseInfo.fase]} · dag {faseInfo.dag} van {faseInfo.cycleLength}{hrvNu ? ` · HRV ${hrvNu} ms` : ''}

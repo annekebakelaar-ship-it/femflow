@@ -7,7 +7,7 @@ import { duidProduct, voedingstabel, isBarcode } from '../utils/voeding'
 // Productdata komt live van Open Food Facts; de duiding is beschrijvend en
 // eerlijk (utils/voeding.js). AI-fotoscan is een bewuste latere fase.
 
-const serif = "'Playfair Display', Georgia, serif"
+const serif = "'Cinzel', Georgia, serif"
 const sans = "'Hanken Grotesk', system-ui, sans-serif"
 
 const KAART = { borderRadius: 16, background: 'rgba(45,38,35,0.55)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)' }

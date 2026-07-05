@@ -11,7 +11,7 @@ import { ChevronRight } from 'react-feather';
  *
  * Props:
  *   icon       react-feather component (e.g. Moon, Activity). Rendered ~18px.
- *   title      string — Fraunces h2.
+ *   title      string — Cinzel h2.
  *   status     string — UPPERCASE status word ("OPTIMAAL", "GOED"). Carries meaning.
  *   score      number — the value. metric-lg, tabular.
  *   unit       string? — optional unit shown after the score ("%").

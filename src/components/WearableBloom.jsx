@@ -13,7 +13,7 @@ export default function WearableBloom({ size = 340, score = 89, max = 100, label
       <span style={{ fontSize: size * 0.26, fontWeight: 700, lineHeight: 1, letterSpacing: -size * 0.005 }}>{score}</span>
       <span style={{ fontSize: size * 0.034, letterSpacing: size * 0.006, textTransform: "uppercase",
         fontWeight: 600, opacity: 0.5, marginTop: size * 0.015 }}>{label}</span>
-      <span style={{ fontFamily: "'Fraunces',Georgia,serif", fontStyle: "italic", fontSize: size * 0.06,
+      <span style={{ fontFamily: "'Cinzel',Georgia,serif", fontSize: size * 0.06,
         marginTop: size * 0.01, opacity: 0.8 }}>{status}</span>
     </Bloom>
   );
