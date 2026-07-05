@@ -456,6 +456,114 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'angst-prikkelbaarheid-overgang',
+    title: 'Angst en prikkelbaarheid in de overgang',
+    subtitle: 'Waarom je korter lont voelt, en dat het niet aan jou ligt',
+    category: 'mood',
+    difficulty: 'beginner',
+    readTime: 6,
+    description: 'Een gespannen, prikkelbaar of angstig gevoel hoort bij de meest gemelde overgangsklachten. Wat er hormonaal speelt en wat rust geeft.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Een kant die weinig aandacht krijgt',
+        tekst: 'Bij de overgang denken de meeste mensen aan opvliegers, niet aan een kort lontje of een onrustig, gespannen gevoel. Toch horen prikkelbaarheid, spanning en angstige gevoelens bij de meest gemelde klachten in deze fase. Veel vrouwen schrikken ervan: ze voelen zich sneller overweldigd of geirriteerd dan ze van zichzelf kennen, en vragen zich af wat er met ze aan de hand is. Het antwoord is meestal geruststellender dan de zorg: het heeft vaak met je hormonen te maken, en het gaat over.',
+      },
+      {
+        kop: 'Waarom hormoonschommelingen je zenuwstelsel raken',
+        tekst: 'Oestrogeen en progesteron werken niet alleen op je cyclus, maar ook op boodschapperstoffen in je brein die met stemming en rust te maken hebben, zoals serotonine. Als die hormoonspiegels in de overgang schommelen, schommelt je gevoel van kalmte mee. Niet omdat je minder sterk bent geworden, maar omdat de bodem onder je stemming letterlijk minder stabiel ligt. Slecht slapen door nachtzweten maakt het bovendien erger: een tekort aan slaap verlaagt bij iedereen de drempel voor spanning en prikkelbaarheid.',
+      },
+      {
+        kop: 'Het is niet aanstellen',
+        tekst: 'Dit is belangrijk om te zeggen, omdat veel vrouwen zichzelf hard aanpakken: je verzint dit niet en je bent niet zwak. Een gespannen of prikkelbaar gevoel dat samenhangt met een levensfase waarin je hormonen veranderen, is een reeel en veelvoorkomend patroon. Jezelf dat toestaan, en het benoemen naar de mensen om je heen, haalt er vaak al een deel van de druk af.',
+      },
+      {
+        kop: 'Wat rust geeft',
+        tekst: 'De basis doet het meeste werk. Je slaap beschermen is nummer een, want vermoeidheid en spanning versterken elkaar; een koele slaapkamer en een vast ritme helpen. Regelmatig bewegen is een van de best onderbouwde manieren om spanning te verlagen. Rustig, langzaam ademen kalmeert je zenuwstelsel direct; de ademoefening en de begeleide mindfulness in de Leefstijl-hub zijn daar precies voor. En let op cafeine en alcohol: beide kunnen een gespannen gevoel versterken, zeker later op de dag.',
+      },
+      {
+        kop: 'Loggen laat het patroon zien',
+        tekst: 'Als je bijhoudt wanneer de spanning opspeelt, zie je vaak samenhang: met een bepaalde fase van je cyclus, met slechte nachten, of met drukke periodes. Dat inzicht geeft grip, en het maakt van een vaag "ik voel me niet mezelf" iets concreets dat je kunt aanpakken of bespreken.',
+      },
+      {
+        kop: 'Wanneer hulp zoeken',
+        tekst: 'Houdt de angst of spanning aan, beheerst het je dagen, of vermijd je dingen die je normaal gewoon deed, ga dan langs je huisarts. Angstklachten zijn goed te behandelen, en de overgang is geen reden om ze maar uit te zitten. Neem je Ovari-overzicht mee: een beeld van je cyclus, slaap en gelogde stemming over een paar maanden is een sterker gespreksbegin dan een losse indruk.',
+      },
+    ],
+  },
+  {
+    id: 'somberheid-overgang',
+    title: 'Somberheid in de overgang: een dip of meer?',
+    subtitle: 'Het verschil kennen, en weten wanneer je hulp zoekt',
+    category: 'mood',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'In de overgang is het risico op somberheid en depressieve klachten verhoogd. Hoe je een dip onderscheidt van iets waar je hulp bij verdient.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'De overgang en je stemming',
+        tekst: 'Onderzoek laat zien dat de perimenopauze een periode is waarin het risico op somberheid en depressieve klachten hoger ligt, ook bij vrouwen die daar eerder nooit last van hadden. De schommelende hormonen, slechte nachten en soms een opeenstapeling van veranderingen in deze levensfase spelen daarin allemaal mee. Het is geen teken van falen; het is een bekend en serieus genomen patroon.',
+      },
+      {
+        kop: 'Het verschil tussen een dip en meer',
+        tekst: 'Een sombere dag of een pittige week hoort bij het leven en gaat vanzelf weer over. Van iets zwaarders is eerder sprake als een neerslachtig gevoel langer dan een paar weken aanhoudt, de meeste dagen aanwezig is, en je dagelijks functioneren raakt. Let vooral op het verlies van plezier in dingen die je normaal fijn vindt, aanhoudende vermoeidheid of leegte, en gevoelens van hopeloosheid. Dat zijn geen zwaktes om je voor te schamen, maar signalen die aandacht verdienen.',
+      },
+      {
+        kop: 'Waarom het vaak gemist wordt',
+        tekst: 'Somberheid in de overgang wordt makkelijk toegeschreven aan "gewoon een drukke tijd" of aan "de leeftijd", door de vrouw zelf en soms door haar omgeving. Daardoor blijft het te lang onbesproken. Juist omdat de klachten zo makkelijk worden weggewuifd, is het waardevol om ze serieus te nemen zodra ze langer aanhouden.',
+      },
+      {
+        kop: 'Dit is een medisch onderwerp, geen app-onderwerp',
+        tekst: 'Hier zijn we heel duidelijk: Ovari stelt geen diagnose en behandelt niets. Somberheid en depressie horen thuis bij je huisarts of een professional, niet bij een app en niet bij een supplement. Wat wij kunnen bieden is context: een overzicht van je cyclus, slaap en stemming dat je meeneemt naar een gesprek. De stap naar hulp is het echte werk.',
+      },
+      {
+        kop: 'Wat je zelf kunt doen als steun',
+        tekst: 'Naast professionele hulp, niet in plaats daarvan, kunnen een paar dingen ondersteunen: je slaap beschermen, in beweging blijven ook als je er geen zin in hebt, contact houden met mensen in plaats van je terug te trekken, en daglicht opzoeken. Deze dingen genezen een depressie niet, maar ze zijn een bodem waarop herstel makkelijker wordt.',
+      },
+      {
+        kop: 'Wanneer en hoe hulp zoeken',
+        tekst: 'Houden sombere gevoelens langer dan twee weken aan, of maak je je zorgen, maak dan een afspraak bij je huisarts. Heb je gedachten dat je er niet meer wilt zijn, wacht dan niet: bel je huisarts of, dag en nacht bereikbaar, 113 Zelfmoordpreventie via 0800-0113. Je hoeft dit niet alleen op te lossen, en hulp vragen is een sterke stap, geen zwakke.',
+      },
+    ],
+  },
+  {
+    id: 'mentale-veerkracht-overgang',
+    title: 'Mentale veerkracht in de overgang',
+    subtitle: 'De overgang is ook een psychologische fase',
+    category: 'mood',
+    difficulty: 'beginner',
+    readTime: 6,
+    description: 'Naast de lichamelijke kant is de overgang een levensomslag. Wat veerkracht echt voedt, zonder holle spreuken.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Meer dan een lichamelijk verhaal',
+        tekst: 'De overgang valt vaak samen met een levensfase waarin veel tegelijk verandert: opgroeiende kinderen, ouder wordende ouders, een carriere die piekt of juist kantelt, en de vraag hoe je tweede levenshelft eruitziet. Dat maakt het net zo goed een psychologische overgang als een hormonale. Je klachten los zien van je leven doet de werkelijkheid tekort; ze spelen zich af in dezelfde persoon, tegelijk.',
+      },
+      {
+        kop: 'Wat veerkracht echt voedt',
+        tekst: 'Veerkracht is geen karaktertrek die je hebt of niet hebt, maar iets dat je onderhoudt. De onderbouwde bouwstenen zijn weinig verrassend en juist daarom betrouwbaar: genoeg slaap, regelmatig bewegen, echte verbinding met andere mensen, en een gevoel van betekenis in wat je doet. Geen van deze is een toverwoord, maar samen vormen ze de bodem waarop je een zware periode beter doorkomt.',
+      },
+      {
+        kop: 'Klein en dagelijks wint',
+        tekst: 'Grote voornemens houden zelden stand in een drukke periode. Kleine, dagelijkse dingen wel: een ochtendwandeling in het licht, een vast rustmoment, een berichtje naar een vriendin, tien minuten voor jezelf. Het gaat niet om perfectie maar om herhaling. Een gewone gewoonte die je volhoudt, wint het van een perfect plan dat je na een week loslaat.',
+      },
+      {
+        kop: 'Erkenning is de helft',
+        tekst: 'Een van de meest onderschatte dingen is simpelweg je klachten serieus nemen, in plaats van jezelf te verwijten dat je je niet "gewoon" voelt. Vrouwen in de overgang krijgen vaak, van zichzelf en van anderen, het signaal dat ze zich niet moeten aanstellen. Dat signaal klopt niet. Erkennen wat er speelt, en er woorden aan geven, haalt er vaak al spanning af en maakt de stap naar steun of hulp kleiner.',
+      },
+      {
+        kop: 'Wat inzicht kan bijdragen',
+        tekst: 'Grip komt vaak voort uit patroon. Als je ziet dat je mindere dagen samenvallen met slechte nachten of een bepaalde cyclusfase, wordt een vaag gevoel iets waar je iets mee kunt. Dat is waar het loggen in Ovari voor bedoeld is: niet om je te beoordelen, maar om je je eigen ritme te laten zien, zodat je met meer begrip en minder zelfverwijt door deze fase gaat.',
+      },
+      {
+        kop: 'En wanneer het meer is',
+        tekst: 'Veerkracht onderhouden is geen vervanging voor hulp wanneer die nodig is. Merk je dat somberheid, angst of uitputting langer aanhouden en je leven raken, lees dan het artikel over somberheid in de overgang en maak een afspraak bij je huisarts. Er om vragen hoort bij veerkracht, het is er geen tegenpool van.',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
@@ -464,6 +572,7 @@ export const FEATURED_IDS = ['perimenopauze-herkennen', 'cyclus-vier-fasen', 'sl
 export const AANBEVOLEN = [
   { id: 'opvliegers-nachtzweten', reason: 'Het bekendste overgangssymptoom, en wat helpt' },
   { id: 'botgezondheid-overgang', reason: 'Het stille onderwerp dat later het meest telt' },
+  { id: 'angst-prikkelbaarheid-overgang', reason: 'Over het mentale aspect van de overgang' },
   { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
