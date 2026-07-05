@@ -352,6 +352,110 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'botgezondheid-overgang',
+    title: 'Botgezondheid in de overgang',
+    subtitle: 'Het stille onderwerp dat later het meest telt',
+    category: 'nutrition',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'Als oestrogeen daalt, gaat botafbraak sneller. Wat de twee bouwstenen zijn, waarom belasting telt, en wanneer een botmeting zinvol is.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Waarom botten er nu toe doen',
+        tekst: 'Je bot is levend weefsel dat je hele leven wordt afgebroken en opnieuw opgebouwd. Oestrogeen remt de afbraak, dus zolang je oestrogeenspiegel hoog is, blijft die balans in je voordeel. In de jaren rond je laatste menstruatie daalt oestrogeen, en de afbraak versnelt: vrouwen verliezen in deze periode gemiddeld sneller botdichtheid dan daarvoor of daarna. Je merkt er niets van, en juist dat maakt het een onderwerp om nu iets aan te doen, niet pas als er iets breekt.',
+      },
+      {
+        kop: 'Bouwsteen 1: calcium',
+        tekst: 'Calcium is nodig voor de instandhouding van normale botten. De makkelijkste bron is zuivel: een glas melk of een schaaltje kwark levert al zo\'n 300 milligram. Ook groene groenten, noten, tofu en met calcium verrijkte plantaardige dranken tellen mee. Drie tot vier porties per dag brengen de meeste vrouwen in de buurt van de aanbevolen hoeveelheid. Uit voeding halen heeft de voorkeur boven een pil, en meer dan de aanbevolen hoeveelheid slikken heeft geen zin.',
+      },
+      {
+        kop: 'Bouwsteen 2: vitamine D',
+        tekst: 'Vitamine D is nodig voor de instandhouding van normale botten en draagt bij tot een normale opname van calcium. Je huid maakt het van zonlicht, maar van oktober tot april lukt dat in Nederland nauwelijks. De algemene richtlijn voor vrouwen boven de vijftig is een supplement van 20 microgram per dag. Dit is een van de weinige supplementadviezen die echt in de Nederlandse richtlijnen staat, en dus een van de weinige waar wij zonder voorbehoud achter staan.',
+      },
+      {
+        kop: 'Belasting bouwt bot',
+        tekst: 'Voeding levert de bouwstenen, maar je bot past zich vooral aan aan de belasting die het krijgt. Krachttraining en oefeningen met impact, zoals stevig wandelen, traplopen of springen, geven je botten het signaal om sterk te blijven. Onderzoek bij vrouwen rond de menopauze laat zien dat dit veilig kan en meer doet dan lichte beweging alleen. Balansoefeningen horen erbij: sterke botten zijn de ene helft van het verhaal, niet vallen is de andere. Zie ook de gids over kracht in de Leefstijl-hub.',
+      },
+      {
+        kop: 'Wat je wearable hier niet meet',
+        tekst: 'Dit is bewust een onderwerp waar je apparaat je niet bij helpt. Botdichtheid is onzichtbaar voor een ring of horloge; er is geen dagelijkse score die je vooruitgang laat zien. Dat maakt het lastig, want je doet het werk zonder directe feedback. Het is precies daarom een kwestie van gewoonte: twee keer per week kracht en dagelijks je bouwstenen, jarenlang volgehouden, zonder dat een cijfer je aanmoedigt.',
+      },
+      {
+        kop: 'Wanneer een botmeting of de huisarts',
+        tekst: 'Heb je risicofactoren, zoals een eerdere botbreuk na een klein ongeluk, botontkalking in de familie, een vroege overgang of langdurig gebruik van bepaalde medicijnen, bespreek dan met je huisarts of een botdichtheidsmeting zinvol is. Ovari stelt geen diagnose en meet je botten niet; dit zijn punten om met je arts te bespreken, zodat je weet of je aan de juiste knoppen draait.',
+      },
+    ],
+  },
+  {
+    id: 'gewrichtsklachten-overgang',
+    title: 'Gewrichtsklachten in de overgang',
+    subtitle: 'Het onbekende symptoom dat vaker voorkomt dan je denkt',
+    category: 'cycle',
+    difficulty: 'beginner',
+    readTime: 6,
+    description: 'Stijve, pijnlijke gewrichten worden zelden met de overgang in verband gebracht, terwijl het een van de meest gemelde klachten is. Wat erachter zit en wat helpt.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Een klacht die vaak wordt gemist',
+        tekst: 'Stijve, pijnlijke of gevoelige gewrichten horen bij de meest gemelde overgangsklachten, en tegelijk bij de minst herkende. Veel vrouwen leggen het verband niet, en denken dat ze "ineens oud worden". \'s Ochtends stijf uit bed, pijnlijke handen of knieen, of een schouder die minder ver komt: het kan echt met de overgang te maken hebben. Je verbeeldt het je niet.',
+      },
+      {
+        kop: 'Waarom gewrichten reageren op hormonen',
+        tekst: 'Oestrogeen heeft een licht ontstekingsremmende rol en helpt vocht en soepelheid in je gewrichten en pezen op peil te houden. Als de oestrogeenspiegel daalt en gaat schommelen, ervaren veel vrouwen meer stijfheid en gevoeligheid. Ook komt een stijve, pijnlijke schouder, in de volksmond frozen shoulder, in deze levensfase vaker voor. Het is een reeel patroon dat in onderzoek steeds meer aandacht krijgt.',
+      },
+      {
+        kop: 'Bewegen ondanks de stijfheid',
+        tekst: 'De reflex is om een pijnlijk gewricht te ontzien, maar bij dit type klachten werkt het omgekeerde vaak beter: rustig in beweging blijven houdt gewrichten soepel. Een gewricht dat stilstaat wordt stijver. Denk aan wandelen, zwemmen (gewrichtsvriendelijk en fijn bij warme dagen), en lichte mobiliteitsoefeningen. Kracht rond het gewricht, opgebouwd met beleid, geeft steun. Warmte in de ochtend, bijvoorbeeld een warme douche, kan de stijfheid verzachten voordat je op gang komt.',
+      },
+      {
+        kop: 'Niet alles is de overgang',
+        tekst: 'Belangrijk en eerlijk: gewrichtspijn heeft veel mogelijke oorzaken. Slijtage (artrose), een ontstekingsziekte zoals reuma, of overbelasting geven vergelijkbare klachten, en die vragen een andere aanpak. De overgang aannemen als verklaring zonder andere oorzaken uit te sluiten is niet verstandig. Twijfel je, dan is je huisarts de plek om het te laten bekijken.',
+      },
+      {
+        kop: 'Wanneer naar de huisarts',
+        tekst: 'Ga langs je huisarts bij een gewricht dat gezwollen, warm of rood is, bij pijn in een enkel gewricht die plotseling opkomt, bij klachten die aanhouden of je dagelijks leven raken, of bij ochtendstijfheid die lang duurt. Loggen helpt ook hier: als je bijhoudt wanneer de klachten opspelen, zie je of ze samenhangen met je cyclus, en heb je iets concreets om mee te nemen naar je afspraak.',
+      },
+    ],
+  },
+  {
+    id: 'hart-na-overgang',
+    title: 'Je hart in en na de overgang',
+    subtitle: 'Waarom dit de fase is om er aandacht aan te geven',
+    category: 'exercise',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'Na de overgang stijgt het risico op hart- en vaatziekten. Wat daarachter zit, welke cijfers tellen, en wat beweging en voeding kunnen doen.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Waarom het risico verschuift',
+        tekst: 'Voor de overgang hebben vrouwen gemiddeld een lager risico op hart- en vaatziekten dan mannen. Oestrogeen speelt daarbij een beschermende rol voor je bloedvaten. Als die bescherming in de overgang wegvalt, stijgt het risico geleidelijk, en na de menopauze komt het dichter bij dat van mannen. Dat is geen reden voor angst, wel voor aandacht: dit is de levensfase waarin de gewoonten die je nu opbouwt echt gaan meetellen.',
+      },
+      {
+        kop: 'De cijfers die tellen, meet je niet zelf',
+        tekst: 'De belangrijkste hart- en vaatgetallen zijn je bloeddruk en je cholesterol, en die meet je wearable niet. Ze zijn onzichtbaar zonder een meting bij de huisarts of apotheek. Juist omdat je er niets van voelt, is periodiek laten controleren vanaf een jaar of vijfenveertig verstandig, zeker als hart- en vaatziekten in je familie voorkomen. Dit is bij uitstek een onderwerp waar de echte getallen van je arts komen, niet van een app.',
+      },
+      {
+        kop: 'Wat beweging doet',
+        tekst: 'Regelmatig bewegen is een van de sterkste dingen die je voor je hart kunt doen. Een mix werkt het best: rustige duurinspanning op praattempo (wandelen, fietsen, zwemmen) onderhoudt je conditie, en krachttraining helpt je spiermassa en stofwisseling op peil te houden. Het overgrote deel van je duurtraining hoort rustig te zijn; harder voelt productiever, maar rustig en volgehouden bouwt de basis.',
+      },
+      {
+        kop: 'Wat voeding kan bijdragen',
+        tekst: 'Een paar dingen zijn onderbouwd. Vezels uit volkoren, peulvruchten en groente horen bij een hartgezond eetpatroon. Minder zout helpt je bloeddruk; kalium, onder andere uit groente en fruit, draagt bij tot de instandhouding van een normale bloeddruk. Eet je weinig vette vis, dan is omega-3 het overwegen waard: EPA en DHA dragen bij tot een normale werking van het hart, bij een inname van 250 milligram per dag. Meer belofte dan dat past niet: voeding ondersteunt, het is geen behandeling.',
+      },
+      {
+        kop: 'Wat je wearable wel laat zien',
+        tekst: 'Je apparaat meet je bloeddruk en cholesterol niet, maar de trend in je rusthartslag en je HRV over weken en maanden zegt wel iets over hoe je lichaam er in het algemeen voor staat. Een rusthartslag die over langere tijd gunstig meebeweegt met meer bewegen is een teken dat je conditie de goede kant op gaat. Zie het als context bij het echte werk, niet als vervanging van een controle.',
+      },
+      {
+        kop: 'Wanneer naar de huisarts',
+        tekst: 'Laat je bloeddruk en cholesterol periodiek controleren vanaf middelbare leeftijd, en eerder als hart- en vaatziekten in je familie voorkomen. Ga direct langs bij klachten als pijn of druk op de borst, kortademigheid bij lichte inspanning, of hartkloppingen die je zorgen baren. Ovari stelt geen diagnose; dit zijn punten voor je arts, en je Ovari-overzicht kan het gesprek helpen starten.',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
@@ -359,6 +463,7 @@ export const FEATURED_IDS = ['perimenopauze-herkennen', 'cyclus-vier-fasen', 'sl
 
 export const AANBEVOLEN = [
   { id: 'opvliegers-nachtzweten', reason: 'Het bekendste overgangssymptoom, en wat helpt' },
+  { id: 'botgezondheid-overgang', reason: 'Het stille onderwerp dat later het meest telt' },
   { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
