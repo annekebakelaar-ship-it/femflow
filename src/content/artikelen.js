@@ -312,12 +312,53 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'opvliegers-nachtzweten',
+    title: 'Opvliegers en nachtzweten',
+    subtitle: 'Wat er in je lichaam gebeurt, en wat er echt helpt',
+    category: 'cycle',
+    difficulty: 'intermediate',
+    readTime: 7,
+    description: 'Het bekendste overgangssymptoom, nuchter uitgelegd: waarom je het krijgt, wat je wearable ziet, en welke maatregelen onderbouwd zijn.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Wat een opvlieger eigenlijk is',
+        tekst: 'Je lichaam houdt je kerntemperatuur binnen een smalle comfortzone. Zolang je daarbinnen blijft, doet je warmteregeling niets. In de overgang gaan de oestrogeenspiegels schommelen, en daardoor wordt die comfortzone smaller: een kleine stijging van je lichaamstemperatuur die je vroeger niet eens merkte, tikt nu de grens aan. Je lichaam denkt dat je oververhit raakt en schiet in de koelstand. Bloedvaten in je huid gaan wijd open, je krijgt een golf van warmte, je gaat zweten, en daarna kun je juist koud en klam worden. Dat hele mechanisme is normaal; het is alleen op een te gevoelige stand gezet.',
+      },
+      {
+        kop: 'Waarom het juist \'s nachts zo hindert',
+        tekst: 'Dezelfde golf die je overdag een opvlieger noemt, heet \'s nachts nachtzweten. Het probleem is de timing: een warmtegolf maakt je wakker of houdt je in de lichte slaap, precies in de uren dat je diepe en droomslaap nodig hebt. Veel vrouwen in de overgang slapen niet slecht omdat ze niet moe zijn, maar omdat ze steeds kort wakker schieten. Een warme slaapkamer of een warme zomernacht stapelt bovenop de smallere comfortzone, en dat verklaart waarom dezelfde kamer de ene week prima is en de andere week te warm.',
+      },
+      {
+        kop: 'Wat je wearable ervan ziet',
+        tekst: 'Een nacht met opvliegers laat vaak sporen na in je data: een hogere huid- of polstemperatuur, een rusthartslag die een paar slagen boven je normaal ligt, meer korte ontwakingen en minder diepe slaap, en een lagere HRV de ochtend erna. Belangrijk om te weten: dat is context, geen alarm. Een mindere herstelscore na een warme, onrustige nacht betekent niet dat er iets kapot is. Het betekent dat je lichaam een nacht lang tegen de warmte heeft gevochten. Juist door dit te loggen zie je of je klachten samenhangen met je cyclus, de temperatuur of allebei.',
+      },
+      {
+        kop: 'Wat onderbouwd helpt: je omgeving',
+        tekst: 'De grootste winst is gedragsmatig en kost niets. Houd je slaapkamer koel, richt op 16 tot 18 graden. Slaap in lagen die je in de nacht makkelijk kwijt kunt: een los laken en een aparte deken werken beter dan een dik dekbed. Leg een reserveshirt en een glas water klaar, zodat een natte wakkerte een onderbreking van twee minuten blijft in plaats van een uur wakker liggen. Kies ademende materialen zoals katoen boven synthetisch.',
+      },
+      {
+        kop: 'Wat onderbouwd helpt: je triggers en je dag',
+        tekst: 'Veel vrouwen merken dat alcohol, cafeine, pittig eten en een warme omgeving een opvlieger kunnen uitlokken. Je hoeft niets te verbieden; het helpt al om te weten wat bij jou een golf op gang brengt, en die dingen \'s avonds te beperken. Regelmatig bewegen en, waar dat speelt, werken aan een gezond gewicht zijn in onderzoek geassocieerd met minder klachten. En rustig, langzaam ademen op het moment zelf (vier tellen in, zes tellen uit) kalmeert je zenuwstelsel; de ademoefening in de Leefstijl-hub is daar precies voor.',
+      },
+      {
+        kop: 'Eerlijk over supplementen en kruiden',
+        tekst: 'Hier past bescheidenheid. Voor populaire middelen tegen opvliegers, zoals zwarte cohosh of soja-isoflavonen, is het bewijs wisselend en bestaat er geen goedgekeurde gezondheidsclaim. Sommige vrouwen ervaren er iets bij, andere niets. Proberen mag, zolang je weet dat je experimenteert en het meldt bij je huisarts of apotheek als je medicijnen gebruikt. Wat Ovari betreft: we beloven je hier niets, want een eerlijk "we weten het niet zeker" is meer waard dan een mooie claim.',
+      },
+      {
+        kop: 'Wanneer naar de huisarts',
+        tekst: 'Raken opvliegers of nachtzweten je slaap, je stemming of je dagelijks functioneren, ga dan langs je huisarts. Er is meer aan te doen dan veel vrouwen denken. Voor hinderlijke overgangsklachten is hormoontherapie voor veel vrouwen een effectieve en, na een goede afweging met je arts, veilige optie. Dat is een medisch gesprek, geen app-beslissing. Neem je Ovari-huisartsrapport mee: een overzicht van je cyclus, je slaap en je gelogde symptomen over een paar maanden is een sterker gespreksbegin dan een losse indruk.',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
 export const FEATURED_IDS = ['perimenopauze-herkennen', 'cyclus-vier-fasen', 'slaap-en-cyclus']
 
 export const AANBEVOLEN = [
+  { id: 'opvliegers-nachtzweten', reason: 'Het bekendste overgangssymptoom, en wat helpt' },
   { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
