@@ -27,7 +27,12 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       window.initAnalytics = function () {
-        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') return;
+        // Dev-guard: Vite draait op localhost MET poort (bijv. :5175). De
+        // native Capacitor-app serveert vanaf https://localhost ZONDER poort
+        // en moet juist wel meetellen (anders zijn Play Store-gebruikers
+        // onzichtbaar in GA4).
+        var dev = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') && location.port !== '';
+        if (dev) return;
         if (window.__gaLoaded) return;
         window.__gaLoaded = true;
         var s = document.createElement('script');
@@ -35,6 +40,9 @@
         s.src = 'https://www.googletagmanager.com/gtag/js?id=G-Q9FW3RS7H5';
         document.head.appendChild(s);
         gtag('js', new Date());
+        gtag('set', 'user_properties', {
+          platform: window.Capacitor ? 'android_app' : 'web'
+        });
         gtag('config', 'G-Q9FW3RS7H5', {
           anonymize_ip: true,
           cookie_flags: 'SameSite=None;Secure'
