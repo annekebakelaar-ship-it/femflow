@@ -68,8 +68,11 @@ function AppContent() {
             }, 500)
           } catch (err) {
             console.error('OTP verification failed:', err)
-            window.history.replaceState({}, '', '/login')
-            navigate('/login')
+            // Eenmalige code al gebruikt (tab-restore, link 2x geopend) maar
+            // sessie nog geldig? Dan niet onterecht naar login sturen.
+            const doel = getToken() ? '/dashboard' : '/login'
+            window.history.replaceState({}, '', doel)
+            navigate(doel)
           }
         } else {
           window.history.replaceState({}, '', '/login')
@@ -82,13 +85,23 @@ function AppContent() {
         navigate('/dashboard')
       }
 
-      // Restore session
+      // Restore session. BELANGRIJK: alleen uitloggen als de server de sessie
+      // expliciet afwijst (401/403). Bij netwerkfouten of een slapende
+      // Render-server (gratis tier, cold start van 30-60s) is de sessie
+      // gewoon geldig — dan optimistisch doorlaten en op de achtergrond
+      // alsnog hydrateren. Anders "logt de app uit" na elke stille periode.
       if (getToken()) {
         try {
           const me = await getMe()
           setUser(me)
-        } catch {
-          clearToken()
+        } catch (err) {
+          if (err && (err.status === 401 || err.status === 403)) {
+            clearToken()
+          } else {
+            setUser({ offline: true })
+            // Server wordt waarschijnlijk net wakker: nog een keer proberen
+            setTimeout(() => { getMe().then(setUser).catch(() => {}) }, 8000)
+          }
         }
       }
 
