@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ConsentModal from '../../components/ConsentModal'
+import CyclusKalender from '../../components/CyclusKalender'
 import { saveSecure, getSecure } from '../../utils/secureStorage'
+import { dagenUit, toggleDag, startsUit } from '../../utils/kalender'
 
 const INITIAL_DATA = {
   name: '',
@@ -85,6 +87,15 @@ export default function MenstruationTracker() {
     return 'Luteaal'
   }
 
+  // Kalender: tik een dag aan/uit -> afgeleiden herberekenen en opslaan
+  const dagen = dagenUit(menstrualData)
+  const aantalStarts = startsUit(dagen).length
+  const handleToggleDag = (datum) => {
+    const nieuw = toggleDag(menstrualData, datum)
+    saveSecure('menstruation_data', nieuw)
+    setMenstrualData(nieuw)
+  }
+
   return (
     <div style={{
       minHeight: '100vh',
@@ -100,6 +111,11 @@ export default function MenstruationTracker() {
           Dag {currentDay} van {menstrualData.cycleLength}
         </p>
 
+        {/* Kalender: losse dagen aantikken, gemaakt voor onregelmatige cycli */}
+        <div style={{ marginBottom: 'var(--space-lg)' }}>
+          <CyclusKalender dagen={dagen} onToggle={handleToggleDag} />
+        </div>
+
         <div style={{
           background: 'var(--d-card)',
           backdropFilter: 'blur(20px)',
@@ -111,7 +127,7 @@ export default function MenstruationTracker() {
         }}>
           <div style={{ marginBottom: 'var(--space-md)' }}>
             <label style={{ fontSize: '12px', color: 'var(--d-ink-3)', textTransform: 'uppercase' }}>
-              Huidge Fase
+              Huidige Fase
             </label>
             <p style={{ fontSize: '20px', fontWeight: '600', color: 'var(--d-ink)', margin: 'var(--space-sm) 0 0 0' }}>
               {getPhase(currentDay)}
@@ -120,10 +136,21 @@ export default function MenstruationTracker() {
 
           <div style={{ marginBottom: 'var(--space-md)' }}>
             <label style={{ fontSize: '12px', color: 'var(--d-ink-3)', textTransform: 'uppercase' }}>
-              Volgende Menstruatie
+              Volgende Menstruatie (verwacht)
             </label>
             <p style={{ fontSize: '15px', fontWeight: '500', color: 'var(--d-ink)', margin: 'var(--space-sm) 0 0 0' }}>
               {new Date(start.getTime() + (menstrualData.cycleLength - currentDay + 1) * 24 * 60 * 60 * 1000).toLocaleDateString('nl-NL')}
+            </p>
+          </div>
+
+          <div>
+            <label style={{ fontSize: '12px', color: 'var(--d-ink-3)', textTransform: 'uppercase' }}>
+              Jouw Gemiddelde
+            </label>
+            <p style={{ fontSize: '14px', color: 'var(--d-ink-2)', margin: 'var(--space-sm) 0 0 0', lineHeight: 1.5 }}>
+              {aantalStarts >= 2
+                ? `Cyclus ~${menstrualData.cycleLength} dagen · menstruatie ~${menstrualData.bleedingDays} dagen, berekend uit ${aantalStarts} gelogde starts.`
+                : 'Nog te weinig gelogde menstruaties om jouw eigen gemiddelde te kennen — tik ze aan in de kalender, dan rekent Ovari het voor je uit.'}
             </p>
           </div>
         </div>
