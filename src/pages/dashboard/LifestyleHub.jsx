@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ArrowLeft, Camera, Clock, ChevronRight, Compass, Info } from 'react-feather'
+import { ArrowLeft, Camera, Clock, ChevronRight, Compass, Info, Activity, Feather, Wind, Moon, Coffee, Droplet } from 'react-feather'
 import { getWearableReadings } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
 import { PIJLERS, FASE_POETIC, vindActiviteit } from '../../content/leefstijl'
@@ -23,6 +23,16 @@ const KAART = { borderRadius: 16, background: 'rgba(45,38,35,0.55)', backdropFil
 
 // Activiteiten met een ingebouwde begeleide oefening
 const OEFENINGEN = { ademwerk: 'adem', meditatie: 'mindful' }
+
+// Per pijler een icoon en een korte tagline voor de overzichtstegel.
+const PIJLER_META = {
+  kracht:       { Icon: Activity, tag: 'Spier en bot sterk houden' },
+  rust:         { Icon: Feather,  tag: 'Stress en slaap kalmeren' },
+  beweging:     { Icon: Wind,     tag: 'Dagelijks in beweging' },
+  slaap:        { Icon: Moon,     tag: 'Beter slapen voorbereiden' },
+  voeding:      { Icon: Coffee,   tag: 'Eiwit, botten, bloedsuiker' },
+  supplementen: { Icon: Droplet,  tag: 'Wat echt zinnig is' },
+}
 
 function berekenFase(menstrualData) {
   if (!menstrualData?.startDate) return null
@@ -126,12 +136,70 @@ function PTKaart() {
   )
 }
 
+// Eén pijler open: volledige intro + activiteiten + de bijbehorende widget.
+function PijlerDetail({ pijler, faseInfo, onTerug, onOpen, onOefening }) {
+  const p = pijler
+  return (
+    <div style={{ padding: '0 16px 32px' }}>
+      <button onClick={onTerug} style={{ display: 'flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0 16px', color: '#D4A373', fontFamily: sans, fontSize: 14 }}>
+        <ArrowLeft size={16} /> Leefstijl
+      </button>
+
+      <h1 style={{ fontFamily: serif, fontSize: 28, color: '#F5F2EB', margin: '0 0 8px', lineHeight: 1.2 }}>{p.naam}</h1>
+      <p style={{ fontSize: 13, lineHeight: 1.65, color: '#A8998A', margin: '0 0 20px', fontFamily: sans }}>{p.intro}</p>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {p.activiteiten.map(a => {
+          const nuFit = faseInfo && a.fases.includes(faseInfo.fase)
+          return (
+            <div key={a.id} onClick={() => onOpen(a.id)} style={{ ...KAART, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <p style={{ fontSize: 14, fontWeight: 500, color: '#F5F2EB', margin: 0, fontFamily: sans }}>{a.titel}</p>
+                <p style={{ fontSize: 12, color: '#A8998A', margin: '3px 0 0', fontFamily: sans }}>{a.duur}</p>
+              </div>
+              {nuFit && (
+                <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,163,115,0.18)', color: '#D4A373', fontFamily: sans }}>
+                  past bij nu
+                </span>
+              )}
+              <ChevronRight size={15} color="#6B5D52" style={{ flexShrink: 0 }} />
+            </div>
+          )
+        })}
+      </div>
+
+      {p.id === 'kracht' && <div style={{ marginTop: 12 }}><PTKaart /></div>}
+      {p.id === 'supplementen' && (
+        <div style={{ marginTop: 12 }}>
+          <SupplementSuggestie cyclusFase={faseInfo?.fase || null} />
+        </div>
+      )}
+      {p.id === 'voeding' && (
+        <div onClick={() => onOefening('scanner')} style={{ ...KAART, marginTop: 12, padding: 18, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(212,163,115,0.2)' }}>
+          <div style={{ width: 40, height: 40, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #DFB88A, #D4A373)' }}>
+            <Camera size={17} color="#211C1A" />
+          </div>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: serif, fontSize: 16, color: '#F5F2EB', margin: 0 }}>Scan een product</p>
+            <p style={{ fontSize: 12, lineHeight: 1.5, color: '#A8998A', margin: '3px 0 0', fontFamily: sans }}>
+              Streepjescode scannen, direct zien wat erin zit, met eerlijke duiding.
+            </p>
+          </div>
+          <ChevronRight size={15} color="#D4A373" style={{ flexShrink: 0 }} />
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function LifestyleHub() {
   const [menstrualData, setMenstrualData] = useState(null)
   const [symptomen, setSymptomen] = useState([])
   const [readings, setReadings] = useState([])
-  const [openId, setOpenId] = useState(null)
-  const [oefening, setOefening] = useState(null)   // 'adem' | 'mindful' | null
+  const [openId, setOpenId] = useState(null)       // open activiteit-detail
+  const [pijlerId, setPijlerId] = useState(null)   // open pijler (drill-down)
+  const [infoOpen, setInfoOpen] = useState(false)  // perimenopauze-noot
+  const [oefening, setOefening] = useState(null)   // 'adem' | 'mindful' | 'scanner' | null
 
   useEffect(() => {
     setMenstrualData(getSecure('menstruation_data'))
@@ -149,6 +217,7 @@ export default function LifestyleHub() {
   const adviesAct = vindActiviteit(advies.activiteitId)
   const { vandaag: hrvNu } = hrvSignaal(readings)
   const open = openId ? vindActiviteit(openId) : null
+  const pijler = pijlerId ? PIJLERS.find(p => p.id === pijlerId) : null
 
   return (
     <div style={{ display: 'flex', justifyContent: 'center', minHeight: '100vh', background: '#1a1614', fontFamily: sans }}>
@@ -162,6 +231,10 @@ export default function LifestyleHub() {
           {open ? (
             <div style={{ paddingTop: 20 }}>
               <ActiviteitDetail activiteit={open} faseInfo={faseInfo} onTerug={() => setOpenId(null)} onStartOefening={(type) => setOefening(type)} />
+            </div>
+          ) : pijler ? (
+            <div style={{ paddingTop: 20 }}>
+              <PijlerDetail pijler={pijler} faseInfo={faseInfo} onTerug={() => setPijlerId(null)} onOpen={setOpenId} onOefening={setOefening} />
             </div>
           ) : (
             <div style={{ paddingBottom: 24 }}>
@@ -177,7 +250,7 @@ export default function LifestyleHub() {
               </div>
 
               {/* Dagadvies */}
-              <div onClick={() => setOpenId(advies.activiteitId)} style={{ ...KAART, margin: '16px 16px 8px', padding: 18, cursor: 'pointer', border: '1px solid rgba(212,163,115,0.25)' }}>
+              <div onClick={() => setOpenId(advies.activiteitId)} style={{ ...KAART, margin: '16px 16px 10px', padding: 18, cursor: 'pointer', border: '1px solid rgba(212,163,115,0.25)' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
                   <Compass size={14} color="#DFB88A" />
                   <p style={{ fontSize: 12, letterSpacing: '0.14em', color: '#DFB88A', margin: 0, fontFamily: sans }}>ADVIES VOOR VANDAAG</p>
@@ -191,67 +264,40 @@ export default function LifestyleHub() {
                 )}
               </div>
 
-              {/* Perimenopauze-nuance, prominent en eerlijk */}
-              <div style={{ display: 'flex', gap: 10, margin: '8px 16px 20px', padding: 14, borderRadius: 16, background: 'rgba(212,163,115,0.07)' }}>
-                <Info size={14} color="#DFB88A" style={{ flexShrink: 0, marginTop: 2 }} />
-                <p style={{ fontSize: 12, lineHeight: 1.6, color: '#A8998A', margin: 0, fontFamily: sans }}>
-                  In de perimenopauze wordt je cyclus onregelmatiger. Hoe je je vandaag voelt en je herstel wegen dan zwaarder dan de theoretische fase. Kracht en eiwit blijven het anker, wat je cyclus ook doet.
-                </p>
+              {/* Perimenopauze-noot, ingeklapt achter een tik zodat het overzicht rustig blijft */}
+              <div style={{ margin: '4px 16px 12px' }}>
+                <button onClick={() => setInfoOpen(v => !v)} style={{ display: 'flex', alignItems: 'center', gap: 7, background: 'none', border: 'none', cursor: 'pointer', padding: 0, color: '#DFB88A', fontFamily: sans, fontSize: 12.5 }}>
+                  <Info size={13} /> Waarom dit anders weegt in de perimenopauze
+                  <ChevronRight size={13} style={{ transform: infoOpen ? 'rotate(90deg)' : 'none', transition: 'transform .2s' }} />
+                </button>
+                {infoOpen && (
+                  <p style={{ fontSize: 12, lineHeight: 1.6, color: '#A8998A', margin: '8px 0 0', fontFamily: sans }}>
+                    In de perimenopauze wordt je cyclus onregelmatiger. Hoe je je vandaag voelt en je herstel wegen dan zwaarder dan de theoretische fase. Kracht en eiwit blijven het anker, wat je cyclus ook doet.
+                  </p>
+                )}
               </div>
 
-              {/* Pijlers */}
-              {PIJLERS.map(p => (
-                <div key={p.id} style={{ marginBottom: 22 }}>
-                  <div style={{ padding: '0 16px', marginBottom: 4 }}>
-                    <h2 style={{ fontFamily: serif, fontSize: 20, color: '#F5F2EB', margin: '0 0 4px' }}>{p.naam}</h2>
-                    <p style={{ fontSize: 12, lineHeight: 1.6, color: '#A8998A', margin: 0, fontFamily: sans }}>{p.intro}</p>
-                  </div>
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 8, padding: '12px 16px 0' }}>
-                    {p.activiteiten.map(a => {
-                      const nuFit = faseInfo && a.fases.includes(faseInfo.fase)
-                      return (
-                        <div key={a.id} onClick={() => setOpenId(a.id)} style={{ ...KAART, padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer' }}>
-                          <div style={{ flex: 1, minWidth: 0 }}>
-                            <p style={{ fontSize: 14, fontWeight: 500, color: '#F5F2EB', margin: 0, fontFamily: sans }}>{a.titel}</p>
-                            <p style={{ fontSize: 12, color: '#A8998A', margin: '3px 0 0', fontFamily: sans }}>{a.duur}</p>
-                          </div>
-                          {nuFit && (
-                            <span style={{ fontSize: 11, padding: '3px 8px', borderRadius: 999, flexShrink: 0, background: 'rgba(212,163,115,0.18)', color: '#D4A373', fontFamily: sans }}>
-                              past bij nu
-                            </span>
-                          )}
-                          <ChevronRight size={15} color="#6B5D52" style={{ flexShrink: 0 }} />
-                        </div>
-                      )
-                    })}
-                  </div>
-                  {p.id === 'kracht' && <PTKaart />}
-                  {p.id === 'supplementen' && (
-                    // Persoonlijke, data-onderbouwde suggesties (EFSA-only) —
-                    // dezelfde motor + YouCaps-funnelmeting als op de home.
-                    // Toont zichzelf alleen als eigen data een suggestie draagt.
-                    <div style={{ margin: '12px 16px 0' }}>
-                      <SupplementSuggestie cyclusFase={faseInfo?.fase || null} />
-                    </div>
-                  )}
-                  {p.id === 'voeding' && (
-                    <div onClick={() => setOefening('scanner')} style={{ ...KAART, margin: '12px 16px 0', padding: 18, display: 'flex', gap: 14, alignItems: 'center', cursor: 'pointer', border: '1px solid rgba(212,163,115,0.2)' }}>
-                      <div style={{ width: 40, height: 40, borderRadius: 12, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #DFB88A, #D4A373)' }}>
-                        <Camera size={17} color="#211C1A" />
+              {/* Pijler-tegels: overzicht eerst, activiteiten pas na een tik */}
+              <div style={{ padding: '2px 16px 0', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
+                {PIJLERS.map(p => {
+                  const meta = PIJLER_META[p.id] || {}
+                  const Icon = meta.Icon
+                  const nuFit = faseInfo && p.activiteiten.some(a => a.fases.includes(faseInfo.fase))
+                  return (
+                    <div key={p.id} onClick={() => { setPijlerId(p.id); setInfoOpen(false) }} style={{ ...KAART, position: 'relative', padding: 16, minHeight: 132, cursor: 'pointer', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                      {Icon && <Icon size={20} color="#DFB88A" />}
+                      <div>
+                        <p style={{ fontFamily: serif, fontSize: 17, color: '#F5F2EB', margin: 0 }}>{p.naam}</p>
+                        <p style={{ fontSize: 11.5, lineHeight: 1.45, color: '#A8998A', margin: '3px 0 0', fontFamily: sans }}>{meta.tag}</p>
                       </div>
-                      <div style={{ flex: 1 }}>
-                        <p style={{ fontFamily: serif, fontSize: 16, color: '#F5F2EB', margin: 0 }}>Scan een product</p>
-                        <p style={{ fontSize: 12, lineHeight: 1.5, color: '#A8998A', margin: '3px 0 0', fontFamily: sans }}>
-                          Streepjescode scannen, direct zien wat erin zit — met eerlijke duiding.
-                        </p>
-                      </div>
-                      <ChevronRight size={15} color="#D4A373" style={{ flexShrink: 0 }} />
+                      <span style={{ marginTop: 'auto', fontSize: 11, color: '#6B5D52', fontFamily: sans }}>{p.activiteiten.length} activiteiten</span>
+                      {nuFit && <span title="past bij nu" style={{ position: 'absolute', top: 14, right: 14, width: 7, height: 7, borderRadius: '50%', background: '#D4A373' }} />}
                     </div>
-                  )}
-                </div>
-              ))}
+                  )
+                })}
+              </div>
 
-              <p style={{ fontSize: 11, lineHeight: 1.6, color: '#6B5D52', margin: '0 16px', fontFamily: sans }}>
+              <p style={{ fontSize: 11, lineHeight: 1.6, color: '#6B5D52', margin: '20px 16px 0', fontFamily: sans }}>
                 Algemene leefstijlinformatie, geen medisch advies. Bij aanhoudende klachten: bespreek ze met je huisarts.
               </p>
             </div>
