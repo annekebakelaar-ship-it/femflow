@@ -121,17 +121,19 @@ Hardcoded in de v2-schermen en als --d-* tokens in index.html:
 - Smoked Umber `#2D2623` — dropdowns/tooltips; kaarten = `rgba(45,38,35,0.55)` + blur
 - Parchment White `#F5F2EB` — primaire tekst (secundair `#A8998A`, gedempt `#6B5D52`)
 - Warm Ochre `#D4A373` — accent/CTA (gradient-partner `#DFB88A`)
+- Home "Vandaag" (sep 2026): pagina `#16120E`, kaarten `#1D1812` met rand `#2D241C`, oker `#EDBC8C`; NavV2 = zwevende kaart met 4 tabs (Vandaag, Inzichten, Tracken, Profiel)
 - Logo: src/assets/ovari-logo.jpg (bruine variant); PWA-iconen in public/ ervan afgeleid
 
 ---
 
 ## Typography
 
-Use existing fonts (Fraunces + Hanken defined in index.html):
-- --font-display: Page titles, headings (Fraunces)
-- --font-sans: Body text, buttons, metrics (Hanken with tabular figures)
+Fonts (Google Fonts in index.html):
+- Cinzel: stijl van het OVARI-woordmerk, oudere v2-koppen
+- Noto Serif Display 400: begroeting, koppen en cijfers op de home "Vandaag" (sep 2026)
+- Hanken Grotesk 300-700: lopende tekst; 300 voor de grijze labels op de home
 
-No new fonts. No emojis. Use react-feather icons for visual markers.
+Geen extra fonts zonder akkoord. No emojis. Use react-feather icons for visual markers.
 
 ---
 
