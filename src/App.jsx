@@ -3,7 +3,10 @@ import { BrowserRouter, Routes, Route, useNavigate, useLocation, Navigate } from
 import { GoogleOAuthProvider } from '@react-oauth/google'
 import './utils/devSetup'
 import ErrorBoundary from './components/ErrorBoundary'
-import Footer from './components/Footer'
+import NavV2 from './components/NavV2'
+import { Capacitor } from '@capacitor/core'
+import { App as CapApp } from '@capacitor/app'
+import { Browser } from '@capacitor/browser'
 import FeedbackWidget from './components/FeedbackWidget'
 import AnalyticsConsentBanner from './components/AnalyticsConsentBanner'
 import Welcome from './pages/Welcome'
@@ -18,14 +21,11 @@ import MenstruationHistory from './pages/health/MenstruationHistory'
 import PerimenopauzeTracker from './pages/health/PerimenopauzeTracker'
 import CycleAnalytics from './pages/health/CycleAnalytics'
 import WearableCycle from './pages/health/WearableCycle'
-import DashboardHome from './pages/dashboard/DashboardHome'
-import DashboardPreview from './pages/dashboard/DashboardPreview'
 import DashboardV2Preview from './pages/dashboard/DashboardV2Preview'
 import LifestyleHub from './pages/dashboard/LifestyleHub'
 import QuizResultsPage from './pages/dashboard/QuizResultsPage'
 import LearningHub from './pages/dashboard/LearningHub'
 import ProgressAnalytics from './pages/dashboard/ProgressAnalytics'
-import Dashboard from './pages/dashboard/Dashboard'
 import AccountPage from './pages/account/AccountPage'
 import PrivacyPolicy from './pages/legal/PrivacyPolicy'
 import TermsOfService from './pages/legal/TermsOfService'
@@ -38,6 +38,13 @@ import WearableDashboard from './pages/dashboard/WearableDashboard'
 import SupplementsPage from './pages/dashboard/SupplementsPage'
 import MenuPage from './pages/MenuPage'
 import { getToken, clearToken, verifyMagicLink, getMe } from './api/client'
+
+// Vaste navigatie op de ingelogde subpagina's; de home en de Leefstijl-hub
+// hebben de balk zelf in hun layout
+function toonVasteNav(pad) {
+  if (pad === '/dashboard' || pad === '/dashboard/leefstijl' || pad === '/preview-v2') return false
+  return pad.startsWith('/dashboard') || pad.startsWith('/health') || pad.startsWith('/wearable') || ['/menu', '/account', '/consent'].includes(pad)
+}
 
 function AppContent() {
   const [user, setUser]             = useState(null)
@@ -111,11 +118,23 @@ function AppContent() {
   }, [location, navigate])
 
 
-  function handleLogout() {
-    clearToken()
-    setUser(null)
-    navigate('/')
-  }
+  // Native: terugkeer uit de Oura- of Fitbit-koppeling via app.youcaps.ovari://wearable?...
+  useEffect(() => {
+    if (!Capacitor.isNativePlatform()) return undefined
+    let luisteraar
+    CapApp.addListener('appUrlOpen', ({ url }) => {
+      try {
+        const link = new URL(url)
+        if (link.host === 'wearable') {
+          Browser.close().catch(() => {})
+          navigate('/wearable' + link.search)
+        }
+      } catch {
+        // onbekende of ongeldige link negeren
+      }
+    }).then(h => { luisteraar = h })
+    return () => { if (luisteraar) luisteraar.remove() }
+  }, [navigate])
 
   if (authLoading) return (
     <div style={{
@@ -134,14 +153,12 @@ function AppContent() {
 
   return (
     <div style={{
-      background: (location.pathname === '/' || location.pathname === '/preview' || location.pathname === '/preview-v2' || location.pathname === '/dashboard') ? 'transparent' : '#F5EFEB',
+      background: (location.pathname === '/' || location.pathname === '/preview-v2' || location.pathname === '/dashboard') ? 'transparent' : '#F5EFEB',
       minHeight: '100vh',
     }}>
     <Routes>
-      {/* New quiz funnel */}
-      <Route path="/preview" element={<DashboardPreview />} />
-      {/* Rustige v2-homepage — preview naast de huidige; na akkoord wijst /dashboard hierheen */}
-      <Route path="/preview-v2" element={<DashboardV2Preview />} />
+      {/* Homepreview met voorbeelddata (/preview-v2?demo), alleen in lokale ontwikkeling */}
+      {import.meta.env.DEV && <Route path="/preview-v2" element={<DashboardV2Preview />} />}
       {/* Ingelogd (sessie en token) direct naar de home; de native app start altijd op / */}
       <Route path="/" element={user && getToken() ? <Navigate to="/dashboard" replace /> : <Welcome />} />
       <Route path="/quiz" element={<SmartQuiz />} />
@@ -156,10 +173,6 @@ function AppContent() {
       <Route path="/dashboard" element={
         user ? <DashboardV2Preview /> : <Navigate to="/login" replace />
       } />
-      {/* Oude dashboard-home, tijdelijke terugval tijdens de overgang */}
-      <Route path="/dashboard/classic" element={
-        user ? <DashboardHome /> : <Navigate to="/login" replace />
-      } />
       {/* Leefstijl-hub: fase- en herstel-gekoppelde activiteiten (v2, vierde tab) */}
       <Route path="/dashboard/leefstijl" element={
         user ? <LifestyleHub /> : <Navigate to="/login" replace />
@@ -167,34 +180,6 @@ function AppContent() {
 
       {/* Quiz Results Page */}
       <Route path="/quiz-results" element={<QuizResultsPage />} />
-
-      {/* Dashboard tracker (protected) */}
-      <Route path="/dashboard/tracker" element={
-        user ? (
-          <Dashboard
-            user={user}
-            onBack={() => navigate('/dashboard')}
-            onLogout={handleLogout}
-            onAccount={() => navigate('/account')}
-          />
-        ) : (
-          <Navigate to="/login" replace />
-        )
-      } />
-
-      {/* Dashboard analytics (protected) */}
-      <Route path="/dashboard/analytics" element={
-        user ? (
-          <Dashboard
-            user={user}
-            onBack={() => navigate('/dashboard')}
-            onLogout={handleLogout}
-            onAccount={() => navigate('/account')}
-          />
-        ) : (
-          <Navigate to="/login" replace />
-        )
-      } />
 
       {/* Account */}
       <Route path="/account" element={<AccountPage />} />
@@ -268,8 +253,8 @@ function AppContent() {
         </div>
       } />
     </Routes>
-    {user && location.pathname !== '/dashboard' && location.pathname !== '/dashboard/leefstijl' && (location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/health')) && <Footer />}
-    {location.pathname !== '/' && location.pathname !== '/preview' && location.pathname !== '/preview-v2' && location.pathname !== '/dashboard' && location.pathname !== '/dashboard/leefstijl' && <FeedbackWidget />}
+    {user && toonVasteNav(location.pathname) && <NavV2 vast />}
+    {location.pathname !== '/' && location.pathname !== '/preview-v2' && location.pathname !== '/dashboard' && location.pathname !== '/dashboard/leefstijl' && <FeedbackWidget />}
     <AnalyticsConsentBanner />
     </div>
   )

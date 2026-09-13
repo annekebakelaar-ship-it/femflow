@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getToken, getWearableReadings } from '../../api/client'
 import HRVQnA from '../../components/HRVQnA'
-import Footer from '../../components/Footer'
 import hero from '../../assets/hero1.png'
 
 export default function HRVInsightsPage() {
@@ -133,7 +132,6 @@ export default function HRVInsightsPage() {
         </div>
       </div>
 
-      <Footer />
     </div>
   )
 }

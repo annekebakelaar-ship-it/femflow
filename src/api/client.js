@@ -200,9 +200,10 @@ export async function getQuizResults() {
 
 // ── Wearable (Oura) ────────────────────────────────────────────────────────
 
-export async function requestWearableConnect() {
+export async function requestWearableConnect(opties = {}) {
   return request('/api/v1/wearable/request-connect', {
     method: 'POST',
+    body: JSON.stringify(opties),
   })
 }
 
@@ -234,9 +235,10 @@ export async function sendFeedback(feedback, email, url) {
   })
 }
 
-export async function requestFitbitConnect() {
+export async function requestFitbitConnect(opties = {}) {
   return request('/api/v1/wearable/fitbit/request-connect', {
     method: 'POST',
+    body: JSON.stringify(opties),
   })
 }
 

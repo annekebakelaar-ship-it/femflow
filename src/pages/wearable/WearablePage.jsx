@@ -3,7 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getToken, seedWearableData, getWearableReadings, getWearableStatus, pullWearableData, requestWearableConnect, requestFitbitConnect, pullFitbitData } from '../../api/client'
 import WearableConsentModal from '../../components/WearableConsentModal'
 import BiometricChart from '../../components/BiometricChart'
-import Footer from '../../components/Footer'
+import { Capacitor } from '@capacitor/core'
+import { openExternal } from '../../utils/openExternal'
 
 const SCENARIOS = ['stable', 'declining', 'recovering', 'dip']
 
@@ -121,9 +122,12 @@ export default function WearablePage() {
   async function handleConnectOura() {
     try {
       setError(null)
-      const result = await requestWearableConnect()
+      // In de app: koppelen in een browservenster; de server stuurt daarna terug naar de app
+      const native = Capacitor.isNativePlatform()
+      const result = await requestWearableConnect(native ? { app: true } : {})
       if (result.auth_url) {
-        window.location.href = result.auth_url
+        if (native) await openExternal(result.auth_url)
+        else window.location.href = result.auth_url
       } else {
         setError('Failed to get Oura authentication URL')
       }
@@ -135,9 +139,11 @@ export default function WearablePage() {
   async function handleConnectFitbit() {
     try {
       setError(null)
-      const result = await requestFitbitConnect()
+      const native = Capacitor.isNativePlatform()
+      const result = await requestFitbitConnect(native ? { app: true } : {})
       if (result.auth_url) {
-        window.location.href = result.auth_url
+        if (native) await openExternal(result.auth_url)
+        else window.location.href = result.auth_url
       } else {
         setError('Failed to get Fitbit authentication URL')
       }
@@ -603,7 +609,6 @@ export default function WearablePage() {
         </div>
       )}
 
-      <Footer />
     </div>
   )
 }

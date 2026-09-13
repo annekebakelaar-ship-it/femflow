@@ -10,6 +10,7 @@ import axios from 'axios'
 import { OAuth2Client } from 'google-auth-library'
 import { v4 as uuidv4 } from 'uuid'
 import { generateSleepRange } from './utils/synthDataGenerator.js'
+import { appTerugPagina } from './utils/appTerug.js'
 
 const { sign, verify } = jwtPkg
 
@@ -638,7 +639,8 @@ app.post('/api/v1/wearable/request-connect', authenticateToken, async (req, res)
     ouraAuthUrl.searchParams.append('response_type', 'code')
     ouraAuthUrl.searchParams.append('scope', 'personal daily')
     // Signed state: voorkomt dat iemand de callback met een willekeurig userId aanroept
-    const state = sign({ userId, purpose: 'oura_oauth' }, JWT_SECRET, { expiresIn: '10m' })
+    // app: true -> na de koppeling terug naar de native app in plaats van de website
+    const state = sign({ userId, purpose: 'oura_oauth', app: req.body?.app === true }, JWT_SECRET, { expiresIn: '10m' })
     ouraAuthUrl.searchParams.append('state', state)
 
     res.json({ auth_url: ouraAuthUrl.toString() })
@@ -650,6 +652,7 @@ app.post('/api/v1/wearable/request-connect', authenticateToken, async (req, res)
 
 // Oura OAuth callback
 app.get('/api/v1/wearable/callback', async (req, res) => {
+  let naarApp = false
   try {
     const { code, state } = req.query
 
@@ -662,6 +665,7 @@ app.get('/api/v1/wearable/callback', async (req, res) => {
       const decoded = verify(state, JWT_SECRET)
       if (decoded.purpose !== 'oura_oauth') throw new Error('wrong purpose')
       userId = decoded.userId
+      naarApp = decoded.app === true
     } catch {
       return res.status(403).json({ error: 'Invalid or expired state' })
     }
@@ -691,9 +695,11 @@ app.get('/api/v1/wearable/callback', async (req, res) => {
     )
 
     // Redirect back to wearable page with success
+    if (naarApp) return res.type('html').send(appTerugPagina('oura_connected=true'))
     res.redirect(`${process.env.FRONTEND_URL}/wearable?oura_connected=true`)
   } catch (err) {
     console.error('Oura callback error:', err)
+    if (naarApp) return res.type('html').send(appTerugPagina('oura_error=true'))
     res.redirect(`${process.env.FRONTEND_URL}/wearable?oura_error=true`)
   }
 })
@@ -930,7 +936,7 @@ app.post('/api/v1/wearable/fitbit/request-connect', authenticateToken, async (re
       return res.status(503).json({ error: 'Fitbit not configured' })
     }
 
-    const state = sign({ userId: req.userId, purpose: 'fitbit_oauth' }, JWT_SECRET, { expiresIn: '10m' })
+    const state = sign({ userId: req.userId, purpose: 'fitbit_oauth', app: req.body?.app === true }, JWT_SECRET, { expiresIn: '10m' })
     const url = new URL(GOOGLE_AUTH_URL)
     url.searchParams.append('client_id', process.env.FITBIT_CLIENT_ID)
     url.searchParams.append('redirect_uri', process.env.FITBIT_REDIRECT_URI)
@@ -949,6 +955,7 @@ app.post('/api/v1/wearable/fitbit/request-connect', authenticateToken, async (re
 
 // Fitbit OAuth callback
 app.get('/api/v1/wearable/fitbit/callback', async (req, res) => {
+  let naarApp = false
   try {
     const { code, state } = req.query
     if (!code || !state) {
@@ -960,6 +967,7 @@ app.get('/api/v1/wearable/fitbit/callback', async (req, res) => {
       const decoded = verify(state, JWT_SECRET)
       if (decoded.purpose !== 'fitbit_oauth') throw new Error('wrong purpose')
       userId = decoded.userId
+      naarApp = decoded.app === true
     } catch {
       return res.status(403).json({ error: 'Invalid or expired state' })
     }
@@ -986,9 +994,11 @@ app.get('/api/v1/wearable/fitbit/callback', async (req, res) => {
       [userId, access_token, refresh_token || null, expiresAt]
     )
 
+    if (naarApp) return res.type('html').send(appTerugPagina('fitbit_connected=true'))
     res.redirect(`${process.env.FRONTEND_URL}/wearable?fitbit_connected=true`)
   } catch (err) {
     console.error('Fitbit callback error:', err.response?.data || err.message)
+    if (naarApp) return res.type('html').send(appTerugPagina('fitbit_error=true'))
     res.redirect(`${process.env.FRONTEND_URL}/wearable?fitbit_error=true`)
   }
 })

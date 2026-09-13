@@ -220,8 +220,9 @@ export default function MenuPage() {
 
         <button
           onClick={() => {
+            // Volledig herladen: wist ook de gebruiker in App, anders stuurt / terug naar de home
             localStorage.removeItem('femflow_jwt')
-            navigate('/')
+            window.location.replace('/')
           }}
           style={{
             ...menuItemStyle,
