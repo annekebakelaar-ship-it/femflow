@@ -142,14 +142,15 @@ function AppContent() {
       <Route path="/preview" element={<DashboardPreview />} />
       {/* Rustige v2-homepage — preview naast de huidige; na akkoord wijst /dashboard hierheen */}
       <Route path="/preview-v2" element={<DashboardV2Preview />} />
-      <Route path="/" element={<Welcome />} />
+      {/* Ingelogd (sessie en token) direct naar de home; de native app start altijd op / */}
+      <Route path="/" element={user && getToken() ? <Navigate to="/dashboard" replace /> : <Welcome />} />
       <Route path="/quiz" element={<SmartQuiz />} />
       <Route path="/quiz/results" element={<QuizResults />} />
       <Route path="/unsubscribe" element={<Unsubscribe />} />
 
       {/* Authentication (magic link) */}
-      <Route path="/login" element={<SigninPage />} />
-      <Route path="/signup" element={<SigninPage />} />
+      <Route path="/login" element={user && getToken() ? <Navigate to="/dashboard" replace /> : <SigninPage />} />
+      <Route path="/signup" element={user && getToken() ? <Navigate to="/dashboard" replace /> : <SigninPage />} />
 
       {/* Dashboard home (protected) — v2: rustige home (akkoord Danib 4 jul) */}
       <Route path="/dashboard" element={

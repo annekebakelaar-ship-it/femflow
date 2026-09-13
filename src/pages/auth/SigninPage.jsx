@@ -4,10 +4,14 @@ import { GoogleLogin } from '@react-oauth/google'
 import { requestMagicLink, verifyMagicLink, getMe, saveToken, saveQuizResults } from '../../api/client'
 import { handleGoogleSignIn } from '../../utils/oauthHandler'
 import { openExternal } from '../../utils/openExternal'
+import { meet } from '../../utils/meet'
+import { Capacitor } from '@capacitor/core'
 
 export default function SigninPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  // Google blokkeert inloggen vanuit een ingebouwde webview; in de app alleen de e-mailcode
+  const native = Capacitor.isNativePlatform()
   const { constellation = null, email: welcomeEmail = null } = location.state || {}
 
   const [step, setStep] = useState('email')
@@ -80,7 +84,12 @@ export default function SigninPage() {
     setLoading(true)
     try {
       await verifyMagicLink(token, email)
-      await getMe()
+      const me = await getMe()
+      meet('login', { method: 'email_code' })
+      // De server maakt het account aan bij de eerste geldige code
+      if (me?.created_at && Date.now() - new Date(me.created_at).getTime() < 10 * 60 * 1000) {
+        meet('sign_up', { method: 'email_code' })
+      }
 
       const pendingQuiz = localStorage.getItem('pending_quiz_results')
       if (pendingQuiz) {
@@ -143,7 +152,8 @@ export default function SigninPage() {
               Kies hoe je wil inloggen
             </p>
 
-            {/* Google Sign In */}
+            {!native && (<>
+            {/* Google Sign In (niet in de native app) */}
             <div style={{
               display: 'flex',
               justifyContent: 'center',
@@ -156,6 +166,7 @@ export default function SigninPage() {
                     const result = await handleGoogleSignIn(credentialResponse)
                     if (result.success) {
                       saveToken(result.accessToken)
+                      meet('login', { method: 'google' })
                       const menstruationData = localStorage.getItem('menstruation_data')
                       setTimeout(() => {
                         navigate(menstruationData ? '/dashboard' : '/health/menstruation')
@@ -195,6 +206,7 @@ export default function SigninPage() {
               </span>
               <div style={{ flex: 1, height: '1px', background: 'var(--d-border)' }} />
             </div>
+            </>)}
 
             {error && (
               <div style={{

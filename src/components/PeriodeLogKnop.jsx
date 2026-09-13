@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import { Droplet, Check } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
 import { logOpties, voegPeriodeStartToe, laatsteStart } from '../utils/periodeLog'
+import { meet } from '../utils/meet'
 
 // Menstruatiestart loggen via een zwevende druppelknop (FAB) met bottom
 // sheet, zoals gangbaar in cyclus-apps. Drie dagen terug logbaar voor wie
@@ -24,6 +25,7 @@ export default function PeriodeLogKnop({ onGelogd }) {
       setToast({ tekst: 'Deze dag is al gelogd', type: 'info' })
     } else {
       saveSecure('menstruation_data', data)
+      meet('cyclus_gelogd', { bron: 'snelknop' })
       setToast({ tekst: `Gelogd: ${label.toLowerCase()}`, type: 'ok' })
       if (onGelogd) onGelogd()
     }

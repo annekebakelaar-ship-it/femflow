@@ -4,6 +4,7 @@ import ConsentModal from '../../components/ConsentModal'
 import CyclusKalender from '../../components/CyclusKalender'
 import { saveSecure, getSecure } from '../../utils/secureStorage'
 import { dagenUit, toggleDag, startsUit } from '../../utils/kalender'
+import { meet } from '../../utils/meet'
 
 const INITIAL_DATA = {
   name: '',
@@ -46,6 +47,7 @@ export default function MenstruationTracker() {
 
   const handleSetupComplete = (data) => {
     saveSecure('menstruation_data', data)
+    meet('cyclus_gelogd', { bron: 'instellen' })
     setMenstrualData(data)
     setShowSetup(false)
     setTimeout(() => navigate('/dashboard'), 500)
@@ -93,6 +95,7 @@ export default function MenstruationTracker() {
   const handleToggleDag = (datum) => {
     const nieuw = toggleDag(menstrualData, datum)
     saveSecure('menstruation_data', nieuw)
+    meet('cyclus_gelogd', { bron: 'kalender' })
     setMenstrualData(nieuw)
   }
 
