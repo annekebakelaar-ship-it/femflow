@@ -40,6 +40,8 @@ const allowedOrigins = [
   ...new Set([
     process.env.FRONTEND_URL,
     'https://femflow.youcaps.app',
+    // Canoniek webdomein sinds de rebrand; FRONTEND_URL op Render wijst nog naar femflow
+    'https://ovari.youcaps.app',
     'https://femflow-two.vercel.app',
     'http://localhost:5175',
     'http://localhost:5173',
