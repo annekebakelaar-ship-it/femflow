@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Heart, Moon, Thermometer, Zap, User, Settings, LogOut, ChevronDown } from 'react-feather'
 import NavV2 from '../../components/NavV2'
+import LotusIcoon from '../../components/LotusIcoon'
 import { leefstijlAdvies } from '../../utils/leefstijlAdvies'
 import { getWearableReadings, clearToken } from '../../api/client'
 import { getSecure } from '../../utils/secureStorage'
@@ -47,16 +48,6 @@ function berekenFase(menstrualData) {
   return { fase, dag, cycleLength, bleed }
 }
 
-function Lotus() {
-  return (
-    <svg width="25" height="19" viewBox="0 0 25 19" fill="none" stroke={OKER} strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }} aria-hidden="true">
-      <path d="M12.5 1C9.2 4.6 8.5 10 12.5 17.8C16.5 10 15.8 4.6 12.5 1Z" />
-      <path d="M12.5 17.8C6.4 18 1.7 13.9 0.9 7.7C5.1 7.5 8.5 9.5 10.3 12.6" />
-      <path d="M12.5 17.8C18.6 18 23.3 13.9 24.1 7.7C19.9 7.5 16.5 9.5 14.7 12.6" />
-    </svg>
-  )
-}
-
 function VandaagKaart({ faseInfo, onClick }) {
   return (
     <div onClick={onClick} style={{ position: 'relative', height: 181.5, margin: '19.9px 20px 0', borderRadius: 14, border: `1px solid ${RAND}`, background: 'linear-gradient(180deg, #1B1611 0%, #19140F 100%)', overflow: 'hidden', cursor: 'pointer', boxSizing: 'border-box', flexShrink: 0 }}>
@@ -90,7 +81,7 @@ function AdviesKaart({ tekst, onUitleg, onCheckin }) {
   return (
     <div style={{ position: 'relative', height: 176.5, margin: '14.6px 20px 0', borderRadius: 12, border: `1px solid ${RAND}`, background: KAART, boxSizing: 'border-box', padding: '0 20px', flexShrink: 0 }}>
       <div style={{ display: 'flex', alignItems: 'center', height: 18.7, marginTop: 18.2 }}>
-        <Lotus />
+        <LotusIcoon size={25} strokeWidth={1.1} color={OKER} />
         <span style={{ marginLeft: 16.9, fontSize: 10.5, lineHeight: 1, letterSpacing: '0.16em', color: '#DFDAD5', fontFamily: sans, fontWeight: 300 }}>PERSOONLIJK ADVIES</span>
       </div>
       <p style={{ margin: '10px 0 0', maxWidth: 312, fontFamily: serif, fontSize: 18.9, lineHeight: '24.7px', color: WIT, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{tekst}</p>

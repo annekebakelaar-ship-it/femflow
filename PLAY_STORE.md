@@ -140,7 +140,7 @@ Bij "Productie" of "Test" -> nieuwe release -> dit AAB uploaden.
 
 ---
 
-## Release 2.2.0 (versionCode 7, september 2026)
+## Release 2.2.0 (versionCode 8, september 2026)
 
 **Wat is er nieuw** (Play Console, max 500 tekens):
 
@@ -148,6 +148,6 @@ Nieuw in Ovari 2.2.0
 - Nieuw startscherm: je fase, herstel, slaap, temperatuur en energie in één oogopslag, met een persoonlijk advies voor vandaag.
 - Je blijft ingelogd: open je de app, dan kom je direct in je overzicht.
 - Cycluskalender: tik losse dagen aan, handig bij een onregelmatige cyclus.
-- Leefstijl overzichtelijker, met een nieuwe navigatie: Vandaag, Inzichten, Tracken en Profiel.
+- Leefstijl overzichtelijker, met een nieuwe navigatie: Vandaag, Inzichten, Tracken, Leefstijl en Profiel.
 
 Nieuwe eerste storescreenshot: `assets/screenshots/ovari-2.2-home.png` (1080x1920).

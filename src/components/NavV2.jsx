@@ -1,7 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Sun, BarChart, Disc, User } from 'react-feather'
+import LotusIcoon from './LotusIcoon'
 
-// Bottom-nav van het ingelogde deel: vier tabs in een zwevende kaart,
+// Bottom-nav van het ingelogde deel: vijf tabs in een zwevende kaart,
 // onderaan de kolom van de home en de Leefstijl-hub; op de overige ingelogde
 // pagina's zet App hem vast onderin (prop vast). Maten en kleuren komen uit het homeontwerp
 // van 13 sep 2026.
@@ -10,9 +11,10 @@ const sans = "'Hanken Grotesk', system-ui, sans-serif"
 const OKER = '#EDBC8C'
 
 const ITEMS = [
-  { icon: Sun, maat: 24, label: 'Vandaag', to: '/dashboard', paden: ['/dashboard', '/preview-v2', '/dashboard/leefstijl'] },
-  { icon: BarChart, maat: 24, label: 'Inzichten', to: '/dashboard/progress', paden: ['/dashboard/progress', '/health/cycle-analytics', '/health/perimenopause', '/health/wearable-cycle', '/wearable/hrv-insights', '/dashboard/wearable', '/dashboard/learning', '/dashboard/supplements'] },
+  { icon: Sun, maat: 24, label: 'Vandaag', to: '/dashboard', paden: ['/dashboard', '/preview-v2'] },
+  { icon: BarChart, maat: 24, label: 'Inzichten', to: '/dashboard/progress', paden: ['/dashboard/progress', '/health/cycle-analytics', '/health/perimenopause', '/health/wearable-cycle', '/wearable/hrv-insights', '/dashboard/wearable', '/dashboard/learning'] },
   { icon: Disc, maat: 21, label: 'Tracken', to: '/health/menstruation', paden: ['/health/menstruation', '/health/menstruation/history', '/health/symptoms', '/health/lifestyle-check'] },
+  { icon: LotusIcoon, maat: 24, label: 'Leefstijl', to: '/dashboard/leefstijl', paden: ['/dashboard/leefstijl', '/dashboard/supplements'] },
   { icon: User, maat: 22, label: 'Profiel', to: '/menu', paden: ['/menu', '/account', '/consent', '/wearable', '/support'] },
 ]
 
