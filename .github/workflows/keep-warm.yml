@@ -1,23 +1,43 @@
-# Houdt de Render free-tier backend wakker tijdens uren dat gebruikers
-# de app realistisch gebruiken. Render free spint een service na ~15 min
-# inactiviteit omlaag; de eerste request daarna duurt dan ~50 seconden.
+# Houdt de Render free-tier backend van Ovari overdag wakker.
 #
-# Bewust NIET 24/7: free-tier instance-uren zijn beperkt (750/maand per
-# workspace, gedeeld met andere services). Pings lopen 05:00-21:50 UTC
-# (07:00-23:50 NL zomertijd) — 's nachts mag hij slapen.
+# Render legt een gratis service na ~15 min zonder verkeer stil; de eerste
+# request duurt daarna 20-50 seconden. GitHub start geplande runs in de
+# praktijk maar om de 1-2 uur, dus een losse ping per run is niet genoeg.
+# Daarom pingt elke run zelf tot 3 uur lang elke 10 minuten; een nieuwe run
+# neemt het over en annuleert de oude (concurrency).
+#
+# Bewust alleen 05:00-22:00 UTC (07:00-24:00 NL zomertijd): gratis
+# Render-uren zijn beperkt (750 per maand per workspace, gedeeld met de
+# andere services). Zo blijft het rond de 530 uur per maand.
+#
+# UptimeRobot hielp niet: dat deed HEAD op de root en Render wekt een
+# slapende service daar niet voor (503 hibernate-wake-error).
 name: Keep backend warm
 
 on:
   schedule:
-    - cron: '*/10 5-21 * * *'
+    - cron: '7 5-21 * * *'
   workflow_dispatch:
+
+concurrency:
+  group: keep-warm
+  cancel-in-progress: true
 
 jobs:
   ping:
     runs-on: ubuntu-latest
+    timeout-minutes: 190
     steps:
-      - name: Ping health endpoint
+      - name: Ping health endpoint elke 10 minuten
         run: |
-          status=$(curl -s -o /dev/null -w "%{http_code}" -m 90 https://femflow-api.onrender.com/api/v1/health)
-          echo "Health check: HTTP $status"
-          test "$status" = "200"
+          eind=$(( $(date +%s) + 180 * 60 ))
+          while [ "$(date +%s)" -lt "$eind" ]; do
+            uur=$((10#$(date -u +%H)))
+            if [ "$uur" -ge 22 ] || [ "$uur" -lt 5 ]; then
+              echo "Buiten het venster (UTC-uur $uur), stoppen"
+              break
+            fi
+            status=$(curl -s -o /dev/null -w "%{http_code}" -m 90 https://femflow-api.onrender.com/api/v1/health || true)
+            echo "$(date -u +%H:%M) UTC health: HTTP ${status:-000}"
+            sleep 600
+          done
