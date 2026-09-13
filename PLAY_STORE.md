@@ -150,4 +150,36 @@ Nieuw in Ovari 2.2.0
 - Cycluskalender: tik losse dagen aan, handig bij een onregelmatige cyclus.
 - Leefstijl overzichtelijker, met een nieuwe navigatie: Vandaag, Inzichten, Tracken, Leefstijl en Profiel.
 
-Nieuwe eerste storescreenshot: `assets/screenshots/ovari-2.2-home.png` (1080x1920).
+Storescreenshots: zes beelden van 1080x1920, zie de sectie Storescreenshots hieronder.
+
+### Korte beschrijving (2.2.0, max 80 tekens)
+
+Volg je cyclus en de overgang. Rustig inzicht in je lichaam, privé.
+
+### Volledige beschrijving (2.2.0, max 4000 tekens)
+
+Ovari is een rustige, private app voor je cyclus en de overgang. Voor vrouwen die willen begrijpen wat er in hun lichaam verandert, zonder ruis en zonder advertenties.
+
+Wat Ovari voor je doet:
+
+- Vandaag: elke dag je fase, herstel, slaap, temperatuur en energie op één scherm, met een persoonlijk advies.
+- Je cyclus: tik losse dagen aan in de kalender. Ook als je cyclus onregelmatig wordt, zie je je eigen patroon.
+- Check-in: leg in een paar tikken vast hoe je je voelt, van opvliegers tot slecht slapen.
+- Leefstijl: advies over kracht, beweging, rust, slaap, voeding en supplementen dat past bij je fase en je herstel.
+- Huisartsrapport: maak een PDF-overzicht van je laatste zes maanden en neem het mee naar je huisarts.
+- Kennisbank: nuchtere artikelen over de overgang, van opvliegers tot botgezondheid.
+- Wearable: koppel als je wilt je Oura Ring, zodat je slaap, HRV en herstel naast je cyclus ziet.
+
+Privacy staat voorop:
+
+- Je dagboek en symptomen blijven op je telefoon.
+- Je kunt je account en al je gegevens op elk moment volledig verwijderen.
+- Geen advertenties en geen verkoop van je gegevens.
+
+Belangrijk: Ovari geeft informatie, geen medisch advies, en is geen medisch hulpmiddel. Heb je klachten die je zorgen baren, raadpleeg dan je huisarts.
+
+### Storescreenshots (2.2.0, 1080x1920, in deze volgorde)
+
+`assets/screenshots/ovari-2.2-01-home.png` t/m `ovari-2.2-06-kracht.png`. Vervang alle oude screenshots en houd deze volgorde aan.
+
+LET OP: de oude volledige beschrijving hierboven noemt verwerking "op EU-servers". De API draait op Render in de VS (regio Oregon). Die zin is daarom uit de nieuwe tekst gehaald; controleer ook het Data Safety-formulier en het privacybeleid.
