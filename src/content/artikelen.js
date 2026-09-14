@@ -564,6 +564,42 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'hormonen-meten-overgang',
+    title: 'Hormonen meten in de overgang',
+    subtitle: 'Wat thuistests en wearables wel en niet vertellen',
+    category: 'cycle',
+    difficulty: 'beginner',
+    readTime: 5,
+    description: 'Thuistests en wearables beloven inzicht in je hormonen. Wat meten ze echt, wat zegt een uitslag in de perimenopauze, en wanneer is een test wel zinvol?',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Waarom één meting weinig zegt',
+        tekst: 'In de perimenopauze schommelen oestrogeen en progesteron sterk. Niet alleen van maand tot maand, maar soms ook van week tot week. Een meting laat zien hoe het er op dat ene moment voor staat. Een paar dagen later kan dezelfde test een heel andere waarde geven. Daarom zegt een losse uitslag weinig over waar je in de overgang zit, en nog minder over wat je eraan zou moeten doen.',
+      },
+      {
+        kop: 'Hoe artsen de overgang vaststellen',
+        tekst: 'Bij vrouwen boven de 45 stellen artsen de perimenopauze meestal vast op basis van klachten en veranderingen in de cyclus, zonder bloedtest. Zo staat het in de Britse NICE-richtlijn, en ook in de Nederlandse huisartsenpraktijk is een hormoontest dan meestal niet nodig. Behandeling wordt evenmin afgestemd op hormoonwaarden, omdat die te grillig zijn. Bij klachten voor je 45e, of als er twijfel is over een andere oorzaak, kan de huisarts wel bloed laten onderzoeken.',
+      },
+      {
+        kop: 'Wat thuistests meten',
+        tekst: 'Urinetests meten per teststrip hormonen zoals LH en FSH, en afbraakproducten van oestrogeen en progesteron. Er zijn ook speekseltests, bijvoorbeeld voor cortisol en progesteron. Bij een kinderwens kunnen ze helpen om je eisprong te volgen. In de overgang laten ze vooral zien hoe grillig je waarden zijn. Voor een diagnose of een keuze over behandeling heb je ze meestal niet nodig, terwijl de kosten per maand flink kunnen oplopen.',
+      },
+      {
+        kop: 'Wat wearables meten',
+        tekst: 'Een slimme ring of een horloge meet geen hormonen. Ze meten je huidtemperatuur, hartslag, hartslagvariabiliteit en slaap. Omdat progesteron na de eisprong je lichaamstemperatuur licht verhoogt, kunnen ze je cyclusfase inschatten. Nieuwe wearables beloven met algoritmes zelfs hormoonwaarden te schatten, maar dat blijven schattingen en geen metingen. Sensoren die hormonen echt continu meten, via zweet of via een pleister met microscopisch kleine naaldjes, worden onderzocht maar zijn nog niet te koop.',
+      },
+      {
+        kop: 'Wat wel veel zegt: je patroon',
+        tekst: 'De overgang wordt zichtbaar in het verloop over maanden. Hoe lang je cycli duren en of dat verandert. Wanneer klachten als opvliegers, slecht slapen of stemmingswisselingen opkomen, en of ze samenvallen met je cyclus. Een aanhoudend verschil van zeven dagen of meer tussen opeenvolgende cycli past bij de vroege overgang, cycli van zestig dagen of langer bij de late overgang. Dat patroon kun je zelf vastleggen, en het is precies wat een huisarts helpt. In Ovari zet het huisartsrapport zes maanden cyclus en klachten op één pagina.',
+      },
+      {
+        kop: 'Wanneer een test wel zinvol is',
+        tekst: 'Een test kan zinvol zijn als je klachten voor je 40e beginnen, als je menstruatie voor je 45e wegblijft, of als je huisarts wil uitsluiten dat er iets anders speelt, zoals een schildklier die trager werkt. Laat die test dan via je huisarts lopen, zodat de uitslag samen met je klachten wordt bekeken. Heb je bloedverlies na de overgang, of klachten die je zorgen baren, maak dan altijd een afspraak.',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
@@ -574,6 +610,7 @@ export const AANBEVOLEN = [
   { id: 'botgezondheid-overgang', reason: 'Het stille onderwerp dat later het meest telt' },
   { id: 'angst-prikkelbaarheid-overgang', reason: 'Over het mentale aspect van de overgang' },
   { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
+  { id: 'hormonen-meten-overgang', reason: 'Voor wie twijfelt over een hormoontest' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
   { id: 'pms-en-stemming', reason: 'Gebaseerd op veelgelogde symptomen' },
