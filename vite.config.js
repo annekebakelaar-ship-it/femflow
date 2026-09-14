@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'node:path'
+import { bouwKennis } from './scripts/bouw-kennis.js'
 
 /**
  * Vite-config
@@ -13,7 +15,22 @@ import react from '@vitejs/plugin-react'
  *   VITE_API_BASE_URL (.env.local) voor de absolute backend-URL.
  */
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    // Statische kennisbank op /kennis plus sitemap.xml, alleen bij vite build
+    (() => {
+      let outDir = 'dist'
+      return {
+        name: 'ovari-kennisbank',
+        apply: 'build',
+        configResolved(config) { outDir = path.resolve(config.root, config.build.outDir) },
+        closeBundle() {
+          const r = bouwKennis(outDir)
+          console.log(`kennisbank: ${r.artikelen} artikelen, sitemap met ${r.urls} adressen`)
+        },
+      }
+    })(),
+  ],
   server: {
     host: true,           // luister ook op 0.0.0.0 (LAN/tunnel)
     port: 5175,

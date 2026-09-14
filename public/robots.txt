@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Het ingelogde deel van de app hoort niet in zoekresultaten
+Disallow: /dashboard
+Disallow: /health
+Disallow: /account
+Disallow: /consent
+Disallow: /login
+Disallow: /signup
+Disallow: /menu
+Disallow: /wearable
+Disallow: /quiz
+Disallow: /unsubscribe
+
+Sitemap: https://ovari.youcaps.app/sitemap.xml
