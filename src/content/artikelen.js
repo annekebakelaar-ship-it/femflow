@@ -600,6 +600,50 @@ export const ARTIKELEN = [
       },
     ],
   },
+  {
+    id: 'droogte-en-pijn-bij-seks',
+    title: 'Droogte en pijn bij seks in de overgang',
+    subtitle: 'Veelvoorkomend, goed te verhelpen, en zelden besproken',
+    category: 'cycle',
+    difficulty: 'beginner',
+    readTime: 6,
+    description: 'Waarom het slijmvlies droger wordt in de overgang, wat glijmiddel, een hydraterende gel en lokaal oestrogeen doen, en wanneer je naar de huisarts gaat.',
+    source: 'Ovari Redactie',
+    body: [
+      {
+        kop: 'Wat er verandert',
+        tekst: 'Oestrogeen houdt het slijmvlies van de vagina en de omgeving van de blaas dik, soepel en vochtig. Als oestrogeen in de overgang daalt, wordt dat weefsel dunner, droger en minder elastisch. Dat kan jeuk geven, een branderig gevoel, irritatie bij fietsen of sporten, pijn bij seks en vaker een blaasontsteking. Artsen vatten deze klachten samen onder de naam genito-urinair syndroom van de menopauze.',
+      },
+      {
+        kop: 'Het gaat meestal niet vanzelf over',
+        tekst: 'Opvliegers worden bij veel vrouwen na verloop van jaren minder. Droogteklachten doen dat vaak niet. Zolang het oestrogeenniveau laag blijft, blijven de klachten bestaan of nemen ze langzaam toe. Dat is geen reden tot zorg, maar wel een reden om er iets aan te doen in plaats van af te wachten.',
+      },
+      {
+        kop: 'Glijmiddel: voor het moment zelf',
+        tekst: 'Glijmiddel vermindert wrijving tijdens seks. Een middel op waterbasis of op siliconenbasis kun je veilig combineren met condooms. Olie en latex gaan niet samen, want olie tast het rubber aan. Heb je gevoelige slijmvliezen, kies dan iets zonder parfum en zonder verwarmend of tintelend effect. Glijmiddel verhelpt de droogte niet, het maakt het moment comfortabel.',
+      },
+      {
+        kop: 'Hydraterende gel: voor dagelijks comfort',
+        tekst: 'Een vaginale hydraterende gel gebruik je een paar keer per week, los van seks. Die houdt het slijmvlies vochtiger en helpt daarmee tegen jeuk, branderigheid en irritatie overdag. Je koopt zo een gel zonder recept bij de drogist of de apotheek. Geef het een paar weken de tijd voordat je beoordeelt of het genoeg helpt.',
+      },
+      {
+        kop: 'Lokaal oestrogeen: als dat niet genoeg is',
+        tekst: 'Blijven de klachten, dan kan de huisarts lokaal oestrogeen voorschrijven, bijvoorbeeld als creme, als tablet of als ring in de vagina. De dosering is laag en het werkt vooral ter plaatse, waardoor het slijmvlies zich herstelt. Veel vrouwen merken na enkele weken verschil. Bespreek je situatie en je medische voorgeschiedenis met je arts, want die weegt mee in de keuze. Er bestaan ook niet-hormonale recepten.',
+      },
+      {
+        kop: 'Je bekkenbodem speelt mee',
+        tekst: 'Pijn bij seks komt niet altijd alleen door droogte. Als iets pijn doet, span je ongemerkt aan, en door die spanning wordt het opnieuw pijnlijk. Zo houdt de klacht zichzelf in stand. Een bekkenfysiotherapeut helpt je die spanning te herkennen en los te laten. Vraag je huisarts om een verwijzing.',
+      },
+      {
+        kop: 'Wanneer je naar de huisarts gaat',
+        tekst: 'Maak een afspraak bij aanhoudende pijn bij seks, bij jeuk of branderigheid die niet weggaat, en bij blaasontstekingen die steeds terugkomen. Bloedverlies na de overgang of bloedverlies na seks hoort altijd te worden nagekeken, ook als je verder geen klachten hebt.',
+      },
+      {
+        kop: 'Wat loggen oplevert',
+        tekst: 'In Ovari kun je vaginale droogheid en verminderd libido loggen, gewoon naast je slaap, je opvliegers en je cyclus. In het huisartsrapport zie je daarna hoe vaak die klachten voorkwamen en wanneer. Dat maakt het gesprek makkelijker, juist bij een onderwerp waar je niet zo snel over begint.',
+      },
+    ],
+  },
 ]
 
 // Afgeleide structuren voor de Learning Hub-weergave
@@ -611,6 +655,7 @@ export const AANBEVOLEN = [
   { id: 'angst-prikkelbaarheid-overgang', reason: 'Over het mentale aspect van de overgang' },
   { id: 'perimenopauze-breedte', reason: 'Veelgevraagd: de brede waaier aan klachten' },
   { id: 'hormonen-meten-overgang', reason: 'Voor wie twijfelt over een hormoontest' },
+  { id: 'droogte-en-pijn-bij-seks', reason: 'Veelvoorkomend en zelden besproken' },
   { id: 'ijzer-en-menstruatie', reason: 'Relevant tijdens je menstruatie' },
   { id: 'stress-hrv-cyclus', reason: 'Voor wie wearable-data gebruikt' },
   { id: 'pms-en-stemming', reason: 'Gebaseerd op veelgelogde symptomen' },
