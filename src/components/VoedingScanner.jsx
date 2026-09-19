@@ -157,7 +157,7 @@ export default function VoedingScanner({ onSluit }) {
             </form>
 
             <p style={{ fontSize: 11, lineHeight: 1.6, color: '#6B5D52', margin: '14px 2px 0' }}>
-              Productdata: Open Food Facts (open database, kan onvolledig zijn). Wij kijken naar eiwit, vezels, suiker, verzadigd vet en zout — beschrijvend, geen dieetadvies.
+              Productdata: Open Food Facts (open database, kan onvolledig zijn). Wij kijken naar eiwit, vezels, suiker, verzadigd vet en zout. Beschrijvend, geen dieetadvies.
             </p>
           </>
         )}

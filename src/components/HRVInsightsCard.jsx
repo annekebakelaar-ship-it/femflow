@@ -65,7 +65,7 @@ export default function HRVInsightsCard({ hrvScore }) {
             fontWeight: '700',
             color: 'white',
           }}>
-            {hrvScore} — {getHrvStatus(hrvScore)}
+            {hrvScore} · {getHrvStatus(hrvScore)}
           </p>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

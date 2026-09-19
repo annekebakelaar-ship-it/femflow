@@ -315,7 +315,7 @@ export default function SymptomQuicklog() {
         margin: 'var(--space-lg) 0 0 0',
       }}>
         Symptomen blijven op dit apparaat en tellen mee in je huisartsrapport.
-        Meerdere keren per dag loggen kan — tik gewoon nog een keer.
+        Meerdere keren per dag loggen kan. Tik gewoon nog een keer.
       </p>
     </div>
   )

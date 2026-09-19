@@ -223,10 +223,12 @@ export default function LearningHub() {
 }
 
 function ArticleCard({ article, isFeatured, withReason, onLees }) {
-  const difficultyColor = {
-    beginner: 'var(--success)',
-    intermediate: '#FFD700',
-    advanced: 'var(--error)',
+  // Nederlandse niveaulabels in de huisstijl: oker tekst met een haarlijn,
+  // geen felle vlakken.
+  const niveauLabel = {
+    beginner: 'Basis',
+    intermediate: 'Verdieping',
+    advanced: 'Diepgaand',
   }
 
   return (
@@ -292,14 +294,16 @@ function ArticleCard({ article, isFeatured, withReason, onLees }) {
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', alignItems: 'flex-end' }}>
           <span style={{
-            fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '500',
-            color: 'white',
-            background: difficultyColor[article.difficulty] || 'var(--d-ink-3)',
-            padding: '2px 8px',
-            borderRadius: '4px',
-            textTransform: 'capitalize',
+            fontSize: '10px', fontFamily: 'var(--font-sans)', fontWeight: '400',
+            letterSpacing: '0.12em', textTransform: 'uppercase',
+            color: '#EDBC8C',
+            background: 'transparent',
+            border: '1px solid rgba(237, 188, 140, 0.35)',
+            padding: '3px 9px',
+            borderRadius: '2px',
+            whiteSpace: 'nowrap',
           }}>
-            {article.difficulty}
+            {niveauLabel[article.difficulty] || article.difficulty}
           </span>
           <p style={{
             fontSize: '11px', fontFamily: 'var(--font-sans)', fontWeight: '400',

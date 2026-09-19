@@ -242,7 +242,7 @@ export default function QuizResults() {
               margin: 0,
               fontWeight: '500',
             }}>
-              Je staat op de lijst — er ligt een bevestiging in je inbox.
+              Je staat op de lijst. Er ligt een bevestiging in je inbox.
             </p>
           ) : (
             <>
@@ -301,7 +301,7 @@ export default function QuizResults() {
               </div>
               {nieuwsbriefStatus === 'fout' && (
                 <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', color: 'var(--error)', margin: '8px 0 0 0' }}>
-                  Aanmelden lukte niet — probeer het later opnieuw.
+                  Aanmelden lukte niet. Probeer het later opnieuw.
                 </p>
               )}
             </>

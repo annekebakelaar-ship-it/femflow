@@ -93,7 +93,7 @@ export default function AccountPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `femflow-export-${new Date().toISOString().split('T')[0]}.json`
+    a.download = `ovari-export-${new Date().toISOString().split('T')[0]}.json`
     a.click()
     URL.revokeObjectURL(url)
     setSaveStatus('✓ Geëxporteerd')

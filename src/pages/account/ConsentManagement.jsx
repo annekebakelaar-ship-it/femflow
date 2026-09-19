@@ -93,7 +93,7 @@ export default function ConsentManagement() {
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `femflow-data-export-${new Date().toISOString().split('T')[0]}.json`
+      a.download = `ovari-data-export-${new Date().toISOString().split('T')[0]}.json`
       a.click()
       URL.revokeObjectURL(url)
     } catch (err) {

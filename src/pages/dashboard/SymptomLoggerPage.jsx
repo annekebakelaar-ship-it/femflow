@@ -15,7 +15,7 @@ export default function SymptomLoggerPage() {
 
         <h1 style={kop}>Symptoomlogger</h1>
         <p style={subtekst}>
-          Tik wat je vandaag voelt — meerdere keren per dag kan.
+          Tik aan wat je vandaag voelt. Meerdere keren per dag kan ook.
         </p>
 
         <SymptomQuicklog />

@@ -100,7 +100,7 @@ export default function CyclusKalender({ dagen = [], onToggle }) {
       ))}
 
       <p style={{ fontFamily: sans, fontSize: 11, lineHeight: 1.5, color: DIM, textAlign: 'center', margin: '10px 0 0' }}>
-        Tik de dagen dat je bloedt — ook prima als je cyclus onregelmatig is.
+        Tik de dagen aan dat je bloedt. Ook bij een onregelmatige cyclus werkt dit prima.
       </p>
     </div>
   )

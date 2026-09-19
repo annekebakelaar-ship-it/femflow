@@ -120,7 +120,7 @@ export default function WearableOverlay({ menstrualData, wearableReadings }) {
     } else if (selectedSignal === 'restingHR') {
       return `Je rust-hartslag ligt in de tweede helft gemiddeld ${Math.abs(diff).toFixed(0)} bpm ${direction}. Dit kan reflecteren hoe je lichaam met hormonale schommelingen omgaat.`
     } else if (selectedSignal === 'sleep') {
-      return `Je slaap-duur is in de tweede helft gemiddeld ${Math.abs(diff).toFixed(1)} uur ${direction}. Dit is een waarneming — hormonen beïnvloeden slaapkwaliteit.`
+      return `Je slaap-duur is in de tweede helft gemiddeld ${Math.abs(diff).toFixed(1)} uur ${direction}. Dit is een waarneming. Hormonen beïnvloeden de slaapkwaliteit.`
     }
     return ''
   }

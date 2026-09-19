@@ -20,11 +20,11 @@ export function duidProduct(nutriments = {}) {
   const eiwitrijk = eiwit != null && eiwit >= 10
 
   if (eiwit != null) {
-    if (eiwit >= 10) regels.push({ toon: 'goed', tekst: `Eiwitrijk: ${afronden(eiwit)} g per 100 g — een serieuze stap richting je dagdoel.` })
+    if (eiwit >= 10) regels.push({ toon: 'goed', tekst: `Eiwitrijk: ${afronden(eiwit)} g per 100 g. Een serieuze stap richting je dagdoel.` })
     else if (eiwit >= 5) regels.push({ toon: 'neutraal', tekst: `Bevat wat eiwit (${afronden(eiwit)} g per 100 g).` })
   }
   if (vezels != null && vezels >= 6) {
-    regels.push({ toon: 'goed', tekst: `Goede vezelbron: ${afronden(vezels)} g per 100 g — helpt je bloedsuiker rustig te houden.` })
+    regels.push({ toon: 'goed', tekst: `Goede vezelbron: ${afronden(vezels)} g per 100 g. Dit helpt je bloedsuiker rustig te houden.` })
   } else if (vezels != null && vezels >= 3) {
     regels.push({ toon: 'neutraal', tekst: `Bevat vezels (${afronden(vezels)} g per 100 g).` })
   }

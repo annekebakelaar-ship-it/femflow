@@ -5,21 +5,28 @@ Opgeschreven op 13 september 2026.
 
 ## Verbeterpunten in de app
 
-1. **Kennisbank-labels rustiger en in het Nederlands**
-   De niveaulabels tonen "Beginner" en "Intermediate" in het Engels, in fel groen en geel (`#FFD700`).
-   Waar: `src/pages/dashboard/LearningHub.jsx`, kleurenmap rond regel 227.
-   Doel: Nederlandse labels, bijvoorbeeld "Basis" en "Verdieping", in de huisstijl. Oker tekst met een haarlijn, geen felle vlakken.
+Alle drie afgerond op 19 september 2026.
 
-2. **Bestandsnaam van het huisartsrapport**
-   De download heet nog `femflow-cyclusrapport-<datum>.pdf`.
-   Waar: `src/components/huisartsrapport/HuisartsRapport.jsx`, rond regel 44.
-   Doel: `ovari-cyclusrapport-<datum>.pdf`.
+1. ~~**Kennisbank-labels rustiger en in het Nederlands**~~ GEDAAN
+   `LearningHub.jsx` toont nu Basis, Verdieping en Diepgaand in oker met een
+   haarlijn, in plaats van Beginner en Intermediate in fel groen en geel.
 
-3. **Gedachtestreepjes uit schermteksten**
-   Tien zichtbare teksten gebruiken nog een gedachtestreepje, zoals de hint onder de cycluskalender en de ondertitel van de symptoomlogger.
-   Waar: QuizResults (2x), MenstruationTracker, SymptomLoggerPage, SigninPage, WearableOverlay, VoedingScanner, SymptomQuicklog, HRVInsightsCard en CyclusKalender.
-   Vinden: `grep -rn "—" src --include=*.jsx`
-   Doel: herschrijven naar gewone zinnen met een punt of komma.
+2. ~~**Bestandsnaam van het huisartsrapport**~~ GEDAAN
+   De download heet nu `ovari-cyclusrapport-<datum>.pdf`. Ook meegenomen:
+   `ovari-export` en `ovari-data-export` op de accountpagina en bij de
+   toestemmingen, die heetten ook nog femflow.
+
+3. ~~**Gedachtestreepjes uit schermteksten**~~ GEDAAN
+   Veertien zichtbare teksten herschreven naar gewone zinnen, in tien bestanden
+   plus de leefstijlteksten en de voedingsregels. Bewust NIET aangepast: het
+   losse streepje als plaatshouder voor een ontbrekende waarde op het
+   startscherm, in de wearable-overlay en in de voedingsscanner. Dat is een
+   teken in een tabel, geen lopende tekst.
+
+   Nog open, buiten deze lijst: `src/content/artikelen.js` bevat nog 39
+   gedachtestreepjes in de artikelteksten. Die staan ook op de website. Dat is
+   een aparte schrijfronde, want het zijn hele zinnen die herschreven moeten
+   worden.
 
 ## Controleren voor de update (geen code)
 

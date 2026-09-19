@@ -153,7 +153,7 @@ export default function MenstruationTracker() {
             <p style={{ fontSize: '14px', color: 'var(--d-ink-2)', margin: 'var(--space-sm) 0 0 0', lineHeight: 1.5 }}>
               {aantalStarts >= 2
                 ? `Cyclus ~${menstrualData.cycleLength} dagen · menstruatie ~${menstrualData.bleedingDays} dagen, berekend uit ${aantalStarts} gelogde starts.`
-                : 'Nog te weinig gelogde menstruaties om jouw eigen gemiddelde te kennen — tik ze aan in de kalender, dan rekent Ovari het voor je uit.'}
+                : 'Nog te weinig gelogde menstruaties om je eigen gemiddelde te kennen. Tik ze aan in de kalender, dan rekent Ovari het voor je uit.'}
             </p>
           </div>
         </div>

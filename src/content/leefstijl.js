@@ -351,7 +351,7 @@ export const PIJLERS = [
         uitleg: [
           'Vitamine D is de enige die in de officiele Nederlandse richtlijnen staat: 20 microgram per dag voor vrouwen boven de vijftig, en van oktober tot april eigenlijk voor iedereen hier. Vitamine D draagt bij aan de normale werking van het immuunsysteem en het behoud van sterke botten.',
           'Magnesium is het overwegen waard als je slecht slaapt of veel kramp hebt: het draagt bij aan de vermindering van vermoeidheid en aan een normale spier- en zenuwfunctie. Kies een goed opneembare vorm (zie de kwaliteitsgids).',
-          'Creatine is verrassend goed onderzocht, ook bij vrouwen: het verhoogt de fysieke prestatie bij korte, intensieve inspanning — precies het krachtwerk dat in deze fase het anker is. Drie tot vijf gram per dag, elke dag, meer is niet nodig.',
+          'Creatine is verrassend goed onderzocht, ook bij vrouwen: het verhoogt de fysieke prestatie bij korte, intensieve inspanning. Precies het krachtwerk dat in deze fase het anker is. Drie tot vijf gram per dag, elke dag, meer is niet nodig.',
           'Omega-3 (EPA en DHA) draagt bij aan een normale hartfunctie; relevant als je weinig vette vis eet. Verder geldt voor bijna al het andere: eerst meten of voelen, dan pas slikken.',
         ],
         stappen: [
@@ -370,7 +370,7 @@ export const PIJLERS = [
         uitleg: [
           'Detoxkuren en "reinigende" supplementen: je lever en nieren ontgiften al, daar is geen kuur voor nodig. Alles-in-een overgangscomplexen met twintig ingredienten in minidoseringen klinken compleet, maar bevatten van alles te weinig om iets te doen.',
           'IJzer op de gok is de gevaarlijkste van het rijtje: te veel ijzer stapelt en is schadelijk. Alleen slikken na een bloedtest (zie de ijzergids bij Voeding).',
-          'Voor populaire kruiden als ashwagandha en teunisbloemolie is het eerlijke verhaal: sommige vrouwen ervaren er iets bij, maar er is geen goedgekeurde gezondheidsclaim en het bewijs is wisselend. Dat mag je best proberen, zolang je weet dat je experimenteert — en het meldt bij je huisarts als je medicijnen gebruikt.',
+          'Voor populaire kruiden als ashwagandha en teunisbloemolie is het eerlijke verhaal: sommige vrouwen ervaren er iets bij, maar er is geen goedgekeurde gezondheidsclaim en het bewijs is wisselend. Dat mag je best proberen, zolang je weet dat je experimenteert. Meld het bij je huisarts als je medicijnen gebruikt.',
           'Megadoseringen ("hoe meer hoe beter") slaan nergens op: boven de behoefte plas je het duurste deel gewoon uit, of erger, het stapelt.',
         ],
         stappen: [

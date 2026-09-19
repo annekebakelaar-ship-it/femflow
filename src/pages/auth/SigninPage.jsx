@@ -44,7 +44,7 @@ export default function SigninPage() {
     setError(''); setResendMsg('')
     try {
       await requestMagicLink(email)
-      setResendMsg('Nieuwe code verstuurd — check ook je spam.')
+      setResendMsg('Nieuwe code verstuurd. Kijk ook in je spam.')
       setResendCooldown(30)
     } catch (err) {
       setError(err.message || 'Kon geen nieuwe code versturen. Probeer later opnieuw.')
