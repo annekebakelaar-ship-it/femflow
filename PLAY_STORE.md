@@ -140,6 +140,17 @@ Bij "Productie" of "Test" -> nieuwe release -> dit AAB uploaden.
 
 ---
 
+## Release 2.2.1 (versionCode 9, september 2026)
+
+**Wat is er nieuw** (Play Console, max 500 tekens):
+
+Nieuw in Ovari 2.2.1
+- De kennisbank toont het niveau nu in het Nederlands: Basis, Verdieping en Diepgaand, rustig vormgegeven in plaats van felle labels.
+- Het huisartsrapport en je gegevensexports heten nu Ovari in plaats van FemFlow.
+- Veertien schermteksten zijn herschreven zodat ze prettiger lezen.
+
+Winkelvermelding: korte en volledige beschrijving van 2.2.0 blijven ongewijzigd, zie hieronder.
+
 ## Release 2.2.0 (versionCode 8, september 2026)
 
 **Wat is er nieuw** (Play Console, max 500 tekens):
