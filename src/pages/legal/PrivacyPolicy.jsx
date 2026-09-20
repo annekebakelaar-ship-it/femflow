@@ -193,10 +193,10 @@ export default function PrivacyPolicy() {
         </h3>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>
-            <strong>Render.com (hosting):</strong> Zij hosten onze backend-server. Wij hebben een Data Processing Agreement (DPA) met hen.
+            <strong>Render.com (hosting):</strong> Zij hosten onze backend-server. Die server staat in de Verenigde Staten, regio Oregon. Uw gegevens gaan daar dus doorheen terwijl u de app gebruikt. Dat is een gegevensoverdracht buiten de EU. Wij hebben een verwerkersovereenkomst met Render.
           </li>
           <li>
-            <strong>PostgreSQL (database):</strong> Eu-gebaseerd, gebruikt HTTPS en interne netwerken.
+            <strong>Neon (database):</strong> Uw opgeslagen gegevens staan in een PostgreSQL-database in Frankfurt, binnen de EU. Het verkeer ernaartoe is versleuteld.
           </li>
           <li>
             <strong>Google (aanmelden, optioneel):</strong> Kiest u voor "Aanmelden met Google", dan verloopt het inloggen via Google en ontvangen wij uw e-mailadres van Google. Google verwerkt uw inloggegevens onder hun eigen privacybeleid.

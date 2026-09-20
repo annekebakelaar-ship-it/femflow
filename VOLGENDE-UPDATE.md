@@ -30,9 +30,14 @@ Alle drie afgerond op 19 september 2026.
 
 ## Controleren voor de update (geen code)
 
-4. **Privacyclaims laten kloppen**
-   De API draait op Render in de VS, regio Oregon. Het privacybeleid in de app noemt de database "EU-gebaseerd" (`src/pages/legal/PrivacyPolicy.jsx`, rond regel 199), maar de regio van de Neon-database is nog niet gecontroleerd.
-   Doel: Neon-regio nakijken en zo nodig het privacybeleid en het Data Safety-formulier in Play Console aanpassen. De oude storetekst met "EU-servers" is al vervangen.
+4. ~~**Privacyclaims laten kloppen**~~ GEDAAN op 20 september 2026
+   Danib heeft de regio opgezocht: de Neon-database staat in Frankfurt, dus
+   binnen de EU. De API-server draait op Render in Oregon, dus buiten de EU.
+   Het privacybeleid noemt nu allebei die feiten, in plaats van alleen
+   "Eu-gebaseerd". De storetekst claimt niets meer over servers.
+   Nog te controleren door Danib: of de verwerkersovereenkomst met Render
+   daadwerkelijk is afgesloten. Die zin stond al in het beleid en is niet
+   door mij geverifieerd.
 
 5. **Wearable-koppeling op een telefoon testen**
    De terugkeer naar de app na het inloggen bij Oura of Fitbit zit sinds 2.2.0 in de app, maar is nog niet op een echt toestel getest.
