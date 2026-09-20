@@ -1,10 +1,16 @@
 # Houdt de Render free-tier backend van Ovari overdag wakker.
 #
 # Render legt een gratis service na ~15 min zonder verkeer stil; de eerste
-# request duurt daarna 20-50 seconden. GitHub start geplande runs in de
-# praktijk maar om de 1-2 uur, dus een losse ping per run is niet genoeg.
-# Daarom pingt elke run zelf tot 3 uur lang elke 10 minuten; een nieuwe run
-# neemt het over en annuleert de oude (concurrency).
+# request duurt daarna 20-50 seconden.
+#
+# WAAROM DEZE OPZET (herzien 20 sep 2026): GitHub slaat geplande runs
+# regelmatig over. Op 20 sep startte er de hele dag maar EEN run in plaats van
+# elk uur, waardoor de API tussendoor insliep. De oude opzet dekte per run 3
+# uur, dus twee overgeslagen schedules gaven al een gat.
+# Nu dekt elke run bijna 5,5 uur (GitHub staat maximaal 6 uur per job toe).
+# Daardoor overbrugt een enkele geslaagde run vier overgeslagen schedules.
+# De cron staat nog steeds elk uur: start er toch een nieuwe run, dan neemt
+# die het over en annuleert de oude via concurrency.
 #
 # Bewust alleen 05:00-22:00 UTC (07:00-24:00 NL zomertijd): gratis
 # Render-uren zijn beperkt (750 per maand per workspace, gedeeld met de
@@ -16,7 +22,9 @@ name: Keep backend warm
 
 on:
   schedule:
-    - cron: '7 5-21 * * *'
+    # Minuut 23: de hele uren zijn bij GitHub het drukst en worden het vaakst
+    # overgeslagen.
+    - cron: '23 5-21 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -26,18 +34,30 @@ concurrency:
 jobs:
   ping:
     runs-on: ubuntu-latest
-    timeout-minutes: 190
+    timeout-minutes: 345
     steps:
       - name: Ping health endpoint elke 10 minuten
         run: |
-          eind=$(( $(date +%s) + 180 * 60 ))
+          eind=$(( $(date +%s) + 335 * 60 ))
+          mislukt=0
           while [ "$(date +%s)" -lt "$eind" ]; do
             uur=$((10#$(date -u +%H)))
             if [ "$uur" -ge 22 ] || [ "$uur" -lt 5 ]; then
               echo "Buiten het venster (UTC-uur $uur), stoppen"
               break
             fi
+            begin=$(date +%s)
             status=$(curl -s -o /dev/null -w "%{http_code}" -m 90 https://femflow-api.onrender.com/api/v1/health || true)
-            echo "$(date -u +%H:%M) UTC health: HTTP ${status:-000}"
+            duur=$(( $(date +%s) - begin ))
+            echo "$(date -u +%H:%M) UTC health: HTTP ${status:-000} in ${duur}s"
+            if [ "$status" != "200" ]; then
+              mislukt=$(( mislukt + 1 ))
+              echo "::warning::Health gaf ${status:-000}, mislukte pings tot nu toe: $mislukt"
+            elif [ "$duur" -gt 15 ]; then
+              # Duurde de ping lang, dan sliep de service alsnog. Dat betekent
+              # dat er een gat in de dekking zat.
+              echo "::warning::Koude start van ${duur}s, er zat een gat in de dekking"
+            fi
             sleep 600
           done
+          echo "Run afgerond, mislukte pings: $mislukt"
