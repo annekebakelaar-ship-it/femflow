@@ -27,6 +27,24 @@ export const GEWICHT = {
   tekst: 1,
 }
 
+// Minimale relevantie. Afgeleid uit de gewichten hierboven, niet gekozen.
+//
+// De score van een artikel is de som van het zwaarste veld per geraakte term,
+// maal een dekkingsfactor. Daardoor valt elk bewijsniveau op een herkenbare
+// waarde:
+//
+//   1  een enkele term, alleen in de lopende tekst    (GEWICHT.tekst)
+//   2  een term in een tussenkop, of twee in de tekst (GEWICHT.kop)
+//   3  een term in de ondertitel of de omschrijving   (GEWICHT.subtitle)
+//   6  een term in de titel                           (GEWICHT.title)
+//
+// Een enkele terloopse vermelding in de lopende tekst zegt niets: het woord
+// "vrouwen" staat in vijftien van de negentien artikelen. De lichtste vorm van
+// bewijs die wel iets zegt, is een term in een tussenkop. Die grens is dus
+// GEWICHT.kop, en die is gemeten: irrelevante vragen halen hoogstens 0,67 en
+// toevallige treffers landen precies op 1,0.
+export const DREMPEL = GEWICHT.kop
+
 // Accenten weg, alles klein, alles wat geen letter of cijfer is wordt een spatie.
 export function normaliseer(tekst) {
   return String(tekst == null ? '' : tekst)
@@ -145,7 +163,9 @@ export function zoek(artikelen, vraag, opties = {}) {
   const treffers = []
   for (const artikel of kandidaten) {
     const { score, geraakt } = scoorArtikel(artikel, termen)
-    if (score <= 0) continue
+    // Onder de drempel telt het niet als treffer. Een vraag die nergens over
+    // gaat hoort een lege lijst op te leveren, niet negentien slappe hits.
+    if (score < DREMPEL) continue
     treffers.push({ artikel, score, geraakt, fragment: fragment(artikel, geraakt) })
   }
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { normaliseer, termenUit, matcht, scoorArtikel, zoek, fragment } from './zoek.js'
+import { normaliseer, termenUit, matcht, scoorArtikel, zoek, fragment, DREMPEL, GEWICHT } from './zoek.js'
 import { alleArtikelen, vindArtikel, publiekeVorm } from './artikelen.js'
 
 const ARTIKELEN = alleArtikelen()
@@ -153,5 +153,105 @@ describe('de kennisbank zelf', () => {
         expect(sectie.tekst.length).toBeGreaterThan(0)
       }
     }
+  })
+})
+
+describe('relevantiedrempel', () => {
+  it('is afgeleid uit het gewicht van een tussenkop, niet los gekozen', () => {
+    expect(DREMPEL).toBe(GEWICHT.kop)
+  })
+
+  it('geeft nooit iets terug dat onder de drempel scoort', () => {
+    for (const vraag of ['overgang', 'slaap', 'vrouwen', 'hoe blijf ik gezond', 'menstruatie']) {
+      for (const treffer of zoek(ARTIKELEN, vraag).treffers) {
+        expect(treffer.score, `${vraag} / ${treffer.artikel.id}`).toBeGreaterThanOrEqual(DREMPEL)
+      }
+    }
+  })
+
+  // 1. Duidelijke vraag over de perimenopauze hoort het juiste artikel te geven.
+  it('zet bij een duidelijke overgangsvraag het juiste artikel bovenaan', () => {
+    const gevallen = [
+      ['opvliegers en nachtzweten', 'opvliegers-nachtzweten'],
+      ['moet ik mijn hormonen laten testen', 'hormonen-meten-overgang'],
+      ['droogte en pijn bij seks', 'droogte-en-pijn-bij-seks'],
+      ['hoe herken ik de perimenopauze', 'perimenopauze-herkennen'],
+    ]
+    for (const [vraag, verwacht] of gevallen) {
+      const { treffers } = zoek(ARTIKELEN, vraag)
+      expect(treffers.length, vraag).toBeGreaterThan(0)
+      expect(treffers[0].artikel.id, vraag).toBe(verwacht)
+    }
+  })
+
+  // Bekende grens van de huidige score: alle zoektermen wegen even zwaar, ook
+  // een nietszeggend woord als "tegen". Bij "wat helpt tegen botontkalking in
+  // de overgang" raken twee artikelen allebei drie van de vier termen en
+  // eindigen ze op dezelfde score. Het juiste artikel staat er dus wel bij,
+  // maar niet gegarandeerd bovenaan. Zie de aantekening in de README.
+  it('geeft het juiste artikel bij een vraag met veel vulwoorden, in de top drie', () => {
+    const { treffers } = zoek(ARTIKELEN, 'wat helpt tegen botontkalking in de overgang')
+    const top3 = treffers.slice(0, 3).map((t) => t.artikel.id)
+    expect(top3).toContain('botgezondheid-overgang')
+  })
+
+  // 2. Indirect geformuleerd, zonder de vakterm te noemen.
+  it('vindt het juiste artikel ook zonder dat de vakterm valt', () => {
+    const gevallen = [
+      ['ik word s nachts steeds wakker', 'opvliegers-nachtzweten'],
+      ['hartkloppingen na de menopauze', 'hart-na-overgang'],
+      ['ik kan me slecht concentreren sinds de overgang', 'brain-fog-overgang'],
+      ['ik ben moe en heb hevige menstruaties', 'ijzer-en-menstruatie'],
+      ['somber en prikkelbaar rond mijn menstruatie', 'pms-en-stemming'],
+    ]
+    for (const [vraag, verwacht] of gevallen) {
+      const { treffers } = zoek(ARTIKELEN, vraag)
+      expect(treffers.length, vraag).toBeGreaterThan(0)
+      expect(treffers[0].artikel.id, vraag).toBe(verwacht)
+    }
+  })
+
+  // 3. Brede gezondheidsvraag zonder duidelijk verband: klein houden, en wat
+  //    overblijft moet aantoonbaar boven de drempel liggen.
+  it('houdt een brede gezondheidsvraag klein', () => {
+    const breed = zoek(ARTIKELEN, 'hoe blijf ik gezond')
+    expect(breed.totaal).toBeLessThanOrEqual(3)
+    for (const treffer of breed.treffers) {
+      expect(treffer.score).toBeGreaterThanOrEqual(DREMPEL)
+    }
+  })
+
+  it('laat een breed onderwerp dat wel echt behandeld wordt staan', () => {
+    const vitamines = zoek(ARTIKELEN, 'heb ik vitamines nodig')
+    expect(vitamines.totaal).toBeLessThanOrEqual(2)
+    expect(vitamines.treffers[0].artikel.id).toBe('botgezondheid-overgang')
+  })
+
+  // 4. Volledig buiten het onderwerp: niets teruggeven.
+  it('geeft niets terug bij een onderwerp buiten de kennisbank', () => {
+    for (const vraag of [
+      'hypotheekrente aftrekbaar',
+      'beste pizza recept',
+      'hoe repareer ik mijn fiets',
+      'python script schrijven',
+    ]) {
+      const uitkomst = zoek(ARTIKELEN, vraag)
+      expect(uitkomst.totaal, vraag).toBe(0)
+      expect(uitkomst.treffers, vraag).toEqual([])
+    }
+  })
+
+  // 5. Een algemeen woord dat toevallig overal staat, mag niet alles matchen.
+  it('laat een algemeen woord niet bijna de hele kennisbank matchen', () => {
+    const zonderDrempel = ARTIKELEN.filter((a) => scoorArtikel(a, ['vrouwen']).score > 0).length
+    const metDrempel = zoek(ARTIKELEN, 'vrouwen').totaal
+    expect(zonderDrempel).toBeGreaterThan(10)
+    expect(metDrempel).toBeLessThanOrEqual(3)
+  })
+
+  it('snoeit ook de staart van een op zich goede vraag', () => {
+    const uitkomst = zoek(ARTIKELEN, 'waarom slaap ik slechter voor mijn menstruatie')
+    expect(uitkomst.treffers[0].artikel.id).toBe('slaap-en-cyclus')
+    expect(uitkomst.totaal).toBeLessThan(ARTIKELEN.length)
   })
 })

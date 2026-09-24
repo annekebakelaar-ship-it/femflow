@@ -56,6 +56,8 @@ const zoekTool = {
     'Doorzoekt de Nederlandstalige Ovari-kennisbank over de menstruatiecyclus, de perimenopauze en de overgang. ' +
     'Gebruik dit bij vragen over opvliegers, slaap, stemming, botgezondheid, HRV, libido, voeding of trainen rond de cyclus. ' +
     'Geeft passende artikelen terug met een samenvatting, een tekstfragment en de openbare URL. ' +
+    'Gaat geen enkel artikel echt over de vraag, dan is de lijst leeg: gebruik deze tool niet voor ' +
+    'onderwerpen buiten de vrouwengezondheid. ' +
     'Bevat uitsluitend redactionele artikelen, nooit gegevens van gebruikers.',
   inputSchema: {
     query: z

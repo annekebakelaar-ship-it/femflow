@@ -47,6 +47,45 @@ De artikelen worden rechtstreeks uit de app gelezen. Eén bron van waarheid:
 verandert een artikel in de app, dan verandert het hier mee. Er wordt niets
 gekopieerd en niets teruggeschreven.
 
+## De relevantiedrempel
+
+`search_knowledge` geeft alleen artikelen terug die boven een minimale score
+uitkomen. Die grens is niet gekozen maar afgeleid uit de gewichten in
+`src/zoek.js`. De score van een artikel valt namelijk op herkenbare waarden:
+
+| Score | Wat het betekent |
+|---|---|
+| 1 | een enkele zoekterm, alleen in de lopende tekst |
+| 2 | een term in een tussenkop, of twee termen in de tekst |
+| 3 | een term in de ondertitel of de omschrijving |
+| 6 | een term in de titel |
+
+Een losse vermelding in de lopende tekst zegt niets: het woord "vrouwen" staat
+in vijftien van de negentien artikelen. De lichtste vorm van bewijs die wel
+iets zegt is een term in een tussenkop. De drempel is daarom `GEWICHT.kop`.
+
+Gemeten op de echte kennisbank: irrelevante vragen halen hoogstens 0,67 en
+toevallige treffers landen precies op 1,0, dus die vallen er allemaal onder.
+Een vraag over hypotheekrente of pizza levert nu een lege lijst op, en het
+woord "vrouwen" gaat van vijftien treffers naar één.
+
+### Bekende grens
+
+Alle zoektermen wegen even zwaar. Een veelzeggend woord als "botontkalking"
+telt dus net zo zwaar als het vulwoord "tegen". Bij de vraag "wat helpt tegen
+botontkalking in de overgang" raken twee artikelen allebei drie van de vier
+termen en eindigen ze op exact dezelfde score. Het juiste artikel staat er wel
+bij, maar niet gegarandeerd bovenaan.
+
+Twee manieren om dat op te lossen, geen van beide nu doorgevoerd omdat ze de
+gemeten drempel opnieuw zouden ijken:
+
+1. Vulwoorden als "helpt", "tegen", "wat" en "welke" toevoegen aan de
+   stopwoordenlijst. Klein en voorspelbaar.
+2. Zeldzame woorden zwaarder laten wegen dan gewone, de klassieke
+   omgekeerde-documentfrequentie. Nauwkeuriger, maar het verschuift alle
+   scores en dus de drempel.
+
 ## Lokaal draaien
 
 ```bash
