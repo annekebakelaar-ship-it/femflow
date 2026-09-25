@@ -6,6 +6,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ARTIKELEN } from '../src/content/artikelen.js'
 import { BASIS, artikelPagina, overzichtPagina, sitemapXml, artikelUrl } from './kennisPagina.js'
+import { JURIDISCHE_PAGINAS } from './bouw-juridisch.js'
 
 const hier = path.dirname(fileURLToPath(import.meta.url))
 
@@ -20,7 +21,15 @@ export function bouwKennis(outDir) {
   }
   fs.writeFileSync(path.join(outDir, 'kennis.html'), overzichtPagina(ARTIKELEN))
 
-  const urls = [`${BASIS}/`, `${BASIS}/kennis`, ...ARTIKELEN.map(artikelUrl)]
+  const urls = [
+    `${BASIS}/`,
+    `${BASIS}/kennis`,
+    ...ARTIKELEN.map(artikelUrl),
+    // De juridische pagina's worden door bouwJuridisch geschreven, maar horen
+    // wel in de sitemap. Ze staan daar in een lijst, zodat er geen tweede
+    // plek is waar deze adressen worden bijgehouden.
+    ...JURIDISCHE_PAGINAS.map((p) => `${BASIS}/${p.pad}`),
+  ]
   fs.writeFileSync(path.join(outDir, 'sitemap.xml'), sitemapXml(urls, datum))
   return { artikelen: ARTIKELEN.length, urls: urls.length }
 }

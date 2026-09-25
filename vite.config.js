@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 import { bouwKennis } from './scripts/bouw-kennis.js'
+import { bouwJuridisch } from './scripts/bouw-juridisch.js'
 
 /**
  * Vite-config
@@ -17,16 +18,19 @@ import { bouwKennis } from './scripts/bouw-kennis.js'
 export default defineConfig({
   plugins: [
     react(),
-    // Statische kennisbank op /kennis plus sitemap.xml, alleen bij vite build
+    // Statische kennisbank op /kennis, statische juridische pagina's en
+    // sitemap.xml, alleen bij vite build
     (() => {
       let outDir = 'dist'
       return {
         name: 'ovari-kennisbank',
         apply: 'build',
         configResolved(config) { outDir = path.resolve(config.root, config.build.outDir) },
-        closeBundle() {
+        async closeBundle() {
           const r = bouwKennis(outDir)
           console.log(`kennisbank: ${r.artikelen} artikelen, sitemap met ${r.urls} adressen`)
+          const j = await bouwJuridisch(outDir)
+          console.log(`juridisch: ${j.paginas} statische pagina's`)
         },
       }
     })(),

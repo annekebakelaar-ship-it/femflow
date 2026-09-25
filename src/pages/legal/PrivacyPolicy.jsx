@@ -20,7 +20,7 @@ export default function PrivacyPolicy() {
       </h1>
 
       <p style={{ fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400', color: 'var(--ink-3)', marginBottom: 'var(--space-lg)' }}>
-        Laatst bijgewerkt: 4 juni 2026
+        Laatst bijgewerkt: 20 september 2026
       </p>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -381,7 +381,7 @@ export default function PrivacyPolicy() {
       </section>
 
       <p style={{ marginTop: 'var(--space-xxl)', borderTop: '1px solid var(--border)', paddingTop: 'var(--space-lg)', color: 'var(--ink-3)', fontSize: '13px', fontFamily: 'var(--font-sans)', fontWeight: '400' }}>
-        <strong>Laatst bijgewerkt:</strong> 4 juni 2026<br />
+        <strong>Laatst bijgewerkt:</strong> 20 september 2026<br />
         <strong>Versie:</strong> 1.0
       </p>
       </div>
