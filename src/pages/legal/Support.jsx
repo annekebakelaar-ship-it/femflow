@@ -58,8 +58,9 @@ export default function Support() {
             Veelgestelde vragen
           </h2>
           <ul style={{ marginBottom: 'var(--space-md)' }}>
-            <li><strong>Hoe verwijder ik mijn account?</strong> Ga naar je instellingen en selecteer "Account verwijderen". Dit verwijdert al je gegevens permanent.</li>
-            <li><strong>Kan ik mijn gegevens exporteren?</strong> Ja, je kunt je volledige dataset als JSON exporteren via je account instellingen.</li>
+            <li><strong>Hoe verwijder ik mijn account?</strong> Ga naar je instellingen en selecteer "Account verwijderen". Dat wist de gegevens die op onze server aan je account hangen: je accountgegevens, je cyclusrecord, je wearable-metingen en -koppelingen en je quizresultaten. Gegevens die alleen op je telefoon staan, zoals je symptoomlogboek, je triggers en je voedingsscans, verwijder je apart door de appgegevens te wissen of de app te verwijderen.</li>
+            <li><strong>Kan ik mijn gegevens exporteren?</strong> Ja. Via je accountinstellingen download je een JSON-bestand met de gegevens die lokaal in de app zijn opgeslagen: je cyclusgegevens, je symptoomlogboek, je triggers en je toestemmingen. Je voedingsscans en de gegevens die op onze server staan zitten er niet in. Die laatste kun je bij ons opvragen.</li>
+            <li><strong>Kan ik Ovari via ChatGPT gebruiken?</strong> Ja. Ovari biedt via ChatGPT toegang tot de openbare Ovari-kennisbank over de perimenopauze. De koppeling gebruikt alleen openbare Ovari-content en heeft geen toegang tot je Ovari-account, persoonlijke gezondheidsgegevens, cyclusgegevens, notities of wearabledata. De informatie is educatief en is geen vervanging voor individueel medisch advies, diagnose of behandeling.</li>
             <li><strong>Hoe koppel ik mijn wearable?</strong> In de app, ga naar Instellingen → Wearables, kies je apparaat en volg de verbindingsstappen.</li>
             <li><strong>Wat is de readiness-score?</strong> Een dagelijkse score gebaseerd op je slaap, HRV, hartslag en cyclus-fase.</li>
           </ul>

@@ -154,7 +154,32 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>6. Intellectueel Eigendom</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>6. Ovari via ChatGPT</h2>
+
+        <p>
+          Ovari kan haar openbare kennisbank beschikbaar stellen via ChatGPT en
+          andere ondersteunde AI-diensten.
+        </p>
+        <p>
+          De huidige ChatGPT-koppeling biedt uitsluitend toegang tot openbare
+          educatieve Ovari-content en heeft geen toegang tot uw Ovari-account, uw
+          persoonlijke gezondheidsgegevens, uw cyclusgegevens of uw
+          wearable-gegevens.
+        </p>
+        <p>
+          De informatie die via deze koppeling wordt verstrekt is bedoeld voor
+          algemene educatieve doeleinden en is geen vervanging voor individueel
+          medisch advies, diagnose of behandeling.
+        </p>
+        <p>
+          Eventuele toekomstige functionaliteit waarbij persoonlijke Ovari-gegevens
+          via een AI-dienst worden gebruikt, valt niet onder deze huidige
+          functionaliteit en vereist afzonderlijke technische en privacywaarborgen.
+        </p>
+      </section>
+
+      <section style={{ marginBottom: 'var(--space-lg)' }}>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>7. Intellectueel Eigendom</h2>
 
         <p>
           <strong>Wat eigendom van YouCaps is:</strong>
@@ -180,14 +205,14 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>7. Beperking van Aansprakelijkheid</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>8. Beperking van Aansprakelijkheid</h2>
 
         <p style={{ background: 'var(--surface-warm)', padding: 'var(--space-md)', borderRadius: '8px', marginBottom: 'var(--space-md)' }}>
           <strong>⚠️ BELANGRIJKE JURIDISCHE WAARSCHUWING:</strong>
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          7.1 De app wordt geleverd zoals hij is ("as-is")
+          8.1 De app wordt geleverd zoals hij is ("as-is")
         </h3>
         <p>
           Ovari wordt aangeboden op "as-is"-basis. We garanderen <strong>NIET</strong>:
@@ -200,7 +225,7 @@ export default function TermsOfService() {
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          7.2 Geen Aansprakelijkheid Voor:
+          8.2 Geen Aansprakelijkheid Voor:
         </h3>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>Gezondheidsresultaten of medische complicaties</li>
@@ -211,7 +236,7 @@ export default function TermsOfService() {
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          7.3 Aansprakelijkheidslimiet
+          8.3 Aansprakelijkheidslimiet
         </h3>
         <p>
           Onze totale aansprakelijkheid beperkt zich tot het bedrag dat u in het voorgaande jaar aan YouCaps hebt betaald (of €50 als dit minder is).
@@ -226,47 +251,53 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>8. Betaaldiensten & Abonnementen</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>9. Betaaldiensten & Abonnementen</h2>
+
+        <p>
+          Ovari biedt op dit moment geen betaalde diensten of abonnementen aan. De
+          bepalingen in dit hoofdstuk gelden pas zodra wij zulke diensten
+          daadwerkelijk aanbieden.
+        </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          8.1 Gratis App
+          9.1 Gratis App
         </h3>
         <p>
           De volledige Ovari-app is <strong>GRATIS</strong>. Geen paywall, geen verborgen kosten.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          8.2 Optionele Supplementen (Toekomst)
+          9.2 Optionele Supplementen (Toekomst)
         </h3>
         <p>
-          We zullen optioneel een Supplements abonnement aanbieden (€29/maand):
+          Mogelijk bieden wij in de toekomst een optioneel supplementenabonnement aan:
         </p>
         <ul>
           <li>U hebt <strong>GEEN</strong> abonnement nodig om de app te gebruiken</li>
-          <li>U kunt het abonnement op elk moment annuleren</li>
-          <li>30 dagen volledige geld-terug-garantie</li>
+          <li>U kunt een eventueel abonnement op elk moment annuleren</li>
+          <li>De prijs en de voorwaarden tonen wij duidelijk voordat u een betaalde dienst afsluit</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          8.3 Betaling
+          9.3 Betaling
         </h3>
         <p>
-          Betalingen worden verwerkt via Mollie (PCI-DSS compliant). Wij slaan creditcardgegevens <strong>NIET</strong> op.
+          Zodra wij betaalde diensten aanbieden, laten wij de betalingen verwerken door een externe betaaldienst. Wij zullen zelf geen creditcardgegevens opslaan. Op dit moment verwerken wij geen enkele betaling.
         </p>
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>9. Beëindiging</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>10. Beëindiging</h2>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          9.1 Uw Beëindiging
+          10.1 Uw Beëindiging
         </h3>
         <p>
           U kunt uw account op elk moment verwijderen via Instellingen → "Mijn gegevens verwijderen".
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
-          9.2 Onze Beëindiging
+          10.2 Onze Beëindiging
         </h3>
         <p>
           We kunnen uw account beëindigen als:
@@ -283,7 +314,7 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>10. Wijzigingen aan Deze Voorwaarden</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>11. Wijzigingen aan Deze Voorwaarden</h2>
 
         <p>
           We kunnen deze Voorwaarden bijwerken. Grote wijzigingen worden aangekondigd via e-mail en in-app.
@@ -292,7 +323,7 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>11. Geschillen & Rechtsmacht</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>12. Geschillen & Rechtsmacht</h2>
 
         <p>
           Deze Voorwaarden worden beheerst door <strong>Nederlands recht</strong>.
@@ -313,7 +344,7 @@ export default function TermsOfService() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>12. Contact</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>13. Contact</h2>
 
         <p>
           <strong>Voor vragen of klachten:</strong>

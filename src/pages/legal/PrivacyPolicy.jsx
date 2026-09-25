@@ -87,9 +87,42 @@ export default function PrivacyPolicy() {
           <li>❌ IP-adres</li>
           <li>❌ Locatiegegevens</li>
           <li>❌ Browser-tracking of fingerprinting</li>
-          <li>❌ Cookies (behalve JWT authentication token)</li>
+          <li>❌ Cookies. Uw inlogtoken bewaren wij in de lokale opslag van de app, niet in een cookie</li>
           <li>❌ Apparaat-ID of UDID</li>
         </ul>
+
+        <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
+          Waar deze gegevens staan
+        </h3>
+        <p>
+          Niet alles wat u in de app vastlegt, verlaat uw telefoon. Een deel blijft
+          lokaal in de app staan en wordt niet naar onze server gestuurd.
+        </p>
+        <p>
+          <strong>Blijft op uw telefoon:</strong>
+        </p>
+        <ul style={{ marginBottom: 'var(--space-md)' }}>
+          <li>Uw dagelijkse symptoomlogboek</li>
+          <li>Uw leefstijltriggers, zoals alcohol, een late maaltijd of werkstress</li>
+          <li>Uw voedingsscans</li>
+          <li>De losse dagen die u in de cycluskalender aantikt</li>
+        </ul>
+        <p>
+          <strong>Wordt op onze server verwerkt en opgeslagen:</strong>
+        </p>
+        <ul style={{ marginBottom: 'var(--space-md)' }}>
+          <li>Uw e-mailadres, en als u die invult uw naam en geboortedatum</li>
+          <li>Van uw cyclus: de startdatum, de cyclusduur en het aantal bloedingsdagen. Dus de samenvatting, niet uw dagelijkse aantekeningen</li>
+          <li>Wearable-gegevens als u een wearable koppelt: slaap, diepe slaap, HRV, rusthartslag en herstel per dag</li>
+          <li>Uw antwoorden op de onboardingquiz</li>
+          <li>Feedback die u ons via de app stuurt</li>
+        </ul>
+        <p>
+          Gegevens die alleen op uw telefoon staan, kunnen wij niet inzien en niet
+          voor u herstellen. Verwijdert u de app of wist u de appgegevens, dan zijn
+          ze weg. Het verwijderen van uw account wist de gegevens die op onze server
+          staan.
+        </p>
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -116,12 +149,12 @@ export default function PrivacyPolicy() {
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gezondheidsgegevens</td>
               <td style={{ padding: '8px' }}>Expliciete toestemming</td>
-              <td style={{ padding: '8px' }}>Cyclus berekening, readiness-score, AI-aanbevelingen</td>
+              <td style={{ padding: '8px' }}>Cyclusberekening en readiness-score. Persoonlijke inzichten stelt de app op uw toestel samen</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Lifestyle triggers</td>
+              <td style={{ padding: '8px' }}>Lifestyle triggers, blijven lokaal op uw telefoon</td>
               <td style={{ padding: '8px' }}>Toestemming</td>
-              <td style={{ padding: '8px' }}>Readiness berekening, gepersonaliseerde tips</td>
+              <td style={{ padding: '8px' }}>Tips in de app, berekend op uw eigen toestel</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Wearable-data</td>
@@ -140,9 +173,8 @@ export default function PrivacyPolicy() {
           Specifieke toepassingen:
         </h3>
         <ul>
-          <li><strong>Gepersonaliseerde aanbevelingen:</strong> Wij gebruiken uw cyclus, symptomen en readiness-status om relevante artikelen aan te bevelen. Dit heeft geen bindende gevolgen voor u.</li>
-          <li><strong>Readiness-score:</strong> Dagelijks berekend op basis van slaap, HRV, hartslag en cyclus-fase. Dit is alleen ter informatie.</li>
-          <li><strong>Digitale tweeling (toekomst):</strong> We zullen uw gegevens gebruiken om persoonlijke AI-modellen te trainen. Hiervoor vragen wij u vooraf uitdrukkelijk om afzonderlijke toestemming.</li>
+          <li><strong>Aanbevelingen in de app:</strong> De app stelt op uw eigen toestel voor welke artikelen bij u passen, op basis van wat u heeft gelogd. Uw symptomen en triggers worden daarvoor niet naar onze server gestuurd. Dit heeft geen bindende gevolgen voor u.</li>
+          <li><strong>Readiness-score:</strong> Deze score berekenen wij niet zelf. Koppelt u een Oura-ring, dan ontvangen wij de readiness-score van Oura en bewaren wij die naast uw slaap, HRV en rusthartslag. Koppelt u Fitbit, dan is er geen readiness-score beschikbaar. De score is alleen ter informatie.</li>
         </ul>
       </section>
 
@@ -162,27 +194,34 @@ export default function PrivacyPolicy() {
               <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Gezondheidsgegevens (menstruatie, symptomen)</td>
+              <td style={{ padding: '8px' }}>Cyclusgegevens op onze server (startdatum, cyclusduur, bloedingsdagen)</td>
               <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Wearable-data</td>
-              <td style={{ padding: '8px' }}>90 dagen (rollerend venster)</td>
+              <td style={{ padding: '8px' }}>Symptomen, triggers en voedingsscans (lokaal op uw telefoon)</td>
+              <td style={{ padding: '8px' }}>Tot u ze zelf verwijdert of de appgegevens wist</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Toestemmingslogs</td>
-              <td style={{ padding: '8px' }}>3 jaar (wettelijk vereist)</td>
+              <td style={{ padding: '8px' }}>Wearable-metingen op onze server</td>
+              <td style={{ padding: '8px' }}>Tot u uw account verwijdert</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
-              <td style={{ padding: '8px' }}>Foutlogs, systeemlogboeken</td>
-              <td style={{ padding: '8px' }}>14-30 dagen</td>
+              <td style={{ padding: '8px' }}>Toestemming die u in de app geeft, lokaal op uw telefoon</td>
+              <td style={{ padding: '8px' }}>Tot u de appgegevens wist</td>
             </tr>
             <tr>
-              <td style={{ padding: '8px' }}>Anonimiseerde statistieken</td>
-              <td style={{ padding: '8px' }}>Onbeperkt (voor AI-training)</td>
+              <td style={{ padding: '8px' }}>Foutlogs en systeemlogboeken bij onze hostingpartij</td>
+              <td style={{ padding: '8px' }}>Volgens het bewaarbeleid van die partij</td>
             </tr>
           </tbody>
         </table>
+
+        <p>
+          Op onze server verloopt er verder niets automatisch. Wij verwijderen alleen
+          verlopen inlogcodes zodra ze zijn gebruikt of zijn verlopen. Uw overige
+          gegevens blijven staan totdat u uw account verwijdert. Wij gebruiken uw
+          gegevens niet om AI-modellen te trainen.
+        </p>
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
@@ -247,25 +286,25 @@ export default function PrivacyPolicy() {
           6.3 Recht op verwijdering ("Recht op vergetelheid", artikel 17)
         </h3>
         <p>
-          U kunt aanvragen dat wij uw account en alle bijbehorende gegevens verwijderen. Wij zullen dit binnen 30 dagen doen, behalve:
+          U kunt uw account en de bijbehorende gegevens op onze server laten verwijderen. Verwijdert u uw account in de app, dan gebeurt dat direct. Vraagt u het per e-mail aan, dan doen wij dat binnen 30 dagen.
         </p>
         <ul>
-          <li>Toestemmingslogs (moeten 3 jaar worden bewaard voor compliance)</li>
-          <li>Anonimiseerde, niet-identificeerbare gegevens (blijven voor AI-training)</li>
+          <li>Gegevens die alleen op uw telefoon staan, verwijdert u zelf door de appgegevens te wissen of de app te verwijderen. Wij kunnen daar niet bij</li>
+          <li>Feedback die u ons via de app heeft gestuurd, wordt niet automatisch mee verwijderd. Wilt u die ook laten wissen, stuur ons dan een bericht</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
           6.4 Recht op gegevensoverdraagbaarheid (artikel 20)
         </h3>
         <p>
-          U kunt al uw gegevens in een leesbaar formaat (CSV/JSON) exporteren en naar een ander bedrijf meenemen.
+          In de app downloadt u via uw accountinstellingen een JSON-bestand met de gegevens die lokaal zijn opgeslagen: uw cyclusgegevens, uw symptoomlogboek, uw triggers en uw toestemmingen. De gegevens die op onze server staan kunt u bij ons opvragen, dan sturen wij die in een leesbaar formaat toe.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
           6.5 Recht om bezwaar in te dienen (artikel 21)
         </h3>
         <p>
-          U kunt weigeren dat wij uw gegevens voor bepaalde doeleinden verwerken (bijv. AI-aanbevelingen, wearable-synchronisatie).
+          U kunt weigeren dat wij uw gegevens voor bepaalde doeleinden verwerken, bijvoorbeeld het synchroniseren van uw wearable.
         </p>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -298,9 +337,8 @@ export default function PrivacyPolicy() {
           Organisatorische maatregelen:
         </h3>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
-          <li>Beperkte teamtoegang (only-need-to-know)</li>
-          <li>Vertrouwelijkheidsovereenkomsten met alle medewerkers</li>
-          <li>Incidentresponsplan voor datalekken</li>
+          <li>YouCaps is een eenmanszaak. Toegang tot de database ligt bij de eigenaar</li>
+          <li>Bij een datalek doen wij melding volgens de wettelijke termijn</li>
         </ul>
 
         <h3 style={{ fontSize: '15px', fontFamily: 'var(--font-sans)', fontWeight: '600', marginBottom: 'var(--space-sm)', marginTop: 'var(--space-md)' }}>
@@ -340,9 +378,8 @@ export default function PrivacyPolicy() {
           De Ovari-app gebruikt AI voor:
         </p>
         <ul style={{ marginBottom: 'var(--space-md)' }}>
-          <li><strong>Artikel aanbevelingen:</strong> Gebaseerd op uw cyclus, symptomen en readiness. Transparant (u ziet waarom).</li>
+          <li><strong>Artikelaanbevelingen:</strong> Worden op uw eigen toestel samengesteld uit wat u lokaal heeft gelogd. Uw symptomen en triggers worden daarvoor niet naar onze server gestuurd. U ziet waarom een artikel wordt voorgesteld.</li>
           <li><strong>Readiness-score:</strong> Informatief alleen, geen bindende beslissing.</li>
-          <li><strong>Digitale tweeling (toekomst):</strong> Persoonlijke ML-modellen voor voorspellingen. Vereist afzonderlijke toestemming.</li>
         </ul>
 
         <p>
@@ -351,7 +388,34 @@ export default function PrivacyPolicy() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>10. Contact & Gegevensbeschermer</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>10. Ovari in ChatGPT</h2>
+
+        <p>
+          De openbare Ovari-kennisbank is ook te raadplegen via een koppeling met
+          ChatGPT. Die koppeling doorzoekt uitsluitend openbare Ovari-artikelen,
+          dezelfde artikelen die op onze website staan.
+        </p>
+        <p>
+          De huidige koppeling heeft <strong>geen toegang</strong> tot uw
+          Ovari-account, uw menstruatietracker, uw symptoomgegevens, uw persoonlijke
+          aantekeningen, uw wearable-gegevens of andere persoonlijke
+          gezondheidsgegevens die u in de app vastlegt. De koppeling leest alleen en
+          wijzigt niets.
+        </p>
+        <p>
+          Voor het gebruiken van deze publieke kennisbankfunctie is geen
+          Ovari-account nodig.
+        </p>
+        <p>
+          Maakt Ovari in de toekomst persoonlijke appgegevens via ChatGPT
+          beschikbaar, dan valt dat niet onder de huidige functionaliteit. Voor zulke
+          functionaliteit richten wij eerst passende authenticatie,
+          privacy-informatie en toestemming in, voordat wij die aanbieden.
+        </p>
+      </section>
+
+      <section style={{ marginBottom: 'var(--space-lg)' }}>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>11. Contact & Gegevensbeschermer</h2>
 
         <p>
           <strong>Voor vragen over dit privacybeleid:</strong>
@@ -372,7 +436,7 @@ export default function PrivacyPolicy() {
       </section>
 
       <section style={{ marginBottom: 'var(--space-lg)' }}>
-        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>11. Wijzigingen aan dit Privacybeleid</h2>
+        <h2 style={{ fontSize: '20px', fontWeight: '500', marginBottom: 'var(--space-md)' }}>12. Wijzigingen aan dit Privacybeleid</h2>
 
         <p>
           We kunnen dit privacybeleid af en toe bijwerken. Als er grote wijzigingen zijn, zullen wij u per e-mail waarschuwen.
