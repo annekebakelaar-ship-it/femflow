@@ -38,7 +38,6 @@ export default function TermsOfService() {
           <li>De readiness-score tonen die Oura aanlevert als u een Oura-ring koppelt. Bij Fitbit is die score niet beschikbaar</li>
           <li>Gepersonaliseerde gezondheidsadviezen en artikelen aanbevelen</li>
           <li>Optioneel: wearable-gegevens synchroniseren (bijvoorbeeld Oura)</li>
-          <li>Optioneel: Supplementenabonnementen beheren</li>
         </ul>
 
         <p>

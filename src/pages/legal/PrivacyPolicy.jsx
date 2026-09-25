@@ -149,7 +149,7 @@ export default function PrivacyPolicy() {
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Gezondheidsgegevens</td>
               <td style={{ padding: '8px' }}>Expliciete toestemming</td>
-              <td style={{ padding: '8px' }}>Cyclusberekening en readiness-score. Persoonlijke inzichten stelt de app op uw toestel samen</td>
+              <td style={{ padding: '8px' }}>Cyclusberekening door Ovari. Een readiness-score komt van Oura, wij ontvangen en tonen die alleen. Fitbit levert er geen. Persoonlijke inzichten stelt de app op uw toestel samen</td>
             </tr>
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Lifestyle triggers, blijven lokaal op uw telefoon</td>
@@ -159,7 +159,7 @@ export default function PrivacyPolicy() {
             <tr style={{ borderBottom: '1px solid var(--border)' }}>
               <td style={{ padding: '8px' }}>Wearable-data</td>
               <td style={{ padding: '8px' }}>Expliciete toestemming</td>
-              <td style={{ padding: '8px' }}>Slaap/HRV tracking, readiness scoring</td>
+              <td style={{ padding: '8px' }}>Slaap- en HRV-inzichten, en het tonen van herstelgegevens die de wearable aanlevert</td>
             </tr>
             <tr>
               <td style={{ padding: '8px' }}>Consenten</td>
