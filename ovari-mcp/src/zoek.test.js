@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { normaliseer, termenUit, matcht, scoorArtikel, zoek, fragment, DREMPEL, GEWICHT } from './zoek.js'
+import {
+  normaliseer, termenUit, matcht, scoorArtikel, zoek, fragment,
+  DREMPEL, GEWICHT, CONCEPTEN, groepenUit,
+} from './zoek.js'
 import { alleArtikelen, vindArtikel, publiekeVorm } from './artikelen.js'
 
 const ARTIKELEN = alleArtikelen()
@@ -15,10 +18,11 @@ describe('normaliseer', () => {
 })
 
 describe('termenUit', () => {
-  it('laat stopwoorden vallen', () => {
+  it('laat stopwoorden vallen, Nederlands en Engels', () => {
     expect(termenUit('waarom slaap ik slecht in de overgang')).toEqual([
-      'waarom', 'slaap', 'slecht', 'overgang',
+      'slaap', 'slecht', 'overgang',
     ])
+    expect(termenUit('why is the my and for')).toEqual([])
   })
   it('ontdubbelt', () => {
     expect(termenUit('slaap slaap slaap')).toEqual(['slaap'])
@@ -197,17 +201,20 @@ describe('relevantiedrempel', () => {
 
   // 2. Indirect geformuleerd, zonder de vakterm te noemen.
   it('vindt het juiste artikel ook zonder dat de vakterm valt', () => {
+    // Waar twee artikelen allebei een verdedigbaar antwoord zijn, staan ze er
+    // allebei. Wakker worden in de nacht past bij het slaapartikel en bij dat
+    // over nachtzweten.
     const gevallen = [
-      ['ik word s nachts steeds wakker', 'opvliegers-nachtzweten'],
-      ['hartkloppingen na de menopauze', 'hart-na-overgang'],
-      ['ik kan me slecht concentreren sinds de overgang', 'brain-fog-overgang'],
-      ['ik ben moe en heb hevige menstruaties', 'ijzer-en-menstruatie'],
-      ['somber en prikkelbaar rond mijn menstruatie', 'pms-en-stemming'],
+      ['ik word s nachts steeds wakker', ['slaap-en-cyclus', 'opvliegers-nachtzweten']],
+      ['hartkloppingen na de menopauze', ['hart-na-overgang']],
+      ['ik kan me slecht concentreren sinds de overgang', ['brain-fog-overgang']],
+      ['ik ben moe en heb hevige menstruaties', ['ijzer-en-menstruatie']],
+      ['somber en prikkelbaar rond mijn menstruatie', ['pms-en-stemming']],
     ]
     for (const [vraag, verwacht] of gevallen) {
       const { treffers } = zoek(ARTIKELEN, vraag)
       expect(treffers.length, vraag).toBeGreaterThan(0)
-      expect(treffers[0].artikel.id, vraag).toBe(verwacht)
+      expect(verwacht, vraag).toContain(treffers[0].artikel.id)
     }
   })
 
@@ -253,5 +260,98 @@ describe('relevantiedrempel', () => {
     const uitkomst = zoek(ARTIKELEN, 'waarom slaap ik slechter voor mijn menstruatie')
     expect(uitkomst.treffers[0].artikel.id).toBe('slaap-en-cyclus')
     expect(uitkomst.totaal).toBeLessThan(ARTIKELEN.length)
+  })
+})
+
+describe('tweetalig zoeken', () => {
+  // Woordenschat van de index, om te controleren dat elke Nederlandse term uit
+  // de conceptlijst echt ergens in de negentien artikelen staat.
+  const woordenPerArtikel = ARTIKELEN.map(
+    (a) =>
+      new Set(
+        normaliseer(
+          [
+            a.id.replace(/-/g, ' '), a.title, a.subtitle, a.description,
+            ...a.body.flatMap((s) => [s.kop, s.tekst]),
+          ].join(' ')
+        ).split(' ')
+      )
+  )
+  const komtVoor = (term) =>
+    woordenPerArtikel.some((woorden) => [...woorden].some((w) => matcht(w, term)))
+
+  it('gebruikt alleen Nederlandse termen die echt in de kennisbank staan', () => {
+    for (const concept of CONCEPTEN) {
+      for (const term of concept.termen) {
+        expect(komtVoor(term), `${concept.naam} / ${term}`).toBe(true)
+      }
+    }
+  })
+
+  it('laat een Nederlandse vraag zich precies zo gedragen als voorheen', () => {
+    // Zonder Engelse aanleiding is elke groep een enkele term, dus het
+    // scoremodel doet exact hetzelfde als voor de tweetalige laag.
+    const groepen = groepenUit('hevige menstruaties ijzertekort')
+    expect(groepen.every((g) => g.termen.length === 1)).toBe(true)
+  })
+
+  it('laat een meerwoordsbegrip voorgaan op de losse woorden', () => {
+    const namen = groepenUit('heavy periods').map((g) => g.naam)
+    expect(namen).toContain('hevig bloedverlies')
+    expect(namen).not.toContain('cyclus')
+  })
+
+  it('vindt bij Engelse vragen hetzelfde artikel als bij de Nederlandse', () => {
+    const paren = [
+      ['Kunnen hevige menstruaties ijzertekort veroorzaken?', 'Can heavy periods during perimenopause cause low iron?', 'ijzer-en-menstruatie'],
+      ['Wat helpt tegen botontkalking tijdens de overgang?', 'How can I protect my bones during perimenopause?', 'botgezondheid-overgang'],
+      ['Waarom heb ik ineens hartkloppingen?', 'Why am I suddenly getting heart palpitations?', 'hart-na-overgang'],
+    ]
+    for (const [nl, en, verwacht] of paren) {
+      expect(zoek(ARTIKELEN, nl).treffers[0]?.artikel.id, nl).toBe(verwacht)
+      expect(zoek(ARTIKELEN, en).treffers[0]?.artikel.id, en).toBe(verwacht)
+    }
+  })
+
+  it('vindt het slaapartikel bij een Engelse vraag over wakker worden', () => {
+    const { treffers } = zoek(ARTIKELEN, 'I keep waking up at night')
+    expect(treffers.length).toBeGreaterThan(0)
+    expect(['slaap-en-cyclus', 'opvliegers-nachtzweten']).toContain(treffers[0].artikel.id)
+  })
+
+  // Bekend zwak geval, in beide talen hetzelfde. Het artikel over de breedte
+  // van overgangsklachten raakt zowel slaap als perimenopauze en wint daardoor
+  // van het slaapartikel. Het juiste artikel staat wel in de top drie.
+  it('geeft bij slecht slapen in de overgang het slaapartikel in de top drie', () => {
+    for (const vraag of [
+      'Waarom slaap ik slecht tijdens de perimenopauze?',
+      'Why am I sleeping badly during perimenopause?',
+    ]) {
+      const top3 = zoek(ARTIKELEN, vraag).treffers.slice(0, 3).map((t) => t.artikel.id)
+      expect(top3, vraag).toContain('slaap-en-cyclus')
+    }
+  })
+
+  it('geeft niets terug bij een Engelse vraag buiten het onderwerp', () => {
+    for (const vraag of [
+      'What is a good mortgage?',
+      'Best pizza recipe',
+      'How do I fix my bicycle?',
+      'Which laptop should I buy?',
+    ]) {
+      expect(zoek(ARTIKELEN, vraag).totaal, vraag).toBe(0)
+    }
+  })
+
+  it('houdt de Engelse resultaten boven de drempel', () => {
+    for (const vraag of [
+      'Why am I sleeping badly during perimenopause?',
+      'Can heavy periods during perimenopause cause low iron?',
+      'How can I protect my bones during perimenopause?',
+    ]) {
+      for (const treffer of zoek(ARTIKELEN, vraag).treffers) {
+        expect(treffer.score, `${vraag} / ${treffer.artikel.id}`).toBeGreaterThanOrEqual(DREMPEL)
+      }
+    }
   })
 })

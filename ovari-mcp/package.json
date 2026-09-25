@@ -12,7 +12,8 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "test": "cd .. && npx vitest run ovari-mcp",
-    "rook": "node scripts/rooktest.js"
+    "rook": "node scripts/rooktest.js",
+    "benchmark": "node scripts/benchmark.mjs"
   },
   "keywords": [
     "ovari",

@@ -69,6 +69,26 @@ toevallige treffers landen precies op 1,0, dus die vallen er allemaal onder.
 Een vraag over hypotheekrente of pizza levert nu een lege lijst op, en het
 woord "vrouwen" gaat van vijftien treffers naar één.
 
+## Nederlands en Engels
+
+De artikelen zijn en blijven Nederlands. Een Engelse vraag wordt niet vertaald
+maar omgezet naar begrippen. "Low iron" en "ijzertekort" zijn hetzelfde begrip,
+en een artikel dat een van beide raakt, raakt dat begrip.
+
+Een begrip telt als één eenheid in de score. Daardoor levert een Engelse vraag
+niet per ongeluk dubbele punten op, en gedraagt een puur Nederlandse vraag zich
+exact zoals voorheen: elke groep is dan één term.
+
+De lijst staat in `CONCEPTEN` in `src/zoek.js`. Zevenentwintig begrippen, 144
+aanleidingen. Meerwoordsbegrippen gaan voor op losse woorden, zodat "heavy
+periods" niet uiteenvalt in "heavy" en "periods".
+
+Elke Nederlandse term in die lijst komt aantoonbaar in de negentien artikelen
+voor. Een test bewaakt dat: voegt iemand een term toe die nergens staat, dan
+faalt de suite.
+
+Er zit geen vertaaldienst, geen taalmodel en geen extra afhankelijkheid in.
+
 ### Bekende grens
 
 Alle zoektermen wegen even zwaar. Een veelzeggend woord als "botontkalking"
