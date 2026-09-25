@@ -62,7 +62,7 @@ export default function Support() {
             <li><strong>Kan ik mijn gegevens exporteren?</strong> Ja. Via je accountinstellingen download je een JSON-bestand met de gegevens die lokaal in de app zijn opgeslagen: je cyclusgegevens, je symptoomlogboek, je triggers en je toestemmingen. Je voedingsscans en de gegevens die op onze server staan zitten er niet in. Die laatste kun je bij ons opvragen.</li>
             <li><strong>Kan ik Ovari via ChatGPT gebruiken?</strong> Ja. Ovari biedt via ChatGPT toegang tot de openbare Ovari-kennisbank over de perimenopauze. De koppeling gebruikt alleen openbare Ovari-content en heeft geen toegang tot je Ovari-account, persoonlijke gezondheidsgegevens, cyclusgegevens, notities of wearabledata. De informatie is educatief en is geen vervanging voor individueel medisch advies, diagnose of behandeling.</li>
             <li><strong>Hoe koppel ik mijn wearable?</strong> In de app, ga naar Instellingen → Wearables, kies je apparaat en volg de verbindingsstappen.</li>
-            <li><strong>Wat is de readiness-score?</strong> Een dagelijkse score gebaseerd op je slaap, HRV, hartslag en cyclus-fase.</li>
+            <li><strong>Wat is de readiness-score?</strong> Een dagelijkse score die Oura berekent en aan Ovari doorgeeft als je een Oura-ring koppelt. Ovari berekent die score niet zelf. Koppel je Fitbit, dan is er geen readiness-score beschikbaar.</li>
           </ul>
         </section>
 

@@ -35,7 +35,7 @@ export default function TermsOfService() {
         <ul style={{ marginBottom: 'var(--space-md)' }}>
           <li>Menstruatiecyclus volgen en analyseren</li>
           <li>Symptomen en gezondheidsgegevens registreren</li>
-          <li>Dagelijkse readiness-scores berekenen (op basis van slaap, HRV, hartslag en cyclus)</li>
+          <li>De readiness-score tonen die Oura aanlevert als u een Oura-ring koppelt. Bij Fitbit is die score niet beschikbaar</li>
           <li>Gepersonaliseerde gezondheidsadviezen en artikelen aanbevelen</li>
           <li>Optioneel: wearable-gegevens synchroniseren (bijvoorbeeld Oura)</li>
           <li>Optioneel: Supplementenabonnementen beheren</li>
@@ -188,7 +188,6 @@ export default function TermsOfService() {
           <li>App-code, ontwerp, algoritmen</li>
           <li>Merknamen, logo's, handelsnamen</li>
           <li>Artikelinhoud in de kennisbank</li>
-          <li>De berekende readiness-scores en onderliggende rekenmodellen</li>
         </ul>
 
         <p style={{ marginTop: 'var(--space-md)' }}>
@@ -220,7 +219,7 @@ export default function TermsOfService() {
         <ul>
           <li>Voortdurende beschikbaarheid (onderhoudsvensters kunnen nodig zijn)</li>
           <li>Foutloze werking (bugs kunnen voorkomen)</li>
-          <li>Nauwkeurigheid van berekeningen (readiness scores zijn schattingen)</li>
+          <li>Nauwkeurigheid van de gegevens en scores die uw wearable aanlevert</li>
           <li>Compatibiliteit met alle apparaten</li>
         </ul>
 
