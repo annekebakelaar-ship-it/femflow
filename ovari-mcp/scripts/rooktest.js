@@ -37,7 +37,25 @@ try {
   })
   meld('vreemde Origin geeft 403', vreemd.status === 403, `status ${vreemd.status}`)
 
-  // 4. Verbinden met de echte client
+  // 4. Domeinverificatie voor OpenAI: exact de token, als platte tekst
+  process.env.OPENAI_APPS_CHALLENGE_TOKEN = 'rooktest-token-abc123'
+  const uitdaging = await fetch(`${basis}/.well-known/openai-apps-challenge`)
+  const uitdagingTekst = await uitdaging.text()
+  meld(
+    'challenge geeft exact de token terug',
+    uitdaging.status === 200 && uitdagingTekst === 'rooktest-token-abc123',
+    `status ${uitdaging.status}, body ${JSON.stringify(uitdagingTekst)}`
+  )
+  meld(
+    'challenge is platte tekst',
+    (uitdaging.headers.get('content-type') || '').startsWith('text/plain'),
+    uitdaging.headers.get('content-type')
+  )
+  delete process.env.OPENAI_APPS_CHALLENGE_TOKEN
+  const zonderToken = await fetch(`${basis}/.well-known/openai-apps-challenge`)
+  meld('zonder token geen verzonnen antwoord maar 503', zonderToken.status === 503)
+
+  // 5. Verbinden met de echte client
   const client = new Client({ name: 'ovari-rooktest', version: '0.1.0' })
   const transport = new StreamableHTTPClientTransport(new URL(`${basis}/mcp`))
   await client.connect(transport)

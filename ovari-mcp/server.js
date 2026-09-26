@@ -135,6 +135,27 @@ export function maakApp() {
   app.get('/mcp', nietToegestaan)
   app.delete('/mcp', nietToegestaan)
 
+  // Domeinverificatie voor het OpenAI Plugin Submission Portal.
+  //
+  // Het portaal haalt dit adres op en verwacht exact de token als platte tekst,
+  // verder niets. Geen JSON, geen lijst, geen tweede token.
+  //
+  // De token staat bewust niet in de code. Hij komt uit het portaal, kan per
+  // inzending verschillen en hoort bij de dienst, niet bij de broncode. Zet hem
+  // als OPENAI_APPS_CHALLENGE_TOKEN in de omgeving van de Render-service.
+  // Is hij niet gezet, dan geeft dit adres 503 in plaats van een verzonnen
+  // waarde, zodat de verificatie nooit op een verkeerd antwoord kan slagen.
+  app.get('/.well-known/openai-apps-challenge', (req, res) => {
+    const token = (process.env.OPENAI_APPS_CHALLENGE_TOKEN || '').trim()
+    if (!token) {
+      return res
+        .status(503)
+        .type('text/plain')
+        .send('OPENAI_APPS_CHALLENGE_TOKEN is niet gezet op deze dienst')
+    }
+    res.type('text/plain').send(token)
+  })
+
   app.get('/health', (req, res) => {
     res.json({
       status: 'healthy',
