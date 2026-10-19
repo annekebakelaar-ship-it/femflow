@@ -34,5 +34,15 @@ services:
         value: 301005977940-ik0644unicrshca121j39j8k8tn4qill.apps.googleusercontent.com
       - key: AGENT_ENABLED
         value: "false"
+      - key: AGENT_AUDIT_SALT
+        sync: false
+      - key: AGENT_OAUTH_ENABLED
+        value: "false"
+      - key: AGENT_OAUTH_PRIVATE_KEY
+        sync: false
+      - key: AGENT_OAUTH_PUBLIC_KEY
+        sync: false
+      - key: AGENT_OAUTH_CLIENTS
+        sync: false
       - key: FRONTEND_URL
         value: https://femflow.youcaps.app

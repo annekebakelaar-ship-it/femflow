@@ -126,3 +126,56 @@ CREATE TABLE IF NOT EXISTS femflow_agent_consent (
   versie VARCHAR(16) NOT NULL DEFAULT '1.0',
   created_at TIMESTAMP NOT NULL DEFAULT NOW()
 );
+
+-- ============================================================================
+-- Auditlog van de persoonlijke agent (fase 2)
+-- ============================================================================
+-- Vijf kolommen, meer niet. Geen gezondheidsinhoud, geen tokens, geen request
+-- bodies, geen echt user_id: `gebruiker` is een HMAC-SHA256 van het user_id met
+-- AGENT_AUDIT_SALT, afgekapt op 16 tekens. Zonder dat zout is de kolom
+-- onomkeerbaar, en met een nieuw zout vallen oude en nieuwe regels niet meer
+-- aan elkaar te knopen.
+-- NOG NIET UITGEVOERD OP NEON.
+CREATE TABLE IF NOT EXISTS femflow_agent_audit (
+  id BIGSERIAL PRIMARY KEY,
+  tijdstip TIMESTAMPTZ NOT NULL,
+  gebruiker VARCHAR(32) NOT NULL,
+  tool VARCHAR(64),
+  toestemming BOOLEAN NOT NULL,
+  resultaat VARCHAR(32) NOT NULL
+);
+CREATE INDEX IF NOT EXISTS idx_femflow_agent_audit_tijdstip ON femflow_agent_audit(tijdstip);
+CREATE INDEX IF NOT EXISTS idx_femflow_agent_audit_gebruiker ON femflow_agent_audit(gebruiker);
+
+-- ============================================================================
+-- OAuth 2.1 voor de persoonlijke MCP-laag (fase 2, standaard UIT)
+-- ============================================================================
+-- Codes en refreshtokens staan GEHASHT (sha256) opgeslagen: wie deze tabellen
+-- leest kan er niets mee. De waarden zelf bestaan alleen in het antwoord aan
+-- de client.
+-- NOG NIET UITGEVOERD OP NEON.
+CREATE TABLE IF NOT EXISTS femflow_agent_oauth_codes (
+  code_hash VARCHAR(64) PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES femflow_users(id) ON DELETE CASCADE,
+  client_id VARCHAR(128) NOT NULL,
+  redirect_uri TEXT NOT NULL,
+  scope VARCHAR(256) NOT NULL,
+  code_challenge VARCHAR(64) NOT NULL,
+  consent_versie VARCHAR(16) NOT NULL,
+  verloopt_op TIMESTAMPTZ NOT NULL,
+  gebruikt BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_femflow_agent_oauth_codes_verloopt ON femflow_agent_oauth_codes(verloopt_op);
+
+CREATE TABLE IF NOT EXISTS femflow_agent_oauth_refresh (
+  token_hash VARCHAR(64) PRIMARY KEY,
+  user_id UUID NOT NULL REFERENCES femflow_users(id) ON DELETE CASCADE,
+  client_id VARCHAR(128) NOT NULL,
+  scope VARCHAR(256) NOT NULL,
+  consent_versie VARCHAR(16) NOT NULL,
+  verloopt_op TIMESTAMPTZ NOT NULL,
+  ingetrokken BOOLEAN NOT NULL DEFAULT FALSE,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+CREATE INDEX IF NOT EXISTS idx_femflow_agent_oauth_refresh_user ON femflow_agent_oauth_refresh(user_id);

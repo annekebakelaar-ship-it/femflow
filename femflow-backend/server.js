@@ -13,6 +13,9 @@ import { generateSleepRange } from './utils/synthDataGenerator.js'
 import { appTerugPagina } from './utils/appTerug.js'
 import { agentIngeschakeld } from './agent/vlag.js'
 import { maakAgentRouter } from './agent/index.js'
+import { oauthIngeschakeld, maakOauthRouter } from './agent/oauth/router.js'
+import { clientsUitOmgeving } from './agent/oauth/clients.js'
+import { postgresOpslag } from './agent/oauth/opslag.js'
 
 const { sign, verify } = jwtPkg
 
@@ -1127,6 +1130,30 @@ app.post('/api/v1/wearable/fitbit/pull', authenticateToken, async (req, res) => 
 if (agentIngeschakeld()) {
   app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken }))
   console.log('Agentmodule ingeschakeld op /api/v1/agent')
+
+  // De OAuth-laag heeft een eigen vlag EN een sleutelpaar nodig. Ontbreekt er
+  // iets, dan komt hij er niet half in: dan blijft hij uit.
+  if (oauthIngeschakeld()) {
+    const prive = process.env.AGENT_OAUTH_PRIVATE_KEY
+    const publiek = process.env.AGENT_OAUTH_PUBLIC_KEY
+    const clients = clientsUitOmgeving()
+    if (!prive || !publiek) {
+      console.warn('AGENT_OAUTH_ENABLED staat aan maar het sleutelpaar ontbreekt; de MCP-laag blijft uit')
+    } else if (clients.aantal() === 0) {
+      console.warn('AGENT_OAUTH_ENABLED staat aan maar er is geen client geregistreerd; de MCP-laag blijft uit')
+    } else {
+      app.use('/api/v1/agent/oauth', maakOauthRouter({
+        pool,
+        authenticateToken,
+        clients,
+        opslag: postgresOpslag(pool),
+        sleutels: { prive, publiek },
+        issuer: process.env.AGENT_OAUTH_ISSUER,
+        resource: process.env.AGENT_OAUTH_RESOURCE,
+      }))
+      console.log('Persoonlijke MCP-laag met OAuth ingeschakeld op /api/v1/agent/oauth')
+    }
+  }
 }
 
 // ============================================================================

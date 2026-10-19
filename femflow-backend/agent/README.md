@@ -126,9 +126,18 @@ per IP: een agent die doordraait raakt zo alleen de eigen gebruiker.
 - **Geen schrijftools.** Niets logt, wijzigt of verwijdert iets.
 - **Geen interface.** De frontend is niet aangeraakt.
 - **Geen symptoomtool**, om de reden hierboven.
-- **Geen auditlog.** Zodra er echt een model meeleest hoort elke tooluitvoering
-  vastgelegd te worden (wie, welke tool, wanneer, geen inhoud). Dat is de
-  eerste uitbreiding die ik zou doen voordat dit aangaat.
+- **Auditlog: sinds fase 2 WEL aanwezig** (`audit.js`), zie hieronder.
+
+## Fase 2 (branch agent-fase-2)
+
+- **Auditlog** (`audit.js`): tijdstip, gepseudonimiseerde gebruiker (HMAC met
+  `AGENT_AUDIT_SALT`), toolnaam, toestemmingstatus en resultaatcode. Geen
+  gezondheidsinhoud, geen tokens, geen request bodies: `schrijfRegel()` kent
+  die velden niet eens. Ook weigeringen en het intrekken van toestemming gaan
+  het log in. Een kapot auditlog breekt nooit het antwoord aan de gebruiker.
+- **Persoonlijke MCP-laag met OAuth 2.1** (`oauth/`), eigen vlag
+  `AGENT_OAUTH_ENABLED`, standaard uit. Zie `oauth/README.md` voor wat werkt,
+  wat ontwerp is en de checklist om het ooit aan te zetten.
 
 ## De kennisfuncties zijn niet aangeraakt
 
