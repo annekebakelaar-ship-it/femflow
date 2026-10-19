@@ -100,7 +100,7 @@ verstuurd hoeft te worden.
 |---|---|---|
 | 0 | `node agent/scripts/neon-check.mjs` | alleen lezen |
 | 1 | `schema.sql` uitvoeren (25 statements) | DDL |
-| 2 | Controleren: 12 tabellen, 13 indexen, 9 foreign keys met het juiste ON DELETE | alleen lezen |
+| 2 | Controleren: 12 tabellen, 13 indexen, 8 foreign keys met het juiste ON DELETE | alleen lezen |
 | 3 | `testdata/seed-agent-test.sql` uitvoeren (27 rijen, in één transactie) | datamutatie |
 | 4 | Controleren: rijaantallen per tabel, en dat Twee geen metingen heeft | alleen lezen |
 | 5 | Cascadeproef met een **derde** wegwerpgebruiker: aanmaken, rij in elke kindtabel, `DELETE FROM femflow_users`, controleren dat alles meegaat en dat `femflow_agent_audit` blijft staan | datamutatie |
