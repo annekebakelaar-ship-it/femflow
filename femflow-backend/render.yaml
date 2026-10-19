@@ -32,5 +32,7 @@ services:
         value: https://femflow-api.onrender.com/api/v1/wearable/fitbit/callback
       - key: GOOGLE_CLIENT_ID
         value: 301005977940-ik0644unicrshca121j39j8k8tn4qill.apps.googleusercontent.com
+      - key: AGENT_ENABLED
+        value: "false"
       - key: FRONTEND_URL
         value: https://femflow.youcaps.app
