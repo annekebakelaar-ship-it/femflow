@@ -354,3 +354,43 @@ describe('bedrading in server.js', () => {
     expect(server).toMatch(/if \(oauthIngeschakeld\(\)\) \{/)
   })
 })
+
+describe('vangnet tegen onopgevangen fouten', () => {
+  const server = readFileSync(new URL('../../server.js', import.meta.url), 'utf8')
+
+  it('vangt een afgewezen promise op zonder het proces te stoppen', () => {
+    expect(server).toMatch(/process\.on\('unhandledRejection'/)
+    const blok = server.slice(server.indexOf("process.on('unhandledRejection'"), server.indexOf("process.on('uncaughtException'"))
+    expect(blok).not.toMatch(/process\.exit/)
+  })
+
+  it('stopt wel netjes bij een onopgevangen uitzondering', () => {
+    expect(server).toMatch(/process\.on\('uncaughtException'/)
+    const blok = server.slice(server.indexOf("process.on('uncaughtException'"))
+    expect(blok).toMatch(/process\.exit\(1\)/)
+  })
+
+  it('heeft een afsluitende Express-foutafhandelaar die JSON teruggeeft', () => {
+    expect(server).toMatch(/app\.use\(\(err, req, res, next\) => \{/)
+    expect(server).toMatch(/res\.status\(500\)\.json\(\{ error: 'server_error' \}\)/)
+  })
+
+  it('heeft geen enkele async route zonder try/catch', () => {
+    const regels = server.replace(/\r\n/g, '\n').split('\n')
+    const zonder = []
+    for (let i = 0; i < regels.length; i++) {
+      if (!/^app\.(get|post|put|delete)\('[^']+'.*async \(req, res\)/.test(regels[i])) continue
+      let eind = i
+      for (let j = i + 1; j < regels.length; j++) { if (regels[j] === '})') { eind = j; break } }
+      if (!/\n\s*try \{/.test(regels.slice(i, eind).join('\n'))) zonder.push(regels[i].slice(0, 60))
+    }
+    expect(zonder).toEqual([])
+  })
+
+  it('laat geen auditregel als zwevende promise achter in de agent-router', () => {
+    const router = readFileSync(new URL('../index.js', import.meta.url), 'utf8')
+    const zwevend = router.split('\n').filter((r, i, alle) =>
+      /logboek\.schrijfRegel\(\{/.test(r) && !/await/.test(r) && !/\.catch/.test(alle.slice(i, i + 8).join('\n')))
+    expect(zwevend).toEqual([])
+  })
+})

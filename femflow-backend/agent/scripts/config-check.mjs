@@ -34,7 +34,8 @@ const resource = env.AGENT_OAUTH_RESOURCE || ''
 function urlOf(naam, waarde) {
   try {
     const u = new URL(waarde)
-    if (u.protocol !== 'https:' && u.hostname !== 'localhost') {
+    const lokaal = u.hostname === 'localhost' || u.hostname === '127.0.0.1'
+    if (u.protocol !== 'https:' && !lokaal) {
       fout(`${naam} moet https zijn (nu ${u.protocol})`)
       return null
     }

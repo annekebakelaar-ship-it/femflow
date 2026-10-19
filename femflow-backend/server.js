@@ -1186,6 +1186,35 @@ if (agentIngeschakeld()) {
 }
 
 // ============================================================================
+// VANGNET
+// ============================================================================
+// Express 4 vangt een afgewezen promise in een handler niet op. Zo n fout
+// werd een unhandled rejection en nam in Node het hele proces mee: een
+// database die even wegviel tijdens een agent-aanroep legde daarmee de hele
+// API plat. Elke route heeft inmiddels zijn eigen try/catch, maar dit is de
+// laatste verdedigingslinie voor alles wat daar langs glipt.
+
+process.on('unhandledRejection', (reden) => {
+  // Niet afsluiten: een vergeten await hoort een verzoek te laten mislukken,
+  // niet alle andere gebruikers eruit te gooien.
+  console.error('Onopgevangen promise-afwijzing:', reden instanceof Error ? reden.message : reden)
+})
+
+process.on('uncaughtException', (err) => {
+  // Hier is de staat van het proces wel onbetrouwbaar. Netjes melden en
+  // afsluiten, zodat de host een schone start kan maken.
+  console.error('Onopgevangen uitzondering, proces stopt:', err.message)
+  process.exit(1)
+})
+
+// Laatste Express-foutafhandelaar: alles wat via next(err) binnenkomt of
+// synchroon gegooid wordt, wordt hier JSON in plaats van een HTML-pagina.
+app.use((err, req, res, next) => {
+  console.error('Onverwachte fout op', req.method, req.path + ':', err.message)
+  if (res.headersSent) return next(err)
+  res.status(500).json({ error: 'server_error' })
+})
+// ============================================================================
 // START SERVER
 // ============================================================================
 

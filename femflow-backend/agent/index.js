@@ -62,7 +62,7 @@ export function maakAgentRouter({ pool, authenticateToken, nu = () => new Date()
           tool: req.params?.naam ?? GEEN_TOOL,
           toestemming: true,
           resultaat: RESULTAAT.GEWEIGERD_LIMIET,
-        })
+        }).catch(() => {})
         res.status(429).json({ ok: false, reden: 'limiet' })
       },
     })
@@ -84,7 +84,7 @@ export function maakAgentRouter({ pool, authenticateToken, nu = () => new Date()
           tool: req.params?.naam ?? GEEN_TOOL,
           toestemming: false,
           resultaat: RESULTAAT.GEWEIGERD_GEEN_TOKEN,
-        })
+        }).catch(() => {})
       }
     })
     next()
