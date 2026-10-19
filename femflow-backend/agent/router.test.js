@@ -4,6 +4,7 @@ import express from 'express'
 import { maakAgentRouter } from './index.js'
 import { agentIngeschakeld } from './vlag.js'
 import { TOESTEMMING_REDENEN } from './toestemming.js'
+import { maakAuditLogger } from './audit.js'
 
 // Twee verzonnen gebruikers. Alleen de eerste logt in; de tweede bestaat om
 // te bewijzen dat je via de API niet bij andermans gegevens kunt.
@@ -52,9 +53,11 @@ function maakNepPool() {
 let server
 let basis
 let pool
+let auditRegels
 
 beforeEach(async () => {
   pool = maakNepPool()
+  auditRegels = []
   const app = express()
   app.use(express.json())
   // Vervangt de echte JWT-middleware: de identiteit komt hier uit een header,
@@ -65,7 +68,8 @@ beforeEach(async () => {
     req.userId = id
     next()
   }
-  app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken, nu: () => NU }))
+  const audit = maakAuditLogger({ zout: 'test-zout', nu: () => NU, sink: (r) => auditRegels.push(r) })
+  app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken, nu: () => NU, audit }))
   await new Promise((klaar) => { server = app.listen(0, klaar) })
   basis = 'http://127.0.0.1:' + server.address().port + '/api/v1/agent'
 })
@@ -167,5 +171,48 @@ describe('agent-router', () => {
     await alsIk('/consent', { method: 'POST', body: '{}' })
     const body = await (await alsIk('/tools/get_my_recovery_trend', { method: 'POST', body: '{}' })).json()
     expect(body.resultaat).toEqual({ beschikbaar: false, reden: 'geen_wearable' })
+  })
+})
+describe('auditlog via de router', () => {
+  const codes = () => auditRegels.map((r) => r.resultaat)
+
+  it('legt een gelukte tooluitvoering vast zonder enige gezondheidsinhoud', async () => {
+    await alsIk('/consent', { method: 'POST', body: '{}' })
+    const body = await (await alsIk('/tools/get_my_cycle_overview', { method: 'POST', body: '{}' })).json()
+    expect(body.resultaat.cyclusdag).toBe(15)
+
+    const regel = auditRegels.at(-1)
+    expect(regel).toMatchObject({ tool: 'get_my_cycle_overview', toestemming: true, resultaat: 'ok' })
+    expect(regel.gebruiker).toMatch(/^[0-9a-f]{16}$/)
+    const tekst = JSON.stringify(auditRegels)
+    expect(tekst).not.toContain(IK)
+    expect(tekst).not.toMatch(/cyclusdag|opgegeven_cycluslengte|2026-10-05/)
+  })
+
+  it('legt een geweigerde tool zonder toestemming vast', async () => {
+    await alsIk('/tools/get_my_cycle_overview', { method: 'POST', body: '{}' })
+    expect(codes()).toEqual(['geweigerd_geen_toestemming'])
+    expect(auditRegels[0].tool).toBe('get_my_cycle_overview')
+  })
+
+  it('legt toestemming geven en intrekken vast, en de weigering daarna', async () => {
+    await alsIk('/consent', { method: 'POST', body: '{}' })
+    await alsIk('/consent', { method: 'DELETE' })
+    await alsIk('/tools/get_my_recovery_trend', { method: 'POST', body: '{}' })
+    expect(codes()).toEqual(['toestemming_gegeven', 'toestemming_ingetrokken', 'geweigerd_ingetrokken'])
+  })
+
+  it('legt een onbekende tool vast zonder de verzonnen naam over te nemen', async () => {
+    await alsIk('/consent', { method: 'POST', body: '{}' })
+    await alsIk('/tools/verwijder_alles', { method: 'POST', body: '{}' })
+    expect(codes().at(-1)).toBe('geweigerd_onbekende_tool')
+    expect(JSON.stringify(auditRegels)).not.toContain('verwijder_alles')
+  })
+
+  it('legt een verzoek zonder token vast als onbekende gebruiker', async () => {
+    const r = await fetch(basis + '/tools/get_my_profile_context', { method: 'POST' })
+    expect(r.status).toBe(401)
+    await new Promise((klaar) => setTimeout(klaar, 20)) // res.on('finish')
+    expect(auditRegels.at(-1)).toMatchObject({ resultaat: 'geweigerd_geen_token', gebruiker: 'onbekend', toestemming: false })
   })
 })
