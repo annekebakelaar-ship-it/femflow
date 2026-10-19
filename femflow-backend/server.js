@@ -18,6 +18,7 @@ import { clientsUitOmgeving } from './agent/oauth/clients.js'
 import { maakCimdRegister, maakSamengesteldRegister, hostsUitOmgeving } from './agent/oauth/cimd.js'
 import { postgresOpslag } from './agent/oauth/opslag.js'
 import { startOpruimen } from './agent/oauth/opruimen.js'
+import { maakAuditLogger } from './agent/audit.js'
 
 const { sign, verify } = jwtPkg
 
@@ -1130,7 +1131,11 @@ app.post('/api/v1/wearable/fitbit/pull', authenticateToken, async (req, res) => 
 // bestaan /api/v1/agent/* endpoints domweg niet. Zie agent/README.md.
 
 if (agentIngeschakeld()) {
-  app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken }))
+  // EEN auditlogger voor beide routers. Hij apart laten bouwen ging mis: de
+  // MCP-laag kreeg er geen mee, waardoor daar niets gelogd werd en de
+  // fail-closed-regel niets om handen had.
+  const auditLogger = maakAuditLogger({ pool, zout: process.env.AGENT_AUDIT_SALT })
+  app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken, audit: auditLogger }))
   console.log('Agentmodule ingeschakeld op /api/v1/agent')
 
   // De OAuth-laag heeft een eigen vlag EN een sleutelpaar nodig. Ontbreekt er
@@ -1165,6 +1170,7 @@ if (agentIngeschakeld()) {
         issuer: process.env.AGENT_OAUTH_ISSUER,
         resource: process.env.AGENT_OAUTH_RESOURCE,
         frontendUrl: process.env.FRONTEND_URL,
+        audit: auditLogger,
       }))
       // De well-known-adressen horen op de root van het domein te staan,
       // niet onder een API-pad: daar zoekt een MCP-client ze.

@@ -117,3 +117,46 @@ describe('vatProfielSamen', () => {
     expect(uit.gegevens).toEqual({ cyclus_ingevuld: true, wearable_gekoppeld: true })
   })
 })
+
+describe('regressies uit de Neon-test', () => {
+  // BUG 1: node-postgres geeft een DATE terug als JS-Date op LOKALE
+  // middernacht. Rekenen op UTC-dagniveau gaf dan cyclusdag 16 in plaats van
+  // 15 voor iedereen ten oosten van Greenwich.
+  it('rekent een DATE uit de database als kalenderdag, niet als tijdstip', () => {
+    const startAlsDatabaseDate = new Date(2026, 9, 5) // 5 oktober, lokale middernacht
+    const nu = new Date(2026, 9, 19, 9, 0, 0)
+    const uit = vatCyclusSamen({ rij: { start_date: startAlsDatabaseDate, cycle_length: 28 }, nu })
+    expect(uit.dagen_sinds_laatste_start).toBe(14)
+    expect(uit.cyclusdag).toBe(15)
+    expect(uit.laatste_start).toBe('2026-10-05')
+  })
+
+  it('geeft hetzelfde antwoord of de datum nu een string of een Date is', () => {
+    const nu = new Date(2026, 9, 19, 9, 0, 0)
+    const alsString = vatCyclusSamen({ rij: { start_date: '2026-10-05', cycle_length: 28 }, nu })
+    const alsDate = vatCyclusSamen({ rij: { start_date: new Date(2026, 9, 5), cycle_length: 28 }, nu })
+    expect(alsDate.cyclusdag).toBe(alsString.cyclusdag)
+    expect(alsDate.verwachte_volgende_start).toBe(alsString.verwachte_volgende_start)
+  })
+
+  it('telt nachten op kalenderdag, ook als de database Date-objecten teruggeeft', () => {
+    const nu = new Date(2026, 9, 19, 9, 0, 0)
+    const nacht = (dagenGeleden) => ({
+      reading_date: new Date(2026, 9, 19 - dagenGeleden),
+      sleep_duration_min: 420, deep_sleep_min: 70, hrv_ms: 45, resting_heart_rate: 60, recovery_index: 75,
+    })
+    const uit = vatHerstelSamen({
+      metingen: [0, 1, 2, 3, 4, 5, 6].map(nacht),
+      verbindingen: [{ wearable_type: 'oura' }],
+      nu,
+    })
+    expect(uit.beschikbaar).toBe(true)
+    expect(uit.nachten_gemeten).toBe(7)
+    expect(uit.dagen_sinds_laatste_meting).toBe(0)
+  })
+
+  it('rekent leeftijd uit een geboortedatum die als Date binnenkomt', () => {
+    const uit = vatProfielSamen({ gebruiker: { birth_date: new Date(1979, 5, 1) }, nu: new Date(2026, 9, 19) })
+    expect(uit.leeftijd).toBe(47)
+  })
+})

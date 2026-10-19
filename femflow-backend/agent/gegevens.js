@@ -22,19 +22,41 @@ function naarDatum(waarde) {
   return Number.isNaN(d.getTime()) ? null : d
 }
 
-/** Hele dagen tussen twee datums, op UTC-dagniveau zodat tijdzones niets verschuiven. */
+/**
+ * Zet een waarde om naar een kalenderdag [jaar, maand, dag].
+ *
+ * VALKUIL DIE DIT OPLOST: node-postgres geeft een DATE-kolom terug als een
+ * JS-Date op LOKALE middernacht. In Amsterdam is '2026-10-05' dan
+ * 2026-10-04T22:00:00Z, en wie daarna op UTC-dagniveau rekent komt een dag te
+ * laag uit. Dat is precies wat er gebeurde: cyclusdag 16 in plaats van 15.
+ * Een kalenderdatum hoort geen tijdzone te hebben, dus lezen we de lokale
+ * velden van een Date en knippen we een string gewoon af op tien tekens.
+ */
+function kalenderdag(waarde) {
+  if (typeof waarde === 'string') {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(waarde.trim())
+    if (m) return [Number(m[1]), Number(m[2]) - 1, Number(m[3])]
+  }
+  const d = naarDatum(waarde)
+  if (!d) return null
+  return [d.getFullYear(), d.getMonth(), d.getDate()]
+}
+
+/** Hele kalenderdagen tussen twee datums, zonder tijdzoneverschuiving. */
 export function dagenTussen(van, tot) {
-  const a = naarDatum(van)
-  const b = naarDatum(tot)
+  const a = kalenderdag(van)
+  const b = kalenderdag(tot)
   if (!a || !b) return null
-  const dagA = Date.UTC(a.getUTCFullYear(), a.getUTCMonth(), a.getUTCDate())
-  const dagB = Date.UTC(b.getUTCFullYear(), b.getUTCMonth(), b.getUTCDate())
-  return Math.round((dagB - dagA) / DAG_MS)
+  return Math.round((Date.UTC(...b) - Date.UTC(...a)) / DAG_MS)
 }
 
 function isoDag(waarde) {
-  const d = naarDatum(waarde)
-  return d ? d.toISOString().slice(0, 10) : null
+  // Zelfde kalenderregel als dagenTussen: een DATE uit de database mag niet
+  // door een tijdzone een dag opschuiven.
+  const k = kalenderdag(waarde)
+  if (!k) return null
+  const [j, m, d] = k
+  return [j, String(m + 1).padStart(2, '0'), String(d).padStart(2, '0')].join('-')
 }
 
 function gemiddelde(waarden) {
@@ -64,10 +86,12 @@ export function vatCyclusSamen({ rij, nu = new Date() } = {}) {
   const verouderd = verstreken > lengte * 2
 
   const cyclusdag = verouderd ? null : (verstreken % lengte) + 1
-  const volgendeStart = new Date(naarDatum(rij.start_date).getTime())
-  while (dagenTussen(volgendeStart, nu) >= 0) {
-    volgendeStart.setUTCDate(volgendeStart.getUTCDate() + lengte)
-  }
+
+  // In kalenderdagen rekenen, niet met een Date verschuiven: die draagt een
+  // tijdzone mee en dan komt de uitkomst een dag naast de stringvariant uit.
+  const [jaar, maand, dag] = kalenderdag(rij.start_date)
+  const stappen = Math.floor(verstreken / lengte) + 1
+  const volgendeStart = new Date(Date.UTC(jaar, maand, dag + stappen * lengte))
 
   return {
     beschikbaar: !verouderd,
@@ -77,7 +101,8 @@ export function vatCyclusSamen({ rij, nu = new Date() } = {}) {
     opgegeven_cycluslengte: lengte,
     bloedingsdagen: Number.isFinite(Number(rij.bleeding_days)) ? Number(rij.bleeding_days) : null,
     cyclusdag,
-    verwachte_volgende_start: verouderd ? null : isoDag(volgendeStart),
+    // volgendeStart is zelf in UTC gebouwd, dus die lezen we ook in UTC.
+    verwachte_volgende_start: verouderd ? null : volgendeStart.toISOString().slice(0, 10),
     bijgewerkt_op: isoDag(rij.updated_at),
     // Expliciet meesturen zodat een model dit niet als voorspelling verkoopt.
     basis: 'een door de gebruiker opgegeven cycluslengte, geen gemeten reeks',

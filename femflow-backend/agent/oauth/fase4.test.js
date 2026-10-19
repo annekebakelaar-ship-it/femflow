@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { readFileSync } from 'node:fs'
 import express from 'express'
 import { generateKeyPairSync } from 'crypto'
 
@@ -328,5 +329,28 @@ describe('database onbereikbaar', () => {
       method: 'POST', headers: { authorization: `Bearer ${token}` },
     })
     expect(r.status).toBe(503)
+  })
+})
+
+// BUG 2: server.js bouwde wel een auditlogger voor de app-router, maar gaf er
+// geen mee aan de OAuth/MCP-router. Daardoor logde de MCP-laag in productie
+// niets EN had de fail-closed-regel niets om handen. Dit is een bewaking op de
+// bedrading zelf, want die kun je alleen in het echte bestand zien.
+describe('bedrading in server.js', () => {
+  const server = readFileSync(new URL('../../server.js', import.meta.url), 'utf8')
+
+  it('geeft beide routers dezelfde auditlogger mee', () => {
+    expect(server).toMatch(/const auditLogger = maakAuditLogger\(/)
+    expect(server).toMatch(/maakAgentRouter\(\{[^}]*audit: auditLogger/s)
+    expect(server).toMatch(/maakOauthRouter\(\{[\s\S]*?audit: auditLogger/)
+  })
+
+  it('leest het auditzout uit de omgeving', () => {
+    expect(server).toMatch(/zout: process\.env\.AGENT_AUDIT_SALT/)
+  })
+
+  it('monteert de OAuth-laag alleen achter beide vlaggen', () => {
+    expect(server).toMatch(/if \(agentIngeschakeld\(\)\) \{/)
+    expect(server).toMatch(/if \(oauthIngeschakeld\(\)\) \{/)
   })
 })
