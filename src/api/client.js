@@ -32,6 +32,32 @@ async function request(path, options = {}) {
   return res.json()
 }
 
+// ── Persoonlijke agent: koppeling met een externe assistent ──────────────────
+
+// Leest het ondertekende autorisatieverzoek uit zodat het toestemmingsscherm
+// kan tonen wie wat vraagt. Het pakketje zelf blijft ongewijzigd.
+export async function leesAgentVerzoek(verzoek) {
+  return request('/api/v1/agent/oauth/verzoek?verzoek=' + encodeURIComponent(verzoek))
+}
+
+export async function beslisOverAgentVerzoek({ verzoek, akkoord }) {
+  return request('/api/v1/agent/oauth/authorize/decision', {
+    method: 'POST',
+    body: JSON.stringify({ verzoek, akkoord }),
+  })
+}
+
+export async function haalAgentKoppelingen() {
+  return request('/api/v1/agent/oauth/koppelingen')
+}
+
+export async function trekAgentKoppelingIn(clientId) {
+  return request('/api/v1/agent/oauth/koppelingen/intrekken', {
+    method: 'POST',
+    body: JSON.stringify({ client_id: clientId }),
+  })
+}
+
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
 // Ovari: OTP Code Authentication (6-digit codes via email)

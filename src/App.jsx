@@ -37,6 +37,8 @@ import LifestyleCheckPage from './pages/dashboard/LifestyleCheckPage'
 import WearableDashboard from './pages/dashboard/WearableDashboard'
 import SupplementsPage from './pages/dashboard/SupplementsPage'
 import MenuPage from './pages/MenuPage'
+import ToestemmingScherm from './pages/agent/ToestemmingScherm'
+import Koppelingen from './pages/agent/Koppelingen'
 import { getToken, clearToken, verifyMagicLink, getMe } from './api/client'
 
 // Vaste navigatie op de ingelogde subpagina's; de home en de Leefstijl-hub
@@ -183,6 +185,12 @@ function AppContent() {
 
       {/* Account */}
       <Route path="/account" element={<AccountPage />} />
+
+      {/* Persoonlijke agent: toestemmingsscherm voor een externe assistent en
+          het overzicht waar die toegang weer ingetrokken wordt. Beide eisen
+          een ingelogde gebruiker; de pagina stuurt zelf door naar /login. */}
+      <Route path="/agent/toestemming" element={<ToestemmingScherm />} />
+      <Route path="/agent/koppelingen" element={<Koppelingen />} />
 
       {/* Menu */}
       <Route path="/menu" element={<MenuPage />} />
