@@ -24,8 +24,12 @@ const STANDAARD_BESTAND = 'C:\\Users\\danib\\femflow-keys\\neon-agent-test.url'
 
 function leesGeheim() {
   if (process.env.AGENT_TEST_DATABASE_URL) return { bron: 'omgevingsvariabele', url: process.env.AGENT_TEST_DATABASE_URL.trim() }
-  const pad = process.env.AGENT_TEST_DATABASE_URL_FILE || STANDAARD_BESTAND
-  if (existsSync(pad)) return { bron: `bestand ${pad}`, url: readFileSync(pad, 'utf8').trim() }
+  // Windows plakt bij opslaan vanuit Kladblok een .txt achter de naam, dus
+  // beide varianten proberen. Dit liep eerder uiteen met lib/neon-poort.mjs.
+  const kandidaten = [process.env.AGENT_TEST_DATABASE_URL_FILE, STANDAARD_BESTAND, STANDAARD_BESTAND + '.txt'].filter(Boolean)
+  for (const pad of kandidaten) {
+    if (existsSync(pad)) return { bron: `bestand ${pad}`, url: readFileSync(pad, 'utf8').trim() }
+  }
   return null
 }
 
@@ -124,7 +128,15 @@ try {
     console.log(`inhoud            ${objecten.rows.length} tabel(len)/view(s), ${sequences.rows.length} sequence(s):`)
     for (const rij of objecten.rows) console.log(`                  ${rij.table_schema}.${rij.table_name} (${rij.table_type})`)
   }
-  eis(objecten.rows.length === 0 && sequences.rows.length === 0, 'database is leeg')
+  // Leeg hoeft alleen vóór de migratie (stap 0). Daarna is de eis juist dat
+  // er NIETS vreemds in staat: alleen onze eigen femflow_-tabellen.
+  const eisLeeg = process.argv.includes('--eis-leeg')
+  if (eisLeeg) {
+    eis(objecten.rows.length === 0 && sequences.rows.length === 0, 'database is leeg')
+  } else {
+    const vreemd = objecten.rows.filter((r) => !r.table_name.startsWith('femflow_'))
+    eis(vreemd.length === 0, `geen vreemde objecten in de database${vreemd.length ? ': ' + vreemd.map((v) => v.table_name).join(', ') : ''}`)
+  }
 
   // Rechten: kunnen we straks uberhaupt tabellen maken?
   const rechten = await client.query(`SELECT has_database_privilege(current_user, current_database(), 'CREATE') AS mag_create`)
