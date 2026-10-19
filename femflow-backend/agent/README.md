@@ -139,6 +139,23 @@ per IP: een agent die doordraait raakt zo alleen de eigen gebruiker.
   `AGENT_OAUTH_ENABLED`, standaard uit. Zie `oauth/README.md` voor wat werkt,
   wat ontwerp is en de checklist om het ooit aan te zetten.
 
+## Fase 4 (branch agent-fase-4): klaar maken voor een echte koppeling
+
+- **Fail-closed auditing.** Lukt het niet om de verplichte auditregel op te
+  slaan, dan gaan er GEEN gegevens de deur uit: 503 via de API, een fout
+  zonder inhoud via het MCP-protocol. Een onzichtbare uitgifte is erger dan
+  een mislukte.
+- **Opruimen** van verlopen codes en refreshtokens (`oauth/opruimen.js`),
+  elke zes uur, met een timer die het proces niet wakker houdt.
+- **Sleutelrotatie**: JWKS publiceert tijdens een rotatie twee sleutels en de
+  verificatie accepteert ze allebei. Plan in `SLEUTELROTATIE.md`.
+- **Scripts**: `scripts/config-check.mjs` keurt een omgeving voordat je hem
+  aanzet (en drukt nooit sleutelmateriaal af), `scripts/smoke-chatgpt.mjs`
+  test een publieke testomgeving en eindigt met de handmatige stappen.
+- **Vondst tijdens de rooktest**: een afgewezen promise in een Express
+  4-handler nam het hele proces mee toen de database weg was. Alle async
+  handlers van de OAuth-router gaan nu door een vangnet dat 503 teruggeeft.
+
 ## De kennisfuncties zijn niet aangeraakt
 
 De kennisbank (`src/content/artikelen.js`, `scripts/bouw-kennis.js`,
