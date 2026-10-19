@@ -110,3 +110,19 @@ CREATE INDEX IF NOT EXISTS idx_femflow_welcome_signups_subscribed ON femflow_wel
 CREATE INDEX IF NOT EXISTS idx_femflow_wearable_connections_user_id ON femflow_wearable_connections(user_id);
 CREATE INDEX IF NOT EXISTS idx_femflow_biometric_readings_user_id ON femflow_biometric_readings(user_id);
 CREATE INDEX IF NOT EXISTS idx_femflow_biometric_readings_date ON femflow_biometric_readings(reading_date);
+
+-- ============================================================================
+-- Persoonlijke agent (module agent/, standaard UIT via AGENT_ENABLED)
+-- ============================================================================
+-- Aparte toestemming: cookie-toestemming en wearable-toestemming zeggen niets
+-- over het laten lezen van je gegevens door een assistent. Een ingetrokken
+-- toestemming blijft als rij staan (revoked_at gevuld), zodat aantoonbaar is
+-- wanneer er wel en niet toegang was.
+-- NOG NIET UITGEVOERD OP NEON: draai dit pas als de agent echt aan gaat.
+CREATE TABLE IF NOT EXISTS femflow_agent_consent (
+  user_id UUID PRIMARY KEY REFERENCES femflow_users(id) ON DELETE CASCADE,
+  granted_at TIMESTAMP,
+  revoked_at TIMESTAMP,
+  versie VARCHAR(16) NOT NULL DEFAULT '1.0',
+  created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
