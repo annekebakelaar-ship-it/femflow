@@ -45,7 +45,6 @@ Vast, letterlijk over te nemen (`<dienst>` is het adres van de dienst):
 
 ```
 NODE_ENV=production
-PORT=5000
 AGENT_ENABLED=true
 AGENT_OAUTH_ENABLED=true
 AGENT_OAUTH_ISSUER=https://<dienst>
@@ -60,6 +59,12 @@ lijst betekent dat er verder niemand kan koppelen.
 
 `REVIEW_EMAIL` wijst naar de fictieve testgebruiker die al in de database
 staat, dus inloggen werkt zonder dat er mail verstuurd hoeft te worden.
+
+**Zet `PORT` niet.** Render geeft de poort zelf mee en verwacht dat de dienst
+daarop luistert; `server.js` leest `process.env.PORT`. Zet je er zelf een
+waarde overheen, dan luistert de dienst ergens anders dan waar Render kijkt.
+(Een eerdere versie van dit document noemde `PORT=5000`, overgenomen uit de
+render.yaml van femflow-api. Dat hoort hier niet.)
 
 ## Frontend
 
@@ -104,6 +109,39 @@ vraagt een ingelogde gebruiker in de app.
 
 Stap 1 tot en met 12 raken productie niet. De bestaande femflow-api, de
 publieke kennisbank-MCP en de Play Store-app blijven ongemoeid.
+
+## Als het adres "Not Found" geeft
+
+Kijk eerst naar de header, niet naar de tekst:
+
+```bash
+curl -i https://<dienst>/api/v1/health
+```
+
+| Header | Betekenis |
+|---|---|
+| `x-render-routing: no-server` | Er luistert niets. De fout zit in het starten, niet in een route. |
+| `x-render-routing: dynamic` plus `Cannot GET /...` | De app draait wel; dan klopt het pad of de mounting niet. |
+
+Bij `no-server` zijn dit de oorzaken, in volgorde van waarschijnlijkheid. Elke
+regel is terug te vinden in het Render-log van de dienst (tabblad Logs):
+
+1. **`JWT_SECRET` ontbreekt.** `server.js` weigert dan te starten en logt
+   `FATAL: JWT_SECRET is not set — refusing to start`. Het proces stopt
+   meteen, dus het deployen "slaagt" terwijl er niets draait.
+2. **Root Directory staat niet op `femflow-backend`.** Dan draait Render
+   `npm start` in de repowortel, en die heeft geen start-script:
+   `npm error Missing script: "start"`.
+3. **`PORT` is zelf gezet.** De dienst luistert dan op een andere poort dan
+   waar Render kijkt. Haal de variabele weg en herstart.
+4. **Startcommando anders dan `npm start`**, of een build die wel slaagde maar
+   waarbij `npm ci` de afhankelijkheden in een andere map zette.
+5. **De dienst is gestopt of nog bezig.** Een gratis dienst die in een
+   herstartlus zit laat ook `no-server` zien.
+
+Het gezondheidsadres is `/api/v1/health` en dat is het enige. Er is geen
+`/healthz` en geen `/health` op de API; `ovari-mcp` heeft wel `/health`, maar
+dat is de andere dienst.
 
 ## Wat ChatGPT van ons verwacht, en wat we leveren
 
