@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Cloud, Zap, Moon, Heart, Thermometer, Sunset, Frown, Activity, RotateCw, Move, X, TrendingUp, Circle, AlertCircle, HelpCircle, Sun, Wind, Disc, Droplet, MinusCircle, Volume2, Repeat, ChevronDown, ChevronUp } from 'react-feather'
 import { saveSecure, getSecure } from '../utils/secureStorage'
 import { meet } from '../utils/meet'
+import { genoegCheckins, vraagBeoordelingStraks } from '../utils/beoordeling'
 
 // Symptoomset: de vier oorspronkelijke ids blijven ongewijzigd zodat
 // bestaande logs, het huisartsrapport en de supplementsuggesties blijven
@@ -56,8 +57,14 @@ export default function SymptomQuicklog() {
   }
 
   function handleLog(symptom) {
-    bewaar([...log, { symptom: symptom.id, label: symptom.label, date: new Date().toISOString() }])
+    const nieuw = [...log, { symptom: symptom.id, label: symptom.label, date: new Date().toISOString() }]
+    bewaar(nieuw)
     meet('symptoom_gelogd', { symptoom: symptom.id })
+
+    // Vijf dagen ingecheckt betekent dat de app echt gebruikt wordt. Tweede
+    // en veel vaker bereikte beoordelingsmoment naast het huisartsrapport,
+    // dat pas bij twee volledige cycli beschikbaar is.
+    if (genoegCheckins(nieuw)) vraagBeoordelingStraks()
     setZojuist(symptom.id)
     setTimeout(() => setZojuist(null), 900)
   }

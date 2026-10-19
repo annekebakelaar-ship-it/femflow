@@ -3,6 +3,7 @@ import { FileText } from 'react-feather'
 import { getSecure } from '../../utils/secureStorage'
 import { getWearableReadings } from '../../api/client'
 import { buildCyclusOverzicht, buildWearablePerMaand, buildSymptoomFrequenties } from '../../utils/rapportData'
+import { vraagBeoordelingStraks } from '../../utils/beoordeling'
 
 // Huisartsrapport: exporteert 6 maanden cyclus- en wearable-data als PDF.
 // AVG: alles gebeurt client-side — de PDF wordt op het apparaat gegenereerd,
@@ -46,6 +47,11 @@ export default function HuisartsRapport() {
       a.click()
       a.remove()
       URL.revokeObjectURL(url)
+
+      // Het rapport in handen hebben is het sterkste moment om om een
+      // beoordeling te vragen. Alleen in de app, en hoogstens eens per vier
+      // maanden; zie utils/beoordeling.js.
+      vraagBeoordelingStraks()
     } catch (err) {
       console.error('Rapport genereren mislukt:', err)
       setFout('Het rapport kon niet worden gegenereerd. Probeer het opnieuw.')
