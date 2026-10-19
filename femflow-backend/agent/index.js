@@ -194,12 +194,17 @@ export function maakAgentRouter({ pool, authenticateToken, nu = () => new Date()
     try {
       return await metToestemming(req, res, tool.naam, async () => {
         const resultaat = await tool.handler({ pool, userId: req.userId, nu: nu() })
-        await logboek.schrijfRegel({
+        // FAIL-CLOSED: zonder opgeslagen auditregel gaan er geen gegevens de
+        // deur uit. Een onzichtbare uitgifte is erger dan een mislukte.
+        const geschreven = await logboek.schrijfRegel({
           userId: req.userId,
           tool: tool.naam,
           toestemming: true,
           resultaat: RESULTAAT.OK,
         })
+        if (!geschreven.ok) {
+          return res.status(503).json({ ok: false, reden: 'audit_niet_beschikbaar' })
+        }
         res.json({ ok: true, naam: tool.naam, resultaat })
       })
     } catch (err) {

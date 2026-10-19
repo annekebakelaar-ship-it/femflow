@@ -57,7 +57,10 @@ export function maakOauthRouter({
 
   const router = express.Router()
   const tekenToken = (payload) => maakToken(payload, sleutels.prive, { typ: 'at+jwt' })
-  const wacht = maakHulpbronWacht({ pool, publiekeSleutel: sleutels.publiek, issuer, resource, audit, nu })
+  // Tijdens een rotatie zijn er twee geldige publieke sleutels; ondertekenen
+  // gebeurt altijd met de huidige prive-sleutel. Zie SLEUTELROTATIE.md.
+  const publiekeSleutels = [sleutels.publiek, ...(sleutels.oudPubliek || [])].filter(Boolean)
+  const wacht = maakHulpbronWacht({ pool, publiekeSleutels, issuer, resource, audit, nu })
   const verzoekGeheim = afgeleidGeheim(sleutels.prive)
   const metadataUrl = `${issuer}/.well-known/oauth-protected-resource`
 
@@ -71,13 +74,24 @@ export function maakOauthRouter({
   const tokenLimiet = limieten.token || limiet(30)
   const mcpLimiet = limieten.mcp || limiet(120)
 
+  // Express 4 vangt een afgewezen promise in een handler NIET op: die wordt
+  // een unhandled rejection en neemt in Node het hele proces mee. Dat is
+  // precies wat er gebeurde toen de database even weg was tijdens /token:
+  // niet alleen de agent lag eruit, de hele API lag eruit. Elke async
+  // handler gaat daarom door deze wikkel.
+  const vang = (fn) => (req, res, next) =>
+    Promise.resolve(fn(req, res, next)).catch((err) => {
+      console.error(`Agent-OAuth fout op ${req.method} ${req.path}:`, err.message)
+      if (!res.headersSent) res.status(503).json({ error: 'server_error' })
+    })
+
   // ---- Ontdekking --------------------------------------------------------
-  router.get('/jwks.json', (req, res) => res.json(jwks(sleutels.publiek)))
+  router.get('/jwks.json', (req, res) => res.json(jwks(publiekeSleutels)))
   router.get('/metadata', (req, res) => res.json(authorizationServerMetadata({ issuer })))
   router.get('/protected-resource', (req, res) => res.json(protectedResourceMetadata({ resource, issuer })))
 
   // ---- Autorisatie -------------------------------------------------------
-  router.get('/authorize', autorisatieLimiet, async (req, res) => {
+  router.get('/authorize', autorisatieLimiet, vang(async (req, res) => {
     const uitslag = await valideerAutorisatieVerzoek({ query: req.query, clients, scopes: SCOPES, resource })
     if (!uitslag.ok && !uitslag.naarClient) {
       // Onbekende client of niet-geregistreerde redirect_uri: de fout blijft
@@ -110,7 +124,7 @@ export function maakOauthRouter({
       verzoek,
       beslis_endpoint: `${issuer}/api/v1/agent/oauth/authorize/decision`,
     })
-  })
+  }))
 
   // Het scherm leest hiermee uit wat het moet tonen, zonder opnieuw de
   // oorspronkelijke parameters te hoeven vertrouwen.
@@ -127,7 +141,7 @@ export function maakOauthRouter({
 
   // De beslissing. Alles wat ertoe doet komt uit het ondertekende verzoek,
   // niets uit losse velden in de body.
-  router.post('/authorize/decision', autorisatieLimiet, authenticateToken, async (req, res) => {
+  router.post('/authorize/decision', autorisatieLimiet, authenticateToken, vang(async (req, res) => {
     const gelezen = leesVerzoekToken(req.body?.verzoek, verzoekGeheim, nu)
     if (!gelezen.ok) return res.status(400).json({ error: FOUT.INVALID_REQUEST, reden: gelezen.reden })
     const v = gelezen.verzoek
@@ -163,10 +177,10 @@ export function maakOauthRouter({
     })
     terug.searchParams.set('code', code)
     res.json({ redirect: terug.toString() })
-  })
+  }))
 
   // ---- Tokens ------------------------------------------------------------
-  router.post('/token', tokenLimiet, async (req, res) => {
+  router.post('/token', tokenLimiet, vang(async (req, res) => {
     const body = req.body || {}
     let uitslag
     if (body.grant_type === 'authorization_code') {
@@ -179,15 +193,15 @@ export function maakOauthRouter({
     if (!uitslag.ok) return res.status(400).json({ error: uitslag.fout })
     res.set('Cache-Control', 'no-store')
     res.json(uitslag.antwoord)
-  })
+  }))
 
-  router.post('/revoke', tokenLimiet, async (req, res) => {
+  router.post('/revoke', tokenLimiet, vang(async (req, res) => {
     await trekIn({ opslag, body: req.body || {} })
     res.status(200).json({ ok: true })
-  })
+  }))
 
   // ---- Koppelingen beheren (in de app) -----------------------------------
-  router.get('/koppelingen', authenticateToken, async (req, res) => {
+  router.get('/koppelingen', authenticateToken, vang(async (req, res) => {
     const lijst = await opslag.lijstKoppelingen(req.userId)
     res.json({
       koppelingen: await Promise.all(
@@ -199,16 +213,16 @@ export function maakOauthRouter({
         }))
       ),
     })
-  })
+  }))
 
-  router.post('/koppelingen/intrekken', authenticateToken, async (req, res) => {
+  router.post('/koppelingen/intrekken', authenticateToken, vang(async (req, res) => {
     const clientId = req.body?.client_id
     const aantal = clientId
       ? await opslag.trekKoppelingIn(req.userId, clientId)
       : await trekGebruikerIn({ opslag, userId: req.userId })
     await audit?.schrijfRegel({ userId: req.userId, tool: null, toestemming: false, resultaat: RESULTAAT.TOESTEMMING_INGETROKKEN })
     res.json({ ok: true, ingetrokken: aantal })
-  })
+  }))
 
   // ---- De persoonlijke MCP-laag ------------------------------------------
   // Dezelfde drie read-only tools als in de app, achter een OAuth-token.
@@ -217,7 +231,7 @@ export function maakOauthRouter({
   })
 
   // REST-variant, handig om los te testen.
-  router.post('/mcp/tools/:naam', mcpLimiet, async (req, res) => {
+  router.post('/mcp/tools/:naam', mcpLimiet, vang(async (req, res) => {
     const uitslag = await wacht.controleer({ headers: req.headers, tool: req.params.naam })
     if (!uitslag.ok) {
       if (uitslag.status === 401) {
@@ -230,18 +244,20 @@ export function maakOauthRouter({
     const tool = vindTool(req.params.naam)
     try {
       const resultaat = await tool.handler({ pool, userId: uitslag.userId, nu: new Date(nu()) })
-      await wacht.logGelukt(uitslag.userId, tool.naam)
+      // FAIL-CLOSED: geen opgeslagen auditregel, geen gegevens.
+      const geschreven = await wacht.logGelukt(uitslag.userId, tool.naam)
+      if (!geschreven.ok) return res.status(503).json({ ok: false, reden: 'audit_niet_beschikbaar' })
       res.json({ ok: true, naam: tool.naam, resultaat })
     } catch (err) {
       console.error(`MCP-tool ${tool.naam} error:`, err)
       await audit?.schrijfRegel({ userId: uitslag.userId, tool: tool.naam, toestemming: true, resultaat: RESULTAAT.SERVERFOUT })
       res.status(500).json({ ok: false, reden: 'serverfout' })
     }
-  })
+  }))
 
   // Echte MCP: JSON-RPC over HTTP, staatloos, zelfde transport als de
   // publieke kennisbank-MCP gebruikt.
-  router.post('/mcp', mcpLimiet, async (req, res) => {
+  router.post('/mcp', mcpLimiet, vang(async (req, res) => {
     const poort = await wacht.controleerToken({ headers: req.headers })
     if (!poort.ok) {
       if (poort.status === 401) {
@@ -277,7 +293,16 @@ export function maakOauthRouter({
             }
           }
           const resultaat = await tool.handler({ pool, userId: nu2.userId, nu: new Date(nu()) })
-          await wacht.logGelukt(nu2.userId, tool.naam)
+          // FAIL-CLOSED, ook in een gesprek: lukt de auditregel niet, dan komt
+          // er geen inhoud terug maar een fout die het model niet kan invullen.
+          const geschreven = await wacht.logGelukt(nu2.userId, tool.naam)
+          if (!geschreven.ok) {
+            return {
+              isError: true,
+              content: [{ type: 'text', text: 'Ovari cannot serve this right now because the required audit record could not be stored. Do not guess any values; tell the user to try again later.' }],
+              structuredContent: { ok: false, reden: 'audit_niet_beschikbaar' },
+            }
+          }
           return {
             content: [{ type: 'text', text: JSON.stringify(resultaat) }],
             structuredContent: resultaat,
@@ -300,7 +325,7 @@ export function maakOauthRouter({
         res.status(500).json({ jsonrpc: '2.0', error: { code: -32603, message: 'Interne fout' }, id: null })
       }
     }
-  })
+  }))
 
   const alleenPost = (req, res) =>
     res.status(405).set('Allow', 'POST').json({ jsonrpc: '2.0', error: { code: -32601, message: 'Alleen POST op /mcp' }, id: null })

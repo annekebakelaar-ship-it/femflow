@@ -408,15 +408,15 @@ describe('koppelingen beheren in de app', () => {
 })
 
 describe('robuustheid', () => {
-  it('blijft werken als het auditlog niet kan schrijven', async () => {
+  it('weigert te serveren als het auditlog niet kan schrijven (fail-closed, fase 4)', async () => {
     poolFouten.audit = true
     const tokens = await koppel()
     const r = await fetch(basis + '/api/v1/agent/oauth/mcp/tools/get_my_cycle_overview', {
       method: 'POST',
       headers: { authorization: `Bearer ${tokens.access_token}` },
     })
-    expect(r.status).toBe(200)
-    expect((await r.json()).resultaat.cyclusdag).toBe(15)
+    expect(r.status).toBe(503)
+    expect((await r.json()).reden).toBe('audit_niet_beschikbaar')
   })
 
   it('begrenst het tokenendpoint', async () => {

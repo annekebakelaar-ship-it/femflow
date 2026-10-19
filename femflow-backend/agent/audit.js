@@ -101,14 +101,17 @@ export function maakAuditLogger({ pool, zout, nu = () => new Date(), sink, waars
         )
       }
     } catch (err) {
-      // Een auditlog dat stukgaat mag nooit het antwoord aan de gebruiker
-      // breken. Wel een keer melden, zodat het niet stil blijft.
+      // Niet opnieuw gooien: de aanroeper beslist wat een mislukt log betekent.
+      // Voor een geslaagde tooluitvoering is dat fail-closed (geen gegevens
+      // terug), voor een weigering verandert het niets, want die weigering
+      // staat toch al vast. Wel een keer melden, zodat het niet stil blijft.
       if (!tabelOntbreektGemeld) {
         tabelOntbreektGemeld = true
         waarschuw(`Auditlog schrijven mislukt (${err.code || err.message}); agentregels worden niet vastgelegd`)
       }
+      return { ok: false, regel, fout: err.code || err.message }
     }
-    return regel
+    return { ok: true, regel }
   }
 
   return { schrijfRegel, vluchtigZout: vluchtig }

@@ -79,10 +79,16 @@ const AUDITCODE = {
  * @param {{pool: object, publiekeSleutel: string, issuer: string, resource: string,
  *          audit: {schrijfRegel: Function}, nu?: () => number}} opties
  */
-export function maakHulpbronWacht({ pool, publiekeSleutel, issuer, resource, audit, nu = () => Date.now() }) {
+// publiekeSleutels mag een PEM zijn of een lijst: tijdens een sleutelrotatie
+// staan de nieuwe en de oude sleutel er allebei in.
+export function maakHulpbronWacht({ pool, publiekeSleutel, publiekeSleutels, issuer, resource, audit, nu = () => Date.now() }) {
+  const sleutels = publiekeSleutels || publiekeSleutel
+  // Geeft door of de regel echt is opgeslagen. Zonder auditlogger valt er
+  // niets op te slaan en is dat geen fout; in productie bouwt de router er
+  // altijd een.
   async function log(userId, tool, toestemming, weigering) {
-    if (!audit) return
-    await audit.schrijfRegel({
+    if (!audit) return { ok: true }
+    return audit.schrijfRegel({
       userId,
       tool,
       toestemming,
@@ -109,7 +115,7 @@ export function maakHulpbronWacht({ pool, publiekeSleutel, issuer, resource, aud
 
     let payload
     try {
-      payload = leesToken(bearer, publiekeSleutel)
+      payload = leesToken(bearer, sleutels)
     } catch {
       await log(null, tool, false, WEIGERING.ONGELDIG_TOKEN)
       return { ok: false, reden: WEIGERING.ONGELDIG_TOKEN, status: 401 }
@@ -160,7 +166,7 @@ export function maakHulpbronWacht({ pool, publiekeSleutel, issuer, resource, aud
     if (!bearer) return { ok: false, reden: WEIGERING.GEEN_TOKEN, status: 401 }
     let payload
     try {
-      payload = leesToken(bearer, publiekeSleutel)
+      payload = leesToken(bearer, sleutels)
     } catch {
       return { ok: false, reden: WEIGERING.ONGELDIG_TOKEN, status: 401 }
     }
