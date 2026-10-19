@@ -1,5 +1,6 @@
 // OAuth handler for Google and Apple sign-in
 // Requires credentials to be set up later in environment variables
+import { API_BASIS } from '../api/basis'
 
 export async function handleGoogleSignIn(credentialResponse) {
   try {
@@ -9,7 +10,7 @@ export async function handleGoogleSignIn(credentialResponse) {
     }
 
     // Send token to backend for verification
-    const apiUrl = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
+    const apiUrl = API_BASIS
     const response = await fetch(`${apiUrl}/api/v1/auth/google-signin`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },

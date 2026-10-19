@@ -7,6 +7,16 @@ import { openExternal } from '../../utils/openExternal'
 import { meet } from '../../utils/meet'
 import { Capacitor } from '@capacitor/core'
 
+// Een terugkeeradres uit de URL mag ALLEEN een pad op deze site zijn. Zonder
+// die controle maakt ?terug=https://kwaadaardig.example van de inlogpagina
+// een open redirect, en die zou een aanvaller achter een echte inlog kunnen
+// zetten. Dubbele slash weren, anders is //evil.example ook een ander domein.
+function veiligTerug(waarde) {
+  if (typeof waarde !== 'string') return null
+  if (!waarde.startsWith('/') || waarde.startsWith('//')) return null
+  return waarde
+}
+
 export default function SigninPage() {
   const navigate = useNavigate()
   const location = useLocation()
@@ -102,9 +112,15 @@ export default function SigninPage() {
         }
       }
 
+      // Kwam ze hier vanaf het toestemmingsscherm van een assistent, dan
+      // hoort ze daar weer terug te komen; anders is het autorisatieverzoek
+      // weg en moet ze in ChatGPT helemaal opnieuw beginnen.
+      const terug = veiligTerug(new URLSearchParams(window.location.search).get('terug'))
       const menstruationData = localStorage.getItem('menstruation_data')
       setTimeout(() => {
-        if (!menstruationData) {
+        if (terug) {
+          navigate(terug, { replace: true })
+        } else if (!menstruationData) {
           navigate('/health/menstruation', { state: { fromSignin: true, constellation } })
         } else {
           navigate('/dashboard', { state: { constellation } })

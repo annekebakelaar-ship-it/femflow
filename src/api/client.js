@@ -1,5 +1,8 @@
-// Ovari API - Render backend (set via VITE_API_URL or use default)
-const BASE = import.meta.env.VITE_API_URL || 'https://femflow-api.onrender.com'
+// Ovari API - Render backend. Het adres komt uit src/api/basis.js, zodat er
+// maar een plek is waar de terugval op productie geregeld wordt.
+import { API_BASIS } from './basis'
+
+const BASE = API_BASIS
 
 const JWT_KEY = 'femflow_jwt'
 
