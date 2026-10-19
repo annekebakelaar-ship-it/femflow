@@ -150,5 +150,43 @@ export function maakHulpbronWacht({ pool, publiekeSleutel, issuer, resource, aud
     return { ok: true, userId: payload.sub, scope: payload.scope, clientId: payload.client_id }
   }
 
-  return { controleer, logGelukt: (userId, tool) => log(userId, tool, true, null) }
+  /**
+   * Zelfde keten maar zonder tool: voor het MCP-endpoint, dat eerst het token
+   * keurt en pas daarna weet welke tool gevraagd wordt. De toestemming wordt
+   * bij elke aanroep opnieuw gelezen, dus intrekken werkt meteen.
+   */
+  async function controleerToken({ headers }) {
+    const bearer = bearerUit(headers)
+    if (!bearer) return { ok: false, reden: WEIGERING.GEEN_TOKEN, status: 401 }
+    let payload
+    try {
+      payload = leesToken(bearer, publiekeSleutel)
+    } catch {
+      return { ok: false, reden: WEIGERING.ONGELDIG_TOKEN, status: 401 }
+    }
+    const fout = keurClaims(payload, { issuer, resource, nu: nu() })
+    if (fout) return { ok: false, reden: fout, status: 401 }
+
+    const rij = await leesToestemming(pool, payload.sub)
+    const oordeel = heeftToestemming(rij)
+    if (!oordeel.ok) {
+      const weigering = rij?.revoked_at
+        ? WEIGERING.TOESTEMMING_INGETROKKEN
+        : rij?.granted_at
+          ? WEIGERING.TOESTEMMING_VERLOPEN
+          : WEIGERING.GEEN_TOESTEMMING
+      return { ok: false, reden: weigering, status: 403 }
+    }
+    if (payload.consent_version !== (rij.versie || TOESTEMMING_VERSIE)) {
+      return { ok: false, reden: WEIGERING.TOESTEMMING_VERLOPEN, status: 403 }
+    }
+    return { ok: true, userId: payload.sub, scopes: payload.scope.split(' '), clientId: payload.client_id }
+  }
+
+  return {
+    controleer,
+    controleerToken,
+    logGelukt: (userId, tool) => log(userId, tool, true, null),
+    logWeigering: (userId, tool, weigering) => log(userId, tool, false, weigering),
+  }
 }

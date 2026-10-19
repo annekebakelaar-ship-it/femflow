@@ -32,6 +32,12 @@ export function authorizationServerMetadata({ issuer }) {
     token_endpoint_auth_methods_supported: ['none'],
     // Geen implicit, geen hybrid, geen password grant. OAuth 2.1.
     response_modes_supported: ['query'],
+    // CIMD in plaats van dynamische clientregistratie: de MCP-spec raadt DCR af
+    // en ChatGPT gebruikt een client_id dat een https-URL is.
+    client_id_metadata_document_supported: true,
+    // RFC 9207: wij zetten iss in het redirectantwoord, zodat een client een
+    // antwoord van de verkeerde authorization server kan herkennen.
+    authorization_response_iss_parameter_supported: true,
   }
 }
 

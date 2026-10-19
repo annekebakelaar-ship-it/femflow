@@ -32,6 +32,7 @@ export const FOUT = {
   INVALID_CLIENT: 'invalid_client',
   INVALID_GRANT: 'invalid_grant',
   INVALID_SCOPE: 'invalid_scope',
+  INVALID_TARGET: 'invalid_target',
   UNSUPPORTED_GRANT: 'unsupported_grant_type',
   ACCESS_DENIED: 'access_denied',
 }
@@ -45,8 +46,14 @@ function nieuwGeheim() {
  * onbekende URI: bij een fout in client_id of redirect_uri moet de fout op
  * onze eigen pagina blijven, anders is het een open redirect.
  */
-export function valideerAutorisatieVerzoek({ query = {}, clients, scopes }) {
-  const client = clients.vind(query.client_id)
+//  is de indicator uit RFC 8707 die de MCP-spec verplicht stelt.
+// Staat hij er, dan moet hij exact onze resource zijn; dan weten we zeker dat
+// het token voor ons bedoeld is. Ontbreekt hij, dan weigeren we niet: oudere
+// clients sturen hem niet en de audience-controle aan de hulpbronkant vangt
+// het alsnog af. Verplicht maken is een regel veranderen zodra vaststaat dat
+// de client hem stuurt.
+export async function valideerAutorisatieVerzoek({ query = {}, clients, scopes, resource = null }) {
+  const client = await clients.vind(query.client_id)
   if (!client) {
     return { ok: false, naarClient: false, fout: FOUT.INVALID_CLIENT, beschrijving: 'onbekende client_id' }
   }
@@ -77,6 +84,9 @@ export function valideerAutorisatieVerzoek({ query = {}, clients, scopes }) {
   if (onbekend.length > 0) return terug(FOUT.INVALID_SCOPE, `onbekende scope: ${onbekend.join(' ')}`)
   const tevaak = new Set(gevraagd).size !== gevraagd.length
   if (tevaak) return terug(FOUT.INVALID_SCOPE, 'dubbele scope')
+  if (query.resource && resource && query.resource !== resource) {
+    return terug(FOUT.INVALID_TARGET, 'resource hoort niet bij deze server')
+  }
 
   return {
     ok: true,
@@ -128,7 +138,8 @@ export async function wisselCodeIn({
   opslag, clients, body = {}, issuer, resource, tekenToken,
   nu = () => Date.now(), geheim = nieuwGeheim,
 }) {
-  const client = clients.vind(body.client_id)
+  if (body.resource && body.resource !== resource) return { ok: false, fout: FOUT.INVALID_TARGET }
+  const client = await clients.vind(body.client_id)
   if (!client) return { ok: false, fout: FOUT.INVALID_CLIENT }
   if (!body.code) return { ok: false, fout: FOUT.INVALID_GRANT }
 
@@ -179,7 +190,8 @@ export async function ververs({
   opslag, clients, body = {}, issuer, resource, tekenToken,
   nu = () => Date.now(), geheim = nieuwGeheim,
 }) {
-  const client = clients.vind(body.client_id)
+  if (body.resource && body.resource !== resource) return { ok: false, fout: FOUT.INVALID_TARGET }
+  const client = await clients.vind(body.client_id)
   if (!client) return { ok: false, fout: FOUT.INVALID_CLIENT }
   if (!body.refresh_token) return { ok: false, fout: FOUT.INVALID_GRANT }
 

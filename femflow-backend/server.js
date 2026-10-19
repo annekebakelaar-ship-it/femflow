@@ -13,8 +13,9 @@ import { generateSleepRange } from './utils/synthDataGenerator.js'
 import { appTerugPagina } from './utils/appTerug.js'
 import { agentIngeschakeld } from './agent/vlag.js'
 import { maakAgentRouter } from './agent/index.js'
-import { oauthIngeschakeld, maakOauthRouter } from './agent/oauth/router.js'
+import { oauthIngeschakeld, maakOauthRouter, maakWellKnownRouter } from './agent/oauth/router.js'
 import { clientsUitOmgeving } from './agent/oauth/clients.js'
+import { maakCimdRegister, maakSamengesteldRegister, hostsUitOmgeving } from './agent/oauth/cimd.js'
 import { postgresOpslag } from './agent/oauth/opslag.js'
 
 const { sign, verify } = jwtPkg
@@ -1136,11 +1137,16 @@ if (agentIngeschakeld()) {
   if (oauthIngeschakeld()) {
     const prive = process.env.AGENT_OAUTH_PRIVATE_KEY
     const publiek = process.env.AGENT_OAUTH_PUBLIC_KEY
-    const clients = clientsUitOmgeving()
+    // Vaste clients uit de omgeving plus CIMD voor clients met een https
+    // client_id (zoals ChatGPT). Beide staan standaard dicht.
+    const clients = maakSamengesteldRegister({
+      statisch: clientsUitOmgeving(),
+      cimd: maakCimdRegister({ toegestaneHosts: hostsUitOmgeving() }),
+    })
     if (!prive || !publiek) {
       console.warn('AGENT_OAUTH_ENABLED staat aan maar het sleutelpaar ontbreekt; de MCP-laag blijft uit')
-    } else if (clients.aantal() === 0) {
-      console.warn('AGENT_OAUTH_ENABLED staat aan maar er is geen client geregistreerd; de MCP-laag blijft uit')
+    } else if (clientsUitOmgeving().aantal() === 0 && hostsUitOmgeving().length === 0) {
+      console.warn('AGENT_OAUTH_ENABLED staat aan maar er is geen client en geen CIMD-host; de MCP-laag blijft uit')
     } else {
       app.use('/api/v1/agent/oauth', maakOauthRouter({
         pool,
@@ -1148,6 +1154,13 @@ if (agentIngeschakeld()) {
         clients,
         opslag: postgresOpslag(pool),
         sleutels: { prive, publiek },
+        issuer: process.env.AGENT_OAUTH_ISSUER,
+        resource: process.env.AGENT_OAUTH_RESOURCE,
+        frontendUrl: process.env.FRONTEND_URL,
+      }))
+      // De well-known-adressen horen op de root van het domein te staan,
+      // niet onder een API-pad: daar zoekt een MCP-client ze.
+      app.use('/', maakWellKnownRouter({
         issuer: process.env.AGENT_OAUTH_ISSUER,
         resource: process.env.AGENT_OAUTH_RESOURCE,
       }))

@@ -77,10 +77,18 @@ const alsApp = (pad, userId, body) =>
 const zonderLogin = (pad, body) =>
   fetch(basis + pad, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) })
 
+/** Haalt het ondertekende verzoek op zoals het toestemmingsscherm dat doet. */
+async function haalVerzoek(query = autorisatieQuery()) {
+  const r = await fetch(basis + '/api/v1/agent/oauth/authorize?' + new URLSearchParams(query))
+  if (!r.ok) return null
+  return (await r.json()).verzoek
+}
+
 /** Doorloopt de hele koppeling en geeft de tokens terug. */
 async function koppel({ userId = IK, scope } = {}) {
   const query = autorisatieQuery(scope ? { scope } : {})
-  const beslissing = await alsApp('/api/v1/agent/oauth/authorize/decision', userId, { ...query, akkoord: true })
+  const verzoek = await haalVerzoek(query)
+  const beslissing = await alsApp('/api/v1/agent/oauth/authorize/decision', userId, { verzoek, akkoord: true })
   const { redirect } = await beslissing.json()
   const code = new URL(redirect).searchParams.get('code')
   const r = await zonderLogin('/api/v1/agent/oauth/token', {
@@ -181,19 +189,19 @@ describe('inloggen en koppelen', () => {
   })
 
   it('geeft geen code zonder ingelogde gebruiker', async () => {
-    const r = await zonderLogin('/api/v1/agent/oauth/authorize/decision', { ...autorisatieQuery(), akkoord: true })
+    const r = await zonderLogin('/api/v1/agent/oauth/authorize/decision', { verzoek: await haalVerzoek(), akkoord: true })
     expect(r.status).toBe(401)
   })
 
   it('geeft geen code als de gebruiker niet akkoord gaat', async () => {
-    const r = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { ...autorisatieQuery(), akkoord: false })
+    const r = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { verzoek: await haalVerzoek(), akkoord: false })
     const { redirect } = await r.json()
     expect(new URL(redirect).searchParams.get('error')).toBe('access_denied')
     expect(new URL(redirect).searchParams.get('code')).toBeNull()
   })
 
   it('weigert een verkeerde code_verifier', async () => {
-    const beslissing = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { ...autorisatieQuery(), akkoord: true })
+    const beslissing = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { verzoek: await haalVerzoek(), akkoord: true })
     const code = new URL((await beslissing.json()).redirect).searchParams.get('code')
     const r = await zonderLogin('/api/v1/agent/oauth/token', {
       grant_type: 'authorization_code',
@@ -257,8 +265,9 @@ describe('tokenverloop en verversen', () => {
 
 describe('toestemming', () => {
   it('koppelt niet als de agent-toestemming in de app uit staat', async () => {
+    const verzoek = await haalVerzoek()
     toestemmingRijen.delete(IK)
-    const r = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { ...autorisatieQuery(), akkoord: true })
+    const r = await alsApp('/api/v1/agent/oauth/authorize/decision', IK, { verzoek, akkoord: true })
     expect(r.status).toBe(403)
     expect(auditRegels.at(-1).resultaat).toBe('geweigerd_geen_toestemming')
   })

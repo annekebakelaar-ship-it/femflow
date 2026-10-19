@@ -55,6 +55,28 @@ export function geheugenOpslag() {
       }
       return aantal
     },
+    async lijstKoppelingen(userId) {
+      const perClient = new Map()
+      for (const [hash, rij] of refresh) {
+        if (rij.userId !== userId || rij.ingetrokken) continue
+        const bestaand = perClient.get(rij.clientId)
+        if (!bestaand || bestaand.vervaltOp < rij.vervaltOp) {
+          perClient.set(rij.clientId, { clientId: rij.clientId, scope: rij.scope, vervaltOp: rij.vervaltOp, hash })
+        }
+      }
+      // Nooit het token zelf, alleen waar de gebruiker iets aan heeft.
+      return [...perClient.values()].map(({ clientId, scope, vervaltOp }) => ({ clientId, scope, vervaltOp }))
+    },
+    async trekKoppelingIn(userId, clientId) {
+      let aantal = 0
+      for (const [hash, rij] of refresh) {
+        if (rij.userId === userId && rij.clientId === clientId && !rij.ingetrokken) {
+          refresh.set(hash, { ...rij, ingetrokken: true })
+          aantal++
+        }
+      }
+      return aantal
+    },
     // Alleen voor tests en voor een beheerdersoverzicht: nooit een geheim.
     _telRefresh() {
       return [...refresh.values()].filter((r) => !r.ingetrokken).length
@@ -130,6 +152,23 @@ export function postgresOpslag(pool) {
       const r = await pool.query(
         'UPDATE femflow_agent_oauth_refresh SET ingetrokken = TRUE WHERE user_id = $1 AND ingetrokken = FALSE',
         [userId]
+      )
+      return r.rowCount
+    },
+    async lijstKoppelingen(userId) {
+      const r = await pool.query(
+        `SELECT client_id, scope, MAX(verloopt_op) AS verloopt_op
+         FROM femflow_agent_oauth_refresh
+         WHERE user_id = $1 AND ingetrokken = FALSE AND verloopt_op > NOW()
+         GROUP BY client_id, scope`,
+        [userId]
+      )
+      return r.rows.map((rij) => ({ clientId: rij.client_id, scope: rij.scope, vervaltOp: new Date(rij.verloopt_op).getTime() }))
+    },
+    async trekKoppelingIn(userId, clientId) {
+      const r = await pool.query(
+        'UPDATE femflow_agent_oauth_refresh SET ingetrokken = TRUE WHERE user_id = $1 AND client_id = $2 AND ingetrokken = FALSE',
+        [userId, clientId]
       )
       return r.rowCount
     },

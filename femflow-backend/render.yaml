@@ -44,5 +44,7 @@ services:
         sync: false
       - key: AGENT_OAUTH_CLIENTS
         sync: false
+      - key: AGENT_OAUTH_CIMD_HOSTS
+        sync: false
       - key: FRONTEND_URL
         value: https://femflow.youcaps.app

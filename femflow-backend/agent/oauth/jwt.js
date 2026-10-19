@@ -40,9 +40,9 @@ export function jwks(publiekePem) {
   return { keys: [{ ...jwk, kid: sleutelId(publiekePem), alg: HEADER_ALG, use: 'sig' }] }
 }
 
-export function maakToken(payload, priveSleutelPem) {
+export function maakToken(payload, priveSleutelPem, { typ = 'JWT' } = {}) {
   const sleutel = createPrivateKey(priveSleutelPem)
-  const header = { alg: HEADER_ALG, typ: 'JWT', kid: sleutelId(createPublicKey(sleutel).export({ type: 'spki', format: 'pem' })) }
+  const header = { alg: HEADER_ALG, typ, kid: sleutelId(createPublicKey(sleutel).export({ type: 'spki', format: 'pem' })) }
   const basis = `${b64url(JSON.stringify(header))}.${b64url(JSON.stringify(payload))}`
   const handtekening = signeer('sha256', Buffer.from(basis), sleutel)
   return `${basis}.${b64url(handtekening)}`
@@ -61,7 +61,9 @@ export function leesToken(token, publiekePem) {
 
   const header = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(vanB64url(h)))
   // Alleen RS256. Zo kan niemand met alg:none of een HMAC-truc binnenkomen.
-  if (header.alg !== HEADER_ALG || header.typ !== 'JWT') throw new Error('verkeerde header')
+  // RFC 9068: een toegangstoken draagt typ at+jwt. JWT blijft toegestaan voor
+  // tokens uit fase 2, zodat een lopende koppeling niet breekt.
+  if (header.alg !== HEADER_ALG || !['JWT', 'at+jwt'].includes(header.typ)) throw new Error('verkeerde header')
 
   const sleutel = createPublicKey(publiekePem)
   if (!verifieer('sha256', Buffer.from(`${h}.${p}`), sleutel, vanB64url(s))) {
