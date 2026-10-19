@@ -42,6 +42,8 @@ services:
         sync: false
       - key: AGENT_OAUTH_PUBLIC_KEY
         sync: false
+      - key: AGENT_OAUTH_PUBLIC_KEYS_OUD
+        sync: false
       - key: AGENT_OAUTH_CLIENTS
         sync: false
       - key: AGENT_OAUTH_CIMD_HOSTS

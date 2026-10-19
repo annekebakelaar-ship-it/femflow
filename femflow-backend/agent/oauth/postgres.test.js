@@ -18,6 +18,7 @@ import { newDb } from 'pg-mem'
 
 import { postgresOpslag, hashGeheim } from './opslag.js'
 import { maakAuditLogger, RESULTAAT } from '../audit.js'
+import { ruimOp } from './opruimen.js'
 import { geefToestemming, leesToestemming, trekToestemmingIn, heeftToestemming } from '../toestemming.js'
 
 const HIER = dirname(fileURLToPath(import.meta.url))
@@ -197,5 +198,91 @@ describe('OAuth-opslag in Postgres', () => {
 
     expect(Number((await pool.query('SELECT COUNT(*) AS n FROM femflow_agent_oauth_refresh')).rows[0].n)).toBe(0)
     expect(Number((await pool.query('SELECT COUNT(*) AS n FROM femflow_agent_consent')).rows[0].n)).toBe(0)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Fase 4: de punten die het bouwplan expliciet noemt. pg-mem is geen Neon,
+// dus wat hier slaagt bewijst dat de QUERIES en het SCHEMA kloppen, niet hoe
+// Neon zich onder echte gelijktijdigheid gedraagt. Dat laatste blijft staan
+// als openstaand punt in MIGRATIE.md.
+// ---------------------------------------------------------------------------
+
+describe('fase 4: types, gelijktijdigheid en opruimen', () => {
+  const basisRij = {
+    userId: IK,
+    clientId: 'chatgpt-test',
+    redirectUri: 'https://chat.example.com/cb',
+    scope: 'ovari:cycle',
+    codeChallenge: 'x'.repeat(43),
+    consentVersie: '1.0',
+    vervaltOp: NU + 86_400_000,
+  }
+
+  it('bewaart TIMESTAMPTZ en leest dezelfde momenten terug', async () => {
+    const opslag = postgresOpslag(pool)
+    await opslag.bewaarCode(hashGeheim('tijd'), { ...basisRij, vervaltOp: NU + 60_000 })
+    const rij = await opslag.leesCode(hashGeheim('tijd'))
+    // Geen verschuiving van uren: de waarde komt terug als hetzelfde moment.
+    expect(rij.vervaltOp).toBe(NU + 60_000)
+  })
+
+  it('geeft het auditlog oplopende BIGSERIAL-id s zonder gaten in de volgorde', async () => {
+    const logboek = maakAuditLogger({ pool, zout: 'test-zout', nu: () => new Date(NU) })
+    for (let i = 0; i < 5; i++) {
+      await logboek.schrijfRegel({ userId: IK, tool: 'get_my_cycle_overview', toestemming: true, resultaat: RESULTAAT.OK })
+    }
+    const r = await pool.query('SELECT id FROM femflow_agent_audit ORDER BY id')
+    const ids = r.rows.map((rij) => Number(rij.id))
+    expect(ids).toHaveLength(5)
+    expect(ids.every((id, i) => i === 0 || id > ids[i - 1])).toBe(true)
+  })
+
+  it('verliest geen regels als er door elkaar heen geschreven wordt', async () => {
+    const logboek = maakAuditLogger({ pool, zout: 'test-zout', nu: () => new Date(NU) })
+    await Promise.all(
+      Array.from({ length: 20 }, (_, i) =>
+        logboek.schrijfRegel({ userId: i % 2 ? IK : IEMAND_ANDERS, tool: 'get_my_recovery_trend', toestemming: true, resultaat: RESULTAAT.OK })
+      )
+    )
+    const r = await pool.query('SELECT COUNT(*) AS n FROM femflow_agent_audit')
+    expect(Number(r.rows[0].n)).toBe(20)
+  })
+
+  it('houdt twee gebruikers uit elkaar bij gelijktijdig koppelen', async () => {
+    const opslag = postgresOpslag(pool)
+    await Promise.all([
+      opslag.bewaarRefresh(hashGeheim('van-ik'), basisRij),
+      opslag.bewaarRefresh(hashGeheim('van-ander'), { ...basisRij, userId: IEMAND_ANDERS }),
+    ])
+    expect(await opslag.trekAllesInVoorGebruiker(IK)).toBe(1)
+    expect((await opslag.leesRefresh(hashGeheim('van-ander'))).ingetrokken).toBe(false)
+  })
+
+  it('ruimt verlopen codes en tokens op met echte SQL', async () => {
+    const opslag = postgresOpslag(pool)
+    await opslag.bewaarCode(hashGeheim('oud'), { ...basisRij, vervaltOp: NU - 3 * 60 * 60_000 })
+    await opslag.bewaarCode(hashGeheim('net'), { ...basisRij, vervaltOp: NU - 60_000 })
+    await opslag.bewaarRefresh(hashGeheim('verlopen'), { ...basisRij, vervaltOp: NU - 1000 })
+    await opslag.bewaarRefresh(hashGeheim('geldig'), basisRij)
+
+    const uitslag = await ruimOp({ opslag, nu: () => NU })
+    expect(uitslag.codes).toBe(1)
+    expect(uitslag.refresh).toBe(1)
+    expect(await opslag.leesCode(hashGeheim('net'))).not.toBeNull()
+    expect(await opslag.leesRefresh(hashGeheim('geldig'))).not.toBeNull()
+  })
+
+  it('maakt een koppeling onbruikbaar zodra de toestemming is ingetrokken', async () => {
+    const opslag = postgresOpslag(pool)
+    await geefToestemming(pool, IK)
+    await opslag.bewaarRefresh(hashGeheim('van-ik'), basisRij)
+
+    await trekToestemmingIn(pool, IK)
+    await opslag.trekAllesInVoorGebruiker(IK)
+
+    expect(heeftToestemming(await leesToestemming(pool, IK)).ok).toBe(false)
+    expect((await opslag.leesRefresh(hashGeheim('van-ik'))).ingetrokken).toBe(true)
+    expect(await opslag.lijstKoppelingen(IK)).toHaveLength(0)
   })
 })

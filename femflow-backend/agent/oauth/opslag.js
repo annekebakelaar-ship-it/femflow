@@ -77,6 +77,20 @@ export function geheugenOpslag() {
       }
       return aantal
     },
+    async ruimOp({ nu, bewaarDagen }) {
+      let codesWeg = 0
+      let refreshWeg = 0
+      for (const [hash, rij] of codes) {
+        if (rij.vervaltOp < nu - 60 * 60_000) { codes.delete(hash); codesWeg++ }
+      }
+      for (const [hash, rij] of refresh) {
+        // Verlopen gaat weg. Ingetrokken maar nog niet verlopen blijft staan,
+        // want hergebruik daarvan is een signaal dat iemand meekeek.
+        if (rij.vervaltOp < nu) { refresh.delete(hash); refreshWeg++ }
+      }
+      void bewaarDagen
+      return { codes: codesWeg, refresh: refreshWeg }
+    },
     // Alleen voor tests en voor een beheerdersoverzicht: nooit een geheim.
     _telRefresh() {
       return [...refresh.values()].filter((r) => !r.ingetrokken).length
@@ -171,6 +185,26 @@ export function postgresOpslag(pool) {
         [userId, clientId]
       )
       return r.rowCount
+    },
+    /**
+     * Verlopen codes gaan er na een uur genade uit, verlopen refreshtokens
+     * meteen, en ingetrokken tokens pas na de bewaartermijn: zolang ze er nog
+     * staan kan hergebruik herkend worden als aanval in plaats van als
+     * onbekend token.
+     */
+    async ruimOp({ nu, bewaarDagen }) {
+      const nuDatum = new Date(nu)
+      const codes = await pool.query(
+        'DELETE FROM femflow_agent_oauth_codes WHERE verloopt_op < $1',
+        [new Date(nu - 60 * 60_000)]
+      )
+      const refresh = await pool.query(
+        `DELETE FROM femflow_agent_oauth_refresh
+         WHERE verloopt_op < $1
+            OR (ingetrokken = TRUE AND created_at < $2)`,
+        [nuDatum, new Date(nu - bewaarDagen * 86400_000)]
+      )
+      return { codes: codes.rowCount, refresh: refresh.rowCount }
     },
   }
 }

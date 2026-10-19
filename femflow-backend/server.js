@@ -17,6 +17,7 @@ import { oauthIngeschakeld, maakOauthRouter, maakWellKnownRouter } from './agent
 import { clientsUitOmgeving } from './agent/oauth/clients.js'
 import { maakCimdRegister, maakSamengesteldRegister, hostsUitOmgeving } from './agent/oauth/cimd.js'
 import { postgresOpslag } from './agent/oauth/opslag.js'
+import { startOpruimen } from './agent/oauth/opruimen.js'
 
 const { sign, verify } = jwtPkg
 
@@ -1148,12 +1149,19 @@ if (agentIngeschakeld()) {
     } else if (clientsUitOmgeving().aantal() === 0 && hostsUitOmgeving().length === 0) {
       console.warn('AGENT_OAUTH_ENABLED staat aan maar er is geen client en geen CIMD-host; de MCP-laag blijft uit')
     } else {
+      const opslag = postgresOpslag(pool)
       app.use('/api/v1/agent/oauth', maakOauthRouter({
         pool,
         authenticateToken,
         clients,
-        opslag: postgresOpslag(pool),
-        sleutels: { prive, publiek },
+        opslag,
+        // Oude publieke sleutels blijven tijdens een rotatie geldig voor
+        // verificatie; ondertekenen gebeurt altijd met de huidige.
+        sleutels: {
+          prive,
+          publiek,
+          oudPubliek: (process.env.AGENT_OAUTH_PUBLIC_KEYS_OUD || '').split('|||').map((s) => s.trim()).filter(Boolean),
+        },
         issuer: process.env.AGENT_OAUTH_ISSUER,
         resource: process.env.AGENT_OAUTH_RESOURCE,
         frontendUrl: process.env.FRONTEND_URL,
@@ -1164,6 +1172,8 @@ if (agentIngeschakeld()) {
         issuer: process.env.AGENT_OAUTH_ISSUER,
         resource: process.env.AGENT_OAUTH_RESOURCE,
       }))
+      // Verlopen codes en tokens horen niet eeuwig te blijven staan.
+      startOpruimen({ opslag })
       console.log('Persoonlijke MCP-laag met OAuth ingeschakeld op /api/v1/agent/oauth')
     }
   }

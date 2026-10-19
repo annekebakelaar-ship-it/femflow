@@ -35,9 +35,21 @@ export function sleutelId(publiekePem) {
   return createHash('sha256').update(`${jwk.n}.${jwk.e}`).digest('hex').slice(0, 16)
 }
 
-export function jwks(publiekePem) {
-  const jwk = createPublicKey(publiekePem).export({ format: 'jwk' })
-  return { keys: [{ ...jwk, kid: sleutelId(publiekePem), alg: HEADER_ALG, use: 'sig' }] }
+/**
+ * Publiceert een of meer publieke sleutels. Tijdens een rotatie staan de
+ * nieuwe en de oude er allebei in, zodat tokens die net voor het omzetten
+ * zijn uitgegeven nog te verifieren zijn. Zie SLEUTELROTATIE.md.
+ */
+export function jwks(publiekePems) {
+  const lijst = Array.isArray(publiekePems) ? publiekePems : [publiekePems]
+  return {
+    keys: lijst.filter(Boolean).map((pem) => ({
+      ...createPublicKey(pem).export({ format: 'jwk' }),
+      kid: sleutelId(pem),
+      alg: HEADER_ALG,
+      use: 'sig',
+    })),
+  }
 }
 
 export function maakToken(payload, priveSleutelPem, { typ = 'JWT' } = {}) {
@@ -53,7 +65,7 @@ export function maakToken(payload, priveSleutelPem, { typ = 'JWT' } = {}) {
  * gekeurd; dat doet hulpbron.js, zodat de regels op een plek staan.
  * Gooit bij elke twijfel.
  */
-export function leesToken(token, publiekePem) {
+export function leesToken(token, publiekePems) {
   if (typeof token !== 'string') throw new Error('token ontbreekt')
   const delen = token.split('.')
   if (delen.length !== 3) throw new Error('token heeft niet drie delen')
@@ -65,10 +77,17 @@ export function leesToken(token, publiekePem) {
   // tokens uit fase 2, zodat een lopende koppeling niet breekt.
   if (header.alg !== HEADER_ALG || !['JWT', 'at+jwt'].includes(header.typ)) throw new Error('verkeerde header')
 
-  const sleutel = createPublicKey(publiekePem)
-  if (!verifieer('sha256', Buffer.from(`${h}.${p}`), sleutel, vanB64url(s))) {
-    throw new Error('handtekening klopt niet')
-  }
+  // Tijdens een rotatie zijn er twee geldige sleutels. De kid uit de header is
+  // een aanwijzing, geen bewijs: hij bepaalt alleen de volgorde van proberen,
+  // en elke sleutel wordt echt geverifieerd.
+  const lijst = (Array.isArray(publiekePems) ? publiekePems : [publiekePems]).filter(Boolean)
+  if (lijst.length === 0) throw new Error('geen publieke sleutel')
+  const gesorteerd = header.kid ? [...lijst].sort((a, b) => (sleutelId(b) === header.kid ? 1 : 0) - (sleutelId(a) === header.kid ? 1 : 0)) : lijst
+
+  const geldig = gesorteerd.some((pem) =>
+    verifieer('sha256', Buffer.from(`${h}.${p}`), createPublicKey(pem), vanB64url(s))
+  )
+  if (!geldig) throw new Error('handtekening klopt niet')
 
   const payload = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(vanB64url(p)))
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new Error('payload is geen object')
