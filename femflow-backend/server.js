@@ -11,6 +11,8 @@ import { OAuth2Client } from 'google-auth-library'
 import { v4 as uuidv4 } from 'uuid'
 import { generateSleepRange } from './utils/synthDataGenerator.js'
 import { appTerugPagina } from './utils/appTerug.js'
+import { agentIngeschakeld } from './agent/vlag.js'
+import { maakAgentRouter } from './agent/index.js'
 
 const { sign, verify } = jwtPkg
 
@@ -1115,6 +1117,17 @@ app.post('/api/v1/wearable/fitbit/pull', authenticateToken, async (req, res) => 
     res.status(500).json({ error: 'Failed to fetch Fitbit data' })
   }
 })
+
+// ============================================================================
+// PERSOONLIJKE AGENT (standaard UIT)
+// ============================================================================
+// Staat AGENT_ENABLED niet op true, dan wordt de router niet gemonteerd en
+// bestaan /api/v1/agent/* endpoints domweg niet. Zie agent/README.md.
+
+if (agentIngeschakeld()) {
+  app.use('/api/v1/agent', maakAgentRouter({ pool, authenticateToken }))
+  console.log('Agentmodule ingeschakeld op /api/v1/agent')
+}
 
 // ============================================================================
 // START SERVER
