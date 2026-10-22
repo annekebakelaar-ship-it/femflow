@@ -19,6 +19,8 @@
 // STANDAARD DICHT: zonder AGENT_OAUTH_CIMD_HOSTS is geen enkele host
 // toegestaan en kan niemand zich registreren.
 
+import { isLoopback } from './redirect.js'
+
 const WIJ_ONDERSTEUNEN = ['none']
 const MAX_BYTES = 64 * 1024
 const TIMEOUT_MS = 5000
@@ -64,6 +66,11 @@ export function keurDocument(clientId, document) {
   if (uris.length === 0) return { ok: false, fout: CIMD_FOUT.GEEN_REDIRECT }
 
   const documentHost = new URL(clientId).host
+  // Een native client (RFC 8252) vangt de code op een loopback-adres op de
+  // machine van de gebruiker zelf. Dat is geen afwijking maar de
+  // voorgeschreven manier; een webclient hoort juist op zijn eigen host terug
+  // te komen. Alleen documenten die zichzelf native noemen krijgen die ruimte.
+  const native = document.application_type === 'native'
   for (const uri of uris) {
     let u
     try {
@@ -71,12 +78,15 @@ export function keurDocument(clientId, document) {
     } catch {
       return { ok: false, fout: CIMD_FOUT.GEEN_REDIRECT }
     }
-    if (u.protocol !== 'https:') return { ok: false, fout: CIMD_FOUT.VREEMDE_REDIRECT }
-    if (u.hash) return { ok: false, fout: CIMD_FOUT.VREEMDE_REDIRECT }
-    // Dezelfde host als het document zelf. Dat is de hele bescherming van
-    // CIMD: wie het document host, bepaalt waar de code heen mag, en dat is
-    // dezelfde partij.
-    if (u.host !== documentHost) return { ok: false, fout: CIMD_FOUT.VREEMDE_REDIRECT }
+    // Nooit een fragment of inloggegevens in een redirect-URI.
+    if (u.hash || u.username || u.password) return { ok: false, fout: CIMD_FOUT.VREEMDE_REDIRECT }
+
+    const webredirect = u.protocol === 'https:' && u.host === documentHost
+    const nativeredirect = native && isLoopback(u)
+    // Dezelfde host als het document zelf, of loopback bij een native client.
+    // Dat is de hele bescherming van CIMD: wie het document host, bepaalt waar
+    // de code heen mag, en bij loopback blijft de code op het toestel.
+    if (!webredirect && !nativeredirect) return { ok: false, fout: CIMD_FOUT.VREEMDE_REDIRECT }
   }
 
   const methode = kiesAuthMethode(document)
@@ -89,6 +99,7 @@ export function keurDocument(clientId, document) {
       naam: typeof document.client_name === 'string' ? document.client_name.slice(0, 120) : new URL(clientId).host,
       redirectUris: [...uris],
       authMethode: methode,
+      native,
       bron: 'cimd',
     },
   }

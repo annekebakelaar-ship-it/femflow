@@ -21,6 +21,7 @@ import {
 import { valideerAutorisatieVerzoek, geefCodeUit, wisselCodeIn, ververs, trekIn, trekGebruikerIn, FOUT } from './flow.js'
 import { maakHulpbronWacht } from './hulpbron.js'
 import { maakVerzoekToken, leesVerzoekToken, afgeleidGeheim } from './verzoek.js'
+import { redirectPast } from './redirect.js'
 import { TOOLS, vindTool } from '../tools.js'
 import { heeftToestemming, leesToestemming, TOESTEMMING_VERSIE } from '../toestemming.js'
 import { RESULTAAT } from '../audit.js'
@@ -153,7 +154,9 @@ export function maakOauthRouter({
     // Nogmaals keuren tegen het register: een client kan ingetrokken zijn
     // tussen het tonen van het scherm en de klik.
     const client = await clients.vind(v.client_id)
-    if (!client || !client.redirectUris.includes(v.redirect_uri)) {
+    // Opnieuw tegen de registratie houden: tussen tonen en klikken kan een
+    // client ingetrokken zijn of zijn redirects hebben gewijzigd.
+    if (!client || !redirectPast(client.redirectUris, v.redirect_uri)) {
       return res.status(400).json({ error: FOUT.INVALID_CLIENT })
     }
 

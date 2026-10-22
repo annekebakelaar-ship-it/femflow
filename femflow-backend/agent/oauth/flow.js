@@ -22,6 +22,7 @@
 import { randomBytes } from 'crypto'
 import { hashGeheim } from './opslag.js'
 import { verifierPast, geldigeChallenge, METHODE } from './pkce.js'
+import { redirectPast } from './redirect.js'
 
 export const CODE_GELDIG_MS = 60_000
 export const TOKEN_GELDIG_MS = 10 * 60_000
@@ -57,7 +58,9 @@ export async function valideerAutorisatieVerzoek({ query = {}, clients, scopes, 
   if (!client) {
     return { ok: false, naarClient: false, fout: FOUT.INVALID_CLIENT, beschrijving: 'onbekende client_id' }
   }
-  if (!query.redirect_uri || !client.redirectUris.includes(query.redirect_uri)) {
+  // Alleen een URI die bij de GEREGISTREERDE lijst past. Bij loopback mag de
+  // poort verschillen (RFC 8252), verder niets.
+  if (!query.redirect_uri || !redirectPast(client.redirectUris, query.redirect_uri)) {
     return { ok: false, naarClient: false, fout: FOUT.INVALID_REQUEST, beschrijving: 'redirect_uri niet geregistreerd' }
   }
 
@@ -156,7 +159,10 @@ export async function wisselCodeIn({
 
   if (rij.vervaltOp <= nu()) return { ok: false, fout: FOUT.INVALID_GRANT, verlopen: true }
   if (rij.clientId !== client.id) return { ok: false, fout: FOUT.INVALID_GRANT }
-  if (rij.redirectUri !== body.redirect_uri) return { ok: false, fout: FOUT.INVALID_GRANT }
+  // De code is uitgegeven voor een bepaalde redirect-URI; die moet bij het
+  // inwisselen terugkomen. Bij loopback mag opnieuw alleen de poort
+  // verschillen, zodat een client die herstart niet strandt.
+  if (!redirectPast([rij.redirectUri], body.redirect_uri)) return { ok: false, fout: FOUT.INVALID_GRANT }
   if (!verifierPast(body.code_verifier, rij.codeChallenge)) return { ok: false, fout: FOUT.INVALID_GRANT }
 
   return geefTokensUit({ opslag, rij, issuer, resource, tekenToken, nu, geheim })
