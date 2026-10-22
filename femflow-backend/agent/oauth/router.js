@@ -96,9 +96,13 @@ export function maakOauthRouter({
     if (!uitslag.ok && !uitslag.naarClient) {
       // Onbekende client of niet-geregistreerde redirect_uri: de fout blijft
       // hier. Doorsturen naar een niet-gekeurde URI is een open redirect.
+      // res.locals is alleen voor de tijdelijke diagnostiek; het antwoord
+      // hieronder is onveranderd.
+      res.locals.diagnoseReden = uitslag.fout
       return res.status(400).json({ error: uitslag.fout, error_description: uitslag.beschrijving })
     }
     if (!uitslag.ok) {
+      res.locals.diagnoseReden = uitslag.fout
       const terug = new URL(uitslag.redirectUri)
       terug.searchParams.set('error', uitslag.fout)
       terug.searchParams.set('error_description', uitslag.beschrijving)

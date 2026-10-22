@@ -19,6 +19,7 @@ import { maakCimdRegister, maakSamengesteldRegister, hostsUitOmgeving } from './
 import { postgresOpslag } from './agent/oauth/opslag.js'
 import { startOpruimen } from './agent/oauth/opruimen.js'
 import { maakAuditLogger } from './agent/audit.js'
+import { diagnoseConfiguratie, maakDiagnose } from './agent/diagnose.js'
 
 const { sign, verify } = jwtPkg
 
@@ -64,6 +65,18 @@ const allowedOrigins = [
 ]
 app.use(cors({ origin: allowedOrigins }))
 app.use(express.json())
+
+// TIJDELIJKE DIAGNOSTIEK (agent/diagnose.js). Staat standaard uit, schrijft
+// alleen naar stdout, en stopt zichzelf na maximaal een uur. Fail-closed:
+// een ontbrekende of onzinnige instelling betekent uit.
+const diagnoseConfig = diagnoseConfiguratie()
+if (diagnoseConfig.aan) {
+  const diagnose = maakDiagnose({ minuten: diagnoseConfig.minuten })
+  app.use(diagnose.middleware)
+  console.log(`Diagnostiek aan voor ${diagnose.minuten} minuten; alleen methode, route, status en duur`)
+} else if (process.env.AGENT_DIAGNOSE) {
+  console.warn(`Diagnostiek blijft UIT: ${diagnoseConfig.reden}`)
+}
 
 // Email setup
 
