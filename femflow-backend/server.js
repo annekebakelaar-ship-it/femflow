@@ -65,6 +65,12 @@ const allowedOrigins = [
 ]
 app.use(cors({ origin: allowedOrigins }))
 app.use(express.json())
+// Een OAuth-tokenverzoek is volgens RFC 6749 par. 4.1.3 form-encoded, niet JSON.
+// Zonder deze parser kwam de body van Codex leeg binnen, werd de code nooit
+// opgezocht en antwoordde /token met unsupported_grant_type. De limiet is ruim
+// voor zo'n verzoek (code, verifier, client_id) en krap genoeg om niets anders
+// toe te laten.
+app.use(express.urlencoded({ extended: false, limit: '32kb' }))
 
 // TIJDELIJKE DIAGNOSTIEK (agent/diagnose.js). Staat standaard uit, schrijft
 // alleen naar stdout, en stopt zichzelf na maximaal een uur. Fail-closed:
