@@ -10,7 +10,7 @@
 // het code-scherm sturen voor een mail die nooit komt.
 
 export const RESEND_URL = 'https://api.resend.com/emails'
-export const STANDAARD_AFZENDER = 'FemFlow <noreply@youcaps.app>'
+export const STANDAARD_AFZENDER = 'Ovari <noreply@youcaps.app>'
 
 export async function verstuurMail({ to, subject, html, text }, { env = process.env, fetchFn = fetch } = {}) {
   const sleutel = env.RESEND_API_KEY

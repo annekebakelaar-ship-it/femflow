@@ -17,7 +17,7 @@ services:
       - key: RESEND_API_KEY
         sync: false
       - key: MAIL_FROM
-        value: FemFlow <noreply@youcaps.app>
+        value: Ovari <noreply@youcaps.app>
       - key: OURA_CLIENT_ID
         sync: false
       - key: OURA_CLIENT_SECRET

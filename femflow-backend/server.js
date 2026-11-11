@@ -176,11 +176,11 @@ app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
     // Verstuur via Resend (utils/mail.js); een mislukte verzending gooit
     await verstuurMail({
       to: email,
-      subject: 'Je FemFlow inlogcode',
+      subject: 'Je Ovari-inlogcode',
       // Plain-text alternatief naast HTML = multipart, lagere spam-score.
-      text: `Je FemFlow inlogcode is ${code}\n\nDe code is 10 minuten geldig.\n\nHeb je dit niet aangevraagd? Dan kun je deze e-mail negeren.`,
+      text: `Je Ovari-inlogcode is ${code}\n\nDe code is 10 minuten geldig.\n\nHeb je dit niet aangevraagd? Dan kun je deze e-mail negeren.`,
       html: `<div style="font-family:system-ui,-apple-system,Segoe UI,sans-serif;max-width:420px;margin:0 auto;padding:24px;color:#2A211C">
-        <p style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#A89E95;margin:0 0 8px">FemFlow</p>
+        <p style="font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#A89E95;margin:0 0 8px">Ovari</p>
         <h2 style="font-size:18px;font-weight:600;margin:0 0 14px">Je inlogcode</h2>
         <p style="font-size:34px;font-weight:700;letter-spacing:6px;margin:8px 0;color:#2A211C">${code}</p>
         <p style="font-size:14px;color:#6E635B;margin:10px 0 0">De code is 10 minuten geldig.</p>
@@ -307,18 +307,18 @@ app.post('/api/v1/welcome/signup', publicWriteLimiter, async (req, res) => {
     const unsubscribeLink = `${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}`
     await verstuurMail({
       to: email,
-      subject: 'Welkom bij FemFlow 🌿',
+      subject: 'Welkom bij Ovari',
       html: `
         <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6;">
-          <h2 style="font-size: 24px; margin-bottom: 20px; color: #1a1a1a;">Fijn dat je je hebt aangemeld voor FemFlow.</h2>
+          <h2 style="font-size: 24px; margin-bottom: 20px; color: #1a1a1a;">Fijn dat je je hebt aangemeld voor Ovari.</h2>
 
-          <p>We bouwen aan een app die je cyclus en wearable-data omzet in inzicht — zonder labels, zonder oordeel. Gewoon jouw patronen, helder in beeld.</p>
+          <p>Ovari zet je cyclus en je wearable-data om in inzicht. Zonder labels, zonder oordeel: gewoon jouw patronen, helder in beeld.</p>
 
-          <p>Je hoort van ons zodra we live gaan. Tot die tijd: geen spam, beloofd.</p>
+          <p>Je hoort af en toe van ons als er iets nieuws is, zoals een nieuw artikel of een nieuwe functie in de app. Geen spam, beloofd.</p>
 
           <p style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
             Liefs,<br>
-            Het Youcaps-team
+            Het Ovari-team
           </p>
 
           <p style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #999; font-size: 13px;">
