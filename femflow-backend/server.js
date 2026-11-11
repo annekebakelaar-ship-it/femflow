@@ -5,18 +5,16 @@ import rateLimit, { ipKeyGenerator } from 'express-rate-limit'
 import { Pool } from 'pg'
 import { randomInt, createHash } from 'crypto'
 import jwtPkg from 'jsonwebtoken'
-import sgMail from '@sendgrid/mail'
 import axios from 'axios'
 import { OAuth2Client } from 'google-auth-library'
 import { v4 as uuidv4 } from 'uuid'
 import { generateSleepRange } from './utils/synthDataGenerator.js'
 import { appTerugPagina } from './utils/appTerug.js'
+import { verstuurMail } from './utils/mail.js'
 
 const { sign, verify } = jwtPkg
 
 dotenv.config()
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const JWT_SECRET = process.env.JWT_SECRET
 if (!JWT_SECRET) {
@@ -60,7 +58,7 @@ app.use(express.json())
 // Email setup
 
 // Rate limiters voor publieke endpoints
-// - OTP aanvragen: max 5 per kwartier per IP (voorkomt e-mail-bombing via SendGrid)
+// - OTP aanvragen: max 5 per kwartier per IP (voorkomt e-mail-bombing via de maildienst)
 // - OTP verifiëren: max 5 pogingen per e-mailadres per 10 min (code is 6 cijfers,
 //   10 min geldig — zonder limiet is brute force haalbaar)
 // - Overige publieke writes: ruime spamrem per IP
@@ -175,10 +173,9 @@ app.post('/api/v1/auth/request-code', otpRequestLimiter, async (req, res) => {
       [email, codeHash, expiresAt]
     )
 
-    // Send email via SendGrid
-    await sgMail.send({
+    // Verstuur via Resend (utils/mail.js); een mislukte verzending gooit
+    await verstuurMail({
       to: email,
-      from: { email: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app', name: 'FemFlow' },
       subject: 'Je FemFlow inlogcode',
       // Plain-text alternatief naast HTML = multipart, lagere spam-score.
       text: `Je FemFlow inlogcode is ${code}\n\nDe code is 10 minuten geldig.\n\nHeb je dit niet aangevraagd? Dan kun je deze e-mail negeren.`,
@@ -308,9 +305,8 @@ app.post('/api/v1/welcome/signup', publicWriteLimiter, async (req, res) => {
 
     // Send welcome email
     const unsubscribeLink = `${process.env.FRONTEND_URL}/unsubscribe?email=${encodeURIComponent(email)}`
-    await sgMail.send({
+    await verstuurMail({
       to: email,
-      from: { email: process.env.SENDGRID_FROM_EMAIL || 'noreply@femflow.youcaps.app', name: 'FemFlow' },
       subject: 'Welkom bij FemFlow 🌿',
       html: `
         <div style="font-family: system-ui, -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; color: #333; line-height: 1.6;">

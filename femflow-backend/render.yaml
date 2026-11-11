@@ -14,10 +14,10 @@ services:
         sync: false
       - key: DATABASE_URL
         sync: false
-      - key: SENDGRID_API_KEY
+      - key: RESEND_API_KEY
         sync: false
-      - key: SENDGRID_FROM_EMAIL
-        value: noreply@femflow.youcaps.app
+      - key: MAIL_FROM
+        value: FemFlow <noreply@youcaps.app>
       - key: OURA_CLIENT_ID
         sync: false
       - key: OURA_CLIENT_SECRET
